@@ -1,17 +1,22 @@
 {
   "$schema": "https://turborepo.org/schema.json",
+  "globalEnv": ["NODE_ENV"],
+  "globalDependencies": [
+    ".env",
+    "tsconfig.json"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [
         ".next/**",
         "!.next/cache/**",
-        "dist/**",
-        "storybook-static/**"
+        "dist/**"
       ]
     },
-    "main#build": {
-      "dependsOn": ["^build", "$DOCS_URL"],
+    "app#build": {
+      "dependsOn": ["^build"],
+      "env": ["NODE_ENV"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "test": {

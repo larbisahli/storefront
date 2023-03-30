@@ -3,13 +3,12 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "apps/*",
+    "app",
     "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",
-    "build:main": "turbo run build --filter=main...",
-    "build:docs": "turbo run build --filter=docs...",
+    "build:app": "turbo run build --filter=app...",
     "dev": "turbo run dev",
     "start": "turbo run start",
     "clean": "turbo run clean && rm -rf node_modules",
@@ -17,7 +16,7 @@
     "format": "prettier --write .",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo run build --filter=main... && changeset publish"
+    "release": "turbo run build --filter=app... && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.23.0",

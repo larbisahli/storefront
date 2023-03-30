@@ -5,7 +5,7 @@
   "fixed": [],
   "linked": [],
   "access": "restricted",
-  "baseBranch": "main",
+  "baseBranch": "app",
   "updateInternalDependencies": "patch",
-  "ignore": ["docs", "main", "@acme/storybook"]
+  "ignore": ["app"]
 }
