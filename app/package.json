@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@dropgala/luma": "workspace:*",
+    "@dropgala/store": "workspace:*",
+    "@dropgala/query": "workspace:*",
+    "@dropgala/types": "workspace:*",
     "@dropgala/utils": "workspace:*",
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.31",

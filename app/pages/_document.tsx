@@ -1,22 +1,22 @@
-import getDirection from '@dropgala/utils/get-direction';
+import getDirection from '@dropgala/utils/get-direction'
 import Document, {
   DocumentContext,
   Head,
   Html,
   Main,
-  NextScript
-} from 'next/document';
-import { i18n } from 'next-i18next';
+  NextScript,
+} from 'next/document'
+import { i18n } from 'next-i18next'
 
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
-    return Document.getInitialProps(ctx);
+    return Document.getInitialProps(ctx)
   }
   render() {
-    const { locale } = this.props.__NEXT_DATA__;
+    const { locale } = this.props.__NEXT_DATA__
     // eslint-disable-next-line turbo/no-undeclared-env-vars
     if (process.env.NODE_ENV !== 'production') {
-      i18n?.reloadResources(locale);
+      i18n?.reloadResources(locale)
     }
     return (
       <Html dir={getDirection(locale)}>
@@ -31,6 +31,6 @@ export default class CustomDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }

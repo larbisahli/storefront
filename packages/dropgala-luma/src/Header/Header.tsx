@@ -1,7 +1,7 @@
-import cn from 'clsx';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { memo, useMemo } from 'react';
+import cn from 'clsx'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { memo, useMemo } from 'react'
 import type { FC, ButtonHTMLAttributes } from 'react'
 
 export interface HeaderProps {
@@ -11,8 +11,8 @@ export interface HeaderProps {
   menu?: boolean
 }
 
-const Header:FC<ButtonHTMLAttributes<HTMLParagraphElement>> = () => {
-  const router = useRouter();
+const Header: FC<any> = () => {
+  const router = useRouter()
 
   return (
     <header
@@ -32,8 +32,8 @@ const Header:FC<ButtonHTMLAttributes<HTMLParagraphElement>> = () => {
         </span>
       </button>
 
-      <Link href="/"  className="hidden mx-auto lg:mr-10 lg:flex">
-          <span className="sr-only">Dropgala</span>
+      <Link href="/" className="hidden mx-auto lg:mr-10 lg:flex">
+        <span className="sr-only">Dropgala</span>
       </Link>
 
       <div className="w-full ml-10px mr-20px lg:mr-10 lg:ml-auto lg:flex lg:justify-center">
@@ -41,8 +41,7 @@ const Header:FC<ButtonHTMLAttributes<HTMLParagraphElement>> = () => {
       </div>
 
       <div className="hidden items-center text-gray-900 mr-10 flex-shrink-0 lg:flex">
-        <span className="font-semibold text-base ml-3">
-        </span>
+        <span className="font-semibold text-base ml-3"></span>
       </div>
 
       <button
@@ -57,7 +56,7 @@ const Header:FC<ButtonHTMLAttributes<HTMLParagraphElement>> = () => {
         </span>
       </button>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header
