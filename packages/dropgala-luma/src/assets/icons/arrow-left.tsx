@@ -19,7 +19,7 @@ const ArrowLeft = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}
 
-export default ArrowLeft;
+export default ArrowLeft

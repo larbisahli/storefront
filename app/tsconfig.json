@@ -25,6 +25,11 @@
     },
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../packages/dropgala-types/src/enums.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "../packages/dropgala-types/src/enums.ts"
+  ],
   "exclude": ["node_modules"]
 }

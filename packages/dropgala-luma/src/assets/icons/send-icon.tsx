@@ -25,7 +25,7 @@ const SendIcon = ({
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default SendIcon;
+export default SendIcon

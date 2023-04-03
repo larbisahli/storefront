@@ -1,14 +1,14 @@
-import { useAppDispatch } from '@hooks/use-store';
-import { slideCart } from '@store/drawer/index';
-import ArrowLeft from 'assets/icons/arrow-left';
-import EmptyCartSVG from 'assets/icons/empty-svg';
+import { useAppDispatch } from '@hooks/use-store'
+import { slideCart } from '@store/drawer/index'
+import ArrowLeft from 'assets/icons/arrow-left'
+import EmptyCartSVG from 'assets/icons/empty-svg'
 
 export default function NoItem() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const hideCart = () => {
-    dispatch(slideCart(false));
-  };
+    dispatch(slideCart(false))
+  }
 
   return (
     <>
@@ -34,5 +34,5 @@ export default function NoItem() {
         </div>
       </div>
     </>
-  );
+  )
 }

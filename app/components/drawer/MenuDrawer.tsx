@@ -1,8 +1,8 @@
 // import { useAppDispatch, useAppSelector } from '@hooks/use-store';
 // import { openMenu, slideCart } from '@store/drawer/index';
-import cn from 'clsx';
+import cn from 'clsx'
 // import DrawerMenu from 'containers/drawer/views/menus';
-import React from 'react';
+import React from 'react'
 
 const MenuDrawer = () => {
   // const menu = useAppSelector((state) => state.drawer.menu);
@@ -27,7 +27,7 @@ const MenuDrawer = () => {
         {/* <DrawerMenu /> */}
       </div>
     </React.Fragment>
-  );
+  )
 }
 
 export default MenuDrawer

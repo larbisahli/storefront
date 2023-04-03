@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Scrollbar } from '@components/common/scrollbar';
-import ActiveLink from '@components/ui/active-link';
-import { useAppDispatch } from '@hooks/use-store';
-import { siteSettings } from '@settings/site-settings';
-import { openMenu } from '@store/drawer/index';
-import CloseIcon from 'assets/icons/close';
-import Logo from 'assets/icons/logo';
+import { Scrollbar } from '@components/common/scrollbar'
+import ActiveLink from '@components/ui/active-link'
+import { useAppDispatch } from '@hooks/use-store'
+import { siteSettings } from '@settings/site-settings'
+import { openMenu } from '@store/drawer/index'
+import CloseIcon from 'assets/icons/close'
+import Logo from 'assets/icons/logo'
 import {
   Facebook,
   Github,
@@ -15,9 +15,9 @@ import {
   Linkedin,
   Twitter,
   Youtube
-} from 'assets/icons/social-icons';
-import Link from 'next/link';
-import { memo } from 'react';
+} from 'assets/icons/social-icons'
+import Link from 'next/link'
+import { memo } from 'react'
 
 const menus = [
   {
@@ -45,7 +45,7 @@ const menus = [
     pathname: '/terms',
     title: 'Terms & Conditions'
   }
-];
+]
 
 const social = [
   {
@@ -90,14 +90,14 @@ const social = [
     className: 'linkedin',
     title: 'linkedin'
   }
-];
+]
 
 function DrawerMenu() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const hideMenu = () => {
-    dispatch(openMenu(false));
-  };
+    dispatch(openMenu(false))
+  }
 
   return (
     <>
@@ -162,7 +162,7 @@ function DrawerMenu() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default memo(DrawerMenu);
+export default memo(DrawerMenu)

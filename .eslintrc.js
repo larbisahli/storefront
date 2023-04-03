@@ -4,7 +4,7 @@ module.exports = {
   extends: ['dropgala'],
   settings: {
     next: {
-      rootDir: ['app'],
-    },
-  },
+      rootDir: ['app']
+    }
+  }
 }

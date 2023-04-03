@@ -20,7 +20,7 @@ const EmailIcon = ({
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default EmailIcon;
+export default EmailIcon

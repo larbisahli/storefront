@@ -15,14 +15,14 @@ module.exports = {
       sm: '640px',
       md: '768px',
       lg: '1024px',
-      xl: '1280px',
-      xxl: { min: '1400px' },
+      xl: '1300px',
+      xxl: '1500px',
       '2xxl': { min: '1601px' },
       'xxl-only': { min: '1400px', max: '1600px' },
-      large: { min: '2100px' },
+      large: { min: '2100px' }
     },
     fontFamily: {
-      open: ['Open Sans'],
+      open: ['Open Sans']
     },
     boxShadow: {
       card: '0px 0px 6px rgba(79, 95, 120, 0.1)',
@@ -51,14 +51,14 @@ module.exports = {
       upside: '0 9px 7px -8px rgba(0,0,0,0.6)',
       mobile: '0 0px 2px rgba(0,0,0,0.12)',
       floatBig: '0 0 10px rgba(0,0,0,0.16)',
-      imgFloat: '0 10px 10px rgba(0,0,0,0.16)',
+      imgFloat: '0 10px 10px rgba(0,0,0,0.16)'
     },
     container: {},
     // Extend
     extend: {
       screens: {
-        '3xl': '1780px',
-        '4xl': '1921px',
+        '3xl': '1300px',
+        '4xl': '1500px'
       },
       fontSize: {
         '10px': '.625rem',
@@ -76,7 +76,7 @@ module.exports = {
         base: '1rem',
         'text-lg': '1.125rem',
         'text-xl': '1.25rem',
-        'text-2xl': '1.5rem',
+        'text-2xl': '1.5rem'
       },
       textColor: {
         skin: {
@@ -88,8 +88,8 @@ module.exports = {
           muted: withOpacity('--color-text-muted'),
           extraMuted: withOpacity('--color-text-extra-muted'),
           secondary: withOpacity('--color-text-secondary'),
-          countdown: withOpacity('--color-text-countdown'),
-        },
+          countdown: withOpacity('--color-text-countdown')
+        }
       },
       backgroundColor: {
         skin: {
@@ -97,8 +97,8 @@ module.exports = {
           fill: withOpacity('--color-fill'),
           thumbnail: withOpacity('--color-fill-thumbnail'),
           'black-rgba-6': 'rgba(0,0,0,0.6)',
-          'red-rgba-6': 'rgba(250,99,56,0.8)',
-        },
+          'red-rgba-6': 'rgba(250,99,56,0.8)'
+        }
       },
       colors: {
         green: '#209F85',
@@ -123,43 +123,45 @@ module.exports = {
           600: '#757575',
           700: '#5A5A5A', // Normal Text
           800: '#424242',
-          900: '#212121', // Heavy Text
-        },
+          900: '#212121' // Heavy Text
+        }
       },
       lineHeight: {
         11: '2.75rem',
-        12: '3rem',
+        12: '3rem'
       },
       scale: {
         80: '0.8',
         85: '0.85',
         300: '3',
-        400: '4',
+        400: '4'
       },
       width: {
         'main-content': 'calc(100% - 360px)',
         sidebar: '360px',
         '35%': '35%',
-        '45%': '45%',
+        '45%': '45%'
       },
       maxWidth: {
         half: '50%',
+        default: '1300px',
+        large: '1500px',
       },
       maxHeight: {
-        '650px': '650px',
+        '650px': '650px'
       },
       minHeight: {
-        '480px': '480px',
+        '480px': '480px'
       },
       height: {
-        drawer: 'calc(100vh - 90px)',
+        drawer: 'calc(100vh - 90px)'
       },
       fontFamily: {
         body: ["'Inter', sans-serif"],
-        manrope: ["'Manrope', sans-serif"],
+        manrope: ["'Manrope', sans-serif"]
       },
       gridColumnStart: {
-        '40px': '40px',
+        '40px': '40px'
       },
       spacing: {
         2: '0.5rem',
@@ -199,7 +201,7 @@ module.exports = {
         '500px': '500px',
         '650px': '650px',
         '690px': '690px',
-        '1440px': '1440px',
+        '1440px': '1440px'
       },
       inset: {
         8: '2rem',
@@ -214,46 +216,46 @@ module.exports = {
         '40px': '40px',
         '60px': '60px',
         '62px': '62px',
-        '90px': '90px',
+        '90px': '90px'
       },
       borderRadius: {
         default: '6px',
         '10px': '10px',
         '20px': '20px',
-        '30px': '30px',
+        '30px': '30px'
       },
       borderWidth: {
-        '3px': '3px',
+        '3px': '3px'
       },
       borderColor: (theme) => ({
         ...theme('colors'),
         default: theme('colors.gray.200', 'currentColor'),
         skin: {
           primary: withOpacity('--color-border-primary'),
-          base: withOpacity('--color-border-base'),
-        },
+          base: withOpacity('--color-border-base')
+        }
       }),
       transitionDuration: {
         250: '250ms',
-        350: '350ms',
+        350: '350ms'
       },
       animation: {
-        shake: 'shake 1s linear',
+        shake: 'shake 1s linear'
       },
       keyframes: {
         shake: {
           '0%, 100%': { transform: 'translate3d(0,0,0)' },
           '10%, 30%, 50%, 70%, 90%': { transform: 'translate3d(-6px,0,0)' },
-          '20%, 40%, 60%, 80%': { transform: 'translate3d(6px,0,0)' },
-        },
-      },
-    },
+          '20%, 40%, 60%, 80%': { transform: 'translate3d(6px,0,0)' }
+        }
+      }
+    }
   },
   // Variants
   variants: {
     textColor: ['responsive', 'hover', 'focus', 'group-hover'],
     borderWidth: ['responsive', 'last', 'hover', 'focus'],
-    padding: ['responsive, odd, even'],
+    padding: ['responsive, odd, even']
   },
-  plugins: [],
+  plugins: []
 }

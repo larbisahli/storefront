@@ -20,8 +20,8 @@ export const Facebook = ({
         strokeWidth="1"
       />
     </svg>
-  );
-};
+  )
+}
 
 export const Twitter = ({
   color = 'currentColor',
@@ -45,8 +45,8 @@ export const Twitter = ({
         strokeWidth="1"
       />
     </svg>
-  );
-};
+  )
+}
 
 export const Youtube = ({
   color = 'currentColor',
@@ -67,8 +67,8 @@ export const Youtube = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}
 
 export const Github = ({
   color = 'currentColor',
@@ -88,8 +88,8 @@ export const Github = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}
 
 export const Instagram = ({
   color = 'currentColor',
@@ -122,8 +122,8 @@ export const Instagram = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}
 
 export const Linkedin = ({
   color = 'currentColor',
@@ -143,5 +143,5 @@ export const Linkedin = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

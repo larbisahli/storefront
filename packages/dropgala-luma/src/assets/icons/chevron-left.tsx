@@ -17,7 +17,7 @@ const ChevronLeft = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}
 
-export default ChevronLeft;
+export default ChevronLeft

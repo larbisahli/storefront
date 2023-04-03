@@ -42,7 +42,7 @@ const QuoteIcon = (props) => {
       <g></g>
       <g></g>
     </svg>
-  );
-};
+  )
+}
 
-export default QuoteIcon;
+export default QuoteIcon

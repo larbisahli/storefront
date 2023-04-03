@@ -16,7 +16,7 @@ const CloseIcon = ({
         transform="translate(-4.518 -4.518)"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default CloseIcon;
+export default CloseIcon

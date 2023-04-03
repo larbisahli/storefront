@@ -1,1 +1,1 @@
-export { HeaderPlaceholder } from './placeholders'
+export { FooterPlaceholder, HeaderPlaceholder } from './placeholders'

@@ -171,7 +171,7 @@ const NotFound = (props) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default NotFound;
+export default NotFound

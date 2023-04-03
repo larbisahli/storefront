@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "target": "esnext",
     "module": "esnext",
     "rootDir": "src",
@@ -15,7 +16,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "paths": {
+      "@components": ["components/index"],
+      "@components/*": ["components/*"],
+      "@assets/*": ["assets/*"],
+      "@settings/*": ["settings/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.stories.tsx"]

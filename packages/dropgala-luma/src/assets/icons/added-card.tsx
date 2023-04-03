@@ -7,7 +7,7 @@ const AddedToCartSvg = (props) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default AddedToCartSvg;
+export default AddedToCartSvg

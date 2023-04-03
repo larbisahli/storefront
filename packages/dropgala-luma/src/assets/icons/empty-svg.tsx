@@ -302,7 +302,7 @@ const EmptyCartSVG = ({
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default EmptyCartSVG;
+export default EmptyCartSVG

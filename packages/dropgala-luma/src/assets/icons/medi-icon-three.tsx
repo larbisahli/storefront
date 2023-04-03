@@ -90,7 +90,7 @@ const MediIconThree = ({ width = '50px', height = '50px' }) => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default MediIconThree;
+export default MediIconThree

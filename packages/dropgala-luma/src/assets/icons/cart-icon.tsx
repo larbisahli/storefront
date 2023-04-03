@@ -27,7 +27,7 @@ const CartIcon = ({ width = '18px', height = '18px', color = '#292929' }) => {
         strokeWidth="2"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default CartIcon;
+export default CartIcon

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 const ArrowDownIcon = (props) => (
   <svg
@@ -18,6 +18,6 @@ const ArrowDownIcon = (props) => (
       d="m4 9 8 8 8-8"
     />
   </svg>
-);
+)
 
-export default ArrowDownIcon;
+export default ArrowDownIcon

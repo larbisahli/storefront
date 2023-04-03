@@ -5,19 +5,19 @@
 // import { ProductType } from '@interfaces/index';
 // import { rehydrate } from '@store/card/index';
 // import Logo from 'assets/icons/logo';
-import cn from 'clsx';
-import Link from 'next/link';
+import cn from 'clsx'
+import Link from 'next/link'
 
 function CheckoutHeader() {
-//   const items = useAppSelector((state) => state.cart.items);
-//   const dispatch = useAppDispatch();
+  //   const items = useAppSelector((state) => state.cart.items);
+  //   const dispatch = useAppDispatch();
 
-//   const rehydrateLocalState = (items: ProductType[]) => {
-//     dispatch(rehydrate(items));
-//   };
+  //   const rehydrateLocalState = (items: ProductType[]) => {
+  //     dispatch(rehydrate(items));
+  //   };
 
-//   // This component is global on all pages we are using it to get the items in local storage
-//   useStorage(items, rehydrateLocalState);
+  //   // This component is global on all pages we are using it to get the items in local storage
+  //   useStorage(items, rehydrateLocalState);
 
   return (
     <header
@@ -38,9 +38,7 @@ function CheckoutHeader() {
             className="w-[1px] h-[30px] bg-gray-400 mx-3"
           ></div>
           <div style={{ color: '#83b293' }} className="flex items-center">
-            <div>
-              {/* <SecureLock width="23px" height="23px" /> */}
-            </div>
+            <div>{/* <SecureLock width="23px" height="23px" /> */}</div>
             <div className="pl-2 text-xs">SECURE CHECKOUT</div>
           </div>
         </div>
@@ -54,7 +52,7 @@ function CheckoutHeader() {
         </Link>
       </div>
     </header>
-  );
+  )
 }
 
-export default CheckoutHeader;
+export default CheckoutHeader

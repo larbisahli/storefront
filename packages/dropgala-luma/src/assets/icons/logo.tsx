@@ -27,7 +27,7 @@ const PlusIcon = ({ id, ...props }) => {
         />
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default PlusIcon;
+export default PlusIcon

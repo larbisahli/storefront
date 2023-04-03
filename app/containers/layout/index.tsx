@@ -1,8 +1,8 @@
-import React, { Fragment, memo } from 'react'
-import cn from 'clsx'
-import { ComponentType, useEffect, useState } from 'react'
+import { ComponentNames } from '@dropgala/types/enums.type'
 import { renderComponent } from '@lib/packages'
-import { ComponentNames } from '@dropgala/types/enums'
+import cn from 'clsx'
+import React, { Fragment, memo } from 'react'
+// import { ComponentType, useEffect, useState } from 'react'
 
 const STOREFRONT_THEME = '@dropgala/luma'
 
@@ -27,15 +27,17 @@ const Layout = ({ children, className }: Props) => {
       {renderComponent(STOREFRONT_THEME, ComponentNames.HEADER, {})}
       <main
         className={cn(
-          'max-w-[1300px] 2xxl:max-w-[1500px] mx-auto',
+          'bg-red-500 h-[450px]',
+          'max-w-screen-xl xxl:max-w-screen-xxl mx-auto',
           'relative flex-grow h-full w-full',
           className
         )}
       >
         <div className="flex flex-col flex-grow">
-          <div className="pt-80px flex-auto">{children}</div>
+          <div className="mt-[200px] flex-auto">{children}</div>
         </div>
       </main>
+      {renderComponent(STOREFRONT_THEME, ComponentNames.FOOTER, {})}
     </>
   )
 }

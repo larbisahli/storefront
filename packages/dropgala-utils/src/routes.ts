@@ -26,4 +26,4 @@ export const ROUTES = {
   CATEGORY: '/category',
   ORDER: '/complete-order',
   WISHLIST: '/my-account/wishlist'
-};
+}

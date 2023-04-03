@@ -1,8 +1,8 @@
 import Layout from '@containers/layout'
+import dynamicComponents from '@lib/packages'
 import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import dynamicComponents from '@lib/packages'
 
 interface Props {}
 
@@ -28,8 +28,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         'common',
         'forms',
         'menu',
-        'footer',
-      ])),
-    },
+        'footer'
+      ]))
+    }
   }
 }

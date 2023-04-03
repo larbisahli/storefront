@@ -351,7 +351,7 @@ const MediIconTwo = ({ width = '59px', height = '55px' }) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default MediIconTwo;
+export default MediIconTwo

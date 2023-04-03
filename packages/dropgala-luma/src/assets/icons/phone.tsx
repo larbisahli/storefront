@@ -52,7 +52,7 @@ const CloseIcon = (props) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default CloseIcon;
+export default CloseIcon

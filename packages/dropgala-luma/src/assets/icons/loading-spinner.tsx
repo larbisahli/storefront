@@ -1,8 +1,8 @@
 type Props = {
-  className?: string;
-  stroke: string;
-  size?: 'large' | 'small' | 'medium';
-};
+  className?: string
+  stroke: string
+  size?: 'large' | 'small' | 'medium'
+}
 
 const LoadingSpinner = ({ className, stroke, size = 'small' }: Props) => {
   return (
@@ -64,7 +64,7 @@ const LoadingSpinner = ({ className, stroke, size = 'small' }: Props) => {
         </svg>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default LoadingSpinner;
+export default LoadingSpinner

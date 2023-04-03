@@ -4,7 +4,7 @@ import Document, {
   Head,
   Html,
   Main,
-  NextScript,
+  NextScript
 } from 'next/document'
 import { i18n } from 'next-i18next'
 

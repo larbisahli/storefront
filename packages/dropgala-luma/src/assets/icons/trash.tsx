@@ -63,7 +63,7 @@ const TrashIcon = ({
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default TrashIcon;
+export default TrashIcon

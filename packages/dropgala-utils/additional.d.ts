@@ -1,4 +1,4 @@
 interface Number {
-  toCommas(): string | Number;
-  secondsToHm(): string | Number;
+  toCommas(): string | Number
+  secondsToHm(): string | Number
 }

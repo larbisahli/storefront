@@ -19,7 +19,7 @@ const PlusIcon = ({
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default PlusIcon;
+export default PlusIcon

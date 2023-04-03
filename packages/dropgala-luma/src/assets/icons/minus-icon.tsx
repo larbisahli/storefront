@@ -17,7 +17,7 @@ const MinusIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}
 
-export default MinusIcon;
+export default MinusIcon

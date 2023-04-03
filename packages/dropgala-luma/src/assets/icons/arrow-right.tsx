@@ -33,7 +33,7 @@ const ArrowRight = ({
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default ArrowRight;
+export default ArrowRight

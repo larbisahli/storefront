@@ -1,41 +1,41 @@
-import CartItem from '@components/common/cart-item';
-import { Scrollbar } from '@components/common/scrollbar';
-import Button from '@components/ui/button';
-import { usePrice } from '@hooks/use-price';
+import CartItem from '@components/common/cart-item'
+import { Scrollbar } from '@components/common/scrollbar'
+import Button from '@components/ui/button'
+import { usePrice } from '@hooks/use-price'
 import {
   useAppDispatch,
   useAppSelector,
   useCartItemsCount,
   UseCartItemsTotalPrice
-} from '@hooks/use-store';
-import { siteSettings } from '@settings/site-settings';
-import { slideCart } from '@store/drawer/index';
-import ArrowLeft from 'assets/icons/arrow-left';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { memo } from 'react';
+} from '@hooks/use-store'
+import { siteSettings } from '@settings/site-settings'
+import { slideCart } from '@store/drawer/index'
+import ArrowLeft from 'assets/icons/arrow-left'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { memo } from 'react'
 
-import NoItem from './no-item';
+import NoItem from './no-item'
 
 function Cart() {
-  const router = useRouter();
-  const { locale } = router;
+  const router = useRouter()
+  const { locale } = router
 
-  const items = useAppSelector((state) => state.cart.items);
-  const dispatch = useAppDispatch();
+  const items = useAppSelector((state) => state.cart.items)
+  const dispatch = useAppDispatch()
 
-  const calculatePrice = UseCartItemsTotalPrice();
-  const itemsCount = useCartItemsCount();
+  const calculatePrice = UseCartItemsTotalPrice()
+  const itemsCount = useCartItemsCount()
 
   const hideCart = () => {
-    dispatch(slideCart(false));
-  };
+    dispatch(slideCart(false))
+  }
 
   const totalPrice = usePrice({
     amount: calculatePrice,
     locale,
     currencyCode: siteSettings?.currencyCode
-  });
+  })
 
   return (
     <div className="flex flex-col w-full h-full">
@@ -119,7 +119,7 @@ function Cart() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default memo(Cart);
+export default memo(Cart)

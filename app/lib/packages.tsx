@@ -1,23 +1,23 @@
-import { HeaderPlaceholder } from '@components'
-import { StoreThemes } from '@ts-types/custom'
-import { ComponentNames } from '@ts-types/enums'
+import { FooterPlaceholder, HeaderPlaceholder } from '@components'
+import { StoreThemes } from '@dropgala/types/custom.type'
+import { ComponentNames } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
-import { ComponentType, FC, ReactElement } from 'react'
+import { ReactElement } from 'react'
 
 const dynamicComponents = {
   '@dropgala/luma': {
     Header: dynamic(() => import('@dropgala/luma/Header'), {
       loading: () => <HeaderPlaceholder />,
-      ssr: false,
+      ssr: false
     }),
     Footer: dynamic(() => import('@dropgala/luma/Footer'), {
-      loading: () => <HeaderPlaceholder />,
-      ssr: false,
-    }),
-  },
+      loading: () => <FooterPlaceholder />,
+      ssr: false
+    })
+  }
 }
 
-export function renderComponent<Props>(
+export function renderComponent<Props extends JSX.IntrinsicAttributes>(
   storeTheme: StoreThemes,
   componentName: ComponentNames,
   props: Props

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 const ArrowRedo = (props) => (
   <svg
@@ -14,6 +14,6 @@ const ArrowRedo = (props) => (
       d="M754.553 35.03v294.208C487.317 329.246 0 332.178 0 1164.97c55.25-556.9 309.061-560.402 754.553-560.408v321.292L1200 480.407 754.553 35.03z"
     />
   </svg>
-);
+)
 
-export default ArrowRedo;
+export default ArrowRedo

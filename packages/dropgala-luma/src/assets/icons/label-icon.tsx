@@ -26,7 +26,7 @@ const LabelIcon = ({
         strokeWidth="0.5"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default LabelIcon;
+export default LabelIcon

@@ -37,7 +37,7 @@ const SuccessIcon = (props) => {
       <g></g>
       <g></g>
     </svg>
-  );
-};
+  )
+}
 
-export default SuccessIcon;
+export default SuccessIcon

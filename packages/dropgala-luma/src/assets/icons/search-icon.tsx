@@ -16,7 +16,7 @@ const SearchIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}
 
-export default SearchIcon;
+export default SearchIcon

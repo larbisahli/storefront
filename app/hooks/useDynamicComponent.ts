@@ -5,6 +5,6 @@ export const useAcceptCookies = () => {
   const [acceptedCookies, setAcceptedCookies] = useState(true)
 
   return {
-    acceptedCookies,
+    acceptedCookies
   }
 }
