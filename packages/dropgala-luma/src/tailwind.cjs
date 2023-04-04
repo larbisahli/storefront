@@ -1,3 +1,5 @@
+const { fontFamily } = require('tailwindcss/defaultTheme')
+
 function withOpacity(variableName) {
   return ({ opacityValue }) => {
     if (opacityValue !== undefined) {
@@ -21,9 +23,10 @@ module.exports = {
       'xxl-only': { min: '1400px', max: '1600px' },
       large: { min: '2100px' }
     },
-    fontFamily: {
-      open: ['Open Sans']
-    },
+    // fontFamily: {
+    //   mulish: ['var(--font-inter)', ...fontFamily.mulish],
+    //   open: ['Open Sans']
+    // },
     boxShadow: {
       card: '0px 0px 6px rgba(79, 95, 120, 0.1)',
       badge: '0px 0px 4px rgba(79, 95, 90, 0.04)',
@@ -54,8 +57,13 @@ module.exports = {
       imgFloat: '0 10px 10px rgba(0,0,0,0.16)'
     },
     container: {},
-    // Extend
+    // ********** Extend **********
     extend: {
+      fontFamily: {
+        body: ["'Inter', sans-serif"],
+        manrope: ["'Manrope', sans-serif"],
+        lato: ['var(--font-inter)', ...fontFamily.sans]
+      },
       screens: {
         '3xl': '1300px',
         '4xl': '1500px'
@@ -145,7 +153,7 @@ module.exports = {
       maxWidth: {
         half: '50%',
         default: '1300px',
-        large: '1500px',
+        large: '1500px'
       },
       maxHeight: {
         '650px': '650px'
@@ -155,10 +163,6 @@ module.exports = {
       },
       height: {
         drawer: 'calc(100vh - 90px)'
-      },
-      fontFamily: {
-        body: ["'Inter', sans-serif"],
-        manrope: ["'Manrope', sans-serif"]
       },
       gridColumnStart: {
         '40px': '40px'

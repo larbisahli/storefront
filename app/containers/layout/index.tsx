@@ -1,8 +1,9 @@
 import { ComponentNames } from '@dropgala/types/enums.type'
 import { renderComponent } from '@lib/packages'
 import cn from 'clsx'
-import React, { Fragment, memo } from 'react'
 // import { ComponentType, useEffect, useState } from 'react'
+import { Lato } from 'next/font/google'
+import React, { memo } from 'react'
 
 const STOREFRONT_THEME = '@dropgala/luma'
 
@@ -21,9 +22,23 @@ interface Props {
 //   </Fragment>
 // )}
 
+// Allow the customers to choose google fonts they want to use
+const inter = Lato({
+  weight: ['300', '400', '700', '900'],
+  subsets: ['latin'],
+  variable: '--font-inter'
+})
+
 const Layout = ({ children, className }: Props) => {
   return (
-    <>
+    <div
+      className={cn(
+        inter.variable,
+        // Dynamic font family
+        'font-lato',
+        'relative'
+      )}
+    >
       {renderComponent(STOREFRONT_THEME, ComponentNames.HEADER, {})}
       <main
         className={cn(
@@ -38,7 +53,7 @@ const Layout = ({ children, className }: Props) => {
         </div>
       </main>
       {renderComponent(STOREFRONT_THEME, ComponentNames.FOOTER, {})}
-    </>
+    </div>
   )
 }
 

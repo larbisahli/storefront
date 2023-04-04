@@ -16,13 +16,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "jsx": "preserve",
-    "paths": {
-      "@components": ["components/index"],
-      "@components/*": ["components/*"],
-      "@assets/*": ["assets/*"],
-      "@settings/*": ["settings/*"]
-    }
+    "jsx": "preserve"
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.stories.tsx"]

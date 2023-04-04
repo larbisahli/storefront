@@ -1,4 +1,4 @@
-const CartIcon = ({ width = '18px', height = '18px', color = '#292929' }) => {
+const CartIcon = ({ width = '18px', height = '18px' }) => {
   return (
     <svg
       role="img"
@@ -11,18 +11,18 @@ const CartIcon = ({ width = '18px', height = '18px', color = '#292929' }) => {
       <path
         d="M62 22H16M2 6h10l10 40h32"
         fill="none"
-        stroke={color}
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeMiterlimit="10"
         strokeWidth="4"
       />
-      <circle cx="24" cy="58" r="5" fill={color} />
-      <circle cx="50" cy="58" r="5" fill={color} />
+      <circle cx="24" cy="58" r="5" fill="currentColor" />
+      <circle cx="50" cy="58" r="5" fill="currentColor" />
       <path
         d="M59 30H26m30 8H28"
         fill="none"
-        stroke={color}
+        stroke="currentColor"
         strokeMiterlimit="10"
         strokeWidth="2"
       />
