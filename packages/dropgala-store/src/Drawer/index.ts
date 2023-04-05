@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface DrawerState {
-  showCart: boolean
-  menu: boolean
-  open: boolean
+  isCart: boolean
+  isMenu: boolean
+  isOpen: boolean
 }
 
 const initialState: DrawerState = {
-  showCart: false,
-  menu: false,
-  open: false
+  isCart: false,
+  isMenu: false,
+  isOpen: false
 }
 
 export const drawerSlice = createSlice({
@@ -17,18 +17,19 @@ export const drawerSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    slideCart: (state: DrawerState, action: PayloadAction<boolean>) => {
-      state.open = action.payload
+    toggleCart: (state: DrawerState) => {
+      state.isCart = true
+      state.isMenu = false
+      state.isOpen = !state.isOpen
     },
-    openMenu: (state: DrawerState, action: PayloadAction<boolean>) => {
-      state.menu = action.payload
-    },
-    toggleCartView: (state: DrawerState, action: PayloadAction<boolean>) => {
-      state.showCart = action.payload
+    toggleMenu: (state: DrawerState) => {
+      state.isMenu = true
+      state.isCart = false
+      state.isOpen = !state.isOpen
     }
   }
 })
 
-export const { slideCart, openMenu, toggleCartView } = drawerSlice.actions
+export const { toggleCart, toggleMenu } = drawerSlice.actions
 
 export default drawerSlice.reducer

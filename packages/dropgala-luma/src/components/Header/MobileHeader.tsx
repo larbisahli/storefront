@@ -1,10 +1,11 @@
 import cn from 'clsx'
 import { useEffect, useState } from 'react'
-
-import CartIcon from '../assets/icons/cart-icon'
-import HomeSvg from '../assets/icons/home'
-import MenuSearchIcon from '../assets/icons/menu-search'
-import UserIcon from '../assets/icons/user'
+import { toggleCart, toggleMenu } from '@dropgala/store'
+import { useAppDispatch } from '../../hooks/use-store'
+import CartIcon from '../../assets/icons/cart-icon'
+import HomeSvg from '../../assets/icons/home'
+import MenuSearchIcon from '../../assets/icons/menu-search'
+import UserIcon from '../../assets/icons/user'
 
 const MobileHeader = () => {
   const [show, setShow] = useState(true)
@@ -36,6 +37,16 @@ const MobileHeader = () => {
     }
   }, [lastScrollY])
 
+  const dispatch = useAppDispatch()
+
+  const handleCart = () => {
+    dispatch(toggleCart())
+  }
+
+  const handleMenu = () => {
+    dispatch(toggleMenu())
+  }
+
   return (
     <nav
       className={cn(
@@ -50,7 +61,10 @@ const MobileHeader = () => {
         </button>
       </div>
       <div className="mx-3 flex-1 flex justify-center">
-        <button className="text-gray-800 hover:text-red-500">
+        <button
+          className="text-gray-800 hover:text-red-500"
+          onClick={handleMenu}
+        >
           <MenuSearchIcon width="28px" height="28px" />
         </button>
       </div>
@@ -62,7 +76,7 @@ const MobileHeader = () => {
       <div className="mx-3 flex-1 flex justify-center">
         <button
           className="text-gray-800 flex items-center justify-center flex-shrink-0 h-auto relative focus:outline-none hover:text-red-500"
-          // onClick={showCart}
+          onClick={handleCart}
           aria-label="cart-button"
         >
           <CartIcon width="22px" height="22px" />

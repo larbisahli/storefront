@@ -1,7 +1,8 @@
+import CartDrawer from '@components/drawer/CartDrawer'
+import MenuDrawer from '@components/drawer/MenuDrawer'
 import { ComponentNames } from '@dropgala/types/enums.type'
 import { renderComponent } from '@lib/packages'
 import cn from 'clsx'
-// import { ComponentType, useEffect, useState } from 'react'
 import { Lato } from 'next/font/google'
 import React, { memo } from 'react'
 
@@ -12,17 +13,7 @@ interface Props {
   className?: string
 }
 
-// {isCheckout ? (
-//   <CheckoutHeader />
-// ) : (
-//   <Fragment>
-//     <Header />
-//     <Drawer />
-//     <CartDrawer />
-//   </Fragment>
-// )}
-
-// Allow the customers to choose google fonts they want to use
+// TODO: Try to allow the customers to choose google fonts they want to use
 const inter = Lato({
   weight: ['300', '400', '700', '900'],
   subsets: ['latin'],
@@ -40,6 +31,8 @@ const Layout = ({ children, className }: Props) => {
       )}
     >
       {renderComponent(STOREFRONT_THEME, ComponentNames.HEADER, {})}
+      <CartDrawer />
+      <MenuDrawer />
       <main
         className={cn(
           'bg-red-500 h-[450px]',

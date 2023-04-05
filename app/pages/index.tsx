@@ -1,5 +1,4 @@
 import Layout from '@containers/layout'
-import dynamicComponents from '@lib/packages'
 import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -7,8 +6,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 interface Props {}
 
 export default function Home(props: Props) {
-  console.log({ dynamicComponents })
-
   return (
     <Layout>
       <Head>

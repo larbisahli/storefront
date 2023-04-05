@@ -2,5 +2,7 @@
 
 export enum ComponentNames {
   HEADER = 'Header',
-  FOOTER = 'Footer'
+  FOOTER = 'Footer',
+  CART_DRAWER_VIEW = 'CartDrawerView',
+  MENU_DRAWER_VIEW = 'MenuDrawerView'
 }

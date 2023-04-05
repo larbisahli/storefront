@@ -1,7 +1,6 @@
-const PlusIcon = ({ id, ...props }) => {
+const PlusIcon = (props) => {
   return (
     <svg
-      id={id}
       {...props}
       viewBox="0 0 35 35"
       fill="none"

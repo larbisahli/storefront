@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 
-import { siteSettings } from './../settings/site-settings'
+import { siteSettings } from '../../settings/site-settings'
 
 interface CopyrightProps {
   payment?: {

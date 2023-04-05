@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 
-import EmailIcon from './../../assets/icons/email-icon'
-import SendIcon from './../../assets/icons/send-icon'
-import Heading from './../../components/ui/Heading'
-import Input from './../../components/ui/Input'
-import Text from './../../components/ui/Text'
+import EmailIcon from '../../../assets/icons/email-icon'
+import SendIcon from '../../../assets/icons/send-icon'
+import Heading from '../../ui/Heading'
+import Input from '../../ui/Input'
+import Text from '../../ui/Text'
 
 interface Props {
   className?: string

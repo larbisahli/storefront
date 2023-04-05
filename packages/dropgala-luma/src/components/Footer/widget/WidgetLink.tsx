@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next'
 
-import Heading from './../../components/ui/Heading'
-import Link from './../../components/ui/Link'
+import Heading from '../../ui/Heading'
+import Link from '../../ui/Link'
 
 interface Props {
   className?: string

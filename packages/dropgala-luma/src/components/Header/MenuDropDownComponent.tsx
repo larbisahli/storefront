@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
-import Link from '../components/ui/Link'
-import { MENU } from './data'
+import Link from '../ui/Link'
+import { MENU } from '../../data/menu'
 
 interface Props {
   selectedFirstLevelCategory: number | null
@@ -22,12 +22,19 @@ const MenuDropDownComponent = ({ selectedFirstLevelCategory }: Props) => {
         {secondLevelCategories?.map(({ id, name, children = [] }) => {
           return (
             <div key={id} className="text-black text-sm flex flex-col">
-              <Link href="/" className="font-medium pb-1 hover:text-red-500">
+              <Link
+                href="/"
+                className="font-medium pb-1 hover:text-red-500 w-fit"
+              >
                 {name}
               </Link>
               {children?.map(({ id, name }) => {
                 return (
-                  <Link href="/" key={id} className="pb-1 hover:text-red-500">
+                  <Link
+                    href="/"
+                    key={id}
+                    className="pb-1 hover:text-red-500 w-fit"
+                  >
                     {name}
                   </Link>
                 )

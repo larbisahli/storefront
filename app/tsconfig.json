@@ -21,7 +21,10 @@
       "@components/*": ["components/*"],
       "@containers": ["containers/index"],
       "@containers/*": ["containers/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@hooks/*": ["hooks/*"],
+      "@hooks": ["hooks/index"],
+      "@assets": ["assets/index"]
     },
     "incremental": true
   },

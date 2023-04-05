@@ -3,10 +3,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useRef, useState } from 'react'
-
-import Link from '../components/ui/Link'
+import Link from '../ui/Link'
 import MyAccountActions from './AccountActions'
-import { MENU } from './data'
+import { MENU } from '../../data/menu'
 import InfoSection from './InfoSection'
 import MenuDropDownComponent from './MenuDropDownComponent'
 import MobileHeader from './MobileHeader'
@@ -80,7 +79,6 @@ const Header: FC<any> = () => {
                 width="180"
                 height="60"
                 alt="logo"
-                objetFit="cover"
               />
             </Link>
             <div className="hidden lg:block flex-1 max-w-[500px] m-auto">

@@ -1,10 +1,17 @@
 import cn from 'clsx'
-
-import CartIcon from '../assets/icons/cart-icon'
-import { HeartEmpty } from '../assets/icons/heart'
-import UserIcon from '../assets/icons/user'
+import { toggleCart, toggleMenu } from '@dropgala/store'
+import CartIcon from '../../assets/icons/cart-icon'
+import { HeartEmpty } from '../../assets/icons/heart'
+import UserIcon from '../../assets/icons/user'
+import { useAppDispatch } from '../../hooks/use-store'
 
 const MyAccountActions = () => {
+  const dispatch = useAppDispatch()
+
+  const handleCart = () => {
+    dispatch(toggleCart())
+  }
+
   return (
     <div className="hidden lg:flex items-center">
       <button className="mx-2 text-black">
@@ -15,7 +22,7 @@ const MyAccountActions = () => {
       </button>
       <button
         className="mx-2 flex items-center justify-center flex-shrink-0 h-auto relative focus:outline-none"
-        // onClick={showCart}
+        onClick={handleCart}
         aria-label="cart-button"
       >
         <CartIcon width="22px" height="22px" />

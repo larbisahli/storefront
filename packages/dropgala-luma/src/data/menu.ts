@@ -84,6 +84,7 @@ export const MENU = [
     name: 'HOUSEHOLD APPLIANCES',
     children: [
       {
+        id: 1,
         name: 'Category-3 > sub3',
         children: [
           {

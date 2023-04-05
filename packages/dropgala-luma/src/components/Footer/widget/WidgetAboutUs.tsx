@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 
-import Logo from './../../components/common/logo'
-import Text from './../../components/ui/Text'
+import Logo from '../../common/logo'
+import Text from '../../ui/Text'
 
 interface AboutProps {
   className?: string
