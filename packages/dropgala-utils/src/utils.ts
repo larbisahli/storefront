@@ -11,6 +11,14 @@ export const Timer = (time = 1000) => {
   // Timer().then(() => setLoading(false));
 }
 
+
+declare global {
+  interface Number {
+    toCommas(): string | Number
+    secondsToHm(): string | Number
+  }
+}
+
 Number.prototype.toCommas = function () {
   try {
     return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -29,9 +37,13 @@ Number.prototype.toCommas = function () {
   }
 }
 
-export const MEDIA_ENDPOINT = 'http://127.0.0.1:5000/media'
+export const mediaURL = PRODUCTION_ENV
+  ? 'https://api.dropgala.com/media'
+  : 'http://127.0.0.1:5000/media'
 
-export const API_ENDPOINT = 'http://127.0.0.1:5000/graphql'
+export const apiURL = PRODUCTION_ENV
+  ? 'https://api.dropgala.com'
+  : 'http://127.0.0.1:5000'
 
 // export const flattenArrayOfObjects = <T>(arr: T[]) => {
 //   const flatObject = {};

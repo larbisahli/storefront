@@ -1,18 +1,19 @@
+import { CategoryType } from '@dropgala/types/category.type'
 import { useMemo } from 'react'
 
 import Link from '../ui/Link'
-import { MENU } from '../../data/menu'
-
 interface Props {
+  menu: CategoryType[]
   selectedFirstLevelCategory: number | null
 }
 
-const MenuDropDownComponent = ({ selectedFirstLevelCategory }: Props) => {
+const MenuDropDownComponent = ({ menu, selectedFirstLevelCategory }: Props) => {
   const secondLevelCategories = useMemo(() => {
-    return MENU.find((menu) => menu.id === selectedFirstLevelCategory)?.children
-  }, [selectedFirstLevelCategory])
+    return menu.find((menu) => menu.id === selectedFirstLevelCategory)
+      ?.children as CategoryType[]
+  }, [selectedFirstLevelCategory, menu])
 
-  if (!selectedFirstLevelCategory) {
+  if (!selectedFirstLevelCategory || secondLevelCategories?.length === 0) {
     return null
   }
 
@@ -28,7 +29,7 @@ const MenuDropDownComponent = ({ selectedFirstLevelCategory }: Props) => {
               >
                 {name}
               </Link>
-              {children?.map(({ id, name }) => {
+              {(children as CategoryType[])?.map(({ id, name }) => {
                 return (
                   <Link
                     href="/"

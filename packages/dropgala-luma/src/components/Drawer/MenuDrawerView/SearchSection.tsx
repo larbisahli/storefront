@@ -1,6 +1,6 @@
 const SearchSection = () => {
   return (
-    <form>
+    <form className="mt-3 px-3">
       <div className="relative">
         <input
           type="search"

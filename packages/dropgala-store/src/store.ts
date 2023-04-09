@@ -1,14 +1,28 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 
-import drawerReducer from './Drawer/index'
+import CartReducer from './Cart'
+import ConfigReducer from './Config'
+import DrawerReducer from './Drawer'
+import MenuReducer from './Menu'
 
 const PRODUCTION_ENV = process.env.NODE_ENV === 'production'
 
 export function makeStore() {
   return configureStore({
     reducer: {
-      //   cart: cartReducer,
-      drawer: drawerReducer
+      CartReducer,
+      DrawerReducer,
+      ConfigReducer,
+      MenuReducer
+      // ProductListReducer,
+      // ProductListInfoReducer,
+      // WishlistReducer,
+      // MyAccountReducer,
+      // NavigationReducer,
+      // OfflineReducer,
+      // PopupReducer,
+      // CheckoutReducer,
+      // ContactFormReducer,
     },
     devTools: !PRODUCTION_ENV
   })

@@ -1,17 +1,14 @@
 import cn from 'clsx'
-import { toggleCart, toggleMenu } from '@dropgala/store'
+
 import CartIcon from '../../assets/icons/cart-icon'
 import { HeartEmpty } from '../../assets/icons/heart'
 import UserIcon from '../../assets/icons/user'
-import { useAppDispatch } from '../../hooks/use-store'
 
-const MyAccountActions = () => {
-  const dispatch = useAppDispatch()
+interface Props {
+  handleCart: () => void
+}
 
-  const handleCart = () => {
-    dispatch(toggleCart())
-  }
-
+const MyAccountActions = ({ handleCart }: Props) => {
   return (
     <div className="hidden lg:flex items-center">
       <button className="mx-2 text-black">

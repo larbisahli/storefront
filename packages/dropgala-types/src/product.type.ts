@@ -1,8 +1,9 @@
-import { AttributeType, AttributeValueType } from 'attribute.type'
-import { CategoryType } from 'category.type'
-import { ImageType } from 'common.type'
-import { Nullable, ProductEnum, Scalars } from 'custom.type'
-import { TagType } from 'tag.type'
+import { AttributeType, AttributeValueType } from './attribute.type'
+import { CategoryType } from './category.type'
+import { ImageType } from './common.type'
+import { Nullable, Scalars } from './custom.type'
+import { ProductTypes } from './enums.type'
+import { TagType } from './tag.type'
 
 export interface VariationOptionsType {
   id: Scalars['ID']
@@ -32,7 +33,7 @@ export interface ProductType {
   maxPrice?: Scalars['Float']
   minPrice?: Scalars['Float']
   quantity?: Scalars['Int']
-  type?: { id: ProductEnum }
+  type?: { id: ProductTypes }
   inStock?: Scalars['Boolean']
   shortDescription?: Nullable<Scalars['String']>
   description?: Scalars['String']
@@ -46,10 +47,9 @@ export interface ProductType {
   tags?: Nullable<Array<Nullable<TagType>>>
   variationOptions?: VariationOptionsType[]
   variations?: variationsType[]
-  // [key: string]: any;
-  // Order properties
-  orderQuantity?: Scalars['Int']
-  orderVariationOption?: Nullable<VariationOptionsType>
+  // Order properties for the cart functionality
+  orderQuantity?: number
+  orderVariationOption?: VariationOptionsType | undefined
 }
 
 export interface variationsType {

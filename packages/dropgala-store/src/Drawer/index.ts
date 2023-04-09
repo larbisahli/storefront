@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+
+import { AppState } from '../store'
 
 export interface DrawerState {
   isCart: boolean
@@ -12,10 +14,9 @@ const initialState: DrawerState = {
   isOpen: false
 }
 
-export const drawerSlice = createSlice({
+export const drawer = createSlice({
   name: 'drawer',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     toggleCart: (state: DrawerState) => {
       state.isCart = true
@@ -30,6 +31,9 @@ export const drawerSlice = createSlice({
   }
 })
 
-export const { toggleCart, toggleMenu } = drawerSlice.actions
+export const { toggleCart, toggleMenu } = drawer.actions
 
-export default drawerSlice.reducer
+export const selectDrawer = (state: AppState): DrawerState =>
+  state.DrawerReducer
+
+export default drawer.reducer

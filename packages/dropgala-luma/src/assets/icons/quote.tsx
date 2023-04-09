@@ -1,4 +1,4 @@
-const QuoteIcon = (props) => {
+const QuoteIcon = (props: any) => {
   return (
     <svg
       version="1.1"

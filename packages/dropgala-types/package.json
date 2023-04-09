@@ -52,8 +52,5 @@
     "eslint-config-dropgala": "workspace:*",
     "tsup": "^5.12.8",
     "typescript": "^4.5.5"
-  },
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.9.3"
   }
 }

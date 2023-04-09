@@ -1,12 +1,17 @@
 import CartDrawer from '@components/drawer/CartDrawer'
 import MenuDrawer from '@components/drawer/MenuDrawer'
+import {
+  selectConfig,
+  selectMenu,
+  toggleCart,
+  toggleMenu
+} from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types/enums.type'
+import { useAppDispatch, useAppSelector } from '@hooks/use-store'
 import { renderComponent } from '@lib/packages'
 import cn from 'clsx'
 import { Lato } from 'next/font/google'
-import React, { memo } from 'react'
-
-const STOREFRONT_THEME = '@dropgala/luma'
+import React from 'react'
 
 interface Props {
   children: React.ReactNode
@@ -21,6 +26,19 @@ const inter = Lato({
 })
 
 const Layout = ({ children, className }: Props) => {
+  const { theme } = useAppSelector(selectConfig)
+  const { menu } = useAppSelector(selectMenu)
+
+  const dispatch = useAppDispatch()
+
+  const handleCart = () => {
+    dispatch(toggleCart())
+  }
+
+  const handleMenu = () => {
+    dispatch(toggleMenu())
+  }
+
   return (
     <div
       className={cn(
@@ -30,7 +48,11 @@ const Layout = ({ children, className }: Props) => {
         'relative'
       )}
     >
-      {renderComponent(STOREFRONT_THEME, ComponentNames.HEADER, {})}
+      {renderComponent(theme, ComponentNames.HEADER, {
+        handleCart,
+        handleMenu,
+        menu
+      })}
       <CartDrawer />
       <MenuDrawer />
       <main
@@ -45,9 +67,9 @@ const Layout = ({ children, className }: Props) => {
           <div className="mt-[200px] flex-auto">{children}</div>
         </div>
       </main>
-      {renderComponent(STOREFRONT_THEME, ComponentNames.FOOTER, {})}
+      {renderComponent(theme, ComponentNames.FOOTER, {})}
     </div>
   )
 }
 
-export default memo(Layout)
+export default Layout

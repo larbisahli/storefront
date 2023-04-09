@@ -1,4 +1,4 @@
-import { Scalars } from 'custom.type'
+import { Scalars } from './custom.type'
 
 export interface ImageType {
   id: Scalars['String']

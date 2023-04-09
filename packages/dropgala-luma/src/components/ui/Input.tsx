@@ -5,7 +5,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
   inputClassName?: string
   label?: string
-  placeholder?: string
+  placeholder: string
   name: string
   error?: string
   type?: string
@@ -28,7 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
       label,
       name,
       error,
-      placeholder,
+      placeholder = undefined,
       variant = 'normal',
       shadow = false,
       type = 'text',

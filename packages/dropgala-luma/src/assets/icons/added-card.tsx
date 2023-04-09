@@ -1,4 +1,4 @@
-const AddedToCartSvg = (props) => {
+const AddedToCartSvg = (props: any) => {
   return (
     <svg viewBox="0 0 16 14" {...props}>
       <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

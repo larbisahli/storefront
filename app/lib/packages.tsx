@@ -1,7 +1,7 @@
 import { FooterPlaceholder, HeaderPlaceholder } from '@components'
 import CartDrawerPlaceholder from '@components/placeholders/Drawers/CartDrawer'
 import MenuDrawerPlaceholder from '@components/placeholders/Drawers/MenuDrawer'
-import { StoreThemes } from '@dropgala/types/custom.type'
+import { StoreThemes } from '@dropgala/types/enums.type'
 import { ComponentNames } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import { ReactElement } from 'react'
@@ -33,7 +33,7 @@ const dynamicComponents = {
   }
 }
 
-export function renderComponent<Props extends JSX.IntrinsicAttributes>(
+export function renderComponent<Props>(
   storeTheme: StoreThemes,
   componentName: ComponentNames,
   props: Props
@@ -41,6 +41,7 @@ export function renderComponent<Props extends JSX.IntrinsicAttributes>(
   const Component = dynamicComponents[storeTheme][componentName]
 
   if (Component) {
+    // @ts-ignore
     return <Component {...props} />
   }
 

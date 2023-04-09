@@ -1,5 +1,5 @@
-import { ImageType } from 'common.type'
-import { Nullable, Scalars } from 'custom.type'
+import { ImageType } from './common.type'
+import { Nullable, Scalars } from './custom.type'
 
 export interface HeroBannerType {
   id?: Scalars['ID']

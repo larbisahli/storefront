@@ -1,4 +1,4 @@
-const SuccessIcon = (props) => {
+const SuccessIcon = (props: any) => {
   return (
     <svg
       version="1.1"

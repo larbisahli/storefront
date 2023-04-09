@@ -1,6 +1,6 @@
-import SiteLogo from './../../assets/icons/logo'
+import SiteLogo from '../../assets/icons/logo'
 
-const Logo = ({ width }) => {
+const Logo = ({ width }: { width: number }) => {
   return (
     <div>
       <SiteLogo width={width} id="id" />

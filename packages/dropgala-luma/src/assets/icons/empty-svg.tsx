@@ -1,5 +1,4 @@
 const EmptyCartSVG = ({
-  color = 'currentColor',
   width = '166px',
   height = '210px'
 }) => {

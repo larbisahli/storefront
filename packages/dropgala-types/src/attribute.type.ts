@@ -1,4 +1,4 @@
-import { Nullable, Scalars } from 'custom.type'
+import { Nullable, Scalars } from './custom.type'
 
 export interface AttributeValueType {
   id?: Scalars['ID']

@@ -1,4 +1,5 @@
-import { CouponEnum, Nullable, Scalars } from 'custom.type'
+import { Nullable, Scalars } from './custom.type'
+import { CouponDiscountType } from './enums.type'
 
 export interface CouponType {
   id?: Nullable<Scalars['ID']>
@@ -6,9 +7,9 @@ export interface CouponType {
   discountValue?: Scalars['Int']
   discountType?:
     | {
-        value: CouponEnum
+        value: CouponDiscountType
       }
-    | CouponEnum
+    | CouponDiscountType
   timesUsed?: Nullable<Scalars['Int']>
   maxUsage?: Nullable<Scalars['Int']>
   orderAmountLimit?: Nullable<Scalars['Int']>

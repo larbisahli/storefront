@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 
-import Logo from '../../common/logo'
+import Logo from '../../common/Logo'
 import Text from '../../ui/Text'
 
 interface AboutProps {
@@ -25,7 +25,7 @@ const WidgetAbout: React.FC<AboutProps> = ({ social, className }) => {
       <div className="flex flex-col text-center sm:text-start max-w-[300px] mx-auto sm:ms-0 pb-6 sm:pb-5">
         <Link href={ROUTES.HOME}>
           <div>
-            <Logo width={'100px'} />
+            <Logo width={100} />
             <Text>{t('text-about-us')}</Text>
           </div>
         </Link>

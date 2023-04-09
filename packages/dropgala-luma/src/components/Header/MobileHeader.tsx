@@ -1,13 +1,17 @@
 import cn from 'clsx'
 import { useEffect, useState } from 'react'
-import { toggleCart, toggleMenu } from '@dropgala/store'
-import { useAppDispatch } from '../../hooks/use-store'
+
 import CartIcon from '../../assets/icons/cart-icon'
 import HomeSvg from '../../assets/icons/home'
 import MenuSearchIcon from '../../assets/icons/menu-search'
 import UserIcon from '../../assets/icons/user'
 
-const MobileHeader = () => {
+interface Props {
+  handleCart: () => void
+  handleMenu: () => void
+}
+
+const MobileHeader = ({ handleCart, handleMenu }: Props) => {
   const [show, setShow] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
@@ -36,16 +40,6 @@ const MobileHeader = () => {
       }
     }
   }, [lastScrollY])
-
-  const dispatch = useAppDispatch()
-
-  const handleCart = () => {
-    dispatch(toggleCart())
-  }
-
-  const handleMenu = () => {
-    dispatch(toggleMenu())
-  }
 
   return (
     <nav

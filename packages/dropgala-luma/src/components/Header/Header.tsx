@@ -1,11 +1,12 @@
+import { CategoryType } from '@dropgala/types/category.type'
 import cn from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useRef, useState } from 'react'
+
 import Link from '../ui/Link'
 import MyAccountActions from './AccountActions'
-import { MENU } from '../../data/menu'
 import InfoSection from './InfoSection'
 import MenuDropDownComponent from './MenuDropDownComponent'
 import MobileHeader from './MobileHeader'
@@ -14,12 +15,18 @@ import SearchSection from './SearchSection'
 
 export interface HeaderProps {
   /**
-   * This is a description
+   * Menu
    */
-  menu?: boolean
+  handleMenu: () => void
+  handleCart: () => void
+  menu?: CategoryType[]
 }
 
-const Header: FC<any> = () => {
+const Header: FC<any> = ({
+  handleMenu,
+  handleCart,
+  menu = []
+}: HeaderProps) => {
   const router = useRouter()
   const { t } = useTranslation('form')
 
@@ -86,11 +93,11 @@ const Header: FC<any> = () => {
               <SearchSection />
             </div>
             {/* Icons account actions */}
-            <MyAccountActions />
+            <MyAccountActions handleCart={handleCart} />
           </div>
           {/* Menu Section */}
           <div className="hidden lg:flex items-center justify-center">
-            {MENU?.map(({ id, name }) => {
+            {menu?.map(({ id, name }) => {
               return (
                 <Link
                   key={id}
@@ -106,11 +113,12 @@ const Header: FC<any> = () => {
           </div>
           {/* MENU DROPDOWN */}
           <MenuDropDownComponent
+            menu={menu}
             selectedFirstLevelCategory={selectedFirstLevelCategory}
           />
         </div>
       </header>
-      <MobileHeader />
+      <MobileHeader handleCart={handleCart} handleMenu={handleMenu} />
     </Fragment>
   )
 }

@@ -1,27 +1,23 @@
-import { useState } from 'react'
-import PlusIcon from '../../../assets/icons/plus-icon'
+import { CategoryRefLevel2, CategoryRefLevel3,CategoryType } from '@dropgala/types/category.type'
 import cn from 'clsx'
 import Link from 'next/link'
+import React, { useState } from 'react'
+
+import PlusIcon from '../../../assets/icons/plus-icon'
+
+type MenuType = CategoryType | CategoryRefLevel2 | CategoryRefLevel3
 
 interface Props {
-  category: {
-    id: number
-    name: string
-    children?: {
-      id: number
-      name: string
-      children?: { id: number; name: string }[]
-    }[]
-  }
+  category: MenuType
   level?: number
 }
 
-const MenuItem = ({ category, level = 2 }: Props) => {
+const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
   const [openSubMenuId, setOpenSubMenuId] = useState<number | null>(null)
 
   const { id, name, children = [] } = category
 
-  const hasChildren = children?.length > 0
+  const hasChildren = (children?.length ?? []) > 0
 
   const handleOpenSubMenu = () => {
     if (openSubMenuId) {
@@ -31,12 +27,21 @@ const MenuItem = ({ category, level = 2 }: Props) => {
     setOpenSubMenuId(id)
   }
 
+  const handleKeyEnter = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      handleOpenSubMenu()
+    }
+  }
+
   return (
     <div className="overflow-auto">
       {hasChildren ? (
         <div
           className="my-1 flex items-center justify-between"
+          role={'button'}
+          tabIndex={0}
           onClick={handleOpenSubMenu}
+          onKeyDown={handleKeyEnter}
         >
           <div
             className={cn('px-3 py-2 text-base', {
@@ -54,7 +59,7 @@ const MenuItem = ({ category, level = 2 }: Props) => {
         <Link href={'/'} className="my-1 flex items-center justify-between">
           <div
             className={cn('px-3 py-2 text-base', {
-              'text-gray-800': level === 3,
+              'text-base text-gray-800': level === 3,
               'px-2 py-1': level === 3
             })}
           >
@@ -67,7 +72,7 @@ const MenuItem = ({ category, level = 2 }: Props) => {
           <Link href={'/'}>
             <div
               className={cn('px-3 py-2 text-base', {
-                'text-gray-800': level === 2,
+                'text-base text-gray-800': level === 2,
                 'px-2 py-1': level === 2
               })}
             >{`All ${name}`}</div>
@@ -75,8 +80,12 @@ const MenuItem = ({ category, level = 2 }: Props) => {
         )}
         {hasChildren &&
           openSubMenuId === id &&
-          children?.map((subcategory) => (
-            <MenuItem category={subcategory} level={level + 1} />
+          children && children?.map((subcategory: MenuType) => (
+            <MenuItem
+              key={subcategory.id}
+              category={subcategory}
+              level={level + 1}
+            />
           ))}
       </div>
     </div>
