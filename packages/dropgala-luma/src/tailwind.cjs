@@ -1,4 +1,5 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
 
 function withOpacity(variableName) {
   return ({ opacityValue }) => {
@@ -8,6 +9,17 @@ function withOpacity(variableName) {
     return `rgba(var(${variableName}))`
   }
 }
+
+const backfaceVisibility = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.backface-visible': {
+      'backface-visibility': 'visible'
+    },
+    '.backface-hidden': {
+      'backface-visibility': 'hidden'
+    }
+  })
+})
 
 module.exports = {
   mode: 'jit',
@@ -261,5 +273,5 @@ module.exports = {
     borderWidth: ['responsive', 'last', 'hover', 'focus'],
     padding: ['responsive, odd, even']
   },
-  plugins: []
+  plugins: [backfaceVisibility]
 }

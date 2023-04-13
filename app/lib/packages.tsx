@@ -1,10 +1,14 @@
-import { FooterPlaceholder, HeaderPlaceholder } from '@components'
-import CartDrawerPlaceholder from '@components/placeholders/Drawers/CartDrawer'
-import MenuDrawerPlaceholder from '@components/placeholders/Drawers/MenuDrawer'
+import {
+  CartDrawerPlaceholder,
+  FooterPlaceholder,
+  HeaderPlaceholder,
+  HeroBannerPlaceholder,
+  MenuDrawerPlaceholder
+} from '@components/placeholders'
 import { StoreThemes } from '@dropgala/types/enums.type'
 import { ComponentNames } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
-import { ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 
 const dynamicComponents = {
   '@dropgala/luma': {
@@ -29,6 +33,13 @@ const dynamicComponents = {
         loading: () => <CartDrawerPlaceholder />,
         ssr: false
       }
+    ),
+    Slider: dynamic(
+      () => import('@dropgala/luma/components/banner/HeroBlock'),
+      {
+        loading: () => <HeroBannerPlaceholder />,
+        ssr: false
+      }
     )
   }
 }
@@ -36,13 +47,14 @@ const dynamicComponents = {
 export function renderComponent<Props>(
   storeTheme: StoreThemes,
   componentName: ComponentNames,
-  props: Props
+  props: Props,
+  children?: () => React.ReactNode | React.ReactNode[] | null
 ): ReactElement<Props, any> | null {
   const Component = dynamicComponents[storeTheme][componentName]
 
   if (Component) {
     // @ts-ignore
-    return <Component {...props} />
+    return <Component {...props}>{children?.()}</Component>
   }
 
   return null

@@ -53,7 +53,7 @@ const WidgetSubscription: React.FC<Props> = ({ className }) => {
           <EmailIcon className="w-4 2xl:w-[18px] h-4 2xl:h-[18px]" />
         </span>
         <Input
-          name='email'
+          name="email"
           placeholder={t('forms:placeholder-email-subscribe')}
           type="email"
           id="subscription-email"

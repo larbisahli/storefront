@@ -30,7 +30,8 @@ const minPricedVariationOption = (variationOptions: VariationOptionsType[]) => {
   return {} as VariationOptionsType
 }
 
-type CartItem = ProductType & {// [key: string]: any;
+type CartItem = ProductType & {
+  // [key: string]: any;
   // Order properties for the cart functionality
   orderQuantity: number
   orderVariationOption: VariationOptionsType | undefined
@@ -138,16 +139,10 @@ export const cartSlice = createSlice({
           return item
         })
       } else {
-        state.items = filter(
-          state.items,
-          (item: CartItem) => item.key !== key
-        )
+        state.items = filter(state.items, (item: CartItem) => item.key !== key)
       }
     },
-    setOrderQuantity: (
-      state: CartState,
-      action: PayloadAction<CartItem>
-    ) => {
+    setOrderQuantity: (state: CartState, action: PayloadAction<CartItem>) => {
       const id = action.payload.id
       const type = action.payload.type
       const orderQuantity = action.payload.orderQuantity

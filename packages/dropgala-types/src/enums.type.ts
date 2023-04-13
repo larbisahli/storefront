@@ -3,6 +3,7 @@
 export enum ComponentNames {
   HEADER = 'Header',
   FOOTER = 'Footer',
+  SLIDER = 'Slider',
   CART_DRAWER_VIEW = 'CartDrawerView',
   MENU_DRAWER_VIEW = 'MenuDrawerView'
 }

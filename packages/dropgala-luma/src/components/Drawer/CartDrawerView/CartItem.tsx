@@ -1,16 +1,21 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { ProductTypes } from '@dropgala/types'
-import type { ProductType, VariationOptionsType } from '@dropgala/types/product.type'
+import type {
+  ProductType,
+  VariationOptionsType
+} from '@dropgala/types/product.type'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
+import dynamic from 'next/dynamic'
 // import { decrementItem, incrementItem } from '@store/card/index'
 // import { slideCart } from '@store/drawer/index'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { memo, useMemo } from 'react'
 
 import { siteSettings } from '../../../settings/site-settings'
 import { AttributeDisplay, Counter, Image } from '../../common'
+
+const Link = dynamic(() => import('../../ui/Link'))
 
 type CartItemProps = {
   item: ProductType

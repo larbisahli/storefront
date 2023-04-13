@@ -1,7 +1,9 @@
+import dynamic from 'next/dynamic'
 import { useTranslation } from 'next-i18next'
 
 import Heading from '../../ui/Heading'
-import Link from '../../ui/Link'
+
+const Link = dynamic(() => import('../../ui/Link'))
 
 interface Props {
   className?: string

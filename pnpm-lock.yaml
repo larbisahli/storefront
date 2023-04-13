@@ -85,6 +85,7 @@ importers:
       eslint: ^8.16.0
       eslint-config-dropgala: workspace:*
       i18next: ^22.4.13
+      intersection-observer: ^0.12.2
       next: ^13.2.4
       next-i18next: ^13.2.2
       typescript: 4.8.4
@@ -94,10 +95,11 @@ importers:
       '@dropgala/types': link:../dropgala-types
       '@dropgala/utils': link:../dropgala-utils
       '@swc/helpers': 0.4.14
+      intersection-observer: 0.12.2
     devDependencies:
       '@swc/cli': 0.1.62_@swc+core@1.3.40
       '@swc/core': 1.3.40
-      '@types/react': 18.0.33
+      '@types/react': 18.0.34
       clsx: 1.2.1
       eslint: 8.36.0
       eslint-config-dropgala: link:../eslint-config-dropgala
@@ -1198,7 +1200,7 @@ packages:
   /@types/hoist-non-react-statics/3.3.1:
     resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
     dependencies:
-      '@types/react': 18.0.33
+      '@types/react': 18.0.34
       hoist-non-react-statics: 3.3.2
 
   /@types/http-cache-semantics/4.0.1:
@@ -1262,6 +1264,14 @@ packages:
 
   /@types/react/18.0.33:
     resolution: {integrity: sha512-sHxzVxeanvQyQ1lr8NSHaj0kDzcNiGpILEVt69g9S31/7PfMvNCKLKcsHw4lYKjs3cGNJjXSP4mYzX43QlnjNA==}
+    dependencies:
+      '@types/prop-types': 15.7.5
+      '@types/scheduler': 0.16.2
+      csstype: 3.1.1
+    dev: true
+
+  /@types/react/18.0.34:
+    resolution: {integrity: sha512-NO1UO8941541CJl1BeOXi8a9dNKFK09Gnru5ZJqkm4Q3/WoQJtHvmwt0VX0SB9YCEwe7TfSSxDuaNmx6H2BAIQ==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
@@ -3261,6 +3271,10 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
     dev: true
+
+  /intersection-observer/0.12.2:
+    resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
+    dev: false
 
   /is-arguments/1.1.1:
     resolution: {integrity: sha512-8Q7EARjzEnKpt/PCD7e1cgUS0a6X8u5tdSiMqXhojOdoV9TsMsiO+9VLC5vAmO8N7/GmXn7yjR8qnA6bVAEzfA==}

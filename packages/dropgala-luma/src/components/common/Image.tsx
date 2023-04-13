@@ -1,9 +1,12 @@
 import { useGetDataUrl } from '@dropgala/utils/hooks/useGetDataUrl'
 import { mediaURL } from '@dropgala/utils/utils'
-import Image, { ImageProps } from 'next/image'
+import dynamic from 'next/dynamic'
+import type { ImageProps } from 'next/image'
 import React, { memo, useEffect, useState } from 'react'
 
 import { siteSettings } from '../../settings/site-settings'
+
+const Image = dynamic(() => import('next/image'))
 
 interface Props extends ImageProps {
   customPlaceholder: string
@@ -25,7 +28,8 @@ const ImageComponent = ({ src, customPlaceholder, ...props }: Props) => {
 
   return (
     <Image
-      src={`${mediaURL}/${srcImage}`}
+      // src={`${mediaURL}/${srcImage}`}
+      src={`${srcImage}`}
       blurDataURL={Base64Placeholder}
       placeholder="blur"
       {...props}

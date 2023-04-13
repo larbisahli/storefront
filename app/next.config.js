@@ -4,7 +4,14 @@ module.exports = {
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true
   },
-  i18n
+  i18n,
+  images: {
+    deviceSizes: [320, 420, 768, 1024, 1200],
+    // iconSizes: [],
+    domains: ['127.0.0.1', 'dropgala.com', 'media.dropgala.com'],
+    path: '/_next/image',
+    loader: 'default'
+  }
 }

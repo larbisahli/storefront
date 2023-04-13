@@ -1,5 +1,8 @@
-import NextLink, { LinkProps as NextLinkProps } from 'next/link'
+import dynamic from 'next/dynamic'
+import type { LinkProps as NextLinkProps } from 'next/link'
 import React from 'react'
+
+const NextLink = dynamic(() => import('next/link'))
 
 const Link: React.FC<
   NextLinkProps & {

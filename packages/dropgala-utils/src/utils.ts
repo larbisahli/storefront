@@ -11,7 +11,6 @@ export const Timer = (time = 1000) => {
   // Timer().then(() => setLoading(false));
 }
 
-
 declare global {
   interface Number {
     toCommas(): string | Number

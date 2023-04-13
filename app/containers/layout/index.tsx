@@ -57,14 +57,14 @@ const Layout = ({ children, className }: Props) => {
       <MenuDrawer />
       <main
         className={cn(
-          'bg-red-500 h-[450px]',
+          'h-[450px]',
           'max-w-screen-xl xxl:max-w-screen-xxl mx-auto',
           'relative flex-grow h-full w-full',
           className
         )}
       >
         <div className="flex flex-col flex-grow">
-          <div className="mt-[200px] flex-auto">{children}</div>
+          <div className="mt-[110px] lg:mt-[190px] flex-auto">{children}</div>
         </div>
       </main>
       {renderComponent(theme, ComponentNames.FOOTER, {})}

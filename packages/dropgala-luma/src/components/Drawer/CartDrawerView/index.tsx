@@ -1,5 +1,5 @@
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
-import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -12,10 +12,12 @@ import ArrowLeft from '../../../assets/icons/arrow-left'
 //   UseCartItemsTotalPrice
 // } from '@hooks/use-store'
 import { siteSettings } from '../../../settings/site-settings'
-import Scrollbar from '../../common/Scrollbar'
 import Button from '../../ui/Button'
 // import CartItem from './CartItem'
 import EmptyCart from './EmptyCart'
+
+const Link = dynamic(() => import('../../ui/Link'))
+const Scrollbar = dynamic(() => import('../../common/Scrollbar'))
 
 function CartDrawerView() {
   const router = useRouter()

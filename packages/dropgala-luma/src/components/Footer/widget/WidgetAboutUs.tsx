@@ -1,10 +1,12 @@
 import { ROUTES } from '@dropgala/utils/routes'
-import Image from 'next/image'
-import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { useTranslation } from 'next-i18next'
 
 import Logo from '../../common/Logo'
 import Text from '../../ui/Text'
+
+const Image = dynamic(() => import('../../common/Image'))
+const Link = dynamic(() => import('../../ui/Link'))
 
 interface AboutProps {
   className?: string

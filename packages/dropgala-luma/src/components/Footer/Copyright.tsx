@@ -1,8 +1,10 @@
-import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 
 import { siteSettings } from '../../settings/site-settings'
+
+const Image = dynamic(() => import('../common/Image'))
 
 interface CopyrightProps {
   payment?: {

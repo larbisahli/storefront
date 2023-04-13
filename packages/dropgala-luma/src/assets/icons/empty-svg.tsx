@@ -1,7 +1,4 @@
-const EmptyCartSVG = ({
-  width = '166px',
-  height = '210px'
-}) => {
+const EmptyCartSVG = ({ width = '166px', height = '210px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

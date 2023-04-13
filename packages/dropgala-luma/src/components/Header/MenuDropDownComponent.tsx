@@ -1,7 +1,9 @@
 import { CategoryType } from '@dropgala/types/category.type'
+import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 
-import Link from '../ui/Link'
+const Link = dynamic(() => import('../ui/Link'))
+
 interface Props {
   menu: CategoryType[]
   selectedFirstLevelCategory: number | null

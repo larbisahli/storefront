@@ -1,9 +1,15 @@
-import { CategoryRefLevel2, CategoryRefLevel3,CategoryType } from '@dropgala/types/category.type'
+import {
+  CategoryRefLevel2,
+  CategoryRefLevel3,
+  CategoryType
+} from '@dropgala/types/category.type'
 import cn from 'clsx'
-import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
 
 import PlusIcon from '../../../assets/icons/plus-icon'
+
+const Link = dynamic(() => import('../../ui/Link'))
 
 type MenuType = CategoryType | CategoryRefLevel2 | CategoryRefLevel3
 
@@ -80,7 +86,8 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
         )}
         {hasChildren &&
           openSubMenuId === id &&
-          children && children?.map((subcategory: MenuType) => (
+          children &&
+          children?.map((subcategory: MenuType) => (
             <MenuItem
               key={subcategory.id}
               category={subcategory}

@@ -64,7 +64,8 @@
     "@dropgala/store": "workspace:*",
     "@dropgala/types": "workspace:*",
     "@dropgala/utils": "workspace:*",
-    "@swc/helpers": "^0.4.12"
+    "@swc/helpers": "^0.4.12",
+    "intersection-observer": "^0.12.2"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.57",

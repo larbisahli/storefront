@@ -1,17 +1,19 @@
 import { CategoryType } from '@dropgala/types/category.type'
 import cn from 'clsx'
-import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useRef, useState } from 'react'
 
-import Link from '../ui/Link'
 import MyAccountActions from './AccountActions'
 import InfoSection from './InfoSection'
 import MenuDropDownComponent from './MenuDropDownComponent'
 import MobileHeader from './MobileHeader'
 import NoticeSection from './NoticeSection'
 import SearchSection from './SearchSection'
+
+const Image = dynamic(() => import('../common/Image'))
+const Link = dynamic(() => import('../ui/Link'))
 
 export interface HeaderProps {
   /**
