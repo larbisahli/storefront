@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import cn from 'clsx'
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -114,13 +116,13 @@ interface Props {
   /** Class base to create all classes for elements. Styles might break if you modify it. */
   className: string
   /** Function that will be executed AFTER destroying the slider. Useful for clean up stuff */
-  doAfterDestroy: (_) => void
+  doAfterDestroy: (_: any) => void
   /** Function that will be executed AFTER initializing  the slider */
-  doAfterInit: (_) => void
+  doAfterInit: (_: any) => void
   /** Function that will be executed AFTER slide transition has ended */
-  doAfterSlide: (_) => void
+  doAfterSlide: (_: any) => void
   /** Function that will be executed BEFORE slide is happening */
-  doBeforeSlide: (_) => void
+  doBeforeSlide: (_: any) => void
   /** Ease mode to use on translations */
   ease: string
   /** Indicates if the slider will start with the first slide once it ends */

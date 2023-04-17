@@ -35,6 +35,7 @@ const HeroSliderBlock: React.FC<Props> = ({
 
   return (
     <div className={cn(className)}>
+      {/* @ts-ignore */}
       <Slider {...props} doAfterSlide={updateSlide} slide={actualSlide}>
         {items?.map((banner: any) => (
           <HeroBannerCard

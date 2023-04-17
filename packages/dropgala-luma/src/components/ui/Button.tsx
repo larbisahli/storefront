@@ -63,7 +63,6 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
       disabled={disabled}
       type={type}
       aria-label={type}
-      {...props}
     >
       {!loading && children}
       {loading && (
