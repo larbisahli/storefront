@@ -1,4 +1,4 @@
-import { StoreThemes } from '@dropgala/types/enums.type'
+import type { StoreThemes } from '@dropgala/types/enums.type'
 import { createSlice } from '@reduxjs/toolkit'
 
 import { AppState } from '../store'

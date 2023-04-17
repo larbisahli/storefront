@@ -1,4 +1,4 @@
-import { CounterSizes } from '@dropgala/types/props.type'
+import type { CounterSizes } from '@dropgala/types/props.type'
 import cn from 'clsx'
 import React from 'react'
 

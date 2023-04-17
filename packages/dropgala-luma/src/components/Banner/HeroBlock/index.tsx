@@ -1,4 +1,4 @@
-import { HeroBannerType } from '@dropgala/types/slider.type'
+import type { HeroBannerType } from '@dropgala/types/slider.type'
 import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import React, { memo, useState } from 'react'
@@ -8,7 +8,7 @@ import HeroBannerCard from './hero-banner-card'
 const Slider = dynamic(() => import('../../Slider'))
 
 interface Props {
-  heroBanners?: HeroBannerType[]
+  items?: HeroBannerType[]
   className?: string
   contentClassName?: string
 }
@@ -22,7 +22,7 @@ const createStyles = (isActive: boolean) => ({
 })
 
 const HeroSliderBlock: React.FC<Props> = ({
-  // heroBanners,
+  items = [],
   className = 'mb-7',
   contentClassName = 'py-24',
   ...props
@@ -33,31 +33,10 @@ const HeroSliderBlock: React.FC<Props> = ({
     setActualSlide(currentSlide)
   }
 
-  const heroBanners = [
-    {
-      thumbnail: { image: '/image.webp' },
-      description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia molestiae quas vel sint commodi repudiandae consequuntur',
-      btnLabel: 'See More',
-      title: 'Lorem ipsum dolor'
-    },
-    {
-      thumbnail: { image: '/image.webp' }
-    },
-    {
-      thumbnail: { image: '/image.webp' }
-    },
-    {
-      thumbnail: { image: '/image.webp' }
-    }
-  ]
-
-  console.log({ props })
-
   return (
     <div className={cn(className)}>
       <Slider {...props} doAfterSlide={updateSlide} slide={actualSlide}>
-        {heroBanners?.map((banner: any) => (
+        {items?.map((banner: any) => (
           <HeroBannerCard
             key={`banner--key${banner.id}`}
             banner={banner}
@@ -66,17 +45,18 @@ const HeroSliderBlock: React.FC<Props> = ({
         ))}
       </Slider>
       <div className="flex items-center justify-center">
-        {heroBanners.map((_, index) => {
-          return (
-            <button
-              key={index}
-              style={createStyles(index === actualSlide)}
-              onClick={() => updateSlide({ currentSlide: index })}
-            >
-              &bull;
-            </button>
-          )
-        })}
+        {items?.length > 1 &&
+          items.map((_, index) => {
+            return (
+              <button
+                key={index}
+                style={createStyles(index === actualSlide)}
+                onClick={() => updateSlide({ currentSlide: index })}
+              >
+                &bull;
+              </button>
+            )
+          })}
       </div>
     </div>
   )

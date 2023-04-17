@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import {
+import type {
   VariationOptionsType,
   variationsType
 } from '@dropgala/types/product.type'
@@ -66,7 +66,7 @@ function AttributeDisplay({
           }
         )}
         style={{
-          background: color
+          background: color ?? ''
         }}
         title={value}
       >

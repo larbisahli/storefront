@@ -43,6 +43,8 @@ const WidgetAbout: React.FC<AboutProps> = ({ social, className }) => {
               <Link href={item.path ? item.path : '/#'}>
                 <div>
                   <Image
+                    isCustomUrl
+                    placeholder='empty'
                     src={item.image}
                     alt={item.name}
                     height={item.height}

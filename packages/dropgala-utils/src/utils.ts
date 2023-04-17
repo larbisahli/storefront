@@ -37,12 +37,15 @@ Number.prototype.toCommas = function () {
 }
 
 export const mediaURL = PRODUCTION_ENV
-  ? 'https://api.dropgala.com/media'
+  ? 'https://api.dropgala.shop/media'
   : 'http://127.0.0.1:5000/media'
 
 export const apiURL = PRODUCTION_ENV
-  ? 'https://api.dropgala.com'
+  ? 'https://api.dropgala.shop'
   : 'http://127.0.0.1:5000'
+
+// eslint-disable-next-line no-unused-vars
+export function noop(_: any) {}
 
 // export const flattenArrayOfObjects = <T>(arr: T[]) => {
 //   const flatObject = {};

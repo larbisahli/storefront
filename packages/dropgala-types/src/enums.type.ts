@@ -3,9 +3,10 @@
 export enum ComponentNames {
   HEADER = 'Header',
   FOOTER = 'Footer',
-  SLIDER = 'Slider',
+  HERO_BANNER = 'HeroBanner',
   CART_DRAWER_VIEW = 'CartDrawerView',
-  MENU_DRAWER_VIEW = 'MenuDrawerView'
+  MENU_DRAWER_VIEW = 'MenuDrawerView',
+  HOMEPAGE_CATEGORIES = 'HomePageCategories'
 }
 
 export type StoreThemes = '@dropgala/luma'

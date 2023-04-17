@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { noop } from '@dropgala/utils/utils'
 import cn from 'clsx'
 import React, {
   Children,
@@ -12,8 +13,6 @@ import React, {
 import ArrowLeft from '../../assets/icons/chevron-left'
 import ArrowRight from '../../assets/icons/chevron-right'
 import slidy from './SliderUtils'
-
-function noop(_) {}
 
 export default function ReactCustomSlider({
   children,
@@ -64,7 +63,7 @@ export default function ReactCustomSlider({
         infiniteLoop,
         slidesDOMEl: slidesDOMEl.current,
         initialSlide: index,
-        items: items.length,
+        items: items?.length,
         onNext: (nextIndex: number) => {
           setIndex(nextIndex)
           nextIndex > maxIndex && setMaxIndex(nextIndex)
@@ -115,17 +114,19 @@ export default function ReactCustomSlider({
     items.length > numOfSlides && slideInstance.next(e)
 
   const renderLeftArrow = () => {
-    const disabled = index === 0 && !infiniteLoop
+    const hide = items.length === 1 || (index === 0 && !infiniteLoop)
+
+    if (hide) return null
 
     return (
       <button
         aria-label="Previous"
-        disabled={disabled}
         onClick={handlePrev}
         className={cn(
-          'items-center md:flex hidden mx-auto my-0 absolute transition-all w-auto z-[1]',
+          'items-center flex mx-auto absolute transition-all z-[1]',
           'bottom-0 left-0 top-[50%] translate-y-[-50%] hover:translate-x-[3px]',
-          'bg-gray-100 bg-opacity-30 cursor-pointer h-[20%] justify-center min-h-[56px] w-[40px]'
+          'bg-gray-100 bg-opacity-30 cursor-pointer justify-center',
+          'h-12 w-12 border border-gray-300'
         )}
       >
         <ArrowLeft width="1rem" height="1rem" />
@@ -133,19 +134,22 @@ export default function ReactCustomSlider({
     )
   }
   const renderRightArrow = () => {
-    const disabled =
-      (items.length <= numOfSlides || index === items.length - numOfSlides) &&
-      !infiniteLoop
+    const hide =
+      items.length === 1 ||
+      ((items.length <= numOfSlides || index === items.length - numOfSlides) &&
+        !infiniteLoop)
+
+    if (hide) return null
 
     return (
       <button
         aria-label="Next"
-        disabled={disabled}
-        onClick={!disabled ? handleNext : undefined}
+        onClick={handleNext}
         className={cn(
-          'items-center md:flex hidden mx-auto my-0 absolute transition-all w-auto z-[1]',
+          'items-center flex mx-auto absolute transition-all z-[1]',
           'bottom-0 right-0 top-[50%] translate-y-[-50%] hover:translate-x-[-3px]',
-          'bg-gray-100 bg-opacity-30 cursor-pointer h-[20%] justify-center min-h-[56px] w-[40px]'
+          'bg-gray-100 bg-opacity-30 cursor-pointer justify-center',
+          'h-12 w-12 border border-gray-300'
         )}
       >
         <ArrowRight width="1rem" height="1rem" />

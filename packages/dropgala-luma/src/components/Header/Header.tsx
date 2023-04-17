@@ -84,9 +84,10 @@ const Header: FC<any> = ({
           <div className="flex items-center bg-white h-60px">
             <Link href="/" className="flex justify-center lg:w-fit w-full">
               <Image
+                isCustomUrl
                 src="/assets/images/fixed_logo.webp"
-                width="180"
-                height="60"
+                width={180}
+                height={60}
                 alt="logo"
               />
             </Link>

@@ -5,8 +5,7 @@ import {
   HeroBannerPlaceholder,
   MenuDrawerPlaceholder
 } from '@components/placeholders'
-import { StoreThemes } from '@dropgala/types/enums.type'
-import { ComponentNames } from '@dropgala/types/enums.type'
+import type { ComponentNames, StoreThemes } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
 
@@ -34,8 +33,15 @@ const dynamicComponents = {
         ssr: false
       }
     ),
-    Slider: dynamic(
-      () => import('@dropgala/luma/components/banner/HeroBlock'),
+    HeroBanner: dynamic(
+      () => import('@dropgala/luma/components/Banner/HeroBlock'),
+      {
+        loading: () => <HeroBannerPlaceholder />,
+        ssr: false
+      }
+    ),
+    HomePageCategories: dynamic(
+      () => import('@dropgala/luma/components/HomepageCategories'),
       {
         loading: () => <HeroBannerPlaceholder />,
         ssr: false

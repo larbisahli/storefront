@@ -48,6 +48,8 @@ const Copyright: React.FC<CopyrightProps> = ({ payment }) => {
                     rel="noreferrer"
                   >
                     <Image
+                      isCustomUrl
+                      placeholder='empty'
                       src={item.image}
                       alt={t(item.name)}
                       height={item.height}

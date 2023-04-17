@@ -44,6 +44,7 @@ module.exports = {
       badge: '0px 0px 4px rgba(79, 95, 90, 0.04)',
       cardHover: '0px 0px 8px rgba(79, 95, 120, 0.2)',
       category: '0px 1px 6px rgba(79, 95, 120, 0.12)',
+      categoryCard: '0 0 8px 0px rgba(0, 0, 0, 0.2)',
       navigation: '0 3px 6px rgba(115, 125, 144, 0.25)',
       counter: '0px 4px 10px rgba(79, 95, 120, 0.15)',
       featured: '0px 4px 8px rgba(70, 84, 111, 0.06)',

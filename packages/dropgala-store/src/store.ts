@@ -1,5 +1,6 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 
+import BannerReducer from './Banner'
 import CartReducer from './Cart'
 import ConfigReducer from './Config'
 import DrawerReducer from './Drawer'
@@ -13,7 +14,8 @@ export function makeStore() {
       CartReducer,
       DrawerReducer,
       ConfigReducer,
-      MenuReducer
+      MenuReducer,
+      BannerReducer
       // ProductListReducer,
       // ProductListInfoReducer,
       // WishlistReducer,

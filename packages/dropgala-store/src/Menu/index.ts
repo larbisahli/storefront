@@ -1,4 +1,4 @@
-import { CategoryType } from '@dropgala/types/category.type'
+import type { CategoryType } from '@dropgala/types/category.type'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { AppState } from '../store'
