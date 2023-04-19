@@ -79,9 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     })
 
-    const { menu, heroSlider, error } = data ?? {}
-
-    console.log({ error })
+    const { menu, heroSlider } = data ?? {}
 
     return {
       props: {
@@ -97,7 +95,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
   } catch (error) {
-    console.log('error: --------------<>', error)
+    // @ts-ignore
+    const { graphQLErrors } = error
+    console.log('error: --------------<>', { graphQLErrors })
     return {
       notFound: true
     }
