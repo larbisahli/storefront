@@ -1,5 +1,5 @@
 import Layout from '@containers/layout'
-import { selectConfig, setHeroSlide, setMenu } from '@dropgala/store'
+import { selectConfig, setMenu } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types'
 import type { CategoryType } from '@dropgala/types/category.type'
 import { HeroBannerType } from '@dropgala/types/slider.type'
@@ -15,14 +15,18 @@ import { useEffect } from 'react'
 interface Props {
   menu: CategoryType[]
   heroSlider: HeroBannerType[]
+  host: { host: string; subdomain: string }
 }
 
-export default function Home({ menu, heroSlider = [] }: Props) {
+export default function Home({ host, menu, heroSlider = [] }: Props) {
   const dispatch = useAppDispatch()
   const { theme } = useAppSelector(selectConfig)
 
+  console.log({ host })
+
   useEffect(() => {
     dispatch(setMenu({ menu }))
+    // setWildcard(window.location.hostname.split(".")[0])
   }, [])
 
   return (
@@ -47,7 +51,7 @@ export default function Home({ menu, heroSlider = [] }: Props) {
         </section>
         {/* BESTSELLERS SECTION */}
         <section className="mb-5">
-          <div className='text-2xl font-semibold'>Best Sellers</div>
+          <div className="text-2xl font-semibold">Best Sellers</div>
         </section>
       </div>
     </Layout>
@@ -55,7 +59,11 @@ export default function Home({ menu, heroSlider = [] }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { locale } = context
+  const { req, locale } = context
+
+  // TODO: Create a global function
+  const host = req.headers.host ?? ''
+  const subdomain = req.headers.host?.split('.')[0]
 
   try {
     // fetch for client info
@@ -77,6 +85,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
       props: {
+        host: { host, subdomain },
         menu,
         heroSlider,
         ...(await serverSideTranslations(locale!, [
@@ -88,17 +97,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
   } catch (error) {
-    console.log('--------------<>', error)
+    console.log('error: --------------<>', error)
     return {
-      props: {
-        menu: [],
-        ...(await serverSideTranslations(locale!, [
-          'common',
-          'forms',
-          'menu',
-          'footer'
-        ]))
-      }
+      notFound: true
     }
   }
 }

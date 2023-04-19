@@ -49,7 +49,7 @@ const Copyright: React.FC<CopyrightProps> = ({ payment }) => {
                   >
                     <Image
                       isCustomUrl
-                      placeholder='empty'
+                      placeholder="empty"
                       src={item.image}
                       alt={t(item.name)}
                       height={item.height}

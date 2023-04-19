@@ -44,7 +44,7 @@ const WidgetAbout: React.FC<AboutProps> = ({ social, className }) => {
                 <div>
                   <Image
                     isCustomUrl
-                    placeholder='empty'
+                    placeholder="empty"
                     src={item.image}
                     alt={item.name}
                     height={item.height}

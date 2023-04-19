@@ -8,7 +8,7 @@ import { siteSettings } from '../../settings/site-settings'
 const Image = dynamic(() => import('next/image'))
 
 interface Props extends ImageProps {
-  customPlaceholder?: string;
+  customPlaceholder?: string
   placeholder?: ImageProps['placeholder']
   src: string
   isCustomUrl?: boolean
@@ -24,8 +24,9 @@ const ImageComponent = ({
   isCustomUrl = false,
   ...props
 }: Props) => {
-  const [Base64Placeholder, setBase64Placeholder] =
-    useState<string>(() => Base64Fallback)
+  const [Base64Placeholder, setBase64Placeholder] = useState<string>(
+    () => Base64Fallback
+  )
   const [srcImage, setSrc] = useState(() => src)
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const ImageComponent = ({
     }
   }, [src])
 
-  console.log({placeholder, Base64Placeholder})
+  console.log({ placeholder, Base64Placeholder })
 
   /**
    * Convert Placeholder image url to base64
@@ -50,7 +51,9 @@ const ImageComponent = ({
           reader.readAsDataURL(blob)
           reader.onloadend = () => {
             const base64data = reader.result as string
-            return resolve(base64data?.replace("application/octet-stream", "image/png"))
+            return resolve(
+              base64data?.replace('application/octet-stream', 'image/png')
+            )
           }
         })
           .then((res: string) => {
@@ -72,7 +75,7 @@ const ImageComponent = ({
   console.log(Base64Placeholder)
 
   return (
-      <Image
+    <Image
       src={isCustomUrl ? srcImage : `${mediaURL}/${srcImage}`}
       blurDataURL={Base64Placeholder}
       placeholder={placeholder}

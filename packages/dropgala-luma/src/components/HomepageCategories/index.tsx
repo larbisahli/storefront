@@ -14,7 +14,12 @@ const HomePageCategories: React.FC<Props> = ({
   className = ''
 }) => {
   return (
-    <div className={cn('max-w-screen-xl xxl:max-w-screen-xxl mx-auto xl:px-0',className)}>
+    <div
+      className={cn(
+        'max-w-screen-xl xxl:max-w-screen-xxl mx-auto xl:px-0',
+        className
+      )}
+    >
       <div className="flex items-center lg:flex-row flex-col flex-wrap px-5 lg:px-0">
         {categories?.map((category) => {
           return <CategoryCard key={category.id} category={category} />

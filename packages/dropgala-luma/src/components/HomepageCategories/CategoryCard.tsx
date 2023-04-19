@@ -20,7 +20,7 @@ const CategoryCard: React.FC<Props> = ({ category }: Props) => {
       className="bg-gray-200 w-full lg:w-[150px] h-[160px] lg:h-[200px] mt-5 lg:mr-5 p-3 hover:shadow-categoryCard"
     >
       <figure className="flex flex-row-reverse lg:flex-col items-center justify-between w-full h-full">
-        <div className='w-[120px] h-[120px]'>
+        <div className="w-[120px] h-[120px]">
           <Image
             src={image}
             customPlaceholder={placeholder}

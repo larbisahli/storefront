@@ -278,10 +278,18 @@ export default function slidy(containerDOMEl: any, options: Options) {
     _translate(slideSpeed, ease)
 
     // execute the callback from the options after sliding
-    slidesDOMEl.addEventListener(TRANSITION_END, function cb(e: { currentTarget: { removeEventListener: (arg0: any, arg1: (e: any) => void) => void }; type: any }) {
-      doAfterSlide({ currentSlide: index })
-      e.currentTarget.removeEventListener(e.type, cb)
-    })
+    slidesDOMEl.addEventListener(
+      TRANSITION_END,
+      function cb(e: {
+        currentTarget: {
+          removeEventListener: (arg0: any, arg1: (e: any) => void) => void
+        }
+        type: any
+      }) {
+        doAfterSlide({ currentSlide: index })
+        e.currentTarget.removeEventListener(e.type, cb)
+      }
+    )
   }
 
   /**
