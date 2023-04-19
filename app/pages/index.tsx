@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   // TODO: Create a global function
   const host = req.headers.host ?? ''
-  const subdomain = req.headers.host?.split('.')[0]
+  const alias = req.headers.host?.split('.')[0]
 
   try {
     // fetch for client info
@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       query: HOMEPAGE_QUERY,
       fetchPolicy: 'no-cache',
       variables: {
-        alias: 'store'
+        alias
       }
     })
 
@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
       props: {
-        host: { host, subdomain },
+        host: { host, alias },
         menu,
         heroSlider,
         ...(await serverSideTranslations(locale!, [
