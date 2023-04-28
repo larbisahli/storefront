@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf .next && rm -rf .turbo"
+    "clean": "rm -rf .next && rm -rf .turbo",
+    "generate-proto-types": "npx rimraf proto/generated && $(npm bin)/proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=proto/generated proto/*.proto"
   },
   "dependencies": {
     "@apollo/client": "^3.7.11",
@@ -28,7 +29,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
-    "react-redux": "^8.0.5"
+    "react-redux": "^8.0.5",
+    "@grpc/grpc-js": "^1.8.14",
+    "@grpc/proto-loader": "^0.7.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package photoPackage;
+
+message Image {
+    uint32 id = 1;
+    string image = 2;
+    string placeholer = 3;
+}

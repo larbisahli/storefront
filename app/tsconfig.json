@@ -24,7 +24,9 @@
       "@styles/*": ["styles/*"],
       "@hooks/*": ["hooks/*"],
       "@hooks": ["hooks/index"],
-      "@assets": ["assets/index"]
+      "@assets": ["assets/index"],
+      "@proto/*": ["proto/*"],
+      "@service/*": ["service/*"]
     },
     "incremental": true
   },

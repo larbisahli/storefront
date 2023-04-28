@@ -4,13 +4,13 @@ import { ComponentNames } from '@dropgala/types'
 import type { CategoryType } from '@dropgala/types/category.type'
 import { HeroBannerType } from '@dropgala/types/slider.type'
 import { useAppDispatch, useAppSelector } from '@hooks/use-store'
-import apolloClient from '@lib/apollo-client'
 import { renderComponent } from '@lib/packages'
-import { HOMEPAGE_QUERY } from 'graphql/HomePage'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect } from 'react'
+import CategoryService from '@service/category.service';
+import SlideService from '@service/slide.service'
 
 interface Props {
   menu: CategoryType[]
@@ -22,7 +22,7 @@ export default function Home({ host, menu, heroSlider = [] }: Props) {
   const dispatch = useAppDispatch()
   const { theme } = useAppSelector(selectConfig)
 
-  console.log({ host })
+  console.log({ host, menu, heroSlider })
 
   useEffect(() => {
     dispatch(setMenu({ menu }))
@@ -66,26 +66,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const alias = req.headers.host?.split('.')[0]
 
   try {
-    // fetch for client info
-    const { data } = await apolloClient.query<{
-      menu: CategoryType[]
-      heroSlider: HeroBannerType[]
-      error: any
-    }>({
-      query: HOMEPAGE_QUERY,
-      fetchPolicy: 'no-cache',
-      variables: {
-        alias
-      }
-    })
+    // -----------<RPC>--------------
+    const categoryService = new CategoryService();
+    const slideService = new SlideService()
+    const { sliders = [], error: slideError } = await slideService.getHeroSlide('store')
+    const { menu = [], error: menuError } = await categoryService.getMenu('store')
 
-    const { menu, heroSlider } = data ?? {}
+    console.log('looooooooooooooool', {sliders, menu, menuError,slideError: slideError})
+
+    if(slideError | menuError){
+      throw {slideError, menuError}
+    }
 
     return {
       props: {
         host: { host, alias },
         menu,
-        heroSlider,
+        heroSlider: sliders,
         ...(await serverSideTranslations(locale!, [
           'common',
           'forms',
@@ -95,9 +92,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
   } catch (error) {
-    // @ts-ignore
-    const { graphQLErrors } = error
-    console.log('error: --------------<>', { graphQLErrors })
+    console.log('error: --------------<>', { error })
     return {
       notFound: true
     }

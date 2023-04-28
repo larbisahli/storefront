@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package bannerPackage;
+
+import "google/protobuf/timestamp.proto";
+import "user.proto";
+import "photo.proto";
+
+message HeroBannerStyle {
+    string align = 1;
+    string textColor = 2;
+    string btnBgc = 3;
+    string btnTextColor = 4;
+}
+
+message StoreHeroBanner {
+  required uint32 id = 1;
+  string destinationUrl = 2;
+  string title = 3;
+  string description = 4;
+  repeated Image thumbnail = 5;
+  bool published = 6;
+  string btnLabel = 7;
+  HeroBannerStyle styles = 8;
+  uint32 position = 9;
+}
+
+
+message HeroBannerRequest {
+    required string jwtToken = 1; // Payload { alias: string }
+  }
+
+message HeroBannerResponse {
+    repeated StoreHeroBanner sliders = 1;
+  }

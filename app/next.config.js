@@ -17,7 +17,7 @@ module.exports = {
   images: {
     deviceSizes: [320, 420, 768, 1024, 1200],
     // iconSizes: [],
-    domains: ['127.0.0.1', 'dropgala.com', 'media.dropgala.shop'],
+    domains: ['127.0.0.1', 'dropgala.com', 'media.dropgala.com', 'api.dropgala.com'],
     path: '/_next/image',
     loader: 'default'
   }

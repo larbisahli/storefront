@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ServiceRoutes;
+
+import "./category.proto";
+import "./banner.proto";
+
+service CategoryServiceRoutes {
+  rpc getStoreMenu(MenuRequest) returns (MenuResponse);
+}
+
+service SliderServiceRoutes {
+  rpc getStoreHeroBanner(HeroBannerRequest) returns (HeroBannerResponse);
+}

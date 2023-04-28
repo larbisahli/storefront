@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package categoryPackage;
+
+import "google/protobuf/timestamp.proto";
+import "photo.proto";
+
+/*
+  * Note that when a message contains a field of its own message type,
+  * it is important to use a "lazy" option in children when generating code for that message.
+*/
+
+message Menu {
+    uint32 id = 1;
+    string name = 2;
+    uint32 parentId = 3;
+    string description = 4;
+    repeated Image thumbnail = 5;
+    uint32 position = 6;
+    repeated Menu children = 7 [lazy = true];
+}
+
+
+message MenuRequest {
+  required string jwtToken = 1; // Payload { alias: string }
+}
+
+message MenuResponse {
+  repeated Menu menu = 1;
+}

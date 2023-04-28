@@ -40,5 +40,6 @@ module.exports = {
         aspects: ['invalidHref', 'preferButton']
       }
     ]
-  }
+  },
+  eslintIgnore: ["src/proto/generated/**/*.ts", "proto/generated/**/*.ts"]
 }
