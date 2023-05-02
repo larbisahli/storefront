@@ -40,7 +40,7 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
   }
 
   return (
-    <div className="overflow-auto">
+    <div className="overflow-auto text-sm">
       {hasChildren ? (
         <div
           className="my-1 flex items-center justify-between"
@@ -50,9 +50,8 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
           onKeyDown={handleKeyEnter}
         >
           <div
-            className={cn('px-3 py-2 text-base', {
-              'text-sm text-gray-800': level === 3,
-              'px-2 py-0': level === 3
+            className={cn('px-3 py-2 font-semibold', {
+              'text-gray-800 px-2 py-0': level === 3
             })}
           >
             {name}
@@ -64,9 +63,8 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
       ) : (
         <Link href={'/'} className="my-1 flex items-center justify-between">
           <div
-            className={cn('px-3 py-2 text-base', {
-              'text-base text-gray-800': level === 3,
-              'px-2 py-1': level === 3
+            className={cn('px-3 py-2 font-semibold', {
+              'text-gray-800 font-normal px-2 py-0': level === 3
             })}
           >
             {name}
@@ -77,9 +75,8 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
         {hasChildren && openSubMenuId === id && (
           <Link href={'/'}>
             <div
-              className={cn('px-3 py-2 text-base', {
-                'text-base text-gray-800': level === 2,
-                'px-2 py-1': level === 2
+              className={cn('px-3 py-2 font-semibold', {
+                'text-gray-800 font-normal px-2 py-0': level === 2
               })}
             >{`All ${name}`}</div>
           </Link>

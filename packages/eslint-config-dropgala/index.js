@@ -41,5 +41,5 @@ module.exports = {
       }
     ]
   },
-  eslintIgnore: ["src/proto/generated/**/*.ts", "proto/generated/**/*.ts"]
+  eslintIgnore: ['src/proto/generated/**/*.ts', 'proto/generated/**/*.ts']
 }

@@ -27,7 +27,7 @@ const MenuDropDownComponent = ({ menu, selectedFirstLevelCategory }: Props) => {
             <div key={id} className="text-black text-sm flex flex-col">
               <Link
                 href="/"
-                className="font-medium pb-1 hover:text-red-500 w-fit"
+                className="font-semibold pb-1 hover:text-red-500 w-fit"
               >
                 {name}
               </Link>

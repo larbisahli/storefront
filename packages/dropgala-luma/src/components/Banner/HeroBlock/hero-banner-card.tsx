@@ -51,7 +51,7 @@ const HeroBannerCard: FC<BannerProps> = ({
         <Image
           src={image}
           customPlaceholder={placeholder}
-          layout='fill'
+          layout="fill"
           alt=""
           className="object-cover"
         />

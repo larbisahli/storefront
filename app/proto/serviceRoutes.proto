@@ -3,7 +3,7 @@ syntax = "proto3";
 package ServiceRoutes;
 
 import "./category.proto";
-import "./banner.proto";
+import "./slide.proto";
 
 service CategoryServiceRoutes {
   rpc getStoreMenu(MenuRequest) returns (MenuResponse);

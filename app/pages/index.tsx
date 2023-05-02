@@ -9,8 +9,9 @@ import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect } from 'react'
-import CategoryService from '@service/category.service';
-import SlideService from '@service/slide.service'
+import CategoryService from '@gRPC/service/category.service'
+import SlideService from '@gRPC/service/slide.service'
+import { getHost } from 'utils'
 
 interface Props {
   menu: CategoryType[]
@@ -61,21 +62,22 @@ export default function Home({ host, menu, heroSlider = [] }: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, locale } = context
 
-  // TODO: Create a global function
-  const host = req.headers.host ?? ''
-  const alias = req.headers.host?.split('.')[0]
+  const { host, alias } = getHost(req)
 
   try {
     // -----------<RPC>--------------
-    const categoryService = new CategoryService();
+    const categoryService = new CategoryService()
     const slideService = new SlideService()
-    const { sliders = [], error: slideError } = await slideService.getHeroSlide('store')
-    const { menu = [], error: menuError } = await categoryService.getMenu('store')
 
-    console.log('looooooooooooooool', {sliders, menu, menuError,slideError: slideError})
+    const { sliders = [], error: slideError } = await slideService.getHeroSlide(
+      'store'
+    )
+    const { menu = [], error: menuError } = await categoryService.getMenu(
+      'store'
+    )
 
-    if(slideError | menuError){
-      throw {slideError, menuError}
+    if (slideError | menuError) {
+      throw { slideError, menuError }
     }
 
     return {

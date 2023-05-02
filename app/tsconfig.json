@@ -26,7 +26,8 @@
       "@hooks": ["hooks/index"],
       "@assets": ["assets/index"],
       "@proto/*": ["proto/*"],
-      "@service/*": ["service/*"]
+      "@gRPC/*": ["gRPC/*"],
+      "@gRPC": ["gRPC/index"]
     },
     "incremental": true
   },

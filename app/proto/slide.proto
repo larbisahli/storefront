@@ -1,9 +1,8 @@
 syntax = "proto3";
 
-package bannerPackage;
+package slidePackage;
 
 import "google/protobuf/timestamp.proto";
-import "user.proto";
 import "photo.proto";
 
 message HeroBannerStyle {

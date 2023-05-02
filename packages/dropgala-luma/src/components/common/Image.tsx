@@ -51,7 +51,7 @@ const ImageComponent = ({
           reader.readAsDataURL(blob)
           reader.onloadend = () => {
             const base64data = reader.result as string
-            console.log({base64data})
+            console.log({ base64data })
             return resolve(base64data)
           }
         })

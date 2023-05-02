@@ -9,7 +9,18 @@ type SubtypeConstructor<
 }
 
 export interface ProtoGrpcType {
+  google: {
+    protobuf: {
+      Timestamp: MessageTypeDefinition
+    }
+  }
   photoPackage: {
     Image: MessageTypeDefinition
+  }
+  slidePackage: {
+    HeroBannerRequest: MessageTypeDefinition
+    HeroBannerResponse: MessageTypeDefinition
+    HeroBannerStyle: MessageTypeDefinition
+    StoreHeroBanner: MessageTypeDefinition
   }
 }

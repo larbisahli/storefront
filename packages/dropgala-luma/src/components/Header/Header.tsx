@@ -82,15 +82,16 @@ const Header: FC<any> = ({
           <InfoSection email="info@dropgala.com" phone="+212 619080913" />
           {/* Nav */}
           <div className="flex items-center bg-white h-60px">
-            <Link href="/" className="flex justify-center lg:w-fit w-full">
-              <Image
-                isCustomUrl
-                src="/assets/images/fixed_logo.webp"
-                width={180}
-                height={60}
-                alt="logo"
-              />
-            </Link>
+            <div className="relative flex justify-center overflow-hidden w-[180px] h-[50px]">
+              <Link href="/">
+                <Image
+                  isCustomUrl
+                  src="/assets/images/fixed_logo.webp"
+                  layout="fill"
+                  alt="logo"
+                />
+              </Link>
+            </div>
             <div className="hidden lg:block flex-1 max-w-[500px] m-auto">
               {/* Search field */}
               <SearchSection />
@@ -107,7 +108,7 @@ const Header: FC<any> = ({
                   href="/"
                   onMouseEnter={() => handleFirstLevelCategoryEnter(id)}
                   onMouseLeave={handleFirstLevelCategoryLeave}
-                  className="text-black uppercase font-medium text-sm hover:text-red-600 p-4 pb-3 pl-0"
+                  className="text-black uppercase font-semibold text-sm hover:text-red-600 p-4 pb-3 pl-0"
                 >
                   {name}
                 </Link>

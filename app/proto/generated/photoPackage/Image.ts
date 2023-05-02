@@ -1,19 +1,13 @@
-// Original file: proto/photo.proto
-
-import type { Timestamp as _google_protobuf_Timestamp, Timestamp__Output as _google_protobuf_Timestamp__Output } from '../google/protobuf/Timestamp';
+// Original file: app/proto/photo.proto
 
 export interface Image {
-  'id'?: (number);
-  'image'?: (string);
-  'placeholer'?: (string);
-  'size'?: (number);
-  'createdAt'?: (_google_protobuf_Timestamp | null);
+  id?: number
+  image?: string
+  placeholder?: string
 }
 
 export interface Image__Output {
-  'id': (number);
-  'image': (string);
-  'placeholer': (string);
-  'size': (number);
-  'createdAt': (_google_protobuf_Timestamp__Output | null);
+  id: number
+  image: string
+  placeholder: string
 }

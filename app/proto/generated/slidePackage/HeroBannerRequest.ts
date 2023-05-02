@@ -1,10 +1,9 @@
-// Original file: proto/banner.proto
-
+// Original file: app/proto/slide.proto
 
 export interface HeroBannerRequest {
-  'jwtToken'?: (string);
+  jwtToken?: string
 }
 
 export interface HeroBannerRequest__Output {
-  'jwtToken': (string);
+  jwtToken: string
 }

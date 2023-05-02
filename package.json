@@ -16,12 +16,15 @@
     "format": "prettier --write .",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo run build --filter=app... && changeset publish"
+    "release": "turbo run build --filter=app... && changeset publish",
+    "generate-proto-types": "npx rimraf app/proto/generated && $(npm bin)/proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=app/proto/generated app/proto/*.proto"
   },
   "devDependencies": {
     "@changesets/cli": "^2.23.0",
+    "@grpc/proto-loader": "^0.7.6",
     "@types/node": "^17.0.14",
     "prettier": "^2.6.2",
+    "rimraf": "^5.0.0",
     "turbo": "latest"
   },
   "packageManager": "pnpm@7.15.0"

@@ -1,12 +1,11 @@
-// Original file: proto/user.proto
-
+// Original file: app/proto/user.proto
 
 export interface User {
-  'id'?: (string);
-  'active'?: (boolean);
+  id?: string
+  active?: boolean
 }
 
 export interface User__Output {
-  'id': (string);
-  'active': (boolean);
+  id: string
+  active: boolean
 }
