@@ -7,7 +7,7 @@ import {
   toggleCart
 } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types/enums.type'
-import { useAppDispatch, useAppSelector } from '@hooks/use-store'
+import { useAppDispatch, useAppSelector } from '@hooks/useStore'
 import { renderComponent } from '@lib/packages'
 import cn from 'clsx'
 import React from 'react'

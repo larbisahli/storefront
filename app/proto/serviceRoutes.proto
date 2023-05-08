@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ServiceRoutes;
 
+import "./product.proto";
 import "./category.proto";
 import "./slide.proto";
 
@@ -11,4 +12,8 @@ service CategoryServiceRoutes {
 
 service SliderServiceRoutes {
   rpc getStoreHeroBanner(HeroBannerRequest) returns (HeroBannerResponse);
+}
+
+service ProductServiceRoutes {
+  rpc getPopularProducts(PopularProductsRequest) returns (PopularProductsResponse);
 }

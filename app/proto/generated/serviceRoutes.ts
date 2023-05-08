@@ -6,6 +6,10 @@ import type {
   CategoryServiceRoutesDefinition as _ServiceRoutes_CategoryServiceRoutesDefinition
 } from './ServiceRoutes/CategoryServiceRoutes'
 import type {
+  ProductServiceRoutesClient as _ServiceRoutes_ProductServiceRoutesClient,
+  ProductServiceRoutesDefinition as _ServiceRoutes_ProductServiceRoutesDefinition
+} from './ServiceRoutes/ProductServiceRoutes'
+import type {
   SliderServiceRoutesClient as _ServiceRoutes_SliderServiceRoutesClient,
   SliderServiceRoutesDefinition as _ServiceRoutes_SliderServiceRoutesDefinition
 } from './ServiceRoutes/SliderServiceRoutes'
@@ -23,6 +27,10 @@ export interface ProtoGrpcType {
       typeof grpc.Client,
       _ServiceRoutes_CategoryServiceRoutesClient
     > & { service: _ServiceRoutes_CategoryServiceRoutesDefinition }
+    ProductServiceRoutes: SubtypeConstructor<
+      typeof grpc.Client,
+      _ServiceRoutes_ProductServiceRoutesClient
+    > & { service: _ServiceRoutes_ProductServiceRoutesDefinition }
     SliderServiceRoutes: SubtypeConstructor<
       typeof grpc.Client,
       _ServiceRoutes_SliderServiceRoutesClient
@@ -40,6 +48,12 @@ export interface ProtoGrpcType {
   }
   photoPackage: {
     Image: MessageTypeDefinition
+  }
+  productPackage: {
+    PopularProductsRequest: MessageTypeDefinition
+    PopularProductsResponse: MessageTypeDefinition
+    Product: MessageTypeDefinition
+    ProductType: MessageTypeDefinition
   }
   slidePackage: {
     HeroBannerRequest: MessageTypeDefinition

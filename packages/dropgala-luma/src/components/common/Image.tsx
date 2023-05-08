@@ -1,9 +1,9 @@
 import { mediaURL } from '@dropgala/utils/utils'
 import dynamic from 'next/dynamic'
-import type { ImageProps } from 'next/legacy/image'
 import React, { memo, useEffect, useState } from 'react'
 
 import { siteSettings } from '../../settings/site-settings'
+import type { ImageProps } from 'next/dist/client/legacy/image'
 
 const Image = dynamic(() => import('next/legacy/image'))
 
@@ -35,8 +35,6 @@ const ImageComponent = ({
     }
   }, [src])
 
-  console.log({ customPlaceholder, placeholder, Base64Placeholder })
-
   /**
    * Convert Placeholder image url to base64
    */
@@ -51,7 +49,6 @@ const ImageComponent = ({
           reader.readAsDataURL(blob)
           reader.onloadend = () => {
             const base64data = reader.result as string
-            console.log({ base64data })
             return resolve(base64data)
           }
         })
@@ -70,8 +67,6 @@ const ImageComponent = ({
       toBase64()
     }
   }, [customPlaceholder])
-
-  console.log(Base64Placeholder)
 
   return (
     <Image

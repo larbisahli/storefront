@@ -23,7 +23,7 @@ interface Props {
   host: { host: string; subdomain: string }
 }
 
-export default function Home({
+export default function ProductPage({
   host,
   menu,
   heroSlider = [],

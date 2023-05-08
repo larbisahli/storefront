@@ -1,14 +1,7 @@
+import Header from '@components/Header'
 import CartDrawer from '@components/drawer/CartDrawer'
 import MenuDrawer from '@components/drawer/MenuDrawer'
-import {
-  selectConfig,
-  selectMenu,
-  toggleCart,
-  toggleMenu
-} from '@dropgala/store'
-import { ComponentNames } from '@dropgala/types/enums.type'
-import { useAppDispatch, useAppSelector } from '@hooks/use-store'
-import { renderComponent } from '@lib/packages'
+import Footer from '@dropgala/luma/components/Footer'
 import cn from 'clsx'
 import { Lato } from 'next/font/google'
 import React from 'react'
@@ -26,19 +19,6 @@ const inter = Lato({
 })
 
 const Layout = ({ children, className }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
-  const { menu } = useAppSelector(selectMenu)
-
-  const dispatch = useAppDispatch()
-
-  const handleCart = () => {
-    dispatch(toggleCart())
-  }
-
-  const handleMenu = () => {
-    dispatch(toggleMenu())
-  }
-
   return (
     <div
       className={cn(
@@ -48,11 +28,7 @@ const Layout = ({ children, className }: Props) => {
         'relative'
       )}
     >
-      {renderComponent(theme, ComponentNames.HEADER, {
-        handleCart,
-        handleMenu,
-        menu
-      })}
+      <Header />
       <CartDrawer />
       <MenuDrawer />
       <main
@@ -67,7 +43,7 @@ const Layout = ({ children, className }: Props) => {
           <div className="mt-[110px] lg:mt-[190px] flex-auto">{children}</div>
         </div>
       </main>
-      {renderComponent(theme, ComponentNames.FOOTER, {})}
+      <Footer />
     </div>
   )
 }

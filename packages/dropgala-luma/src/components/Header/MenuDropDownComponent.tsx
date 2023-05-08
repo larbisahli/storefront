@@ -11,7 +11,7 @@ interface Props {
 
 const MenuDropDownComponent = ({ menu, selectedFirstLevelCategory }: Props) => {
   const secondLevelCategories = useMemo(() => {
-    return menu.find((menu) => menu.id === selectedFirstLevelCategory)
+    return menu?.find((menu) => menu.id === selectedFirstLevelCategory)
       ?.children as CategoryType[]
   }, [selectedFirstLevelCategory, menu])
 

@@ -6,9 +6,10 @@ import UserIcon from '../../assets/icons/user'
 
 interface Props {
   handleCart: () => void
+  itemsCount: number
 }
 
-const MyAccountActions = ({ handleCart }: Props) => {
+const MyAccountActions = ({ handleCart, itemsCount }: Props) => {
   return (
     <div className="hidden lg:flex items-center">
       <button className="mx-2 text-black">
@@ -23,14 +24,14 @@ const MyAccountActions = ({ handleCart }: Props) => {
         aria-label="cart-button"
       >
         <CartIcon width="22px" height="22px" />
-        <span
+        <div
           className={cn(
-            'absolute bg-red-600 rounded-full h-[16px] w-[16px] text-center text-white',
-            'top-[-10px] right-[-12px] font-semibold text-xs'
+            'absolute bg-red-700 rounded-full h-[17px] w-[17px] text-center text-white',
+            'top-[-10px] right-[-12px] font-semibold text-xs flex items-center justify-center'
           )}
         >
-          {3}
-        </span>
+          <span>{itemsCount}</span>
+        </div>
       </button>
     </div>
   )

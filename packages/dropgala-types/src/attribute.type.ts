@@ -1,14 +1,14 @@
 import { Nullable, Scalars } from './custom.type'
 
 export interface AttributeValueType {
-  id?: Scalars['ID']
-  attributeId?: Scalars['ID']
+  id?: number
+  attributeId?: number
   value?: Scalars['String']
   color?: Nullable<Scalars['String']>
 }
 
 export interface AttributeType {
-  id?: Scalars['ID']
+  id?: number
   name?: Scalars['String']
   values?: AttributeValueType[] | []
 }

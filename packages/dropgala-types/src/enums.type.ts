@@ -6,7 +6,8 @@ export enum ComponentNames {
   HERO_BANNER = 'HeroBanner',
   CART_DRAWER_VIEW = 'CartDrawerView',
   MENU_DRAWER_VIEW = 'MenuDrawerView',
-  HOMEPAGE_CATEGORIES = 'HomePageCategories'
+  HOMEPAGE_CATEGORIES = 'HomePageCategories',
+  PRODUCT_CARD = 'ProductCard'
 }
 
 export type StoreThemes = '@dropgala/luma'

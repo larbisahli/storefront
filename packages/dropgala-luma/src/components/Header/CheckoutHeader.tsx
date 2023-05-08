@@ -1,7 +1,7 @@
 // import ArrowRightFilled from '@assets/icons/fiiled-right-arrow';
 // import SecureLock from '@assets/icons/secure-lock';
 // import { useStorage } from '@hooks/use-storage';
-// import { useAppDispatch, useAppSelector } from '@hooks/use-store';
+// import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 // import { ProductType } from '@interfaces/index';
 // import { rehydrate } from '@store/card/index';
 // import Logo from 'assets/icons/logo';

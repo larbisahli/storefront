@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package productPackage;
+
+import "photo.proto";
+
+message ProductType {
+  string id = 1;
+}
+
+message Product {
+    uint32 id = 1;
+    string name = 2;
+    string sku = 3;
+    string slug = 4;
+    ProductType type = 5;
+    string description = 6;
+    repeated Image thumbnail = 7;
+    bool inStock = 8;
+    uint32 salePrice = 9;
+    uint32 comparePrice = 10;
+    uint32 quantity = 11;
+    bool disableOutOfStock = 12;
+}
+
+message PopularProductsRequest {
+  required string jwtToken = 1; // Payload { alias: string }
+}
+
+message PopularProductsResponse {
+  repeated Product products = 1;
+}

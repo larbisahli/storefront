@@ -33,7 +33,7 @@ const Counter: React.FC<CounterProps> = ({
 }) => {
   const btnClassName = cn(
     'text-skin-base rounded-full bg-gray-200 transition border border-solid',
-    'border-gray-300 shadow-current duration-300 hover:bg-gray-400 focus:outline-none',
+    'border-gray-400 shadow-current duration-300 hover:bg-gray-400 focus:outline-none',
     'w-30px h-30px',
     { 'w-60px h-60px': size === 'big' }
   )
@@ -42,7 +42,7 @@ const Counter: React.FC<CounterProps> = ({
     <div
       className={cn(
         'group flex items-center justify-between',
-        'flex-shrink-0 rounded overflow-hidden shadow-floatingUp',
+        'flex-shrink-0 rounded overflow-hidden',
         'h-30px',
         className,
         CounterSize[size],

@@ -21,12 +21,14 @@ export interface HeaderProps {
    */
   handleMenu: () => void
   handleCart: () => void
+  itemsCount: number
   menu?: CategoryType[]
 }
 
 const Header: FC<any> = ({
   handleMenu,
   handleCart,
+  itemsCount,
   menu = []
 }: HeaderProps) => {
   const router = useRouter()
@@ -97,7 +99,7 @@ const Header: FC<any> = ({
               <SearchSection />
             </div>
             {/* Icons account actions */}
-            <MyAccountActions handleCart={handleCart} />
+            <MyAccountActions handleCart={handleCart} itemsCount={itemsCount} />
           </div>
           {/* Menu Section */}
           <div className="hidden lg:flex items-center justify-center">

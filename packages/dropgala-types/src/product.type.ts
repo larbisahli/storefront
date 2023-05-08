@@ -1,3 +1,4 @@
+import { CouponType } from 'coupon.type'
 import { AttributeType, AttributeValueType } from './attribute.type'
 import { CategoryType } from './category.type'
 import { ImageType } from './common.type'
@@ -6,8 +7,8 @@ import { ProductTypes } from './enums.type'
 import { TagType } from './tag.type'
 
 export interface VariationOptionsType {
-  id: Scalars['ID']
-  productId?: Scalars['ID']
+  id: number
+  productId?: number
   title: Scalars['String']
   isDisable: Scalars['Boolean']
   active: boolean
@@ -22,8 +23,7 @@ export interface VariationOptionsType {
 }
 
 export interface ProductType {
-  id?: Scalars['ID']
-  key?: Scalars['ID'] // for cart item
+  id?: number
   slug?: Scalars['String']
   name?: Scalars['String']
   sku?: Nullable<Scalars['String']>
@@ -41,7 +41,7 @@ export interface ProductType {
   status?: 'draft' | 'publish'
   disableOutOfStock?: Scalars['Boolean']
   note?: Nullable<Scalars['String']>
-  thumbnail?: ImageType
+  thumbnail?: ImageType[]
   gallery?: ImageType[]
   categories?: Array<CategoryType>
   tags?: Nullable<Array<Nullable<TagType>>>
@@ -56,4 +56,17 @@ export interface variationsType {
   attribute: AttributeType
   values?: Array<Nullable<AttributeValueType>>
   value?: Nullable<AttributeValueType>
+}
+
+export type CartItemType = ProductType & {
+  // [key: string]: any;
+  // Order properties for the cart functionality
+  key?: Scalars['ID']
+  orderQuantity: number
+  orderVariationOption: VariationOptionsType | undefined
+}
+
+export interface CartState {
+  items: CartItemType[]
+  coupon: CouponType
 }

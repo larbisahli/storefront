@@ -2,37 +2,38 @@ import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React from 'react'
-
-// import { slideCart } from '@store/drawer/index'
-import ArrowLeft from '../../../assets/icons/arrow-left'
-// import {
-//   useAppDispatch,
-//   useAppSelector,
-//   useCartItemsCount,
-//   UseCartItemsTotalPrice
-// } from '@hooks/use-store'
 import { siteSettings } from '../../../settings/site-settings'
 import Button from '../../ui/Button'
-// import CartItem from './CartItem'
+import CartItem from './CartItem'
 import EmptyCart from './EmptyCart'
+import { CartItemType, CartState } from '@dropgala/types/product.type'
+import { UseCartItemsTotalPrice } from '../../../hooks/useCartItemsTotalPrice'
+import { useCartItemsCount } from '../../../hooks/useCartItemsCount'
 
 const Link = dynamic(() => import('../../ui/Link'))
 const Scrollbar = dynamic(() => import('../../common/Scrollbar'))
 
-function CartDrawerView() {
+interface Props {
+  cart: CartState
+  itemsCount: number
+  incrementItem: (item: CartItemType) => void
+  decrementItem: (item: CartItemType) => void
+  handleCloseCart: () => void
+}
+
+function CartDrawerView({
+  cart,
+  incrementItem,
+  decrementItem,
+  handleCloseCart
+}: Props) {
   const router = useRouter()
   const { locale = '' } = router
 
-  // @ts-ignore
-  const items = [] //useAppSelector((state) => state.cart.items)
-  // const dispatch = useAppDispatch()
+  const { items = [] } = cart
 
-  const calculatePrice = 0 //UseCartItemsTotalPrice()
-  const itemsCount = 0 //useCartItemsCount()
-
-  const hideCart = () => {
-    // dispatch(slideCart(false))
-  }
+  const calculatePrice = UseCartItemsTotalPrice(cart)
+  const itemsCount = useCartItemsCount(cart)
 
   const totalPrice = usePrice({
     amount: calculatePrice,
@@ -46,22 +47,20 @@ function CartDrawerView() {
     }
     return (
       <>
-        <div className="w-full flex justify-center relative px-30px py-20px border-b border-gray-200">
-          <button
-            className="w-auto h-10 flex items-center justify-center text-gray-500 absolute top-half -mt-20px left-30px transition duration-300 focus:outline-none hover:text-gray-900"
-            onClick={hideCart}
-            aria-label="close"
-          >
-            <ArrowLeft />
-          </button>
-
+        <div className="w-full flex absolute justify-center top-0 z-[-1] px-30px border-b border-gray-200">
           <h2 className="font-bold text-24px m-0">Your Basket</h2>
         </div>
 
         <Scrollbar className="cart-scrollbar flex-grow">
-          {/* {items?.map((item) => (
-            <CartItem item={item} key={item.key} />
-          ))} */}
+          {items?.map((item) => (
+            <CartItem
+              key={item.key}
+              item={item}
+              incrementItem={incrementItem}
+              decrementItem={decrementItem}
+              handleCloseCart={handleCloseCart}
+            />
+          ))}
         </Scrollbar>
       </>
     )
@@ -99,22 +98,38 @@ function CartDrawerView() {
         </div>
 
         {itemsCount > 0 ? (
-          <Link
-            href={{
-              pathname: '/cart'
-            }}
-            passHref
-          >
-            <div className="w-full mt-20px flex">
+          <div className="w-full mt-20px flex justify-between">
+            <Link
+              href={{
+                pathname: '/cart'
+              }}
+              passHref
+              className="w-fit"
+            >
               <Button
-                className="!w-full text-white bg-black font-medium"
+                className="whitespace-nowrap !px-3 text-[14px] !text-gray-900 hover:text-black bg-white border-2 border-gray-900 hover:border-black font-semibold rounded-sm"
                 disabled={false}
-                onClick={hideCart}
+                onClick={handleCloseCart}
               >
-                View bag ({itemsCount})
+                View Cart ({itemsCount})
               </Button>
-            </div>
-          </Link>
+            </Link>
+            <Link
+              href={{
+                pathname: '/checkout'
+              }}
+              passHref
+              className="ml-3 flex-1"
+            >
+              <Button
+                className="text-white w-full bg-gray-900 hover:bg-black font-semibold text-[14px] rounded-sm"
+                disabled={false}
+                onClick={handleCloseCart}
+              >
+                secure checkout
+              </Button>
+            </Link>
+          </div>
         ) : (
           <Button
             className="!w-full text-white bg-black font-medium"

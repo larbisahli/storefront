@@ -1,34 +1,56 @@
 import { CloseIcon } from '@assets'
 import Overlay from '@components/common/Overlay'
-import { selectConfig, selectDrawer, toggleCart } from '@dropgala/store'
+import {
+  selectCart,
+  selectConfig,
+  selectDrawer,
+  toggleCart,
+  incrementItem as incrementCartItem,
+  decrementItem as decrementCartItem
+} from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types/enums.type'
-import { useAppDispatch, useAppSelector } from '@hooks/use-store'
+import { CartItemType } from '@dropgala/types/product.type'
+import { useAppDispatch, useAppSelector } from '@hooks/useStore'
 import { renderComponent } from '@lib/packages'
 import cn from 'clsx'
 import React from 'react'
 
 const CartDrawer = () => {
   const { isOpen, isCart } = useAppSelector(selectDrawer)
+  const cart = useAppSelector(selectCart)
   const { theme } = useAppSelector(selectConfig)
 
   const dispatch = useAppDispatch()
 
-  const handleClose = () => {
+  const handleCloseCart = () => {
     dispatch(toggleCart())
   }
 
   const isCartOpen = isOpen && isCart
 
+  const incrementItem = (item: CartItemType) => {
+    dispatch(incrementCartItem(item))
+  }
+
+  const decrementItem = (item: CartItemType) => {
+    dispatch(decrementCartItem(item))
+  }
+
   return (
     <React.Fragment>
-      <Overlay isOpen={isCartOpen} onClose={handleClose} />
+      <Overlay isOpen={isCartOpen} onClose={handleCloseCart} />
       <div className={cn('drawer drawer-cart', { open: isCartOpen })}>
         <div>
-          <button className="px-4 py-3 text-gray-800" onClick={handleClose}>
+          <button className="px-4 py-3 text-gray-800" onClick={handleCloseCart}>
             <CloseIcon width="16px" height="16px" />
           </button>
         </div>
-        {renderComponent(theme, ComponentNames.CART_DRAWER_VIEW, {})}
+        {renderComponent(theme, ComponentNames.CART_DRAWER_VIEW, {
+          cart,
+          incrementItem,
+          decrementItem,
+          handleCloseCart
+        })}
       </div>
     </React.Fragment>
   )

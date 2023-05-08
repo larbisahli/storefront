@@ -22,15 +22,14 @@ export default class ErrorBoundary extends React.Component {
     if ((this.state as { hasError: boolean }).hasError) {
       // You can render any custom fallback UI
       return (
-        <div>
-          <h2>Oops, there is an error!</h2>
-          <button
-            type="button"
-            onClick={() => this.setState({ hasError: false })}
-          >
-            Try again?
-          </button>
-        </div>
+        <main className="h-screen w-full flex flex-col justify-center items-center bg-[#111d20]">
+          <h1 className="text-9xl font-extrabold text-white tracking-widest">
+            404
+          </h1>
+          <div className="bg-[#ee6868] px-2 text-sm font-medium rounded rotate-12 absolute">
+            Page Not Found
+          </div>
+        </main>
       )
     }
 

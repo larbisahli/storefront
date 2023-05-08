@@ -1,9 +1,9 @@
-import type { CouponType } from '@dropgala/types/coupon.type'
 // import { Request } from '@graphql/index';
 // import { PRODUCT_CART } from '@graphql/queries/product';
 import { ProductTypes } from '@dropgala/types/enums.type'
 import type {
-  ProductType,
+  CartItemType,
+  CartState,
   VariationOptionsType
 } from '@dropgala/types/product.type'
 import { filter, isArray, isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -30,18 +30,6 @@ const minPricedVariationOption = (variationOptions: VariationOptionsType[]) => {
   return {} as VariationOptionsType
 }
 
-type CartItem = ProductType & {
-  // [key: string]: any;
-  // Order properties for the cart functionality
-  orderQuantity: number
-  orderVariationOption: VariationOptionsType | undefined
-}
-
-export interface CartState {
-  items: CartItem[]
-  coupon: CouponType
-}
-
 const initialState: CartState = {
   items: [],
   coupon: {}
@@ -51,7 +39,7 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addItem: (state: CartState, action: PayloadAction<CartItem>) => {
+    addItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const {
         id,
         slug,
@@ -68,25 +56,36 @@ export const cartSlice = createSlice({
         orderQuantity = 1
       } = action.payload
 
-      state.items.push({
-        id,
-        key: nanoid(), // Important for product variations
-        slug,
-        name,
-        salePrice,
-        comparePrice,
-        quantity,
-        type,
-        variationOptions: variationOptions ?? [],
-        variations: variations ?? [],
-        disableOutOfStock,
-        thumbnail,
-        orderVariationOption:
-          orderVariationOption ?? ({} as VariationOptionsType),
-        orderQuantity
-      })
+      const isInCart = state.items?.find((item) => item.id === id)
+
+      if (isEmpty(isInCart)) {
+        state.items.push({
+          id,
+          key: nanoid(), // Important for product variations
+          slug,
+          name,
+          salePrice,
+          comparePrice,
+          quantity,
+          type,
+          variationOptions: variationOptions ?? [],
+          variations: variations ?? [],
+          disableOutOfStock,
+          thumbnail,
+          orderVariationOption:
+            orderVariationOption ?? ({} as VariationOptionsType),
+          orderQuantity
+        })
+      } else {
+        state.items = state?.items?.map((item) => {
+          if (item.id === id && item.quantity! > item.orderQuantity) {
+            item.orderQuantity += 1
+          }
+          return item
+        })
+      }
     },
-    updateItem: (state: CartState, action: PayloadAction<CartItem>) => {
+    updateItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const updatedItem = action.payload
       state.items = state.items?.map((item) => {
         if (item.id === updatedItem.id) {
@@ -115,11 +114,14 @@ export const cartSlice = createSlice({
         return item
       })
     },
-    removeItem: (state: CartState, action: PayloadAction<CartItem>) => {
+    removeItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
-      state.items = filter(state.items, (item: CartItem) => item.key !== key)
+      state.items = filter(
+        state.items,
+        (item: CartItemType) => item.key !== key
+      )
     },
-    incrementItem: (state: CartState, action: PayloadAction<CartItem>) => {
+    incrementItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
       state.items = state?.items?.map((item) => {
         if (item.key === key) {
@@ -128,9 +130,9 @@ export const cartSlice = createSlice({
         return item
       })
     },
-    decrementItem: (state: CartState, action: PayloadAction<CartItem>) => {
+    decrementItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
-      const item = state?.items?.find((item: CartItem) => item.key === key)
+      const item = state?.items?.find((item: CartItemType) => item.key === key)
       if (item?.orderQuantity! > 1) {
         state.items = state?.items?.map((item) => {
           if (item.key === key) {
@@ -139,10 +141,16 @@ export const cartSlice = createSlice({
           return item
         })
       } else {
-        state.items = filter(state.items, (item: CartItem) => item.key !== key)
+        state.items = filter(
+          state.items,
+          (item: CartItemType) => item.key !== key
+        )
       }
     },
-    setOrderQuantity: (state: CartState, action: PayloadAction<CartItem>) => {
+    setOrderQuantity: (
+      state: CartState,
+      action: PayloadAction<CartItemType>
+    ) => {
       const id = action.payload.id
       const type = action.payload.type
       const orderQuantity = action.payload.orderQuantity
@@ -173,7 +181,7 @@ export const cartSlice = createSlice({
       state: CartState,
       action: PayloadAction<{
         key: string
-        orderVariationOption: CartItem['orderVariationOption']
+        orderVariationOption: CartItemType['orderVariationOption']
       }>
     ) => {
       const key = action.payload.key
@@ -185,7 +193,7 @@ export const cartSlice = createSlice({
         return item
       })
     },
-    rehydrate: (state: CartState, action: PayloadAction<CartItem[]>) => {
+    rehydrate: (state: CartState, action: PayloadAction<CartItemType[]>) => {
       if (isArray(action.payload)) {
         state.items = action.payload
       } else {

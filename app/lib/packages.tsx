@@ -3,7 +3,8 @@ import {
   FooterPlaceholder,
   HeaderPlaceholder,
   HeroBannerPlaceholder,
-  MenuDrawerPlaceholder
+  MenuDrawerPlaceholder,
+  ProductCardPlaceholder
 } from '@components/placeholders'
 import type { ComponentNames, StoreThemes } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
@@ -44,6 +45,13 @@ const dynamicComponents = {
       () => import('@dropgala/luma/components/HomepageCategories'),
       {
         loading: () => <HeroBannerPlaceholder />,
+        ssr: false
+      }
+    ),
+    ProductCard: dynamic(
+      () => import('@dropgala/luma/components/ProductCard'),
+      {
+        loading: () => <ProductCardPlaceholder />,
         ssr: false
       }
     )

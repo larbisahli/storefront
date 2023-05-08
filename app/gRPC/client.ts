@@ -19,6 +19,9 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   enums: String
 })
 
-export const { CategoryServiceRoutes, SliderServiceRoutes } = (
-  grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType
-).ServiceRoutes
+export const {
+  CategoryServiceRoutes,
+  SliderServiceRoutes,
+  ProductServiceRoutes
+} = (grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType)
+  .ServiceRoutes
