@@ -59,6 +59,18 @@ export const cartSlice = createSlice({
       const isInCart = state.items?.find((item) => item.id === id)
 
       if (isEmpty(isInCart)) {
+        let calculatedOrderVariationOption = {} as VariationOptionsType
+
+        if (
+          type?.id === ProductTypes.Variable &&
+          isEmpty(orderVariationOption) &&
+          !isEmpty(variationOptions)
+        ) {
+          calculatedOrderVariationOption = minPricedVariationOption(
+            variationOptions!
+          )
+        }
+
         state.items.push({
           id,
           key: nanoid(), // Important for product variations
@@ -73,7 +85,7 @@ export const cartSlice = createSlice({
           disableOutOfStock,
           thumbnail,
           orderVariationOption:
-            orderVariationOption ?? ({} as VariationOptionsType),
+            orderVariationOption ?? calculatedOrderVariationOption,
           orderQuantity
         })
       } else {
@@ -200,33 +212,33 @@ export const cartSlice = createSlice({
         state.items = []
       }
     }
-  },
-  extraReducers: (builder) => {
-    builder.addCase(fetchProductInfo.fulfilled, (state, action) => {
-      state.items = state.items?.map((item) => {
-        if (item?.id === action.payload?.id) {
-          return {
-            ...item,
-            ...(action.payload ?? {}),
-            orderVariationOption: minPricedVariationOption(
-              action.payload?.variationOptions
-            )
-          }
-        }
-        return item
-      })
-    })
-    builder.addCase(fetchProductInfo.rejected, (_, action) => {
-      // sentry({
-      //   message: 'action.payload rejected',
-      //   error: action?.error as Error
-      // });
-      console.log({
-        message: 'action.payload rejected',
-        error: action?.error as Error
-      })
-    })
   }
+  // extraReducers: (builder) => {
+  //   builder.addCase(fetchProductInfo.fulfilled, (state, action) => {
+  //     state.items = state.items?.map((item) => {
+  //       if (item?.id === action.payload?.id) {
+  //         return {
+  //           ...item,
+  //           ...(action.payload ?? {}),
+  //           orderVariationOption: minPricedVariationOption(
+  //             action.payload?.variationOptions
+  //           )
+  //         }
+  //       }
+  //       return item
+  //     })
+  //   })
+  //   builder.addCase(fetchProductInfo.rejected, (_, action) => {
+  //     // sentry({
+  //     //   message: 'action.payload rejected',
+  //     //   error: action?.error as Error
+  //     // });
+  //     console.log({
+  //       message: 'action.payload rejected',
+  //       error: action?.error as Error
+  //     })
+  //   })
+  // }
 })
 
 export const {

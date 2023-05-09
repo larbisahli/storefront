@@ -44,6 +44,8 @@ const CartItem: React.FC<CartItemProps> = ({
     orderVariationOption = {} as VariationOptionsType
   } = item
 
+  console.log({ orderVariationOption })
+
   const imageThumbnail =
     thumbnail && thumbnail?.length > 0 ? thumbnail[0] : ({} as ImageType)
 

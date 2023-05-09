@@ -20,8 +20,7 @@ const Footer: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="border-dashed border-1 border border-gray-200 mx-8"></div>
-      <footer className="mt-[50px] lg:mt-14 2xl:mt-16 bg-white">
+      <footer className="mt-[50px] lg:mt-14 2xl:mt-16 bg-gray-200 pt-14 border-dashed border-1 border-t border-gray-300">
         {storeWidgets && <Widgets widgets={storeWidgets} />}
         {storePayment && <Copyright payment={storePayment} />}
       </footer>

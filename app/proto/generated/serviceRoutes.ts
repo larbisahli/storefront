@@ -22,6 +22,10 @@ type SubtypeConstructor<
 }
 
 export interface ProtoGrpcType {
+  AttributePackage: {
+    Attribute: MessageTypeDefinition
+    AttributeValue: MessageTypeDefinition
+  }
   ServiceRoutes: {
     CategoryServiceRoutes: SubtypeConstructor<
       typeof grpc.Client,
@@ -54,6 +58,8 @@ export interface ProtoGrpcType {
     PopularProductsResponse: MessageTypeDefinition
     Product: MessageTypeDefinition
     ProductType: MessageTypeDefinition
+    Variation: MessageTypeDefinition
+    VariationOption: MessageTypeDefinition
   }
   slidePackage: {
     HeroBannerRequest: MessageTypeDefinition

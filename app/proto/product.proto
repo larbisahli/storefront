@@ -3,9 +3,26 @@ syntax = "proto3";
 package productPackage;
 
 import "photo.proto";
+import "attribute.proto";
 
 message ProductType {
   string id = 1;
+}
+
+message Variation {
+  Attribute attribute = 1;
+  repeated AttributeValue values = 2;
+}
+
+message VariationOption {
+  uint32 id = 1;
+  string title = 2;
+  repeated Image thumbnail = 3;
+  repeated uint32 options = 4;
+  uint32 salePrice = 5;
+  uint32 comparePrice = 6;
+  uint32 quantity = 7;
+  string sku = 8;
 }
 
 message Product {
@@ -21,6 +38,8 @@ message Product {
     uint32 comparePrice = 10;
     uint32 quantity = 11;
     bool disableOutOfStock = 12;
+    repeated Variation variations = 13;
+    repeated VariationOption variationOptions = 14;
 }
 
 message PopularProductsRequest {

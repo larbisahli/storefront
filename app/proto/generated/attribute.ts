@@ -13,15 +13,4 @@ export interface ProtoGrpcType {
     Attribute: MessageTypeDefinition
     AttributeValue: MessageTypeDefinition
   }
-  photoPackage: {
-    Image: MessageTypeDefinition
-  }
-  productPackage: {
-    PopularProductsRequest: MessageTypeDefinition
-    PopularProductsResponse: MessageTypeDefinition
-    Product: MessageTypeDefinition
-    ProductType: MessageTypeDefinition
-    Variation: MessageTypeDefinition
-    VariationOption: MessageTypeDefinition
-  }
 }
