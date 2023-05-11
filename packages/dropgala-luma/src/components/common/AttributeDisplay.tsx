@@ -33,7 +33,7 @@ function AttributeDisplay({
 
     if (selected) {
       selected.value = (selected?.values?.filter((v) =>
-        options?.includes(v?.id)
+        options?.includes(v?.id!)
       ) ?? [])[0]
     }
 
@@ -57,7 +57,7 @@ function AttributeDisplay({
       <div
         className={cn(
           'rounded border shadow-badge flex justify-center items-center font-medium',
-          'text-sm text-skin-base transition duration-200 ease-in-out py-1 px-2 border-gray-300',
+          'text-sm text-gray-700 transition duration-200 ease-in-out py-1 px-2 border-gray-300',
           {
             '!rounded-full': color,
             '!w-7': color,

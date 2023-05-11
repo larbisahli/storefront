@@ -7,7 +7,8 @@ export enum ComponentNames {
   CART_DRAWER_VIEW = 'CartDrawerView',
   MENU_DRAWER_VIEW = 'MenuDrawerView',
   HOMEPAGE_CATEGORIES = 'HomePageCategories',
-  PRODUCT_CARD = 'ProductCard'
+  PRODUCT_CARD = 'ProductCard',
+  PRODUCT_DETAILS = 'ProductDetails'
 }
 
 export type StoreThemes = '@dropgala/luma'

@@ -13,6 +13,20 @@ export interface ProtoGrpcType {
     Attribute: MessageTypeDefinition
     AttributeValue: MessageTypeDefinition
   }
+  TagPackage: {
+    Tag: MessageTypeDefinition
+  }
+  categoryPackage: {
+    Category: MessageTypeDefinition
+    Menu: MessageTypeDefinition
+    MenuRequest: MessageTypeDefinition
+    MenuResponse: MessageTypeDefinition
+  }
+  google: {
+    protobuf: {
+      Timestamp: MessageTypeDefinition
+    }
+  }
   photoPackage: {
     Image: MessageTypeDefinition
   }
@@ -20,7 +34,12 @@ export interface ProtoGrpcType {
     PopularProductsRequest: MessageTypeDefinition
     PopularProductsResponse: MessageTypeDefinition
     Product: MessageTypeDefinition
+    ProductRequest: MessageTypeDefinition
+    ProductResponse: MessageTypeDefinition
+    ProductSeo: MessageTypeDefinition
+    ProductShippingInfo: MessageTypeDefinition
     ProductType: MessageTypeDefinition
+    Unit: MessageTypeDefinition
     Variation: MessageTypeDefinition
     VariationOption: MessageTypeDefinition
   }

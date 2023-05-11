@@ -1,9 +1,9 @@
 // Original file: app/proto/category.proto
 
 export interface MenuRequest {
-  jwtToken?: string
+  alias?: string
 }
 
 export interface MenuRequest__Output {
-  jwtToken: string
+  alias: string
 }

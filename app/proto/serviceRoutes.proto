@@ -16,4 +16,5 @@ service SliderServiceRoutes {
 
 service ProductServiceRoutes {
   rpc getPopularProducts(PopularProductsRequest) returns (PopularProductsResponse);
+  rpc getProduct(ProductRequest) returns (ProductResponse);
 }

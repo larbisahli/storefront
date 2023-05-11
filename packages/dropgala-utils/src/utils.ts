@@ -1,4 +1,8 @@
-// import {isEqual, sortBy} from './lodashFunctions';
+import { isEqual, sortBy } from './lodashFunctions'
+import {
+  VariationsType,
+  VariationOptionsType
+} from '@dropgala/types/product.type'
 
 // Utils
 export const Timer = (time = 1000) => {
@@ -57,17 +61,20 @@ export function noop(_: any) {}
 //   return flatObject;
 // };
 
-// export const selectedVariationOptionFun = ({
-//   selectedVariations,
-//   variationOptions
-// }) => {
-//   const selectedAttributesOption = selectedVariations?.map(
-//     (selectedVariation: { value: { id: any; }; }) => {
-//       return selectedVariation?.value?.id;
-//     }
-//   );
+export const selectedVariationOptionFun = ({
+  selectedVariations,
+  variationOptions = []
+}: {
+  selectedVariations: VariationsType[]
+  variationOptions?: VariationOptionsType[]
+}) => {
+  const selectedAttributesOption = selectedVariations?.map(
+    (selectedVariation) => {
+      return selectedVariation?.value?.id
+    }
+  )
 
-//   return variationOptions?.find((vop: { options: any; }) => {
-//     return isEqual(sortBy(vop?.options), sortBy(selectedAttributesOption));
-//   });
-// };
+  return variationOptions?.find((vop) => {
+    return isEqual(sortBy(vop?.options), sortBy(selectedAttributesOption))
+  })
+}

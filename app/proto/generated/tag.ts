@@ -9,18 +9,7 @@ type SubtypeConstructor<
 }
 
 export interface ProtoGrpcType {
-  categoryPackage: {
-    Category: MessageTypeDefinition
-    Menu: MessageTypeDefinition
-    MenuRequest: MessageTypeDefinition
-    MenuResponse: MessageTypeDefinition
-  }
-  google: {
-    protobuf: {
-      Timestamp: MessageTypeDefinition
-    }
-  }
-  photoPackage: {
-    Image: MessageTypeDefinition
+  TagPackage: {
+    Tag: MessageTypeDefinition
   }
 }

@@ -10,8 +10,8 @@ export interface VariationOption {
   title?: string
   thumbnail?: _photoPackage_Image[]
   options?: number[]
-  salePrice?: number
-  comparePrice?: number
+  salePrice?: number | string
+  comparePrice?: number | string
   quantity?: number
   sku?: string
 }

@@ -13,7 +13,7 @@ export interface VariationOptionsType {
   isDisable: Scalars['Boolean']
   active: boolean
   image: Scalars['String']
-  options: string[]
+  options: number[]
   salePrice: Scalars['Float']
   comparePrice: Scalars['Float']
   buyingPrice: Scalars['Float']
@@ -46,13 +46,13 @@ export interface ProductType {
   categories?: Array<CategoryType>
   tags?: Nullable<Array<Nullable<TagType>>>
   variationOptions?: VariationOptionsType[]
-  variations?: variationsType[]
+  variations?: VariationsType[]
   // Order properties for the cart functionality
   orderQuantity?: number
   orderVariationOption?: VariationOptionsType | undefined
 }
 
-export interface variationsType {
+export interface VariationsType {
   attribute: AttributeType
   values?: Array<Nullable<AttributeValueType>>
   value?: Nullable<AttributeValueType>
@@ -62,8 +62,8 @@ export type CartItemType = ProductType & {
   // [key: string]: any;
   // Order properties for the cart functionality
   key?: Scalars['ID']
-  orderQuantity: number
-  orderVariationOption: VariationOptionsType | undefined
+  orderQuantity?: number
+  orderVariationOption?: VariationOptionsType | undefined
 }
 
 export interface CartState {

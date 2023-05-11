@@ -26,7 +26,7 @@ message StoreHeroBanner {
 
 
 message HeroBannerRequest {
-    required string jwtToken = 1; // Payload { alias: string }
+    required string alias = 1;
   }
 
 message HeroBannerResponse {

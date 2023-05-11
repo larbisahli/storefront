@@ -13,7 +13,8 @@ export const { createInsecure } = grpc.credentials
 // suggested options for similarity to loading grpc.load behavior
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
-  defaults: true,
+  defaults: false,
+  arrays: true,
   oneofs: true,
   longs: String,
   enums: String

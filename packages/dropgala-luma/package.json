@@ -65,6 +65,7 @@
     "@dropgala/types": "workspace:*",
     "@dropgala/utils": "workspace:*",
     "@swc/helpers": "^0.4.12",
+    "html-react-parser": "^3.0.16",
     "intersection-observer": "^0.12.2"
   },
   "devDependencies": {

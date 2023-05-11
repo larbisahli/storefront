@@ -11,9 +11,8 @@ export default class SlideService extends SliderServiceRoutes {
   }
 
   public async getHeroSlide(alias: string) {
-    const jwtToken = alias
     const getStoreHeroBanner = promisify(this.getStoreHeroBanner).bind(this)
-    return await getStoreHeroBanner({ jwtToken })
+    return await getStoreHeroBanner({ alias })
       .then((data) => {
         console.log({ data })
         return { sliders: data?.sliders ?? [], error: null }

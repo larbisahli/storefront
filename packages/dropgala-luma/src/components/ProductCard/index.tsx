@@ -11,6 +11,7 @@ import { useTranslation } from 'next-i18next'
 import React, { memo, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { HeartEmpty } from '../../assets/icons/heart'
+import { ProductTypes } from '@dropgala/types'
 
 const Image = dynamic(() => import('../common/Image'))
 const Link = dynamic(() => import('../ui/Link'))
@@ -37,11 +38,28 @@ const ProductCard: React.FC<ProductProps> = ({
     slug,
     salePrice = 0,
     comparePrice = 0,
+    type,
+    maxPrice = 0,
+    minPrice = 0,
     inStock
   } = product ?? {}
 
+  const isVariable = type?.id === ProductTypes.Variable
+
   const price = usePrice({
     amount: salePrice!,
+    locale: locale!,
+    currencyCode: 'USD'
+  })
+
+  const maxPrice_ = usePrice({
+    amount: maxPrice!,
+    locale: locale!,
+    currencyCode: 'USD'
+  })
+
+  const minPrice_ = usePrice({
+    amount: minPrice!,
     locale: locale!,
     currencyCode: 'USD'
   })
@@ -51,6 +69,16 @@ const ProductCard: React.FC<ProductProps> = ({
     locale: locale!,
     currencyCode: 'USD'
   })
+
+  const productMaxPrice = useMemo(
+    () => maxPrice_?.replace(/(\.0+|0+)$/, ''),
+    [maxPrice_]
+  )
+
+  const productMinPrice = useMemo(
+    () => minPrice_?.replace(/(\.0+|0+)$/, ''),
+    [minPrice_]
+  )
 
   const productDiscount = useMemo(
     () => discount?.replace(/(\.0+|0+)$/, ''),
@@ -64,12 +92,12 @@ const ProductCard: React.FC<ProductProps> = ({
 
   const percentDecrease = usePercentDecrease({ comparePrice, salePrice })
 
-  const { image = '', placeholder } = (thumbnail && thumbnail[0]) ?? {}
+  const { image = '', placeholder = '' } = (thumbnail && thumbnail[0]) ?? {}
 
   return (
     <Link
       href={{
-        pathname: '/[slug]',
+        pathname: '/product/[slug]',
         query: { slug }
       }}
     >
@@ -110,24 +138,35 @@ const ProductCard: React.FC<ProductProps> = ({
         </div>
 
         <div className="relative flex flex-col px-3 pb-5 lg:pb-6 lg:pt-4 h-full">
-          <h2 className="line-clamp-3 lg:line-clamp-2 font-semibold !text-[14px] sm:text-sm lg:text-[15px] leading-5 sm:leading-5 mb-1.5">
+          <h2
+            className="line-clamp-3 h-[40px] lg:line-clamp-2 font-semibold !text-[14px]
+                        sm:text-sm lg:text-[15px] leading-5 sm:leading-5 mb-1"
+          >
             {name}
           </h2>
-
-          {percentDecrease && (
-            <span className="uppercase text-sm text-gray-900 font-semibold">
-              {percentDecrease} off
-            </span>
-          )}
+          <div className="uppercase h-[15px] w-full text-xs text-gray-900 font-semibold">
+            {!isVariable && percentDecrease && (
+              <span>{percentDecrease} off</span>
+            )}
+          </div>
           <div className="mb-1 lg:mb-1.5 flex items-center">
-            <div
-              className={cn('leading-none text-[20px] font-[600]', {
-                'text-red-700 text-opacity-80': productDiscount
-              })}
-            >
-              {productPrice}
-            </div>
-            {productDiscount && (
+            {!isVariable && (
+              <div
+                className={cn('leading-none text-[18px] font-[600]', {
+                  'text-red-700 text-opacity-80': productDiscount
+                })}
+              >
+                {productPrice}
+              </div>
+            )}
+            {isVariable && (
+              <div
+                className={cn('leading-none pt-[5px] text-[18px] font-[600]')}
+              >
+                {productMinPrice} - {productMaxPrice}
+              </div>
+            )}
+            {!isVariable && productDiscount && (
               <div className="text-[18px] ml-3">
                 <del className="text-opacity-80 text-gray-600">
                   {productDiscount}

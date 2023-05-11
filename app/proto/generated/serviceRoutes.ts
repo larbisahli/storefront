@@ -40,7 +40,11 @@ export interface ProtoGrpcType {
       _ServiceRoutes_SliderServiceRoutesClient
     > & { service: _ServiceRoutes_SliderServiceRoutesDefinition }
   }
+  TagPackage: {
+    Tag: MessageTypeDefinition
+  }
   categoryPackage: {
+    Category: MessageTypeDefinition
     Menu: MessageTypeDefinition
     MenuRequest: MessageTypeDefinition
     MenuResponse: MessageTypeDefinition
@@ -57,7 +61,12 @@ export interface ProtoGrpcType {
     PopularProductsRequest: MessageTypeDefinition
     PopularProductsResponse: MessageTypeDefinition
     Product: MessageTypeDefinition
+    ProductRequest: MessageTypeDefinition
+    ProductResponse: MessageTypeDefinition
+    ProductSeo: MessageTypeDefinition
+    ProductShippingInfo: MessageTypeDefinition
     ProductType: MessageTypeDefinition
+    Unit: MessageTypeDefinition
     Variation: MessageTypeDefinition
     VariationOption: MessageTypeDefinition
   }

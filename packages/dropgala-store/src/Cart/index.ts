@@ -90,8 +90,8 @@ export const cartSlice = createSlice({
         })
       } else {
         state.items = state?.items?.map((item) => {
-          if (item.id === id && item.quantity! > item.orderQuantity) {
-            item.orderQuantity += 1
+          if (item.id === id && item.quantity! > item.orderQuantity!) {
+            item.orderQuantity! += 1
           }
           return item
         })
@@ -165,24 +165,24 @@ export const cartSlice = createSlice({
     ) => {
       const id = action.payload.id
       const type = action.payload.type
-      const orderQuantity = action.payload.orderQuantity
+      const orderQuantity = action.payload.orderQuantity!
 
       state.items = state?.items?.map((item) => {
         if (type!.id === ProductTypes.Variable) {
           if (item.key === id) {
             const optionQuantity = item.orderVariationOption?.quantity!
-            if (item.orderQuantity + orderQuantity > optionQuantity) {
+            if (item.orderQuantity! + orderQuantity > optionQuantity) {
               item.orderQuantity = optionQuantity
             } else {
-              item.orderQuantity += orderQuantity
+              item.orderQuantity! += orderQuantity!
             }
           }
         } else if (item.type?.id === ProductTypes.Simple) {
           if (item.id === id) {
-            if (item.orderQuantity + orderQuantity > item.quantity!) {
-              item.orderQuantity = item.quantity!
+            if (item.orderQuantity! + orderQuantity > item.quantity!) {
+              item.orderQuantity = item.quantity
             } else {
-              item.orderQuantity += orderQuantity
+              item.orderQuantity! += orderQuantity
             }
           }
         }

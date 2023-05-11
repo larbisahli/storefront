@@ -11,9 +11,8 @@ export default class CategoryService extends CategoryServiceRoutes {
   }
 
   public async getMenu(alias: string) {
-    const jwtToken = alias
     const getStoreMenu = promisify(this.getStoreMenu).bind(this)
-    return await getStoreMenu({ jwtToken })
+    return await getStoreMenu({ alias })
       .then((data) => ({ menu: data?.menu ?? [], error: null }))
       .catch((error) => ({ error, menu: null }))
   }

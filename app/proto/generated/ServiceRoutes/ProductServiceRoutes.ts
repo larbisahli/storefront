@@ -10,6 +10,14 @@ import type {
   PopularProductsResponse as _productPackage_PopularProductsResponse,
   PopularProductsResponse__Output as _productPackage_PopularProductsResponse__Output
 } from '../productPackage/PopularProductsResponse'
+import type {
+  ProductRequest as _productPackage_ProductRequest,
+  ProductRequest__Output as _productPackage_ProductRequest__Output
+} from '../productPackage/ProductRequest'
+import type {
+  ProductResponse as _productPackage_ProductResponse,
+  ProductResponse__Output as _productPackage_ProductResponse__Output
+} from '../productPackage/ProductResponse'
 
 export interface ProductServiceRoutesClient extends grpc.Client {
   getPopularProducts(
@@ -52,6 +60,47 @@ export interface ProductServiceRoutesClient extends grpc.Client {
     argument: _productPackage_PopularProductsRequest,
     callback: grpc.requestCallback<_productPackage_PopularProductsResponse__Output>
   ): grpc.ClientUnaryCall
+
+  getProduct(
+    argument: _productPackage_ProductRequest,
+    metadata: grpc.Metadata,
+    options: grpc.CallOptions,
+    callback: grpc.requestCallback<_productPackage_ProductResponse__Output>
+  ): grpc.ClientUnaryCall
+  getProduct(
+    argument: _productPackage_ProductRequest,
+    metadata: grpc.Metadata,
+    callback: grpc.requestCallback<_productPackage_ProductResponse__Output>
+  ): grpc.ClientUnaryCall
+  getProduct(
+    argument: _productPackage_ProductRequest,
+    options: grpc.CallOptions,
+    callback: grpc.requestCallback<_productPackage_ProductResponse__Output>
+  ): grpc.ClientUnaryCall
+  getProduct(
+    argument: _productPackage_ProductRequest,
+    callback: grpc.requestCallback<_productPackage_ProductResponse__Output>
+  ): grpc.ClientUnaryCall
+  getProduct(
+    argument: _productPackage_ProductRequest,
+    metadata: grpc.Metadata,
+    options: grpc.CallOptions,
+    callback: grpc.requestCallback<_productPackage_ProductResponse__Output>
+  ): grpc.ClientUnaryCall
+  getProduct(
+    argument: _productPackage_ProductRequest,
+    metadata: grpc.Metadata,
+    callback: grpc.requestCallback<_productPackage_ProductResponse__Output>
+  ): grpc.ClientUnaryCall
+  getProduct(
+    argument: _productPackage_ProductRequest,
+    options: grpc.CallOptions,
+    callback: grpc.requestCallback<_productPackage_ProductResponse__Output>
+  ): grpc.ClientUnaryCall
+  getProduct(
+    argument: _productPackage_ProductRequest,
+    callback: grpc.requestCallback<_productPackage_ProductResponse__Output>
+  ): grpc.ClientUnaryCall
 }
 
 export interface ProductServiceRoutesHandlers
@@ -59,6 +108,11 @@ export interface ProductServiceRoutesHandlers
   getPopularProducts: grpc.handleUnaryCall<
     _productPackage_PopularProductsRequest__Output,
     _productPackage_PopularProductsResponse
+  >
+
+  getProduct: grpc.handleUnaryCall<
+    _productPackage_ProductRequest__Output,
+    _productPackage_ProductResponse
   >
 }
 
@@ -68,5 +122,11 @@ export interface ProductServiceRoutesDefinition extends grpc.ServiceDefinition {
     _productPackage_PopularProductsResponse,
     _productPackage_PopularProductsRequest__Output,
     _productPackage_PopularProductsResponse__Output
+  >
+  getProduct: MethodDefinition<
+    _productPackage_ProductRequest,
+    _productPackage_ProductResponse,
+    _productPackage_ProductRequest__Output,
+    _productPackage_ProductResponse__Output
   >
 }

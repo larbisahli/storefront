@@ -1,0 +1,98 @@
+import Layout from '@containers/layout'
+import { selectConfig, setMenu } from '@dropgala/store'
+import type { CategoryType } from '@dropgala/types/category.type'
+import type { ProductType } from '@dropgala/types/product.type'
+import { useAppDispatch, useAppSelector } from '@hooks/useStore'
+import { GetServerSideProps } from 'next'
+import Head from 'next/head'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useEffect } from 'react'
+import CategoryService from '@gRPC/service/category.service'
+import { getHost } from 'utils'
+import ProductService from '@gRPC/service/product.service'
+import ProductDetails from '@components/productDetails'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
+
+interface Props {
+  menu: CategoryType[]
+  product: ProductType
+}
+
+export default function ProductPage({ menu, product }: Props) {
+  const dispatch = useAppDispatch()
+
+  console.log({ product })
+
+  useEffect(() => {
+    console.log({ product, menu })
+    dispatch(setMenu({ menu }))
+    // setWildcard(window.location.hostname.split(".")[0])
+  }, [])
+
+  return (
+    <Layout>
+      <Head>
+        <meta name="Description" content="Put your description here." />
+        <title>Dropgala</title>
+      </Head>
+      <div className="mb-44">
+        {/* PRODUCT DETAIL PAGE */}
+        <section className="mb-5 relative py-35px px-4 md:px-50px max-w-[1300px] 2xxl:max-w-[1500px] mx-auto overflow-hidden">
+          {/* <div className="pt-6 lg:pt-7">
+          <div className="mx-auto max-w-[1920px]">
+            <Breadcrumb />
+          </div>
+        </div> */}
+          <div className="">
+            {!isEmpty(product) && <ProductDetails product={product} />}
+          </div>
+          <div className="mt-10">{/* <RelatedProducts /> */}</div>
+        </section>
+      </div>
+    </Layout>
+  )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req, locale, params } = context
+
+  const { host, alias } = getHost(req)
+
+  const slug = params?.slug
+
+  try {
+    // -----------<Remote Procedure Calls>--------------
+    const productService = new ProductService()
+    const categoryService = new CategoryService()
+
+    const { menu = [], error: menuError } = await categoryService.getMenu(
+      'store'
+    )
+
+    const { product, error: productError } =
+      await productService.getStoreProduct('store', slug as string)
+
+    if (menuError | productError) {
+      throw { menuError, productError }
+    }
+
+    return {
+      props: {
+        host: { host, alias },
+        menu,
+        product,
+        ...(await serverSideTranslations(locale!, [
+          'common',
+          'forms',
+          'menu',
+          'footer'
+        ]))
+      }
+    }
+  } catch (error) {
+    console.log('error: --------------<>', { error })
+    return {
+      notFound: true
+    }
+  }
+}

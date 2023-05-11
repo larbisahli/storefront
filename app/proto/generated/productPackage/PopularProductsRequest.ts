@@ -1,9 +1,9 @@
 // Original file: app/proto/product.proto
 
 export interface PopularProductsRequest {
-  jwtToken?: string
+  alias?: string
 }
 
 export interface PopularProductsRequest__Output {
-  jwtToken: string
+  alias: string
 }

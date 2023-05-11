@@ -54,6 +54,13 @@ const dynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: false
       }
+    ),
+    ProductDetails: dynamic(
+      () => import('@dropgala/luma/components/ProductDetails'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
     )
   }
 }

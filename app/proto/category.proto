@@ -10,19 +10,35 @@ import "photo.proto";
   * it is important to use a "lazy" option in children when generating code for that message.
 */
 
-message Menu {
+message Category {
     uint32 id = 1;
     string name = 2;
     uint32 parentId = 3;
     string description = 4;
     repeated Image thumbnail = 5;
-    uint32 position = 6;
-    repeated Menu children = 7 [lazy = true];
+    bool active = 6;
+    uint32 level = 7;
+    uint32 position = 8;
+    bool includeInMenu = 9;
+    bool hasChildren = 10;
+    repeated Category children = 11 [lazy = true];
+    google.protobuf.Timestamp createdAt = 12;
+    google.protobuf.Timestamp updatedAt = 13;
+}
+
+message Menu {
+  uint32 id = 1;
+  string name = 2;
+  uint32 parentId = 3;
+  string description = 4;
+  repeated Image thumbnail = 5;
+  uint32 position = 6;
+  repeated Menu children = 7 [lazy = true];
 }
 
 
 message MenuRequest {
-  required string jwtToken = 1; // Payload { alias: string }
+  required string alias = 1;
 }
 
 message MenuResponse {

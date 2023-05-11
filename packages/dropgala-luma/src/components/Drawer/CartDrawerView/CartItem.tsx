@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { ProductTypes } from '@dropgala/types'
 import type {
   CartItemType,
@@ -43,8 +41,6 @@ const CartItem: React.FC<CartItemProps> = ({
     variations,
     orderVariationOption = {} as VariationOptionsType
   } = item
-
-  console.log({ orderVariationOption })
 
   const imageThumbnail =
     thumbnail && thumbnail?.length > 0 ? thumbnail[0] : ({} as ImageType)
@@ -100,7 +96,7 @@ const CartItem: React.FC<CartItemProps> = ({
     >
       <Link
         href={{
-          pathname: '/[slug]',
+          pathname: '/product/[slug]',
           query: { slug }
         }}
         passHref
@@ -124,7 +120,7 @@ const CartItem: React.FC<CartItemProps> = ({
       <div className="flex flex-col w-full px-15px">
         <Link
           href={{
-            pathname: '/[slug]',
+            pathname: '/product/[slug]',
             query: { slug }
           }}
         >
@@ -157,7 +153,7 @@ const CartItem: React.FC<CartItemProps> = ({
                 key={variation?.attribute?.id}
                 className="pr-2 flex items-center my-1"
               >
-                <span className="text-skin-base">
+                <span className="text-gray-700">
                   {variation?.attribute?.name}:
                 </span>
                 <AttributeDisplay
