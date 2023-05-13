@@ -68,7 +68,7 @@ function CartDrawerView({
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="flex-1">{renderContent()}</div>
+      <div className="flex-1 overflow-y-auto">{renderContent()}</div>
       <div
         style={{ background: 'rgba(0,0,0,0.05)' }}
         className="flex flex-col p-30px lg:pb-30px pb-[75px]"
@@ -98,7 +98,7 @@ function CartDrawerView({
         </div>
 
         {itemsCount > 0 ? (
-          <div className="w-full mt-20px flex justify-between">
+          <div className="w-full mb-10 mt-20px flex justify-between">
             <Link
               href={{
                 pathname: '/cart'

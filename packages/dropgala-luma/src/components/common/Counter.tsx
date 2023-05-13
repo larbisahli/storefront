@@ -7,11 +7,6 @@ import Plus from '../../assets/icons/plus-icon'
 import Trash from '../../assets/icons/trash'
 import IconButton from '../ui/IconButton'
 
-const CounterSize = {
-  big: 'h-12',
-  normal: 'h-30px'
-}
-
 type CounterProps = {
   single?: boolean
   className?: string
@@ -32,30 +27,21 @@ const Counter: React.FC<CounterProps> = ({
   disabled = false
 }) => {
   const btnClassName = cn(
-    'text-skin-base rounded-full bg-gray-200 transition border border-solid',
+    'text-skin-base rounded-xs bg-gray-200 transition border border-solid',
     'border-gray-400 shadow-current duration-300 hover:bg-gray-400 focus:outline-none',
     'w-30px h-30px',
-    { 'w-60px h-60px': size === 'big' }
+    { 'w-35px h-35px': size === 'big' }
   )
 
   return (
-    <div
-      className={cn(
-        'group flex items-center justify-between',
-        'flex-shrink-0 rounded overflow-hidden',
-        'h-30px',
-        className,
-        CounterSize[size],
-        { 'h-60px': size === 'big' }
-      )}
-    >
+    <div className={cn('group flex items-center justify-between', className)}>
       <IconButton onClick={onDecrement} className={btnClassName}>
         {single ? <Minus /> : value > 1 ? <Minus /> : <Trash />}
       </IconButton>
 
       <span
         className={cn(
-          'font-semibold text-skin-base text-13px flex items-center justify-center',
+          'font-medium text-skin-base  text-lg flex items-center justify-center',
           'h-full w-45px px-2 transition-colors duration-250 ease-in-out cursor-default'
         )}
       >

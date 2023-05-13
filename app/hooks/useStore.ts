@@ -1,6 +1,7 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { selectCart } from '@dropgala/store'
-import type { AppDispatch, AppState } from '@dropgala/store'
+import type { AppDispatch } from '@dropgala/store'
+import { AppState } from '@dropgala/store/'
 import { ProductType } from '@dropgala/types/product.type'
 import { useMemo } from 'react'
 

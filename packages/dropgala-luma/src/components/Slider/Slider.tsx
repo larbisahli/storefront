@@ -28,6 +28,7 @@ export default function ReactCustomSlider({
   numOfSlides,
   showArrows,
   slide,
+  innerHeightClass,
   slideSpeed
 }: Props) {
   const [slideInstance, setSlideInstance] = useState({
@@ -192,11 +193,17 @@ export default function ReactCustomSlider({
       )}
       <div
         ref={sliderContainerDOMEl}
-        className="max-h-full overflow-hidden relative whitespace-nowrap w-full"
+        className={cn(
+          'max-h-full overflow-hidden relative whitespace-nowrap w-full',
+          innerHeightClass
+        )}
       >
         <ul
           ref={slidesDOMEl}
-          className="block list-none p-0 transition-transform w-full will-change-transform"
+          className={cn(
+            'block list-none p-0 transition-transform w-full will-change-transform py-2',
+            { 'px-10': numOfSlides > 1 }
+          )}
         >
           {itemsToRender.map(renderItem)}
         </ul>
@@ -230,6 +237,7 @@ interface Props {
   numOfSlides: number
   /** Change dynamically the slide number, perfect to use with dots */
   slide: number
+  innerHeightClass: string
   /** Determine if arrows should be shown */
   showArrows: boolean
   /** Determine the speed of the sliding animation */

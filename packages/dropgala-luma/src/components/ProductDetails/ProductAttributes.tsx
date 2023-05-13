@@ -13,7 +13,6 @@ interface Props {
   variations: VariationsType[]
   variation: VariationsType
   variationOptions?: VariationOptionsType[]
-  // eslint-disable-next-line no-unused-vars
   setSelectedVariations: (key: any) => void
   selectedVariations: VariationsType[]
   defaultVariationOption?: VariationOptionsType
@@ -30,27 +29,26 @@ const ProductAttributes: React.FC<Props> = ({
 }) => {
   const { attribute, values } = variation
 
-  console.log({ attribute, values })
-
   useEffect(() => {
     try {
-      let selectedVariationOptions = {} as VariationOptionsType
+      let selectedVariationOption = {} as VariationOptionsType
 
       if (isEmpty(variationOptions)) return
 
       if (isEmpty(defaultVariationOption)) {
-        selectedVariationOptions = variationOptions?.reduce((acc, loc) =>
-          acc?.salePrice < loc?.salePrice ? acc : loc
-        )
+        selectedVariationOption =
+          variationOptions?.reduce((acc, loc) =>
+            acc?.salePrice < loc?.salePrice ? acc : loc
+          ) ?? ({} as VariationOptionsType)
       } else {
-        selectedVariationOptions = defaultVariationOption
+        selectedVariationOption = defaultVariationOption
       }
 
-      if (isEmpty(selectedVariationOptions)) return
+      if (isEmpty(selectedVariationOption)) return
 
       // map default
       const results = variations?.map((v) => {
-        const options = selectedVariationOptions?.options
+        const options = selectedVariationOption?.options
         return {
           attribute: v?.attribute,
           value: (v?.values?.filter((v) => options.includes(v?.id!)) ?? [])[0]
@@ -87,9 +85,9 @@ const ProductAttributes: React.FC<Props> = ({
   return (
     <div className={cn(className)}>
       <div className="text-14px font-normal mb-3 capitalize">
-        <span className="text-skin-base font-medium">{attribute?.name}</span>
+        <span className="text-skin-base font-medium">{`Choose ${attribute?.name}`}</span>
         <span className="mr-1 font-medium">:</span>
-        <span className="text-13px text-skin-extraMuted">
+        <span className="text-13px text-gray-800">
           {selectedVariation?.value?.value ?? ''}
         </span>
       </div>

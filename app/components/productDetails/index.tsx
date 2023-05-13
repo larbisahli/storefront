@@ -49,6 +49,8 @@ const ProductDetails = ({ product }: Props) => {
           item?.orderVariationOption.id === selectedVariationOption?.id
         )
       })
+
+      console.log({ variationOptionExist })
       if (isEmpty(variationOptionExist)) {
         dispatch(
           addItem({
@@ -61,7 +63,7 @@ const ProductDetails = ({ product }: Props) => {
         const key = variationOptionExist.key
         dispatch(
           setOrderQuantity({
-            id: key,
+            key,
             type,
             orderQuantity
           })

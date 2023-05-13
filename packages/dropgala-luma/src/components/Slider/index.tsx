@@ -22,6 +22,7 @@ const Slider = ({
   lazyLoadConfig = {
     offset: 150
   },
+  innerHeightClass,
   keyboardNavigation = false,
   numOfSlides = 1,
   sanitize = true,
@@ -86,7 +87,8 @@ const Slider = ({
     numOfSlides,
     showArrows,
     slide,
-    slideSpeed
+    slideSpeed,
+    innerHeightClass
   }
 
   return (
@@ -150,6 +152,7 @@ interface Props {
   showArrows: boolean
   /** Determine the speed of the sliding animation */
   slideSpeed: number
+  innerHeightClass: string
 }
 
 export default Slider

@@ -27,8 +27,6 @@ const HeroBannerCard: FC<BannerProps> = ({
     styles
   } = banner!
 
-  console.log({ banner })
-
   const { image, placeholder } = thumbnail[0] ?? {}
 
   return (

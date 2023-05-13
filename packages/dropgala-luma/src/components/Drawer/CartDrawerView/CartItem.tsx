@@ -11,6 +11,7 @@ import React, { memo, useMemo } from 'react'
 import { siteSettings } from '../../../settings/site-settings'
 import { AttributeDisplay, Counter, Image } from '../../common'
 import { ImageType } from '@dropgala/types/common.type'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
 const Link = dynamic(() => import('../../ui/Link'))
 
@@ -42,9 +43,6 @@ const CartItem: React.FC<CartItemProps> = ({
     orderVariationOption = {} as VariationOptionsType
   } = item
 
-  const imageThumbnail =
-    thumbnail && thumbnail?.length > 0 ? thumbnail[0] : ({} as ImageType)
-
   const isVariableType = type?.id === ProductTypes.Variable
 
   const selectedSalePrice = isVariableType
@@ -59,8 +57,13 @@ const CartItem: React.FC<CartItemProps> = ({
     ? orderVariationOption?.quantity
     : quantity
 
-  const image = orderVariationOption?.image ?? imageThumbnail?.image
-  const placeholder = imageThumbnail?.placeholder
+  const selectedItemThumbnail = isEmpty(orderVariationOption?.thumbnail)
+    ? thumbnail
+    : orderVariationOption?.thumbnail
+
+  const imageThumbnail = !isEmpty(selectedItemThumbnail)
+    ? selectedItemThumbnail![0]
+    : ({} as ImageType)
 
   const price = usePrice({
     amount: selectedSalePrice ?? 0,
@@ -89,6 +92,8 @@ const CartItem: React.FC<CartItemProps> = ({
 
   const totalPrice = useMemo(() => total?.replace(/(\.0+|0+)$/, ''), [total])
 
+  const { image = '', placeholder = '' } = imageThumbnail
+
   return (
     <div
       className="w-full h-auto flex justify-start items-start bg-white py-6 px-30px border-b
@@ -106,8 +111,8 @@ const CartItem: React.FC<CartItemProps> = ({
           onClick={handleCloseCart}
         >
           <Image
-            src={image ?? ''}
-            customPlaceholder={placeholder ?? ''}
+            src={image}
+            customPlaceholder={placeholder}
             width={105}
             height={105}
             quality={100}

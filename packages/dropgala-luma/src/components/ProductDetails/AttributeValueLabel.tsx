@@ -25,11 +25,11 @@ const AttributeValueLabel = ({
   return (
     <li
       className={cn(
-        `cursor-pointer rounded-[16px] border px-4 min-w-[66px] h-[32px] 
-         shadow-badge mb-2 md:mb-3 mr-2 flex justify-center items-center 
-         font-medium text-sm md:text-15px text-skin-base transition 
-         duration-200 ease-in-out hover:text-gray-900 hover:border-1 
-         hover:border-gray-900 border-skin-base`,
+        `cursor-pointer rounded-[2px] border px-4 min-w-[66px] h-[32px]
+         shadow-badge mb-2 md:mb-3 mr-2 flex justify-center items-center
+         font-medium text-sm md:text-15px text-gray-800 transition
+         duration-200 ease-in-out hover:text-gray-900 hover:border-1
+         hover:border-gray-900 border-gray-700`,
         {
           'border-gray-900 text-gray-900 border-2':
             selectedAttributeValueId === id,

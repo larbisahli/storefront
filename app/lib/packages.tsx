@@ -61,6 +61,13 @@ const dynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: false
       }
+    ),
+    RelatedProducts: dynamic(
+      () => import('@dropgala/luma/components/RelatedProducts'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
     )
   }
 }
@@ -69,13 +76,15 @@ export function renderComponent<Props>(
   storeTheme: StoreThemes,
   componentName: ComponentNames,
   props: Props,
-  children?: () => React.ReactNode | React.ReactNode[] | null
+  children?: (
+    props: any
+  ) => React.ReactNode | React.ReactNode[] | Element | null
 ): ReactElement<Props, any> | null {
   const Component = dynamicComponents[storeTheme][componentName]
 
   if (Component) {
     // @ts-ignore
-    return <Component {...props}>{children?.()}</Component>
+    return <Component {...props}>{children ?? null}</Component>
   }
 
   return null

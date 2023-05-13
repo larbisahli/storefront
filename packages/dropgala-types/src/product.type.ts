@@ -12,7 +12,7 @@ export interface VariationOptionsType {
   title: Scalars['String']
   isDisable: Scalars['Boolean']
   active: boolean
-  image: Scalars['String']
+  thumbnail: ImageType[]
   options: number[]
   salePrice: Scalars['Float']
   comparePrice: Scalars['Float']
@@ -47,9 +47,25 @@ export interface ProductType {
   tags?: Nullable<Array<Nullable<TagType>>>
   variationOptions?: VariationOptionsType[]
   variations?: VariationsType[]
+  relatedProducts?: Nullable<Array<Nullable<ProductRef>>>
+  upsellProducts?: Nullable<Array<Nullable<ProductRef>>>
+  crossSellProducts?: Nullable<Array<Nullable<ProductRef>>>
   // Order properties for the cart functionality
   orderQuantity?: number
   orderVariationOption?: VariationOptionsType | undefined
+}
+
+export interface ProductRef {
+  id?: Scalars['Int']
+  slug?: Scalars['String']
+  name?: Scalars['String']
+  sku?: Nullable<Scalars['String']>
+  salePrice?: Scalars['Float']
+  comparePrice?: Scalars['Float']
+  buyingPrice?: Scalars['Float']
+  maxPrice?: Scalars['Float']
+  minPrice?: Scalars['Float']
+  quantity?: Scalars['Int']
 }
 
 export interface VariationsType {

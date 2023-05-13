@@ -4,8 +4,8 @@ package AttributePackage;
 
 message AttributeValue {
     uint32 id = 1;
-    string value = 3;
-    string color = 4;
+    string value = 2;
+    string color = 3;
 }
 
 message Attribute {

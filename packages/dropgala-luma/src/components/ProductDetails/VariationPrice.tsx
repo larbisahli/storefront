@@ -30,8 +30,8 @@ function VariationPrice({
     : comparePrice
 
   const percentDecrease = usePercentDecrease({
-    comparePrice: selectedComparePrice,
-    salePrice: selectedSalePrice
+    comparePrice: selectedComparePrice ?? 0,
+    salePrice: selectedSalePrice ?? 0
   })
 
   const price = usePrice({
@@ -50,7 +50,7 @@ function VariationPrice({
   )
 
   const discount = usePrice({
-    amount: selectedComparePrice,
+    amount: selectedComparePrice ?? 0,
     locale: locale!,
     currencyCode: 'USD'
   })
@@ -67,15 +67,15 @@ function VariationPrice({
       </div>
       {selectedComparePrice && (
         <>
-          <del className="text-sm md:text-15px pl-3 text-skin-base text-opacity-50">
+          <del className="pl-3 text-gray-900 text-base text-opacity-50">
             {productDiscount}
           </del>
           <Badge
             backgroundColor="bg-red-300"
-            border="border border-sink-base"
-            textColor="text-skin-red"
+            border="border border-red-200"
+            textColor="text-red-700"
           >
-            {percentDecrease} {/* {t('text-off')} */}
+            {percentDecrease} {'OFF'}
           </Badge>
         </>
       )}

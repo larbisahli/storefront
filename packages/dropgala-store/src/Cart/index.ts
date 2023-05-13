@@ -1,12 +1,8 @@
 // import { Request } from '@graphql/index';
 // import { PRODUCT_CART } from '@graphql/queries/product';
 import { ProductTypes } from '@dropgala/types/enums.type'
-import type {
-  CartItemType,
-  CartState,
-  VariationOptionsType
-} from '@dropgala/types/product.type'
-import { filter, isArray, isEmpty } from '@dropgala/utils/lodashFunctions'
+import type { CartItemType, CartState } from '@dropgala/types/product.type'
+import { filter, isArray } from '@dropgala/utils/lodashFunctions'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
 
@@ -20,15 +16,6 @@ export const fetchProductInfo = createAsyncThunk(
     return { id, variationOptions: [] }
   }
 )
-
-const minPricedVariationOption = (variationOptions: VariationOptionsType[]) => {
-  if (!isEmpty(variationOptions)) {
-    return variationOptions?.reduce((acc, loc) =>
-      acc.salePrice < loc.salePrice ? acc : loc
-    )
-  }
-  return {} as VariationOptionsType
-}
 
 const initialState: CartState = {
   items: [],
@@ -56,46 +43,22 @@ export const cartSlice = createSlice({
         orderQuantity = 1
       } = action.payload
 
-      const isInCart = state.items?.find((item) => item.id === id)
-
-      if (isEmpty(isInCart)) {
-        let calculatedOrderVariationOption = {} as VariationOptionsType
-
-        if (
-          type?.id === ProductTypes.Variable &&
-          isEmpty(orderVariationOption) &&
-          !isEmpty(variationOptions)
-        ) {
-          calculatedOrderVariationOption = minPricedVariationOption(
-            variationOptions!
-          )
-        }
-
-        state.items.push({
-          id,
-          key: nanoid(), // Important for product variations
-          slug,
-          name,
-          salePrice,
-          comparePrice,
-          quantity,
-          type,
-          variationOptions: variationOptions ?? [],
-          variations: variations ?? [],
-          disableOutOfStock,
-          thumbnail,
-          orderVariationOption:
-            orderVariationOption ?? calculatedOrderVariationOption,
-          orderQuantity
-        })
-      } else {
-        state.items = state?.items?.map((item) => {
-          if (item.id === id && item.quantity! > item.orderQuantity!) {
-            item.orderQuantity! += 1
-          }
-          return item
-        })
-      }
+      state.items.unshift({
+        id,
+        key: nanoid(), // Important for product variations
+        slug,
+        name,
+        salePrice,
+        comparePrice,
+        quantity,
+        type,
+        variationOptions: variationOptions ?? [],
+        variations: variations ?? [],
+        disableOutOfStock,
+        thumbnail,
+        orderVariationOption,
+        orderQuantity
+      })
     },
     updateItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const updatedItem = action.payload
@@ -164,12 +127,13 @@ export const cartSlice = createSlice({
       action: PayloadAction<CartItemType>
     ) => {
       const id = action.payload.id
+      const key = action.payload.key
       const type = action.payload.type
       const orderQuantity = action.payload.orderQuantity!
 
       state.items = state?.items?.map((item) => {
         if (type!.id === ProductTypes.Variable) {
-          if (item.key === id) {
+          if (item.key === key) {
             const optionQuantity = item.orderVariationOption?.quantity!
             if (item.orderQuantity! + orderQuantity > optionQuantity) {
               item.orderQuantity = optionQuantity

@@ -1,7 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import AddToCartSvg from '../../assets/icons/add-card'
 import { usePercentDecrease } from '../../hooks/usePercentDecrease'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import type { ProductType } from '@dropgala/types/product.type'
@@ -18,13 +14,13 @@ const Link = dynamic(() => import('../ui/Link'))
 
 interface ProductProps {
   product: ProductType
-  handleAddToCart: () => void
   carousel?: boolean
+  className?: string
 }
 
 const ProductCard: React.FC<ProductProps> = ({
   product,
-  handleAddToCart,
+  className,
   carousel = false
 }) => {
   const { t } = useTranslation('common')
@@ -41,8 +37,11 @@ const ProductCard: React.FC<ProductProps> = ({
     type,
     maxPrice = 0,
     minPrice = 0,
-    inStock
+    inStock,
+    disableOutOfStock
   } = product ?? {}
+
+  const isSoldOut = !disableOutOfStock && !inStock
 
   const isVariable = type?.id === ProductTypes.Variable
 
@@ -105,7 +104,7 @@ const ProductCard: React.FC<ProductProps> = ({
         className={cn(
           'flex flex-col border-transparent max-w-[300px] group rounded-sm cursor-pointer hover:shadow-cardHover transition-all duration-300 relative h-full',
           { 'shadow-cardHover': carousel },
-          { 'pointer-events-none': !inStock }
+          className
         )}
         title={name}
       >
@@ -127,13 +126,16 @@ const ProductCard: React.FC<ProductProps> = ({
                 'rounded-b-none': carousel
               })}
             />
-            {!inStock && (
+            {isSoldOut && (
               <div className="absolute pt-2.5 md:pt-3.5 z-10 -mx-0.5 sm:-mx-1 inset-0 bg-gray-200 rounded opacity-75 flex items-center justify-center">
                 <span className="text-xl font-bold uppercase text-gray-800">
                   {t('text-sold-out')}
                 </span>
               </div>
             )}
+            <button className="absolute top-0 right-0 group-hover:flex hidden items-center justify-center m-3">
+              <HeartEmpty width={25} height={25} />
+            </button>
           </div>
         </div>
 
@@ -173,27 +175,6 @@ const ProductCard: React.FC<ProductProps> = ({
                 </del>
               </div>
             )}
-          </div>
-          <div
-            className={cn(
-              'absolute shadow-cardHoverNoTop bottom-[-55px] bg-white hidden h-[55px] left-0 right-0 z-10 group-hover:flex w-full'
-            )}
-          >
-            <div
-              className={cn(
-                'absolute px-3 pb-2 z-10 flex bottom-0 right-0 left-0',
-                'w-full h-full  cursor-pointer shadow-badge'
-              )}
-              onClick={handleAddToCart}
-            >
-              <div className="flex items-center justify-center bg-black hover:bg-gray-800 w-[80%] h-full">
-                <AddToCartSvg width={18} height={18} />
-                <span className="uppercase text-white mx-1">Add to cart</span>
-              </div>
-              <div className="flex items-center justify-center ml-1 w-[20%] h-full">
-                <HeartEmpty width={25} height={25} />
-              </div>
-            </div>
           </div>
         </div>
       </div>
