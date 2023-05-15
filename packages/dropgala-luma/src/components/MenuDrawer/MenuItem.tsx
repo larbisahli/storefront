@@ -7,9 +7,9 @@ import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
 
-import PlusIcon from '../../../assets/icons/plus-icon'
+import PlusIcon from '../../assets/icons/plus-icon'
 
-const Link = dynamic(() => import('../../ui/Link'))
+const Link = dynamic(() => import('../ui/Link'))
 
 type MenuType = CategoryType | CategoryRefLevel2 | CategoryRefLevel3
 
@@ -23,7 +23,7 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
 
   const { id, name, children = [] } = category
 
-  const hasChildren = (children?.length ?? []) > 0
+  const hasChildren = (children ?? [])?.length > 0
 
   const handleOpenSubMenu = () => {
     if (openSubMenuId) {

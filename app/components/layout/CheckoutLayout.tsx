@@ -1,7 +1,4 @@
-import Header from '@components/Header'
-import CartDrawer from '@components/drawer/CartDrawer'
-import MenuDrawer from '@components/drawer/MenuDrawer'
-import Footer from '@dropgala/luma/components/Footer'
+import CheckoutHeader from '@components/CheckoutHeader'
 import cn from 'clsx'
 import { Lato } from 'next/font/google'
 import React from 'react'
@@ -11,14 +8,14 @@ interface Props {
   className?: string
 }
 
-// TODO: Try to allow the customers to choose google fonts they want to use
+// TODO: Try to allow the customers to dynamically choose google fonts they want to use
 const inter = Lato({
   weight: ['300', '400', '700', '900'],
   subsets: ['latin'],
   variable: '--font-inter'
 })
 
-const Layout = ({ children, className }: Props) => {
+const CheckoutLayout = ({ children, className }: Props) => {
   return (
     <div
       className={cn(
@@ -28,9 +25,7 @@ const Layout = ({ children, className }: Props) => {
         'relative'
       )}
     >
-      <Header />
-      <CartDrawer />
-      <MenuDrawer />
+      <CheckoutHeader />
       <main
         className={cn(
           'h-[450px]',
@@ -40,12 +35,11 @@ const Layout = ({ children, className }: Props) => {
         )}
       >
         <div className="flex flex-col flex-grow">
-          <div className="mt-[110px] lg:mt-[190px] flex-auto">{children}</div>
+          <div className="mt-[50px] lg:mt-[50px] flex-auto">{children}</div>
         </div>
       </main>
-      <Footer />
     </div>
   )
 }
 
-export default Layout
+export default CheckoutLayout

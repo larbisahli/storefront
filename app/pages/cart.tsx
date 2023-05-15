@@ -11,11 +11,8 @@ import CategoryService from '@gRPC/service/category.service'
 import SlideService from '@gRPC/service/slide.service'
 import { getHost } from 'utils'
 import ProductService from '@gRPC/service/product.service'
-import ProductCard from '@components/productCard'
-import HeroBanner from '@components/HeroBanner'
-import HomePageCategories from '@components/HomePageCategories'
-import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import AppLayout from '@components/layout/AppLayout'
+import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
+import CheckoutLayout from '@components/layout/CheckoutLayout'
 
 interface Props {
   menu: CategoryType[]
@@ -24,7 +21,7 @@ interface Props {
   host: { host: string; subdomain: string }
 }
 
-export default function HomePage({
+export default function CartPage({
   host,
   menu,
   heroSlider = [],
@@ -35,47 +32,42 @@ export default function HomePage({
   useEffect(() => {
     console.log({ host, menu, heroSlider, popularProducts })
     dispatch(setMenu({ menu }))
+    // setWildcard(window.location.hostname.split(".")[0])
   }, [])
 
   return (
     <>
       <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
         <meta name="Description" content="Put your description here." />
-        <title>Dropgala</title>
+        <title>Cart</title>
       </Head>
       <div className="mb-44">
-        {/* HERO SECTION */}
-        <section>{<HeroBanner heroSlider={heroSlider} />}</section>
-        {/* CATEGORY SECTION */}
-        <section className="mb-12 mx-2">
-          {<HomePageCategories menu={menu} />}
+        <section className="w-full flex justify-center my-30px">
+          <CheckoutBreadcrumb />
         </section>
-        {/* BESTSELLERS SECTION */}
-        <section className="mb-5 mx-2">
-          <div className="text-2xl font-semibold">Best Sellers</div>
-          {!isEmpty(popularProducts) ? (
-            <div
-              className="grid grid-cols-1 my-10 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-
-                            xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-6 gap-3 md:gap-4 2xl:gap-5"
-            >
-              {popularProducts.map((product) => (
-                <ProductCard product={product} key={product.id} />
-              ))}
-            </div>
-          ) : (
-            <div className="w-full flex flex-col items-center pt-10px md:pt-40px lg:pt-20px pb-40px">
-              <h3 className="text-24px text-gray-900 font-bold mt-35px mb-0 text-center">
-                No product found :(
-              </h3>
-            </div>
-          )}
-        </section>
+        <div className="flex w-full lg:flex-row flex-col border border-gray-200 rounded-md">
+          {/* 1 */}
+          {/* <div className="flex-1">
+            <CheckoutCartItems />
+          </div> */}
+          {/* 2 */}
+          {/* <div
+            style={{ background: 'rgba(0,0,0,0.03)' }}
+            className="pb-5 lg:w-[40%] xl:w-[45%] w-full"
+          >
+            <OrderSummary />
+          </div> */}
+        </div>
       </div>
     </>
   )
 }
 
-HomePage.Layout = AppLayout
+CartPage.Layout = CheckoutLayout
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, locale } = context

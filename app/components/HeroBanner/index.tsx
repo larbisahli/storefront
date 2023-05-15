@@ -1,21 +1,20 @@
 import { selectConfig } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types/enums.type'
-import { ProductType } from '@dropgala/types/product.type'
+import type { HeroBannerType } from '@dropgala/types/slider.type'
 import { useAppSelector } from '@hooks/useStore'
 import renderRemoteComponent from '@lib/packages'
 
 interface Props {
-  product: ProductType
-  className?: string
+  heroSlider: HeroBannerType[]
 }
 
-const ProductCard = ({ product, className }: Props) => {
+const HeroBanner = ({ heroSlider }: Props) => {
   const { theme } = useAppSelector(selectConfig)
 
-  return renderRemoteComponent(theme, ComponentNames.PRODUCT_CARD, {
-    product,
-    className
+  return renderRemoteComponent(theme, ComponentNames.HERO_BANNER, {
+    infiniteLoop: true,
+    items: heroSlider
   })
 }
 
-export default ProductCard
+export default HeroBanner

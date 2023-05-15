@@ -50,9 +50,19 @@ export interface ProductType {
   relatedProducts?: Nullable<Array<Nullable<ProductRef>>>
   upsellProducts?: Nullable<Array<Nullable<ProductRef>>>
   crossSellProducts?: Nullable<Array<Nullable<ProductRef>>>
+  productSeo?: ProductSeoType
   // Order properties for the cart functionality
   orderQuantity?: number
   orderVariationOption?: VariationOptionsType | undefined
+}
+
+export interface ProductSeoType {
+  productId: number
+  slug: string
+  metaTitle?: string
+  metaKeywords?: string
+  metaDescription?: string
+  metaImage?: ImageType[]
 }
 
 export interface ProductRef {

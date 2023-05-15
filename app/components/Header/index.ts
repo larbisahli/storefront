@@ -10,7 +10,7 @@ import {
   useAppSelector,
   useCartItemsCount
 } from '@hooks/useStore'
-import { renderComponent } from '@lib/packages'
+import renderRemoteComponent from '@lib/packages'
 
 const Header = () => {
   const { theme } = useAppSelector(selectConfig)
@@ -28,7 +28,7 @@ const Header = () => {
     dispatch(toggleMenu())
   }
 
-  return renderComponent(theme, ComponentNames.HEADER, {
+  return renderRemoteComponent(theme, ComponentNames.HEADER, {
     handleCart,
     handleMenu,
     itemsCount,

@@ -11,7 +11,7 @@ import {
 import { ComponentNames } from '@dropgala/types/enums.type'
 import { CartItemType } from '@dropgala/types/product.type'
 import { useAppDispatch, useAppSelector } from '@hooks/useStore'
-import { renderComponent } from '@lib/packages'
+import renderRemoteComponent from '@lib/packages'
 import cn from 'clsx'
 import React from 'react'
 
@@ -45,7 +45,7 @@ const CartDrawer = () => {
             <CloseIcon width="16px" height="16px" />
           </button>
         </div>
-        {renderComponent(theme, ComponentNames.CART_DRAWER_VIEW, {
+        {renderRemoteComponent(theme, ComponentNames.CART_DRAWER, {
           cart,
           incrementItem,
           decrementItem,

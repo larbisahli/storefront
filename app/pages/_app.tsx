@@ -8,12 +8,20 @@ import type { AppProps } from 'next/app'
 import { appWithTranslation } from 'next-i18next'
 import { Provider } from 'react-redux'
 
+const Noop: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <>{children}</>
+)
+
 function App({ Component, pageProps }: AppProps) {
+  const Layout = (Component as any).Layout || Noop
+
   return (
     <ErrorBoundary>
       <Provider store={store}>
         <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} />
+          <Layout {...pageProps}>
+            <Component {...pageProps} />
+          </Layout>
         </ApolloProvider>
       </Provider>
     </ErrorBoundary>

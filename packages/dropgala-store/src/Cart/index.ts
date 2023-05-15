@@ -28,36 +28,18 @@ export const cartSlice = createSlice({
   reducers: {
     addItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const {
-        id,
-        slug,
-        name,
-        salePrice,
-        comparePrice,
-        quantity,
-        type,
         variationOptions,
         variations,
-        disableOutOfStock,
-        thumbnail,
-        orderVariationOption,
-        orderQuantity = 1
+        orderQuantity = 1,
+        ...rest
       } = action.payload
 
       state.items.unshift({
-        id,
+        orderQuantity,
         key: nanoid(), // Important for product variations
-        slug,
-        name,
-        salePrice,
-        comparePrice,
-        quantity,
-        type,
         variationOptions: variationOptions ?? [],
         variations: variations ?? [],
-        disableOutOfStock,
-        thumbnail,
-        orderVariationOption,
-        orderQuantity
+        ...rest
       })
     },
     updateItem: (state: CartState, action: PayloadAction<CartItemType>) => {

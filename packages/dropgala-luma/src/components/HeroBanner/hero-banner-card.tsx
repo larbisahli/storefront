@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic'
 import type { FC } from 'react'
 import { memo } from 'react'
 
-const Image = dynamic(() => import('../../common/Image'))
-const Link = dynamic(() => import('../../ui/Link'))
+const Image = dynamic(() => import('../common/Image'))
+const Link = dynamic(() => import('../ui/Link'))
 
 interface BannerProps {
   banner: HeroBannerType

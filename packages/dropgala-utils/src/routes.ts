@@ -17,7 +17,6 @@ export const ROUTES = {
   HELP_CENTER: '/my-account/help-center',
   LEGAL_NOTICE: '/my-account/legal-notice',
   NOTIFICATION: '/my-account/notification',
-  SHOP: '/shop',
   LOGIN: '/signin',
   SIGN_UP: '/signup',
   SEARCH: '/search',

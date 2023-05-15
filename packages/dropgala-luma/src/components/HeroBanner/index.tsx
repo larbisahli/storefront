@@ -5,7 +5,7 @@ import React, { memo, useState } from 'react'
 
 import HeroBannerCard from './hero-banner-card'
 
-const Slider = dynamic(() => import('../../Slider'))
+const Slider = dynamic(() => import('../Slider'))
 
 interface Props {
   items?: HeroBannerType[]

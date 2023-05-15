@@ -1,4 +1,3 @@
-import Layout from '@containers/layout'
 import { selectConfig, setMenu } from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { ProductType } from '@dropgala/types/product.type'
@@ -13,8 +12,10 @@ import ProductService from '@gRPC/service/product.service'
 import ProductDetails from '@components/productDetails'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import ProductCard from '@components/productCard'
-import { renderComponent } from '@lib/packages'
+import renderRemoteComponent from '@lib/packages'
 import { ComponentNames } from '@dropgala/types'
+import Breadcrumb from '@components/Breadcrumb'
+import AppLayout from '@components/layout/AppLayout'
 
 interface Props {
   menu: CategoryType[]
@@ -40,7 +41,7 @@ export default function ProductPage({ menu, product = {} }: Props) {
       return null
     }
 
-    return renderComponent(
+    return renderRemoteComponent(
       theme,
       ComponentNames.RELATED_PRODUCTS,
       {
@@ -56,7 +57,7 @@ export default function ProductPage({ menu, product = {} }: Props) {
       return null
     }
 
-    return renderComponent(
+    return renderRemoteComponent(
       theme,
       ComponentNames.RELATED_PRODUCTS,
       {
@@ -68,19 +69,22 @@ export default function ProductPage({ menu, product = {} }: Props) {
   }
 
   return (
-    <Layout>
+    <>
       <Head>
         <meta name="Description" content="Put your description here." />
-        <title>Dropgala</title>
+        <title>{product?.name}</title>
       </Head>
       <div className="mb-44 max-w-[1300px] 2xxl:max-w-[1500px] mx-auto">
         {/* PRODUCT DETAIL PAGE */}
         <section className="mb-5 py-35px px-10px">
-          {/* <div className="pt-6 lg:pt-7">
-          <div className="mx-auto max-w-[1920px]">
-            <Breadcrumb />
+          <div className="pt-6 lg:pt-7">
+            <div className="mx-auto max-w-[1920px]">
+              <Breadcrumb
+                name={product?.name!}
+                category={product?.categories![0]}
+              />
+            </div>
           </div>
-        </div> */}
           <div className="">
             {!isEmpty(product) && <ProductDetails product={product} />}
           </div>
@@ -94,9 +98,11 @@ export default function ProductPage({ menu, product = {} }: Props) {
           {renderUpsellProducts()}
         </section>
       </div>
-    </Layout>
+    </>
   )
 }
+
+ProductPage.Layout = AppLayout
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, locale, params } = context

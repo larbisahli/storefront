@@ -10,7 +10,7 @@ import type { ComponentNames, StoreThemes } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
 
-const dynamicComponents = {
+const mapDynamicComponents = {
   '@dropgala/luma': {
     Header: dynamic(() => import('@dropgala/luma/components/Header'), {
       loading: () => <HeaderPlaceholder />,
@@ -20,27 +20,18 @@ const dynamicComponents = {
       loading: () => <FooterPlaceholder />,
       ssr: false
     }),
-    MenuDrawerView: dynamic(
-      () => import('@dropgala/luma/components/Drawer/MenuDrawerView'),
-      {
-        loading: () => <MenuDrawerPlaceholder />,
-        ssr: false
-      }
-    ),
-    CartDrawerView: dynamic(
-      () => import('@dropgala/luma/components/Drawer/CartDrawerView'),
-      {
-        loading: () => <CartDrawerPlaceholder />,
-        ssr: false
-      }
-    ),
-    HeroBanner: dynamic(
-      () => import('@dropgala/luma/components/Banner/HeroBlock'),
-      {
-        loading: () => <HeroBannerPlaceholder />,
-        ssr: false
-      }
-    ),
+    MenuDrawer: dynamic(() => import('@dropgala/luma/components/MenuDrawer'), {
+      loading: () => <MenuDrawerPlaceholder />,
+      ssr: false
+    }),
+    CartDrawer: dynamic(() => import('@dropgala/luma/components/CartDrawer'), {
+      loading: () => <CartDrawerPlaceholder />,
+      ssr: false
+    }),
+    HeroBanner: dynamic(() => import('@dropgala/luma/components/HeroBanner'), {
+      loading: () => <HeroBannerPlaceholder />,
+      ssr: false
+    }),
     HomePageCategories: dynamic(
       () => import('@dropgala/luma/components/HomepageCategories'),
       {
@@ -68,11 +59,29 @@ const dynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: false
       }
+    ),
+    Breadcrumb: dynamic(() => import('@dropgala/luma/components/Breadcrumb'), {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: false
+    }),
+    CheckoutBreadcrumb: dynamic(
+      () => import('@dropgala/luma/components/CheckoutBreadcrumb'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
+    ),
+    CheckoutHeader: dynamic(
+      () => import('@dropgala/luma/components/CheckoutHeader'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
     )
   }
 }
 
-export function renderComponent<Props>(
+export default function renderRemoteComponent<Props>(
   storeTheme: StoreThemes,
   componentName: ComponentNames,
   props: Props,
@@ -80,14 +89,11 @@ export function renderComponent<Props>(
     props: any
   ) => React.ReactNode | React.ReactNode[] | Element | null
 ): ReactElement<Props, any> | null {
-  const Component = dynamicComponents[storeTheme][componentName]
+  const Component = mapDynamicComponents[storeTheme][componentName]
 
   if (Component) {
-    // @ts-ignore
     return <Component {...props}>{children ?? null}</Component>
   }
 
   return null
 }
-
-export default dynamicComponents

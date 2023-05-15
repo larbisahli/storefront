@@ -14,7 +14,6 @@ import {
   useState
 } from 'react'
 import dynamic from 'next/dynamic'
-import AddToCartSvg from '../../assets/icons/add-card'
 
 import { ProductTypes } from '@dropgala/types'
 import type {

@@ -3,9 +3,9 @@ import { ComponentNames } from '@dropgala/types'
 import { useAppSelector } from '@hooks/useStore'
 import renderRemoteComponent from '@lib/packages'
 
-const Footer = () => {
+const CheckoutBreadcrumb = () => {
   const { theme } = useAppSelector(selectConfig)
-  return renderRemoteComponent(theme, ComponentNames.FOOTER, {})
+  return renderRemoteComponent(theme, ComponentNames.CHECKOUT_BREADCRUMB, {})
 }
 
-export default Footer
+export default CheckoutBreadcrumb

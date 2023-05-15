@@ -2,7 +2,7 @@ import { selectConfig, toggleCart } from '@dropgala/store'
 import { ComponentNames, ProductTypes } from '@dropgala/types/enums.type'
 import { ProductType } from '@dropgala/types/product.type'
 import { useAppDispatch, useAppSelector } from '@hooks/useStore'
-import { renderComponent } from '@lib/packages'
+import renderRemoteComponent from '@lib/packages'
 import { addItem, selectCart, setOrderQuantity } from '@dropgala/store/Cart'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { useMemo, useState } from 'react'
@@ -93,7 +93,7 @@ const ProductDetails = ({ product }: Props) => {
     setSelectedQuantity(1)
   }
 
-  return renderComponent(theme, ComponentNames.PRODUCT_DETAILS, {
+  return renderRemoteComponent(theme, ComponentNames.PRODUCT_DETAILS, {
     product,
     addToCart,
     cartItems,

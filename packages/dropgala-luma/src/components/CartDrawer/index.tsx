@@ -2,16 +2,16 @@ import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { siteSettings } from '../../../settings/site-settings'
-import Button from '../../ui/Button'
+import { siteSettings } from '../../settings/site-settings'
+import Button from '../ui/Button'
 import CartItem from './CartItem'
 import EmptyCart from './EmptyCart'
 import { CartItemType, CartState } from '@dropgala/types/product.type'
-import { UseCartItemsTotalPrice } from '../../../hooks/useCartItemsTotalPrice'
-import { useCartItemsCount } from '../../../hooks/useCartItemsCount'
+import { UseCartItemsTotalPrice } from '../../hooks/useCartItemsTotalPrice'
+import { useCartItemsCount } from '../../hooks/useCartItemsCount'
 
-const Link = dynamic(() => import('../../ui/Link'))
-const Scrollbar = dynamic(() => import('../../common/Scrollbar'))
+const Link = dynamic(() => import('../ui/Link'))
+const Scrollbar = dynamic(() => import('../common/Scrollbar'))
 
 interface Props {
   cart: CartState

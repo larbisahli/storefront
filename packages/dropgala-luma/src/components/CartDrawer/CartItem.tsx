@@ -8,12 +8,12 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { memo, useMemo } from 'react'
 
-import { siteSettings } from '../../../settings/site-settings'
-import { AttributeDisplay, Counter, Image } from '../../common'
+import { siteSettings } from '../../settings/site-settings'
+import { AttributeDisplay, Counter, Image } from '../common'
 import { ImageType } from '@dropgala/types/common.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
-const Link = dynamic(() => import('../../ui/Link'))
+const Link = dynamic(() => import('../ui/Link'))
 
 type CartItemProps = {
   item: CartItemType
@@ -94,6 +94,8 @@ const CartItem: React.FC<CartItemProps> = ({
 
   const { image = '', placeholder = '' } = imageThumbnail
 
+  console.log({ item })
+
   return (
     <div
       className="w-full h-auto flex justify-start items-start bg-white py-6 px-30px border-b
@@ -102,9 +104,8 @@ const CartItem: React.FC<CartItemProps> = ({
       <Link
         href={{
           pathname: '/product/[slug]',
-          query: { slug }
+          query: { slug: item?.productSeo?.slug ?? '' }
         }}
-        passHref
       >
         <div
           className="flex w-105px h-105px rounded-sm overflow-hidden bg-gray-200 flex-shrink-0"

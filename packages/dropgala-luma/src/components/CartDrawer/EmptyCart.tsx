@@ -1,4 +1,4 @@
-import EmptyCartSVG from '../../../assets/icons/empty-svg'
+import EmptyCartSVG from '../../assets/icons/empty-svg'
 
 export default function EmptyCart() {
   return (

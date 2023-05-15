@@ -4,12 +4,15 @@ export enum ComponentNames {
   HEADER = 'Header',
   FOOTER = 'Footer',
   HERO_BANNER = 'HeroBanner',
-  CART_DRAWER_VIEW = 'CartDrawerView',
-  MENU_DRAWER_VIEW = 'MenuDrawerView',
+  CART_DRAWER = 'CartDrawer',
+  MENU_DRAWER = 'MenuDrawer',
   HOMEPAGE_CATEGORIES = 'HomePageCategories',
   PRODUCT_CARD = 'ProductCard',
   PRODUCT_DETAILS = 'ProductDetails',
-  RELATED_PRODUCTS = 'RelatedProducts'
+  RELATED_PRODUCTS = 'RelatedProducts',
+  BREADCRUMB = 'Breadcrumb',
+  CHECKOUT_BREADCRUMB = 'CheckoutBreadcrumb',
+  CHECKOUT_HEADER = 'CheckoutHeader'
 }
 
 export type StoreThemes = '@dropgala/luma'

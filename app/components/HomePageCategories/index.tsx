@@ -1,21 +1,19 @@
 import { selectConfig } from '@dropgala/store'
+import type { CategoryType } from '@dropgala/types/category.type'
 import { ComponentNames } from '@dropgala/types/enums.type'
-import { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import renderRemoteComponent from '@lib/packages'
 
 interface Props {
-  product: ProductType
-  className?: string
+  menu: CategoryType[]
 }
 
-const ProductCard = ({ product, className }: Props) => {
+const HomePageCategories = ({ menu }: Props) => {
   const { theme } = useAppSelector(selectConfig)
 
-  return renderRemoteComponent(theme, ComponentNames.PRODUCT_CARD, {
-    product,
-    className
+  return renderRemoteComponent(theme, ComponentNames.HOMEPAGE_CATEGORIES, {
+    categories: menu
   })
 }
 
-export default ProductCard
+export default HomePageCategories
