@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { footer } from '../data'
-import WidgetAbout from './WidgetAboutUs'
+import WidgetSocials from './WidgetSocials'
 import WidgetLink from './WidgetLink'
 import WidgetSubscription from './WidgetSubscription'
+import { ConfigType } from '@dropgala/types/config.type'
 
 interface WidgetsProps {
   widgets: {
@@ -11,15 +12,17 @@ interface WidgetsProps {
     widgetTitle: string
     lists: any
   }[]
+  storeConfig: ConfigType
 }
 
-const Widgets: React.FC<WidgetsProps> = ({ widgets }) => {
+const Widgets: React.FC<WidgetsProps> = ({ storeConfig, widgets }) => {
   const { social } = footer
   return (
     <div className="mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10">
       <div className="grid grid-cols-2 md:grid-cols-7 xl:grid-cols-12 gap-5 sm:gap-9 lg:gap-11 xl:gap-7 pb-[50px]">
-        <WidgetAbout
+        <WidgetSocials
           social={social}
+          storeConfig={storeConfig}
           className="col-span-full sm:col-span-1 md:col-span-3 border-b sm:border-b-0 border-skin-three mb-4 sm:mb-0"
         />
         {widgets?.map((widget) => (

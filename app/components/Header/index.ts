@@ -13,7 +13,7 @@ import {
 import renderRemoteComponent from '@lib/packages'
 
 const Header = () => {
-  const { theme } = useAppSelector(selectConfig)
+  const storeConfig = useAppSelector(selectConfig)
   const { menu } = useAppSelector(selectMenu)
 
   const dispatch = useAppDispatch()
@@ -28,10 +28,11 @@ const Header = () => {
     dispatch(toggleMenu())
   }
 
-  return renderRemoteComponent(theme, ComponentNames.HEADER, {
+  return renderRemoteComponent(storeConfig.theme, ComponentNames.HEADER, {
     handleCart,
     handleMenu,
     itemsCount,
+    storeConfig,
     menu
   })
 }

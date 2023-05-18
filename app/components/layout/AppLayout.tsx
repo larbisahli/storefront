@@ -1,10 +1,10 @@
 import Header from '@components/Header'
 import CartDrawer from '@components/CartDrawer'
 import MenuDrawer from '@components/MenuDrawer'
-import Footer from '@dropgala/luma/components/Footer'
 import cn from 'clsx'
 import { Lato } from 'next/font/google'
 import React from 'react'
+import Footer from '@components/Footer'
 
 interface Props {
   children: React.ReactNode

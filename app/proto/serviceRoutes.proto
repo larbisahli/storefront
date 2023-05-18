@@ -2,19 +2,24 @@ syntax = "proto3";
 
 package ServiceRoutes;
 
-import "./product.proto";
-import "./category.proto";
-import "./slide.proto";
+import "product.proto";
+import "category.proto";
+import "slide.proto";
+import "settings.proto";
 
 service CategoryServiceRoutes {
-  rpc getStoreMenu(MenuRequest) returns (MenuResponse);
+  rpc getStoreMenu(MenuRequest)                          returns (MenuResponse);
 }
 
 service SliderServiceRoutes {
-  rpc getStoreHeroBanner(HeroBannerRequest) returns (HeroBannerResponse);
+  rpc getStoreHeroBanner(HeroBannerRequest)              returns (HeroBannerResponse);
 }
 
 service ProductServiceRoutes {
-  rpc getPopularProducts(PopularProductsRequest) returns (PopularProductsResponse);
-  rpc getProduct(ProductRequest) returns (ProductResponse);
+  rpc getPopularProducts(PopularProductsRequest)         returns (PopularProductsResponse);
+  rpc getProduct(ProductRequest)                         returns (ProductResponse);
+}
+
+service ConfigServiceRoutes {
+  rpc getStoreConfig(StoreConfigRequest)                 returns (StoreConfigResponse);
 }

@@ -68,6 +68,8 @@ const ImageComponent = ({
     }
   }, [customPlaceholder])
 
+  const customImagePlaceholder = siteSettings?.placeholders?.product?.image
+
   return (
     <Image
       src={isCustomUrl ? srcImage : `${mediaURL}/${srcImage}`}
@@ -76,7 +78,7 @@ const ImageComponent = ({
       {...props}
       alt={props.alt ?? ''}
       // In case there is an error return a dummy image placeholder
-      onError={() => setSrc(siteSettings?.placeholders?.product?.image)}
+      onError={() => setSrc(isCustomUrl ? `/${customImagePlaceholder}` : customImagePlaceholder)}
     />
   )
 }

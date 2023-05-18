@@ -1,48 +1,93 @@
-import { setMenu } from '@dropgala/store'
+import { setMenu, setConfig } from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { HeroBannerType } from '@dropgala/types/slider.type'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppDispatch } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
-import Head from 'next/head'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect } from 'react'
-import CategoryService from '@gRPC/service/category.service'
-import SlideService from '@gRPC/service/slide.service'
 import { getHost } from 'utils'
-import ProductService from '@gRPC/service/product.service'
 import ProductCard from '@components/productCard'
 import HeroBanner from '@components/HeroBanner'
 import HomePageCategories from '@components/HomePageCategories'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import AppLayout from '@components/layout/AppLayout'
+import type {ConfigType} from '@dropgala/types/config.type'
+import {
+  CategoryService,
+  ConfigService,
+  ProductService,
+  SlideService
+} from '@gRPC/services'
+import { NextSeo } from 'next-seo';
+import { mediaURL } from '@dropgala/utils/utils'
 
 interface Props {
   menu: CategoryType[]
   heroSlider: HeroBannerType[]
   popularProducts: ProductType[]
   host: { host: string; subdomain: string }
+  storeConfig: ConfigType
 }
 
 export default function HomePage({
   host,
   menu,
   heroSlider = [],
-  popularProducts
+  popularProducts,
+  storeConfig,
 }: Props) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    console.log({ host, menu, heroSlider, popularProducts })
+    console.log({ host, storeConfig, menu, heroSlider, popularProducts })
     dispatch(setMenu({ menu }))
+    dispatch(setConfig({storeConfig}))
   }, [])
 
   return (
     <>
-      <Head>
-        <meta name="Description" content="Put your description here." />
-        <title>Dropgala</title>
-      </Head>
+      <NextSeo
+      title={storeConfig?.storeName}
+      description={storeConfig?.seo?.metaDescription}
+      canonical={storeConfig?.seo?.canonicalUrl}
+      openGraph={{
+        url: storeConfig?.seo?.canonicalUrl,
+        title: storeConfig?.seo?.metaTitle,
+        description: storeConfig?.seo?.metaDescription,
+        images: [
+          {
+            url: !!storeConfig?.seo?.ogImage?.length?`${mediaURL}/${storeConfig?.seo?.ogImage[0].image}` :'',
+            width: 800,
+            height: 600,
+            alt: 'Og Image Alt',
+            type: 'image/png',
+          }
+        ],
+        siteName: storeConfig?.storeName,
+      }}
+      twitter={{
+        handle: storeConfig?.seo?.twitterHandle,
+        site: '@site',
+        cardType: 'summary_large_image',
+      }}
+      additionalLinkTags={[
+        {
+          rel: 'icon',
+          href: !!storeConfig?.favicon?.length?`${mediaURL}/${storeConfig?.favicon[0].image}` :'',
+        },
+        {
+          rel: 'apple-touch-icon',
+          href: 'https://www.test.ie/touch-icon-ipad.jpg',
+          sizes: '76x76'
+        },
+        {
+          rel: 'manifest',
+          href: '/manifest.json'
+        }
+      ]}
+    />
+
       <div className="mb-44">
         {/* HERO SECTION */}
         <section>{<HeroBanner heroSlider={heroSlider} />}</section>
@@ -84,21 +129,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
     // -----------<Remote Procedure Calls>--------------
+    const storeConfig = new ConfigService()
     const productService = new ProductService()
     const categoryService = new CategoryService()
     const slideService = new SlideService()
 
-    const { sliders = [], error: slideError } = await slideService.getHeroSlide(
-      'store'
-    )
-    const { menu = [], error: menuError } = await categoryService.getMenu(
-      'store'
-    )
-    const { products: popularProducts = [], error: productError } =
-      await productService.getPopular('store')
+    const { config, error: configError } =
+        await storeConfig.getConfig('store')
 
-    if (slideError | menuError | productError) {
-      throw { slideError, menuError, productError }
+    const { sliders = [], error: slideError } =
+        await slideService.getHeroSlide('store')
+
+    const { menu = [], error: menuError } =
+        await categoryService.getMenu('store')
+
+    const { products: popularProducts = [], error: productError } =
+        await productService.getPopular('store')
+
+    console.log({slideError , menuError, productError, configError})
+
+    if (slideError || menuError || productError || configError) {
+      throw { slideError, menuError, productError, configError }
     }
 
     return {
@@ -107,6 +158,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         menu,
         heroSlider: sliders,
         popularProducts,
+        storeConfig: config,
         ...(await serverSideTranslations(locale!, [
           'common',
           'forms',

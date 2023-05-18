@@ -1,9 +1,10 @@
 // Original file: app/proto/product.proto
 
+
 export interface PopularProductsRequest {
-  alias?: string
+  'alias'?: (string);
 }
 
 export interface PopularProductsRequest__Output {
-  alias: string
+  'alias': (string);
 }

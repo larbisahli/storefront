@@ -6,7 +6,7 @@ import { ProtoGrpcType } from '@proto/generated/serviceRoutes'
 
 const PROTO_PATH = path.join(process.cwd(), './proto/serviceRoutes.proto')
 
-export const RPCStoreFrontPort = '0.0.0.0:50052'
+export const RPCStoreFrontPort = '13.39.86.65:50052' //'0.0.0.0:50052'
 
 export const { createInsecure } = grpc.credentials
 
@@ -23,6 +23,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 export const {
   CategoryServiceRoutes,
   SliderServiceRoutes,
-  ProductServiceRoutes
+  ProductServiceRoutes,
+  ConfigServiceRoutes
 } = (grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType)
   .ServiceRoutes

@@ -4,8 +4,8 @@ import { useAppSelector } from '@hooks/useStore'
 import renderRemoteComponent from '@lib/packages'
 
 const Footer = () => {
-  const { theme } = useAppSelector(selectConfig)
-  return renderRemoteComponent(theme, ComponentNames.FOOTER, {})
+  const storeConfig = useAppSelector(selectConfig)
+  return renderRemoteComponent(storeConfig.theme, ComponentNames.FOOTER, {storeConfig})
 }
 
 export default Footer

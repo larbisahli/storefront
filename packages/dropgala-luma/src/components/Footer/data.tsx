@@ -90,33 +90,33 @@ export const footer = {
   social: [
     {
       id: 1,
-      path: 'https://www.facebook.com/redqinc/',
       image: '/assets/images/social/facebook.svg',
       name: 'facebook',
+      icon: {value: 'FacebookIcon'},
       width: 20,
       height: 20
     },
     {
       id: 2,
-      path: 'https://twitter.com/redqinc',
       image: '/assets/images/social/twitter.svg',
+      icon: {value: 'TwitterIcon'},
       name: 'twitter',
       width: 20,
       height: 20
     },
     {
       id: 3,
-      path: 'https://www.instagram.com/redqinc/',
       image: '/assets/images/social/instagram.svg',
       name: 'instagram',
+      icon: {value: 'InstagramIcon'},
       width: 20,
       height: 20
     },
     {
       id: 4,
-      path: 'https://www.youtube.com/channel/UCjld1tyVHRNy_pe3ROLiLhw',
       image: '/assets/images/social/youtube.svg',
       name: 'youtube',
+      icon: {value: 'YoutubeIcon'},
       width: 20,
       height: 20
     }

@@ -5,9 +5,9 @@ const SearchSection = () => {
         <input
           type="search"
           id="search"
-          className="block w-full p-4 pr-10 text-sm text-gray-900 border border-gray-300 
-      rounded-sm bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700
-       dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-red-500
+          className="block w-full p-4 pr-10 text-sm text-gray-900 border border-gray-300
+      rounded-sm bg-gray-50 focus:ring-red-500 focus:border-red-500
+       dark:placeholder-gray-800 dark:text-white dark:focus:ring-red-500
         dark:focus:border-red-500 outline-none"
           placeholder="Search products"
           required

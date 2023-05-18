@@ -39,6 +39,7 @@ importers:
       i18next: ^22.4.13
       next: ^13.2.4
       next-i18next: ^13.2.2
+      next-seo: ^6.0.0
       postcss: ^8.4.18
       postcss-flexbugs-fixes: ^5.0.2
       postcss-preset-env: ^8.2.0
@@ -65,6 +66,7 @@ importers:
       i18next: 22.4.13
       next: 13.2.4_biqbaboplfbrettd7655fr4n2y
       next-i18next: 13.2.2_dt4g7v76vmr3y5vqc353t2czpa
+      next-seo: 6.0.0_ld2jel3hspngo3u5lti2kgl2sq
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-i18next: 12.2.0_2rh65uwnd6kial3dj4kteywnti
@@ -4031,6 +4033,18 @@ packages:
       next: 13.2.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-i18next: 12.2.0_2rh65uwnd6kial3dj4kteywnti
+    dev: false
+
+  /next-seo/6.0.0_ld2jel3hspngo3u5lti2kgl2sq:
+    resolution: {integrity: sha512-jKKt1p1z4otMA28AyeoAONixVjdYmgFCWwpEFtu+DwRHQDllVX3RjtyXbuCQiUZEfQ9rFPBpAI90vDeLZlMBdg==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 13.2.4_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /next/13.2.4:

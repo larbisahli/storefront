@@ -11,6 +11,8 @@ import MenuDropDownComponent from './MenuDropDownComponent'
 import MobileHeader from './MobileHeader'
 import NoticeSection from './NoticeSection'
 import SearchSection from './SearchSection'
+import { ConfigType } from '@dropgala/types/config.type'
+import { mediaURL } from '@dropgala/utils/utils'
 
 const Image = dynamic(() => import('../common/Image'))
 const Link = dynamic(() => import('../ui/Link'))
@@ -22,6 +24,7 @@ export interface HeaderProps {
   handleMenu: () => void
   handleCart: () => void
   itemsCount: number
+  storeConfig: ConfigType
   menu?: CategoryType[]
 }
 
@@ -29,6 +32,7 @@ const Header: FC<any> = ({
   handleMenu,
   handleCart,
   itemsCount,
+  storeConfig,
   menu = []
 }: HeaderProps) => {
   const router = useRouter()
@@ -66,6 +70,8 @@ const Header: FC<any> = ({
     }, 500)
   }
 
+  const storeLogo = !!storeConfig?.logo?.length ? `${mediaURL}/${storeConfig?.logo[0].image}` : '/assets/images/default_logo.webp'
+
   return (
     <Fragment>
       <header
@@ -81,17 +87,19 @@ const Header: FC<any> = ({
         {/* Navigation */}
         <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto xl:px-0 px-20px ">
           {/* Info section */}
-          <InfoSection email="info@dropgala.com" phone="+212 619080913" />
+          <InfoSection storeConfig={storeConfig} />
           {/* Nav */}
-          <div className="flex items-center bg-white h-60px">
-            <div className="relative flex justify-center overflow-hidden w-[180px] h-[50px]">
+          <div className="flex items-center bg-white h-60px relative">
+            <div className="flex relative justify-center overflow-hidden">
               <Link href="/">
-                <Image
-                  isCustomUrl
-                  src="/assets/images/fixed_logo.webp"
-                  layout="fill"
-                  alt="logo"
-                />
+                <div className='relative w-[170px] h-[35px]'>
+                  <Image
+                    isCustomUrl
+                    src={storeLogo}
+                    layout="fill"
+                    alt="logo"
+                  />
+                </div>
               </Link>
             </div>
             <div className="hidden lg:block flex-1 max-w-[500px] m-auto">

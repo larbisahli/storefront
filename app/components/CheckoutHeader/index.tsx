@@ -4,8 +4,8 @@ import { useAppSelector } from '@hooks/useStore'
 import renderRemoteComponent from '@lib/packages'
 
 const CheckoutHeader = () => {
-  const { theme } = useAppSelector(selectConfig)
-  return renderRemoteComponent(theme, ComponentNames.CHECKOUT_HEADER, {})
+  const storeConfig = useAppSelector(selectConfig)
+  return renderRemoteComponent(storeConfig.theme, ComponentNames.CHECKOUT_HEADER, {storeConfig})
 }
 
 export default CheckoutHeader
