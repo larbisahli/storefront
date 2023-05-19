@@ -155,19 +155,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const slug = params?.slug
 
   try {
+    if(!alias || !slug){
+      throw {error: {message: 'alias or slug not specified'}}
+    }
+
     // -----------<Remote Procedure Calls>--------------
     const storeConfig = new ConfigService()
     const productService = new ProductService()
     const categoryService = new CategoryService()
 
-    const { config, error: configError } = await storeConfig.getConfig('store')
+    const {
+      config,
+      error: configError
+    } = await storeConfig.getConfig(alias)
 
-    const { menu = [], error: menuError } = await categoryService.getMenu(
-      'store'
-    )
+    const {
+      menu = [],
+      error: menuError
+    } = await categoryService.getMenu(alias)
 
-    const { product, error: productError } =
-      await productService.getStoreProduct('store', slug as string)
+    const {
+      product,
+      error: productError
+    } = await productService.getStoreProduct(alias, slug as string)
 
     if (isEmpty(product) || menuError || productError || configError) {
       throw { menuError, productError }
