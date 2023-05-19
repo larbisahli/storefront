@@ -70,7 +70,9 @@ const Header: FC<any> = ({
     }, 500)
   }
 
-  const storeLogo = !!storeConfig?.logo?.length ? `${mediaURL}/${storeConfig?.logo[0].image}` : '/assets/images/default_logo.webp'
+  const storeLogo = !!storeConfig?.logo?.length
+    ? `${mediaURL}/${storeConfig?.logo[0].image}`
+    : '/assets/images/default_logo.webp'
 
   return (
     <Fragment>
@@ -92,7 +94,7 @@ const Header: FC<any> = ({
           <div className="flex items-center bg-white h-60px relative">
             <div className="flex relative justify-center overflow-hidden">
               <Link href="/">
-                <div className='relative'>
+                <div className="relative">
                   <Image
                     isCustomUrl
                     src={storeLogo}

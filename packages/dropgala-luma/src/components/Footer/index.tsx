@@ -14,7 +14,7 @@ interface Props {
   storeConfig: ConfigType
 }
 
-const Footer: React.FC<Props> = ({storeConfig}) => {
+const Footer: React.FC<Props> = ({ storeConfig }) => {
   const [storeWidgets, setStoreWidgets] = useState(null)
   const [storePayment, setStorePayment] = useState(null)
 
@@ -26,7 +26,9 @@ const Footer: React.FC<Props> = ({storeConfig}) => {
   return (
     <Fragment>
       <footer className="mt-[50px] lg:mt-14 2xl:mt-16 bg-gray-200 pt-14 border-dashed border-1 border-t border-gray-300">
-        {storeWidgets && <Widgets storeConfig={storeConfig} widgets={storeWidgets} />}
+        {storeWidgets && (
+          <Widgets storeConfig={storeConfig} widgets={storeWidgets} />
+        )}
         {storePayment && <Copyright payment={storePayment} />}
       </footer>
     </Fragment>

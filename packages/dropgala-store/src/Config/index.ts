@@ -1,6 +1,6 @@
 import type { StoreThemes } from '@dropgala/types/enums.type'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import type {ConfigType} from '@dropgala/types/config.type'
+import type { ConfigType } from '@dropgala/types/config.type'
 
 import { AppState } from '../store'
 
@@ -18,16 +18,17 @@ export const storeConfig = createSlice({
   reducers: {
     setConfig: (
       state: StoreConfigState,
-      action: PayloadAction<{storeConfig:StoreConfigState}>) => {
+      action: PayloadAction<{ storeConfig: StoreConfigState }>
+    ) => {
       const storeConfig = action.payload.storeConfig
 
       state = {
         ...storeConfig,
-        theme: '@dropgala/luma',
+        theme: '@dropgala/luma'
       }
 
       return state
-    },
+    }
   }
 })
 

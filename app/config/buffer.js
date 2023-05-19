@@ -11,10 +11,10 @@ O4lhse46AwEiWWa2eBroHgaWYo0hK2Wz+srClXxw8868kv3HVjnDXng0vnOzfWLz
 R2Uur499aab7J9gAOu3pYFm8ELSzBfxG5+/1ajq9hjymIi4l5oseE6vJRSXoANGe
 2Cx7frPuluUVqckN6Ubs3PgKgFTzmx60U68/GKh06nSQW7cgeEWto5t+JwAPAmcw
 t4rWeA3O8nhD7ZPauT4CqrECAwEAAQ==
------END PUBLIC KEY-----`;
+-----END PUBLIC KEY-----`
 
 // Convert key and store it as base64
-const buff = Buffer.from(privateKey).toString('base64');
+const buff = Buffer.from(privateKey).toString('base64')
 
 // const key = Buffer.from(buff , 'base64').toString('ascii');
-console.log(buff);
+console.log(buff)

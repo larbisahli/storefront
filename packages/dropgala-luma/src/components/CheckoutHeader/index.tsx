@@ -1,5 +1,5 @@
-import ArrowRightFilled from '../../assets/icons/filed-right-arrow';
-import SecureLock from '../../assets/icons/secure-lock';
+import ArrowRightFilled from '../../assets/icons/filed-right-arrow'
+import SecureLock from '../../assets/icons/secure-lock'
 import { ConfigType } from '@dropgala/types/config.type'
 import { mediaURL } from '@dropgala/utils/utils'
 import cn from 'clsx'
@@ -12,9 +12,10 @@ interface Props {
   storeConfig: ConfigType
 }
 
-function CheckoutHeader({storeConfig}: Props) {
-
-  const storeLogo = !!storeConfig?.logo?.length ? `${mediaURL}/${storeConfig?.logo[0].image}` : '/assets/images/default_logo.webp'
+function CheckoutHeader({ storeConfig }: Props) {
+  const storeLogo = !!storeConfig?.logo?.length
+    ? `${mediaURL}/${storeConfig?.logo[0].image}`
+    : '/assets/images/default_logo.webp'
 
   return (
     <header
@@ -26,18 +27,18 @@ function CheckoutHeader({storeConfig}: Props) {
         <div className="flex items-center">
           <Link href="/">
             <div className="relative">
-              <div className='relative'>
-          <div className="relative flex justify-center overflow-hidden w-[130px] h-[25px]">
-              <Link href="/">
-                <Image
-                  isCustomUrl
-                  src={storeLogo}
-                  layout="fill"
-                  alt="logo"
-                />
-              </Link>
-            </div>
-          </div>
+              <div className="relative">
+                <div className="relative flex justify-center overflow-hidden w-[130px] h-[25px]">
+                  <Link href="/">
+                    <Image
+                      isCustomUrl
+                      src={storeLogo}
+                      layout="fill"
+                      alt="logo"
+                    />
+                  </Link>
+                </div>
+              </div>
             </div>
           </Link>
           <div
@@ -45,7 +46,9 @@ function CheckoutHeader({storeConfig}: Props) {
             className="w-[1px] h-[30px] bg-gray-400 mx-3"
           ></div>
           <div style={{ color: '#83b293' }} className="flex items-center">
-            <div><SecureLock width="23px" height="23px" /></div>
+            <div>
+              <SecureLock width="23px" height="23px" />
+            </div>
             <div className="pl-2 text-xs">SECURE CHECKOUT</div>
           </div>
         </div>
@@ -53,7 +56,7 @@ function CheckoutHeader({storeConfig}: Props) {
           <div className="flex items-center text-gray-600">
             <div className="pt-[2px] text-xs">CONTINUE SHOPPING</div>
             <div className="pl-2">
-            <ArrowRightFilled width="9px" height="9px" />
+              <ArrowRightFilled width="9px" height="9px" />
             </div>
           </div>
         </Link>

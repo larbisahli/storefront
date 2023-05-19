@@ -10,7 +10,12 @@ import { useEffect } from 'react'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/layout/CheckoutLayout'
-import { CategoryService, ConfigService, ProductService, SlideService } from '@gRPC/services'
+import {
+  CategoryService,
+  ConfigService,
+  ProductService,
+  SlideService
+} from '@gRPC/services'
 import { ConfigType } from '@dropgala/types/config.type'
 
 interface Props {
@@ -30,12 +35,12 @@ export default function CartPage({
 }: Props) {
   const dispatch = useAppDispatch()
 
-  console.log({storeConfig})
+  console.log({ storeConfig })
 
   useEffect(() => {
     console.log({ host, menu, heroSlider, popularProducts })
     dispatch(setMenu({ menu }))
-    dispatch(setConfig({storeConfig}))
+    dispatch(setConfig({ storeConfig }))
   }, [])
 
   return (
@@ -84,17 +89,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const categoryService = new CategoryService()
     const slideService = new SlideService()
 
-    const { config, error: configError } =
-        await storeConfig.getConfig('store')
+    const { config, error: configError } = await storeConfig.getConfig('store')
 
-    const { sliders = [], error: slideError } =
-        await slideService.getHeroSlide('store')
+    const { sliders = [], error: slideError } = await slideService.getHeroSlide(
+      'store'
+    )
 
-    const { menu = [], error: menuError } =
-        await categoryService.getMenu('store')
+    const { menu = [], error: menuError } = await categoryService.getMenu(
+      'store'
+    )
 
     const { products: popularProducts = [], error: productError } =
-        await productService.getPopular('store')
+      await productService.getPopular('store')
 
     if (slideError || menuError || productError || configError) {
       throw { slideError, menuError, productError }

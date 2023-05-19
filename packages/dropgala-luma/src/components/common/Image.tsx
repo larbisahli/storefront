@@ -78,7 +78,11 @@ const ImageComponent = ({
       {...props}
       alt={props.alt ?? ''}
       // In case there is an error return a dummy image placeholder
-      onError={() => setSrc(isCustomUrl ? `/${customImagePlaceholder}` : customImagePlaceholder)}
+      onError={() =>
+        setSrc(
+          isCustomUrl ? `/${customImagePlaceholder}` : customImagePlaceholder
+        )
+      }
     />
   )
 }

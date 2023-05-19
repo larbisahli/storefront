@@ -1,10 +1,9 @@
 // Original file: proto/settings.proto
 
-
 export interface StoreConfigRequest {
-  'alias'?: (string);
+  alias?: string
 }
 
 export interface StoreConfigRequest__Output {
-  'alias': (string);
+  alias: string
 }

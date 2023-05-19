@@ -12,14 +12,14 @@ import HeroBanner from '@components/HeroBanner'
 import HomePageCategories from '@components/HomePageCategories'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import AppLayout from '@components/layout/AppLayout'
-import type {ConfigType} from '@dropgala/types/config.type'
+import type { ConfigType } from '@dropgala/types/config.type'
 import {
   CategoryService,
   ConfigService,
   ProductService,
   SlideService
 } from '@gRPC/services'
-import { NextSeo } from 'next-seo';
+import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 
 interface Props {
@@ -35,58 +35,62 @@ export default function HomePage({
   menu,
   heroSlider = [],
   popularProducts,
-  storeConfig,
+  storeConfig
 }: Props) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     console.log({ host, storeConfig, menu, heroSlider, popularProducts })
     dispatch(setMenu({ menu }))
-    dispatch(setConfig({storeConfig}))
+    dispatch(setConfig({ storeConfig }))
   }, [])
 
   return (
     <>
       <NextSeo
-      title={storeConfig?.storeName}
-      description={storeConfig?.seo?.metaDescription}
-      canonical={storeConfig?.seo?.canonicalUrl}
-      openGraph={{
-        url: storeConfig?.seo?.canonicalUrl,
-        title: storeConfig?.seo?.metaTitle,
-        description: storeConfig?.seo?.metaDescription,
-        images: [
+        title={storeConfig?.storeName}
+        description={storeConfig?.seo?.metaDescription}
+        canonical={storeConfig?.seo?.canonicalUrl}
+        openGraph={{
+          url: storeConfig?.seo?.canonicalUrl,
+          title: storeConfig?.seo?.metaTitle,
+          description: storeConfig?.seo?.metaDescription,
+          images: [
+            {
+              url: !!storeConfig?.seo?.ogImage?.length
+                ? `${mediaURL}/${storeConfig?.seo?.ogImage[0].image}`
+                : '',
+              width: 800,
+              height: 600,
+              alt: 'Og Image Alt',
+              type: 'image/png'
+            }
+          ],
+          siteName: storeConfig?.storeName
+        }}
+        twitter={{
+          handle: storeConfig?.seo?.twitterHandle,
+          site: '@site',
+          cardType: 'summary_large_image'
+        }}
+        additionalLinkTags={[
           {
-            url: !!storeConfig?.seo?.ogImage?.length?`${mediaURL}/${storeConfig?.seo?.ogImage[0].image}` :'',
-            width: 800,
-            height: 600,
-            alt: 'Og Image Alt',
-            type: 'image/png',
+            rel: 'icon',
+            href: !!storeConfig?.favicon?.length
+              ? `${mediaURL}/${storeConfig?.favicon[0].image}`
+              : ''
+          },
+          {
+            rel: 'apple-touch-icon',
+            href: 'https://www.test.ie/touch-icon-ipad.jpg',
+            sizes: '76x76'
+          },
+          {
+            rel: 'manifest',
+            href: '/manifest.json'
           }
-        ],
-        siteName: storeConfig?.storeName,
-      }}
-      twitter={{
-        handle: storeConfig?.seo?.twitterHandle,
-        site: '@site',
-        cardType: 'summary_large_image',
-      }}
-      additionalLinkTags={[
-        {
-          rel: 'icon',
-          href: !!storeConfig?.favicon?.length?`${mediaURL}/${storeConfig?.favicon[0].image}` :'',
-        },
-        {
-          rel: 'apple-touch-icon',
-          href: 'https://www.test.ie/touch-icon-ipad.jpg',
-          sizes: '76x76'
-        },
-        {
-          rel: 'manifest',
-          href: '/manifest.json'
-        }
-      ]}
-    />
+        ]}
+      />
 
       <div className="mb-44">
         {/* HERO SECTION */}
@@ -134,19 +138,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const categoryService = new CategoryService()
     const slideService = new SlideService()
 
-    const { config, error: configError } =
-        await storeConfig.getConfig('scandiweb')
+    const { config, error: configError } = await storeConfig.getConfig(
+      'scandiweb'
+    )
 
-    const { sliders = [], error: slideError } =
-        await slideService.getHeroSlide('scandiweb')
+    const { sliders = [], error: slideError } = await slideService.getHeroSlide(
+      'scandiweb'
+    )
 
-    const { menu = [], error: menuError } =
-        await categoryService.getMenu('scandiweb')
+    const { menu = [], error: menuError } = await categoryService.getMenu(
+      'scandiweb'
+    )
 
     const { products: popularProducts = [], error: productError } =
-        await productService.getPopular('scandiweb')
+      await productService.getPopular('scandiweb')
 
-    console.log({slideError , menuError, productError, configError})
+    console.log({ slideError, menuError, productError, configError })
 
     if (slideError || menuError || productError || configError) {
       throw { slideError, menuError, productError, configError }

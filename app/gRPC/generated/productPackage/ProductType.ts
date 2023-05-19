@@ -1,10 +1,9 @@
 // Original file: proto/product.proto
 
-
 export interface ProductType {
-  'id'?: (string);
+  id?: string
 }
 
 export interface ProductType__Output {
-  'id': (string);
+  id: string
 }

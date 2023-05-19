@@ -1,10 +1,9 @@
 // Original file: proto/category.proto
 
-
 export interface MenuRequest {
-  'alias'?: (string);
+  alias?: string
 }
 
 export interface MenuRequest__Output {
-  'alias': (string);
+  alias: string
 }

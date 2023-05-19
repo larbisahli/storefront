@@ -92,14 +92,14 @@ export const footer = {
       id: 1,
       image: '/assets/images/social/facebook.svg',
       name: 'facebook',
-      icon: {value: 'FacebookIcon'},
+      icon: { value: 'FacebookIcon' },
       width: 20,
       height: 20
     },
     {
       id: 2,
       image: '/assets/images/social/twitter.svg',
-      icon: {value: 'TwitterIcon'},
+      icon: { value: 'TwitterIcon' },
       name: 'twitter',
       width: 20,
       height: 20
@@ -108,7 +108,7 @@ export const footer = {
       id: 3,
       image: '/assets/images/social/instagram.svg',
       name: 'instagram',
-      icon: {value: 'InstagramIcon'},
+      icon: { value: 'InstagramIcon' },
       width: 20,
       height: 20
     },
@@ -116,7 +116,7 @@ export const footer = {
       id: 4,
       image: '/assets/images/social/youtube.svg',
       name: 'youtube',
-      icon: {value: 'YoutubeIcon'},
+      icon: { value: 'YoutubeIcon' },
       width: 20,
       height: 20
     }

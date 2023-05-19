@@ -5,7 +5,9 @@ import renderRemoteComponent from '@lib/packages'
 
 const Footer = () => {
   const storeConfig = useAppSelector(selectConfig)
-  return renderRemoteComponent(storeConfig.theme, ComponentNames.FOOTER, {storeConfig})
+  return renderRemoteComponent(storeConfig.theme, ComponentNames.FOOTER, {
+    storeConfig
+  })
 }
 
 export default Footer
