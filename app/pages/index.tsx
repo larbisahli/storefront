@@ -132,9 +132,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { host, alias } = getHost(req)
 
   try {
-
-    if(!alias){
-      throw {error: {message: 'alias not specified'}}
+    if (!alias) {
+      throw { error: { message: 'alias not specified' } }
     }
 
     // -----------<Remote Procedure Calls>--------------
@@ -143,25 +142,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const categoryService = new CategoryService()
     const slideService = new SlideService()
 
-    const {
-      config,
-      error: configError
-    } = await storeConfig.getConfig(alias)
+    const { config, error: configError } = await storeConfig.getConfig(alias)
 
-    const {
-      sliders = [],
-      error: slideError
-    } = await slideService.getHeroSlide(alias)
+    const { sliders = [], error: slideError } = await slideService.getHeroSlide(
+      alias
+    )
 
-    const {
-      menu = [],
-      error: menuError
-    } = await categoryService.getMenu(alias)
+    const { menu = [], error: menuError } = await categoryService.getMenu(alias)
 
-    const {
-      products: popularProducts = [],
-      error: productError
-    } = await productService.getPopular(alias)
+    const { products: popularProducts = [], error: productError } =
+      await productService.getPopular(alias)
 
     if (slideError || menuError || productError || configError) {
       console.log({ slideError, menuError, productError, configError })
