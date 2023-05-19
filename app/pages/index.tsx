@@ -135,16 +135,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const slideService = new SlideService()
 
     const { config, error: configError } =
-        await storeConfig.getConfig('store')
+        await storeConfig.getConfig('scandiweb')
 
     const { sliders = [], error: slideError } =
-        await slideService.getHeroSlide('store')
+        await slideService.getHeroSlide('scandiweb')
 
     const { menu = [], error: menuError } =
-        await categoryService.getMenu('store')
+        await categoryService.getMenu('scandiweb')
 
     const { products: popularProducts = [], error: productError } =
-        await productService.getPopular('store')
+        await productService.getPopular('scandiweb')
 
     console.log({slideError , menuError, productError, configError})
 

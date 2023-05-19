@@ -25,7 +25,6 @@
       "@hooks/*": ["hooks/*"],
       "@hooks": ["hooks/index"],
       "@assets": ["assets/index"],
-      "@proto/*": ["proto/*"],
       "@gRPC/*": ["gRPC/*"],
       "@gRPC": ["gRPC/index"]
     },

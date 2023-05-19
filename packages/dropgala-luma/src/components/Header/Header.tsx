@@ -92,11 +92,13 @@ const Header: FC<any> = ({
           <div className="flex items-center bg-white h-60px relative">
             <div className="flex relative justify-center overflow-hidden">
               <Link href="/">
-                <div className='relative w-[170px] h-[35px]'>
+                <div className='relative'>
                   <Image
                     isCustomUrl
                     src={storeLogo}
-                    layout="fill"
+                    // layout="fill"
+                    height={50}
+                    width={50}
                     alt="logo"
                   />
                 </div>

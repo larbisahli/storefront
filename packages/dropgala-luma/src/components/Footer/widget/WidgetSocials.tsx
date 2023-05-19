@@ -31,11 +31,13 @@ const WidgetSocials: React.FC<Props> = ({ social, className , storeConfig}) => {
           <div className='relative mb-6'>
           <div className="relative flex overflow-hidden">
               <Link href="/">
-              <div className='relative w-[170px] h-[35px]'>
-                  <Image
+              <div className='relative'>
+              <Image
                     isCustomUrl
                     src={storeLogo}
-                    layout="fill"
+                    // layout="fill"
+                    height={50}
+                    width={50}
                     alt="logo"
                   />
                 </div>

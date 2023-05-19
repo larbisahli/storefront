@@ -2,11 +2,15 @@ import * as grpc from '@grpc/grpc-js'
 import * as protoLoader from '@grpc/proto-loader'
 import path from 'path'
 
-import { ProtoGrpcType } from '@proto/generated/serviceRoutes'
+import { ProtoGrpcType } from '@gRPC/generated/serviceRoutes'
+
+// const PROTO_PATH = path.join(path.resolve('./'), 'proto/serviceRoutes.proto')
 
 const PROTO_PATH = path.join(process.cwd(), './proto/serviceRoutes.proto')
 
-export const RPCStoreFrontPort = '13.39.86.65:50052' //'0.0.0.0:50052'
+console.log({PROTO_PATH})
+
+export const RPCStoreFrontPort = '172.31.32.155:50052' //'0.0.0.0:50052'
 
 export const { createInsecure } = grpc.credentials
 
