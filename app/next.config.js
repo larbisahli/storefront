@@ -3,7 +3,7 @@ const { i18n } = require('./next-i18next.config')
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  assetPrefix: isProd ? 'https://cdn1.dropgala.com' : undefined,
+  assetPrefix: isProd ? 'https://drqcrgn4lwawk.cloudfront.net' : undefined,
   output: 'standalone',
   eslint: {
     // Warning: This allows production builds to successfully complete even if
