@@ -129,7 +129,7 @@ HomePage.Layout = AppLayout
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, locale } = context
 
-  const { host, alias } = getHost(req)
+  const { host, alias = '' } = getHost(req)
 
   try {
     if (!alias) {

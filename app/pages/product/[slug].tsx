@@ -150,7 +150,7 @@ ProductPage.Layout = AppLayout
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, locale, params } = context
 
-  const { host, alias } = getHost(req)
+  const { host, alias = '' } = getHost(req)
 
   const slug = params?.slug
 

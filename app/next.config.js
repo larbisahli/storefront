@@ -1,10 +1,10 @@
 const { i18n } = require('./next-i18next.config')
 
-const isProd = process.env.NODE_ENV === 'production'
+// const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  assetPrefix: isProd ? 'https://d6uqi88ipsu6o.cloudfront.net' : undefined,
-  output: 'standalone',
+  // assetPrefix: isProd ? 'https://d6uqi88ipsu6o.cloudfront.net' : undefined,
+  // output: 'standalone',
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
