@@ -13,7 +13,7 @@ const Breadcrumb: React.FC<{ name: string; category: CategoryType }> = ({
 }) => {
   return (
     <div className="flex items-center text-sm text-gray-700 mb-4">
-      <Link href={ROUTES.HOME} activeClassName="font-semibold text-heading">
+      <Link href={ROUTES.HOME}>
         <div className="inline-flex items-center">
           <div className="mr-1.5 text-skin-base text-15px">
             <HomeOutline />
@@ -26,7 +26,7 @@ const Breadcrumb: React.FC<{ name: string; category: CategoryType }> = ({
         <ChevronForward width="6px" height="10px" />
       </div>
 
-      <Link href={ROUTES.HOME} activeClassName="font-semibold">
+      <Link href={ROUTES.HOME}>
         <div className="inline-flex items-center">{category?.name}</div>
       </Link>
 

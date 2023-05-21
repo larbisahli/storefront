@@ -57,7 +57,8 @@ const RelatedProducts = ({ title, products = [], children }: Props) => {
         // @ts-ignore
         <Slider
           infiniteLoop
-          numOfSlides={6}
+          numOfSlides={5}
+          sanitize={false}
           doAfterSlide={updateSlide}
           slide={actualSlide}
         >

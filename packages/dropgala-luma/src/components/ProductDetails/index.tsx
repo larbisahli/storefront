@@ -101,9 +101,7 @@ const ProductDetails = ({
   useEffect(() => {
     const { thumbnail = [] } = selectedVariationOption ?? {}
 
-    if (isEmpty(productGallery)) {
-      setProductGallery(gallery)
-    } else if (
+    if (
       !isEmpty(thumbnail) &&
       isEmpty(
         productGallery?.find(
@@ -113,11 +111,11 @@ const ProductDetails = ({
     ) {
       setProductGallery((prev) => [...prev, ...thumbnail])
     }
-
-    return () => {
-      setProductGallery([])
-    }
   }, [selectedVariationOption, gallery])
+
+  useEffect(()=>{
+    setProductGallery(gallery)
+  }, [gallery])
 
   const productQuantity =
     (isVariableType ? selectedVariationOption?.quantity : quantity) ?? 0
@@ -129,6 +127,8 @@ const ProductDetails = ({
   useEffect(() => {
     if (selectedIndex >= 0) {
       updateSlide({ currentSlide: selectedIndex })
+    }else{
+      updateSlide({ currentSlide: 0 })
     }
   }, [selectedIndex])
 
