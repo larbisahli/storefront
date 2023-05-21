@@ -1,5 +1,4 @@
-pm2 start "pnpm run start" --name app
-pm2 stop app
+pm2 start "pnpm run start" --name app pm2 stop app
 
 ---
 

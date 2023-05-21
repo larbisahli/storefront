@@ -9,9 +9,10 @@ import UserIcon from '../../assets/icons/user'
 interface Props {
   handleCart: () => void
   handleMenu: () => void
+  itemsCount: number
 }
 
-const MobileHeader = ({ handleCart, handleMenu }: Props) => {
+const MobileHeader = ({ handleCart, handleMenu, itemsCount }: Props) => {
   const [show, setShow] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
@@ -80,7 +81,7 @@ const MobileHeader = ({ handleCart, handleMenu }: Props) => {
               'top-[-10px] right-[-12px] font-semibold text-xs'
             )}
           >
-            {3}
+            {itemsCount}
           </span>
         </button>
       </div>

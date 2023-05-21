@@ -113,6 +113,10 @@ const ProductDetails = ({
     ) {
       setProductGallery((prev) => [...prev, ...thumbnail])
     }
+
+    return () => {
+      setProductGallery([])
+    }
   }, [selectedVariationOption, gallery])
 
   const productQuantity =
@@ -123,7 +127,6 @@ const ProductDetails = ({
   const isSoldOut = productQuantity === 0
 
   useEffect(() => {
-    console.log({ selectedIndex })
     if (selectedIndex >= 0) {
       updateSlide({ currentSlide: selectedIndex })
     }
@@ -334,4 +337,4 @@ const ProductDetails = ({
   )
 }
 
-export default memo(ProductDetails)
+export default ProductDetails

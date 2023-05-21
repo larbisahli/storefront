@@ -136,7 +136,11 @@ const Header: FC<any> = ({
           />
         </div>
       </header>
-      <MobileHeader handleCart={handleCart} handleMenu={handleMenu} />
+      <MobileHeader
+        handleCart={handleCart}
+        handleMenu={handleMenu}
+        itemsCount={itemsCount}
+      />
     </Fragment>
   )
 }

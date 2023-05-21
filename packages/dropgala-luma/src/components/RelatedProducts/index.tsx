@@ -61,9 +61,7 @@ const RelatedProducts = ({ title, products = [], children }: Props) => {
           doAfterSlide={updateSlide}
           slide={actualSlide}
         >
-          {[...products, ...products, ...products, ...products]?.map(
-            (product) => children({ product, className: 'mx-4' })
-          )}
+          {products?.map((product) => children({ product, className: 'mx-4' }))}
         </Slider>
       }
     </div>
