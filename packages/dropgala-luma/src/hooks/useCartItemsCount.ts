@@ -1,12 +1,11 @@
-import { CartState } from '@dropgala/types/product.type'
+import { CartItemType } from '@dropgala/types/product.type'
 import { useMemo } from 'react'
 
-export const useCartItemsCount = (cart: CartState) => {
-  const { items } = cart
+export const useCartItemsCount = (items: CartItemType[]) => {
   const itemsCount = useMemo(
     () =>
       items?.reduce((acc, item) => {
-        return acc + item?.orderQuantity
+        return acc + (item?.orderQuantity ?? 0)
       }, 0),
     [items]
   )

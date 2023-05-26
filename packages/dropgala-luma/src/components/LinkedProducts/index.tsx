@@ -1,6 +1,8 @@
 import { ProductRef } from '@dropgala/types/product.type'
 import { useState } from 'react'
-import Slider from '../../components/Slider'
+import dynamic from 'next/dynamic'
+
+const Slider = dynamic(() => import('../common/Slider'))
 
 const breakpoints = {
   '1921': {

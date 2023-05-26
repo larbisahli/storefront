@@ -1,3 +1,7 @@
+/**
+ * **** Generated file, Do Not Edit ****
+ * This file was generated at the built time using 'app/scripts/packageManager.js'
+ */
 import {
   CartDrawerPlaceholder,
   FooterPlaceholder,
@@ -9,8 +13,9 @@ import {
 import type { ComponentNames, StoreThemes } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
+import { useAppDispatch, useAppSelector } from '@hooks/useStore'
 
-const mapDynamicComponents = {
+export const mapDynamicComponents = {
   '@dropgala/luma': {
     Header: dynamic(() => import('@dropgala/luma/components/Header'), {
       loading: () => <HeaderPlaceholder />,
@@ -53,8 +58,8 @@ const mapDynamicComponents = {
         ssr: false
       }
     ),
-    RelatedProducts: dynamic(
-      () => import('@dropgala/luma/components/RelatedProducts'),
+    LinkedProducts: dynamic(
+      () => import('@dropgala/luma/components/LinkedProducts'),
       {
         loading: () => <ProductCardPlaceholder />,
         ssr: false
@@ -91,9 +96,19 @@ export default function renderRemoteComponent<Props>(
 ): ReactElement<Props, any> | null {
   const Component = mapDynamicComponents[storeTheme][componentName]
 
-  if (Component) {
-    return <Component {...props}>{children ?? null}</Component>
+  if (!Component) {
+    return null
   }
 
-  return null
+  return (
+    <Component
+      {...{
+        useAppDispatch,
+        useAppSelector,
+        ...props
+      }}
+    >
+      {children ?? null}
+    </Component>
+  )
 }

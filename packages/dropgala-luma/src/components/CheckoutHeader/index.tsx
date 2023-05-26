@@ -1,6 +1,6 @@
+import { StoreProps, selectConfig } from '@dropgala/store'
 import ArrowRightFilled from '../../assets/icons/filed-right-arrow'
 import SecureLock from '../../assets/icons/secure-lock'
-import { ConfigType } from '@dropgala/types/config.type'
 import { mediaURL } from '@dropgala/utils/utils'
 import cn from 'clsx'
 import dynamic from 'next/dynamic'
@@ -8,11 +8,11 @@ import dynamic from 'next/dynamic'
 const Image = dynamic(() => import('../common/Image'))
 const Link = dynamic(() => import('../ui/Link'))
 
-interface Props {
-  storeConfig: ConfigType
-}
+interface Props extends StoreProps {}
 
-function CheckoutHeader({ storeConfig }: Props) {
+function CheckoutHeader({ useAppSelector }: Props) {
+  const storeConfig = useAppSelector(selectConfig)
+
   const storeLogo = !!storeConfig?.logo?.length
     ? `${mediaURL}/${storeConfig?.logo[0].image}`
     : '/assets/images/default_logo.webp'

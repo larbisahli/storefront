@@ -14,7 +14,7 @@ export const UseCartItemsTotalPrice = (cart: CartState) => {
     }, 0)
 
     const discount = !isEmpty(coupon)
-      ? (total * Number(coupon.discountInPercent)) / 100
+      ? (total * Number(coupon?.discountInPercent)) / 100
       : 0
 
     return total - discount

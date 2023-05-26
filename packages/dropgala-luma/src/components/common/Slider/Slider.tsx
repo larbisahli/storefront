@@ -10,8 +10,8 @@ import React, {
   useState
 } from 'react'
 
-import ArrowLeft from '../../assets/icons/chevron-left'
-import ArrowRight from '../../assets/icons/chevron-right'
+import ArrowLeft from '../../../assets/icons/chevron-left'
+import ArrowRight from '../../../assets/icons/chevron-right'
 import slidy from './SliderUtils'
 
 export default function ReactCustomSlider({

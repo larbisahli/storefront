@@ -17,6 +17,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo run build --filter=app... && changeset publish",
+    "generate-packages": "node app/scripts/packageManager.js",
     "generate-proto-types": "npx rimraf app/gRPC/generated && $(npm bin)/proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=app/gRPC/generated proto/*.proto"
   },
   "devDependencies": {

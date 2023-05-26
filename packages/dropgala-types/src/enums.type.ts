@@ -9,7 +9,7 @@ export enum ComponentNames {
   HOMEPAGE_CATEGORIES = 'HomePageCategories',
   PRODUCT_CARD = 'ProductCard',
   PRODUCT_DETAILS = 'ProductDetails',
-  RELATED_PRODUCTS = 'RelatedProducts',
+  LINKED_PRODUCTS = 'LinkedProducts',
   BREADCRUMB = 'Breadcrumb',
   CHECKOUT_BREADCRUMB = 'CheckoutBreadcrumb',
   CHECKOUT_HEADER = 'CheckoutHeader'

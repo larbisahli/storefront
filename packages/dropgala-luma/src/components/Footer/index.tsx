@@ -3,18 +3,18 @@ import { Fragment, useEffect, useState } from 'react'
 import Copyright from './Copyright'
 import { footer } from './data'
 import Widgets from './widget/Widget'
-import { ConfigType } from '@dropgala/types/config.type'
+import { StoreProps, selectConfig } from '@dropgala/store'
 
 const { widgets, payment } = footer
 
 // Fixing Hydration failed because the initial UI does not match what was rendered on the server.
 // store data should not be static
 
-interface Props {
-  storeConfig: ConfigType
-}
+interface Props extends StoreProps {}
 
-const Footer: React.FC<Props> = ({ storeConfig }) => {
+const Footer: React.FC<Props> = ({ useAppSelector }: Props) => {
+  const storeConfig = useAppSelector(selectConfig)
+
   const [storeWidgets, setStoreWidgets] = useState(null)
   const [storePayment, setStorePayment] = useState(null)
 

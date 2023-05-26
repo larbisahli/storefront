@@ -1,22 +1,20 @@
-import { selectConfig, setMenu, setConfig } from '@dropgala/store'
+import { setMenu, setConfig } from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { ProductType } from '@dropgala/types/product.type'
-import { useAppDispatch, useAppSelector } from '@hooks/useStore'
+import { useAppDispatch } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect } from 'react'
 import { getHost } from 'utils'
 import ProductDetails from '@components/productDetails'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import ProductCard from '@components/productCard'
-import renderRemoteComponent from '@lib/packages'
-import { ComponentNames } from '@dropgala/types'
 import Breadcrumb from '@components/Breadcrumb'
 import AppLayout from '@components/layout/AppLayout'
 import { CategoryService, ConfigService, ProductService } from '@gRPC/services'
 import { ConfigType } from '@dropgala/types/config.type'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
+import LinkedProducts from '@components/LinkedProducts'
 
 interface Props {
   menu: CategoryType[]
@@ -30,7 +28,6 @@ export default function ProductPage({
   storeConfig
 }: Props) {
   const dispatch = useAppDispatch()
-  const { theme } = useAppSelector(selectConfig)
 
   useEffect(() => {
     dispatch(setMenu({ menu }))
@@ -38,38 +35,6 @@ export default function ProductPage({
   }, [])
 
   const { relatedProducts = [], upsellProducts = [] } = product
-
-  const renderRelatedProducts = () => {
-    if (isEmpty(relatedProducts)) {
-      return null
-    }
-
-    return renderRemoteComponent(
-      theme,
-      ComponentNames.RELATED_PRODUCTS,
-      {
-        title: 'Related Products',
-        products: relatedProducts
-      },
-      (props) => <ProductCard {...props} />
-    )
-  }
-
-  const renderUpsellProducts = () => {
-    if (isEmpty(upsellProducts)) {
-      return null
-    }
-
-    return renderRemoteComponent(
-      theme,
-      ComponentNames.RELATED_PRODUCTS,
-      {
-        title: 'We found other products you might like!',
-        products: upsellProducts
-      },
-      (props) => <ProductCard {...props} />
-    )
-  }
 
   return (
     <>
@@ -134,11 +99,14 @@ export default function ProductPage({
         </section>
         <section className="mt-20">
           {/* Related products */}
-          {renderRelatedProducts()}
+          <LinkedProducts title="Related Products" products={relatedProducts} />
         </section>
         <section className="mt-20">
           {/* Upsells */}
-          {renderUpsellProducts()}
+          <LinkedProducts
+            title="We found other products you might like!"
+            products={upsellProducts}
+          />
         </section>
       </div>
     </>

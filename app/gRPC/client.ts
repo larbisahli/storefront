@@ -7,11 +7,11 @@ import { ProtoGrpcType } from '@gRPC/generated/serviceRoutes'
 const isProd = process.env.NODE_ENV === 'production'
 
 // const PROTO_PATH = path.join(path.resolve('./'), 'proto/serviceRoutes.proto')
-const PROTO_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files in the build
+const PROTO_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
 
 export const RPCStoreFrontPort = isProd
-  ? '172.31.32.155:50052'
-  : '13.39.86.65:50052'
+  ? '172.31.32.155:50052' // Private IP address
+  : '13.39.86.65:50052' // Public IP address (you can also use 0.0.0.0:50052 if you are running the storefront server locally)
 
 export const { createInsecure } = grpc.credentials
 

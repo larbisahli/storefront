@@ -6,34 +6,38 @@ import { siteSettings } from '../../settings/site-settings'
 import Button from '../ui/Button'
 import CartItem from './CartItem'
 import EmptyCart from './EmptyCart'
-import { CartItemType, CartState } from '@dropgala/types/product.type'
+import { CartItemType } from '@dropgala/types/product.type'
 import { UseCartItemsTotalPrice } from '../../hooks/useCartItemsTotalPrice'
 import { useCartItemsCount } from '../../hooks/useCartItemsCount'
+import {
+  selectCart,
+  StoreProps,
+  toggleCart,
+  incrementItem as incrementCartItem,
+  decrementItem as decrementCartItem
+} from '@dropgala/store'
 
 const Link = dynamic(() => import('../ui/Link'))
 const Scrollbar = dynamic(() => import('../common/Scrollbar'))
 
-interface Props {
-  cart: CartState
-  itemsCount: number
-  incrementItem: (item: CartItemType) => void
-  decrementItem: (item: CartItemType) => void
-  handleCloseCart: () => void
-}
+interface Props extends StoreProps {}
 
-function CartDrawerView({
-  cart,
-  incrementItem,
-  decrementItem,
-  handleCloseCart
-}: Props) {
+function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
   const router = useRouter()
   const { locale = '' } = router
 
+  const cart = useAppSelector(selectCart)
+
   const { items = [] } = cart
 
+  const dispatch = useAppDispatch()
+
+  const handleCloseCart = () => {
+    dispatch(toggleCart())
+  }
+
   const calculatePrice = UseCartItemsTotalPrice(cart)
-  const itemsCount = useCartItemsCount(cart)
+  const itemsCount = useCartItemsCount(items)
 
   const totalPrice = usePrice({
     amount: calculatePrice,
@@ -41,10 +45,19 @@ function CartDrawerView({
     currencyCode: siteSettings?.currencyCode
   })
 
+  const incrementItem = (item: CartItemType) => {
+    dispatch(incrementCartItem(item))
+  }
+
+  const decrementItem = (item: CartItemType) => {
+    dispatch(decrementCartItem(item))
+  }
+
   const renderContent = () => {
     if (items?.length === 0) {
       return <EmptyCart />
     }
+
     return (
       <>
         <div className="w-full flex absolute justify-center top-0 z-[-1] px-30px border-b border-gray-200">

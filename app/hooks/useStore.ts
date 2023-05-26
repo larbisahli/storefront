@@ -40,7 +40,7 @@ export const useCartItemsCount = () => {
   const itemsCount = useMemo(
     () =>
       items?.reduce((acc, item) => {
-        return acc + item?.orderQuantity
+        return acc + (item?.orderQuantity ?? 0)
       }, 0),
     [items]
   )

@@ -5,30 +5,29 @@ import Button from '../ui/Button'
 import TagLabel from '../ui/TagLabel'
 import cn from 'clsx'
 import { useTranslation } from 'next-i18next'
-import {
-  Dispatch,
-  SetStateAction,
-  memo,
-  useEffect,
-  useMemo,
-  useState
-} from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 
 import { ProductTypes } from '@dropgala/types'
-import type {
-  CartItemType,
-  ProductType,
-  VariationOptionsType,
-  VariationsType
-} from '@dropgala/types/product.type'
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+import type { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import { ImageType } from '@dropgala/types/common.type'
+import type { ImageType } from '@dropgala/types/common.type'
 import { HeartEmpty } from '../../assets/icons/heart'
+import {
+  StoreProps,
+  addItem,
+  selectCart,
+  setOrderQuantity,
+  toggleCart
+} from '@dropgala/store'
+import type {
+  AttributeType,
+  AttributeValueType
+} from '@dropgala/types/attribute.type'
+import { selectedVariationOptionFun } from '@dropgala/utils/utils'
 
 const Image = dynamic(() => import('../common/Image'))
-const Slider = dynamic(() => import('../Slider'))
+const Slider = dynamic(() => import('../common/Slider'))
 const ProductDescription = dynamic(() => import('./ProductDescription'), {
   ssr: false
 })
@@ -37,27 +36,26 @@ const ProductAttributes = dynamic(() => import('./ProductAttributes'), {
 })
 const VariationPrice = dynamic(() => import('./VariationPrice'), { ssr: false })
 
-interface Props {
+interface Props extends StoreProps {
   product: ProductType
-  cartItems: CartItemType[]
-  addToCart: () => void
-  selectedQuantity: number
-  setSelectedQuantity: Dispatch<SetStateAction<number>>
-  selectedVariations: VariationsType[]
-  setSelectedVariations: Dispatch<SetStateAction<VariationsType[]>>
-  selectedVariationOption: VariationOptionsType
 }
 
-const ProductDetails = ({
-  product,
-  addToCart,
-  selectedQuantity,
-  setSelectedQuantity,
-  selectedVariations,
-  setSelectedVariations,
-  selectedVariationOption
-}: Props) => {
-  const { t } = useTranslation('common')
+const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
+  const { t } = useTranslation()
+
+  const cart = useAppSelector(selectCart)
+
+  const dispatch = useAppDispatch()
+
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
+  const [selectedVariations, setSelectedVariations] = useState<
+    { attribute: AttributeType; value: AttributeValueType }[]
+  >([])
+
+  const [actualSlide, setActualSlide] = useState(0)
+  const [productGallery, setProductGallery] = useState<ImageType[]>([])
+
+  const cartItems = cart.items
 
   const {
     id,
@@ -82,8 +80,12 @@ const ProductDetails = ({
 
   const isVariableType = type?.id === ProductTypes.Variable
 
-  const [actualSlide, setActualSlide] = useState(0)
-  const [productGallery, setProductGallery] = useState<ImageType[]>([])
+  const selectedVariationOption = useMemo(() => {
+    return selectedVariationOptionFun({
+      selectedVariations,
+      variationOptions
+    })
+  }, [selectedVariations, variationOptions])
 
   const updateSlide = ({ currentSlide }: any) => {
     setActualSlide(currentSlide)
@@ -113,7 +115,7 @@ const ProductDetails = ({
     }
   }, [selectedVariationOption, gallery])
 
-  useEffect(()=>{
+  useEffect(() => {
     setProductGallery(gallery)
   }, [gallery])
 
@@ -127,10 +129,66 @@ const ProductDetails = ({
   useEffect(() => {
     if (selectedIndex >= 0) {
       updateSlide({ currentSlide: selectedIndex })
-    }else{
+    } else {
       updateSlide({ currentSlide: 0 })
     }
   }, [selectedIndex])
+
+  function addToCart() {
+    const items = cartItems?.filter((item: ProductType) => item.id === id)
+    const orderQuantity = selectedQuantity
+
+    if (isVariableType) {
+      const variationOptionExist = items?.find((item) => {
+        return (
+          !!item?.orderVariationOption?.id &&
+          !!selectedVariationOption?.id &&
+          item?.orderVariationOption.id === selectedVariationOption?.id
+        )
+      })
+
+      console.log({ variationOptionExist })
+      if (isEmpty(variationOptionExist)) {
+        dispatch(
+          addItem({
+            ...product,
+            orderQuantity,
+            orderVariationOption: selectedVariationOption
+          })
+        )
+      } else {
+        const key = variationOptionExist.key
+        dispatch(
+          setOrderQuantity({
+            key,
+            type,
+            orderQuantity
+          })
+        )
+      }
+    } else {
+      const item = items[0]
+      if (isEmpty(item)) {
+        dispatch(
+          addItem({
+            ...product,
+            orderQuantity
+          })
+        )
+      } else {
+        dispatch(
+          setOrderQuantity({
+            id,
+            type,
+            orderQuantity
+          })
+        )
+      }
+    }
+
+    dispatch(toggleCart())
+    setSelectedQuantity(1)
+  }
 
   const renderGallery = () => {
     if (isEmpty(gallery)) {

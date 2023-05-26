@@ -47,9 +47,9 @@ export interface ProductType {
   tags?: Nullable<Array<Nullable<TagType>>>
   variationOptions?: VariationOptionsType[]
   variations?: VariationsType[]
-  relatedProducts?: Nullable<Array<Nullable<ProductRef>>>
-  upsellProducts?: Nullable<Array<Nullable<ProductRef>>>
-  crossSellProducts?: Nullable<Array<Nullable<ProductRef>>>
+  relatedProducts?: Nullable<Array<ProductRef>>
+  upsellProducts?: Nullable<Array<ProductRef>>
+  crossSellProducts?: Nullable<Array<ProductRef>>
   productSeo?: ProductSeoType
   // Order properties for the cart functionality
   orderQuantity?: number

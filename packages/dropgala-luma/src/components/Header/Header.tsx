@@ -1,9 +1,9 @@
-import { CategoryType } from '@dropgala/types/category.type'
 import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useRef, useState } from 'react'
+import type { TypedUseSelectorHook } from 'react-redux'
 
 import MyAccountActions from './AccountActions'
 import InfoSection from './InfoSection'
@@ -11,32 +11,45 @@ import MenuDropDownComponent from './MenuDropDownComponent'
 import MobileHeader from './MobileHeader'
 import NoticeSection from './NoticeSection'
 import SearchSection from './SearchSection'
-import { ConfigType } from '@dropgala/types/config.type'
 import { mediaURL } from '@dropgala/utils/utils'
+import {
+  AppState,
+  selectCart,
+  selectConfig,
+  selectMenu,
+  toggleCart,
+  toggleMenu
+} from '@dropgala/store'
+import type { AppDispatch } from '@dropgala/store'
+import { useCartItemsCount } from '../../hooks/useCartItemsCount'
 
 const Image = dynamic(() => import('../common/Image'))
 const Link = dynamic(() => import('../ui/Link'))
 
 export interface HeaderProps {
-  /**
-   * Menu
-   */
-  handleMenu: () => void
-  handleCart: () => void
-  itemsCount: number
-  storeConfig: ConfigType
-  menu?: CategoryType[]
+  useAppDispatch: () => AppDispatch
+  useAppSelector: TypedUseSelectorHook<AppState>
 }
 
-const Header: FC<any> = ({
-  handleMenu,
-  handleCart,
-  itemsCount,
-  storeConfig,
-  menu = []
-}: HeaderProps) => {
+const Header: FC<any> = ({ useAppSelector, useAppDispatch }: HeaderProps) => {
   const router = useRouter()
-  const { t } = useTranslation('form')
+  const { t } = useTranslation()
+
+  const storeConfig = useAppSelector(selectConfig)
+  const { menu } = useAppSelector(selectMenu)
+  const { items } = useAppSelector(selectCart)
+
+  const dispatch = useAppDispatch()
+
+  const handleCart = () => {
+    dispatch(toggleCart())
+  }
+
+  const handleMenu = () => {
+    dispatch(toggleMenu())
+  }
+
+  const itemsCount = useCartItemsCount(items)
 
   const menuTimer = useRef<undefined | ReturnType<typeof setTimeout>>(undefined)
 
