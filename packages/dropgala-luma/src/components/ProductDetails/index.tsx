@@ -17,6 +17,7 @@ import {
   StoreProps,
   addItem,
   selectCart,
+  selectConfig,
   setOrderQuantity,
   toggleCart
 } from '@dropgala/store'
@@ -297,6 +298,8 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
                 comparePrice={comparePrice!}
                 selectedVariationOption={selectedVariationOption}
                 isVariableType={isVariableType}
+                useAppSelector={useAppSelector}
+                useAppDispatch={useAppDispatch}
               />
               {productSku && (
                 <div className="text-gray-600 uppercase flex flex-col items-end">

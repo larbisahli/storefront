@@ -33,7 +33,8 @@ function CheckoutHeader({ useAppSelector }: Props) {
                     <Image
                       isCustomUrl
                       src={storeLogo}
-                      layout="fill"
+                      height={50}
+                      width={50}
                       alt="logo"
                     />
                   </Link>

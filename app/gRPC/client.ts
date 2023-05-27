@@ -11,7 +11,7 @@ const PROTO_PATH = path.join(process.cwd(), './proto') // this will include all 
 
 export const RPCStoreFrontPort = isProd
   ? '172.31.32.155:50052' // Private IP address
-  : '13.39.86.65:50052' // Public IP address (you can also use 0.0.0.0:50052 if you are running the storefront server locally)
+  : '0.0.0.0:50052' //'13.39.86.65:50052' // Public IP address (you can also use 0.0.0.0:50052 if you are running the storefront server locally)
 
 export const { createInsecure } = grpc.credentials
 

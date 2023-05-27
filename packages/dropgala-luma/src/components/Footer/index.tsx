@@ -12,7 +12,7 @@ const { widgets, payment } = footer
 
 interface Props extends StoreProps {}
 
-const Footer: React.FC<Props> = ({ useAppSelector }: Props) => {
+const Footer: React.FC<Props> = ({ useAppSelector }) => {
   const storeConfig = useAppSelector(selectConfig)
 
   const [storeWidgets, setStoreWidgets] = useState(null)

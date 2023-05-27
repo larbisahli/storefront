@@ -5,8 +5,9 @@ import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { useRouter } from 'next/router'
 import { memo, useMemo } from 'react'
 import { VariationOptionsType } from '@dropgala/types/product.type'
+import { StoreProps, selectConfig } from '@dropgala/store'
 
-interface Props {
+interface Props extends StoreProps {
   selectedVariationOption?: VariationOptionsType
   salePrice: number
   comparePrice: number
@@ -17,10 +18,13 @@ function VariationPrice({
   selectedVariationOption,
   salePrice,
   comparePrice,
-  isVariableType
+  isVariableType,
+  useAppSelector
 }: Props) {
   const router = useRouter()
   const { locale } = router
+
+  const config = useAppSelector(selectConfig)
 
   const selectedSalePrice = isVariableType
     ? selectedVariationOption?.salePrice
@@ -37,7 +41,7 @@ function VariationPrice({
   const price = usePrice({
     amount: selectedSalePrice ?? 0,
     locale: locale!,
-    currencyCode: 'USD'
+    currencyCode: config?.currency?.code ?? 'USD'
   })
 
   const productPrice = useMemo(
@@ -52,7 +56,7 @@ function VariationPrice({
   const discount = usePrice({
     amount: selectedComparePrice ?? 0,
     locale: locale!,
-    currencyCode: 'USD'
+    currencyCode: config?.currency?.code ?? 'USD'
   })
 
   const productDiscount = useMemo(

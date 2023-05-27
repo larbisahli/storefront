@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useRef, useState } from 'react'
-import type { TypedUseSelectorHook } from 'react-redux'
 
 import MyAccountActions from './AccountActions'
 import InfoSection from './InfoSection'
@@ -13,25 +12,21 @@ import NoticeSection from './NoticeSection'
 import SearchSection from './SearchSection'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
-  AppState,
+  StoreProps,
   selectCart,
   selectConfig,
   selectMenu,
   toggleCart,
   toggleMenu
 } from '@dropgala/store'
-import type { AppDispatch } from '@dropgala/store'
 import { useCartItemsCount } from '../../hooks/useCartItemsCount'
 
 const Image = dynamic(() => import('../common/Image'))
 const Link = dynamic(() => import('../ui/Link'))
 
-export interface HeaderProps {
-  useAppDispatch: () => AppDispatch
-  useAppSelector: TypedUseSelectorHook<AppState>
-}
+interface Props extends StoreProps {}
 
-const Header: FC<any> = ({ useAppSelector, useAppDispatch }: HeaderProps) => {
+const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
   const router = useRouter()
   const { t } = useTranslation()
 

@@ -1,4 +1,4 @@
-import { ProductRef } from '@dropgala/types/product.type'
+import { ProductRef, ProductType } from '@dropgala/types/product.type'
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
 
@@ -41,8 +41,8 @@ interface Props {
     product,
     className
   }: {
-    product: ProductRef
-    className: string
+    product: ProductType | ProductRef
+    className?: string
   }) => JSX.Element
 }
 const RelatedProducts = ({ title, products = [], children }: Props) => {

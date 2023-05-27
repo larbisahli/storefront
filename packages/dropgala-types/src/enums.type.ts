@@ -12,7 +12,9 @@ export enum ComponentNames {
   LINKED_PRODUCTS = 'LinkedProducts',
   BREADCRUMB = 'Breadcrumb',
   CHECKOUT_BREADCRUMB = 'CheckoutBreadcrumb',
-  CHECKOUT_HEADER = 'CheckoutHeader'
+  CHECKOUT_HEADER = 'CheckoutHeader',
+  CHECKOUT_CART_ITEMS = 'CheckoutCartItems',
+  ORDER_SUMMARY = 'OrderSummary'
 }
 
 export type StoreThemes = '@dropgala/luma'

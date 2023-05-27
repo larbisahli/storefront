@@ -98,6 +98,16 @@ const ComponentsMapping = (themePath) => {
       'CheckoutHeader',
       'ProductCardPlaceholder'
     )},
+    CheckoutCartItems: ${dynamicThemePath(
+      themePath,
+      'CheckoutCartItems',
+      'ProductCardPlaceholder'
+    )},
+    OrderSummary: ${dynamicThemePath(
+      themePath,
+      'OrderSummary',
+      'ProductCardPlaceholder'
+    )},
   }
   `
 }
@@ -106,7 +116,6 @@ const ComponentsMapping = (themePath) => {
 const content = `
 /**
  * **** Generated file, Do Not Edit ****
- * This file was generated at the built time using 'app/scripts/packageManager.js'
 */
 import {
   CartDrawerPlaceholder,

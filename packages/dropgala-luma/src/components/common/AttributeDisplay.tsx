@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import type {
   VariationOptionsType,
-  variationsType
+  VariationsType
 } from '@dropgala/types/product.type'
 import { clone } from '@dropgala/utils/lodashFunctions'
 import cn from 'clsx'
@@ -11,9 +11,9 @@ import { memo, useMemo } from 'react'
 import ArrowDownIcon from '../../assets/icons/arrow-down'
 
 interface Props {
-  variations: variationsType[]
-  variation: variationsType
-  orderVariationOption: VariationOptionsType
+  variations: VariationsType[]
+  variation: VariationsType
+  orderVariationOption?: VariationOptionsType
   onClick?: () => void
 }
 

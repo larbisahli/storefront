@@ -10,13 +10,10 @@ import { useEffect } from 'react'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/layout/CheckoutLayout'
-import {
-  CategoryService,
-  ConfigService,
-  ProductService,
-  SlideService
-} from '@gRPC/services'
+import { ConfigService } from '@gRPC/services'
 import { ConfigType } from '@dropgala/types/config.type'
+import CheckoutCartItems from '@components/CheckoutCartItems'
+import OrderSummary from '@components/OrderSummary'
 
 interface Props {
   menu: CategoryType[]
@@ -59,16 +56,16 @@ export default function CartPage({
         </section>
         <div className="flex w-full lg:flex-row flex-col border border-gray-200 rounded-md">
           {/* 1 */}
-          {/* <div className="flex-1">
+          <div className="flex-1">
             <CheckoutCartItems />
-          </div> */}
+          </div>
           {/* 2 */}
-          {/* <div
+          <div
             style={{ background: 'rgba(0,0,0,0.03)' }}
             className="pb-5 lg:w-[40%] xl:w-[45%] w-full"
           >
             <OrderSummary />
-          </div> */}
+          </div>
         </div>
       </div>
     </>
@@ -89,31 +86,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     // -----------<Remote Procedure Calls>--------------
     const storeConfig = new ConfigService()
-    const productService = new ProductService()
-    const categoryService = new CategoryService()
-    const slideService = new SlideService()
 
     const { config, error: configError } = await storeConfig.getConfig(alias)
 
-    const { sliders = [], error: slideError } = await slideService.getHeroSlide(
-      alias
-    )
-
-    const { menu = [], error: menuError } = await categoryService.getMenu(alias)
-
-    const { products: popularProducts = [], error: productError } =
-      await productService.getPopular(alias)
-
-    if (slideError || menuError || productError || configError) {
-      throw { slideError, menuError, productError }
+    if (configError) {
+      throw { configError }
     }
 
     return {
       props: {
         host: { host, alias },
-        menu,
-        heroSlider: sliders,
-        popularProducts,
         storeConfig: config,
         ...(await serverSideTranslations(locale!, [
           'common',

@@ -1,6 +1,5 @@
 /**
  * **** Generated file, Do Not Edit ****
- * This file was generated at the built time using 'app/scripts/packageManager.js'
  */
 import {
   CartDrawerPlaceholder,
@@ -82,6 +81,20 @@ export const mapDynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: false
       }
+    ),
+    CheckoutCartItems: dynamic(
+      () => import('@dropgala/luma/components/CheckoutCartItems'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
+    ),
+    OrderSummary: dynamic(
+      () => import('@dropgala/luma/components/OrderSummary'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
     )
   }
 }
@@ -90,8 +103,8 @@ export default function renderRemoteComponent<Props>(
   storeTheme: StoreThemes,
   componentName: ComponentNames,
   props: Props,
-  children?: (
-    props: any
+  children?: <T extends unknown>(
+    props: T
   ) => React.ReactNode | React.ReactNode[] | Element | null
 ): ReactElement<Props, any> | null {
   const Component = mapDynamicComponents[storeTheme][componentName]
@@ -108,7 +121,7 @@ export default function renderRemoteComponent<Props>(
         ...props
       }}
     >
-      {children ?? null}
+      {children}
     </Component>
   )
 }
