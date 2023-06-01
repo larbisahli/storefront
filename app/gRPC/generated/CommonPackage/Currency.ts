@@ -1,4 +1,4 @@
-// Original file: proto/common.proto
+// Original file: app/proto/common.proto
 
 export interface Currency {
   symbol?: string

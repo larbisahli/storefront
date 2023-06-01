@@ -1,4 +1,4 @@
-// Original file: proto/category.proto
+// Original file: app/proto/category.proto
 
 export interface MenuRequest {
   alias?: string

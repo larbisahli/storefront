@@ -5,17 +5,15 @@ import { useAppSelector } from '@hooks/useStore'
 import renderRemoteComponent from '@lib/packages'
 
 interface Props {
-  name?: string
-  breadcrumbs: CategoryType['categorySeo']['breadcrumbs']
+  category: CategoryType
 }
 
-const Breadcrumb = ({ name, breadcrumbs }: Props) => {
+const CategoryDetails = ({ category }: Props) => {
   const { theme } = useAppSelector(selectConfig)
 
-  return renderRemoteComponent(theme, ComponentNames.BREADCRUMB, {
-    name,
-    breadcrumbs
+  return renderRemoteComponent(theme, ComponentNames.CATEGORY_DETAILS, {
+    category
   })
 }
 
-export default Breadcrumb
+export default CategoryDetails

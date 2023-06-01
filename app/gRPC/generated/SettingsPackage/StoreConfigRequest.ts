@@ -1,4 +1,4 @@
-// Original file: proto/settings.proto
+// Original file: app/proto/settings.proto
 
 export interface StoreConfigRequest {
   alias?: string

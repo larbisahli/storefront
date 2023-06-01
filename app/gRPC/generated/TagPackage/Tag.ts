@@ -1,4 +1,4 @@
-// Original file: proto/tag.proto
+// Original file: app/proto/tag.proto
 
 export interface Tag {
   id?: number

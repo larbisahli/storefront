@@ -1,4 +1,4 @@
-// Original file: proto/slide.proto
+// Original file: app/proto/slide.proto
 
 export interface HeroBannerStyle {
   align?: string

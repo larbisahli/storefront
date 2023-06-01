@@ -1,4 +1,4 @@
-// Original file: proto/serviceRoutes.proto
+// Original file: app/proto/serviceRoutes.proto
 
 import type * as grpc from '@grpc/grpc-js'
 import type { MethodDefinition } from '@grpc/proto-loader'

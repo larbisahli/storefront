@@ -5,7 +5,7 @@ import { Fragment } from 'react'
 
 const steps = [
   {
-    name: 'Shipping Bag',
+    name: 'Shopping Bag',
     activePath: '/cart'
   },
   {

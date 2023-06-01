@@ -1,4 +1,4 @@
-// Original file: proto/common.proto
+// Original file: app/proto/common.proto
 
 import type {
   Icon as _CommonPackage_Icon,

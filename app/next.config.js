@@ -1,8 +1,15 @@
 const { i18n } = require('./next-i18next.config')
 
+const runtimeCaching = require('next-pwa/cache')
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  runtimeCaching
+})
+
 // const isProd = process.env.NODE_ENV === 'production'
 
-module.exports = {
+const moduleExports = {
   // assetPrefix: isProd ? 'https://cdn.dropgala.com' : undefined,
   // output: 'standalone',
   eslint: {
@@ -31,3 +38,5 @@ module.exports = {
     loader: 'default'
   }
 }
+
+module.exports = withPWA(moduleExports)

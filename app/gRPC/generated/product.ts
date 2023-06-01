@@ -17,7 +17,11 @@ export interface ProtoGrpcType {
     Tag: MessageTypeDefinition
   }
   categoryPackage: {
+    Breadcrumbs: MessageTypeDefinition
     Category: MessageTypeDefinition
+    CategoryRequest: MessageTypeDefinition
+    CategoryResponse: MessageTypeDefinition
+    CategorySeo: MessageTypeDefinition
     Menu: MessageTypeDefinition
     MenuRequest: MessageTypeDefinition
     MenuResponse: MessageTypeDefinition

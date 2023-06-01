@@ -1,4 +1,4 @@
-// Original file: proto/slide.proto
+// Original file: app/proto/slide.proto
 
 import type {
   Image as _photoPackage_Image,

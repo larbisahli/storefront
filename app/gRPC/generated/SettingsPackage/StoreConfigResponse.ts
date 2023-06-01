@@ -1,4 +1,4 @@
-// Original file: proto/settings.proto
+// Original file: app/proto/settings.proto
 
 import type {
   Settings as _SettingsPackage_Settings,

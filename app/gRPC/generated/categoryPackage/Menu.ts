@@ -1,4 +1,4 @@
-// Original file: proto/category.proto
+// Original file: app/proto/category.proto
 
 import type {
   Image as _photoPackage_Image,
@@ -12,19 +12,15 @@ import type {
 export interface Menu {
   id?: number
   name?: string
-  parentId?: number
-  description?: string
+  url?: string
   thumbnail?: _photoPackage_Image[]
-  position?: number
   children?: _categoryPackage_Menu[]
 }
 
 export interface Menu__Output {
   id: number
   name: string
-  parentId: number
-  description: string
+  url: string
   thumbnail: _photoPackage_Image__Output[]
-  position: number
   children: _categoryPackage_Menu__Output[]
 }

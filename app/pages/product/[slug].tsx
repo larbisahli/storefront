@@ -11,18 +11,24 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Breadcrumb from '@components/Breadcrumb'
 import AppLayout from '@components/layout/AppLayout'
 import { CategoryService, ConfigService, ProductService } from '@gRPC/services'
-import { ConfigType } from '@dropgala/types/config.type'
+import type { ConfigType } from '@dropgala/types/config.type'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import LinkedProducts from '@components/LinkedProducts'
+import Head from 'next/head'
 
 interface Props {
   menu: CategoryType[]
   product: ProductType
   storeConfig: ConfigType
+  host: {
+    host: string
+    alias: string
+  }
 }
 
 export default function ProductPage({
+  host,
   menu,
   product = {},
   storeConfig
@@ -34,22 +40,24 @@ export default function ProductPage({
     dispatch(setConfig({ storeConfig }))
   }, [])
 
-  const { relatedProducts = [], upsellProducts = [] } = product
+  const { productSeo, relatedProducts = [], upsellProducts = [] } = product
+
+  console.log({ product })
 
   return (
     <>
       <NextSeo
         title={product?.name}
-        description={product.productSeo?.metaDescription}
-        canonical={product.productSeo?.slug}
+        description={productSeo?.metaDescription}
+        canonical={`https://${host?.host}/product/${productSeo?.slug}`}
         openGraph={{
-          url: product.productSeo?.slug,
-          title: product.productSeo?.metaTitle,
-          description: product.productSeo?.metaDescription,
+          url: `https://${host?.host}/product/${productSeo?.slug}`,
+          title: productSeo?.metaTitle,
+          description: productSeo?.metaDescription,
           images: [
             {
-              url: !!product?.thumbnail?.length
-                ? `${mediaURL}/${product?.thumbnail[0].image}`
+              url: !!productSeo?.metaImage?.length
+                ? `${mediaURL}/${productSeo?.metaImage[0].image}`
                 : '',
               width: 800,
               height: 600,
@@ -82,15 +90,18 @@ export default function ProductPage({
           }
         ]}
       />
+      <Head>
+        <meta name="keywords" content={productSeo?.metaKeywords} />
+      </Head>
       <div className="mb-44 max-w-[1300px] 2xxl:max-w-[1500px] mx-auto">
         {/* PRODUCT DETAIL PAGE */}
         <section className="mb-5 py-35px px-10px">
           <div className="pt-6 lg:pt-7">
             <div className="mx-auto max-w-[1920px]">
-              <Breadcrumb
+              {/* <Breadcrumb
                 name={product?.name!}
                 category={product?.categories![0]}
-              />
+              /> */}
             </div>
           </div>
           <div className="">

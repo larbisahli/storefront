@@ -9,6 +9,7 @@ import "settings.proto";
 
 service CategoryServiceRoutes {
   rpc getStoreMenu(MenuRequest)                          returns (MenuResponse);
+  rpc getStoreCategory(CategoryRequest)                  returns (CategoryResponse);
 }
 
 service SliderServiceRoutes {

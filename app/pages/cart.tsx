@@ -11,7 +11,7 @@ import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/layout/CheckoutLayout'
 import { ConfigService } from '@gRPC/services'
-import { ConfigType } from '@dropgala/types/config.type'
+import type { ConfigType } from '@dropgala/types/config.type'
 import CheckoutCartItems from '@components/CheckoutCartItems'
 import OrderSummary from '@components/OrderSummary'
 

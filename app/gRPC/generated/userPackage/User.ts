@@ -1,4 +1,4 @@
-// Original file: proto/user.proto
+// Original file: app/proto/user.proto
 
 export interface User {
   id?: string

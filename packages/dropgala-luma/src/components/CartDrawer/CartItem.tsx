@@ -10,7 +10,7 @@ import React, { memo, useMemo } from 'react'
 
 import { siteSettings } from '../../settings/site-settings'
 import { AttributeDisplay, Counter, Image } from '../common'
-import { ImageType } from '@dropgala/types/common.type'
+import type { ImageType } from '@dropgala/types/common.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
 const Link = dynamic(() => import('../ui/Link'))

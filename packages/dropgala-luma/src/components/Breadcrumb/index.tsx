@@ -7,36 +7,53 @@ import { CategoryType } from '@dropgala/types/category.type'
 
 const Link = dynamic(() => import('../ui/Link'))
 
-const Breadcrumb: React.FC<{ name: string; category: CategoryType }> = ({
-  name,
-  category
-}) => {
+interface Props {
+  name?: string
+  breadcrumbs: CategoryType['categorySeo']['breadcrumbs']
+}
+
+const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
   return (
-    <div className="flex items-center text-sm text-gray-700 mb-4">
+    <div className="items-center text-sm text-gray-700 mb-4 hidden lg:flex">
       <Link href={ROUTES.HOME}>
-        <div className="inline-flex items-center">
+        <div className="flex items-center hover:text-rose-500">
           <div className="mr-1.5 text-skin-base text-15px">
             <HomeOutline />
           </div>
           Home
         </div>
       </Link>
-
-      <div className="text-skin-base text-opacity-40 text-15px mx-2">
-        <ChevronForward width="6px" height="10px" />
-      </div>
-
-      <Link href={ROUTES.HOME}>
-        <div className="inline-flex items-center">{category?.name}</div>
-      </Link>
-
-      <div className="text-skin-base text-opacity-40 text-15px mx-2">
-        <ChevronForward width="6px" height="10px" />
-      </div>
-
-      <div className="inline-flex items-center text-black line-clamp-1">
-        {name}
-      </div>
+      {breadcrumbs
+        ?.sort((a, b) => a.categoryLevel - b.categoryLevel)
+        ?.map((breadcrumb) => {
+          return (
+            <>
+              <div className="text-skin-base text-opacity-40 mx-3">
+                <ChevronForward width="6px" height="10px" />
+              </div>
+              <Link
+                href={{
+                  pathname: '/category/[slug]',
+                  query: { slug: breadcrumb.categoryUrl }
+                }}
+              >
+                <div className="flex items-center hover:text-rose-500">
+                  {breadcrumb?.categoryName}
+                </div>
+              </Link>
+            </>
+          )
+        })}
+      {name && (
+        <>
+          <div className="text-skin-base text-opacity-40 text-15px mx-2">
+            <ChevronForward width="6px" height="10px" />
+          </div>
+          <div className="inline-flex items-center text-black line-clamp-1">
+            {name}
+          </div>
+        </>
+      )}
     </div>
   )
 }

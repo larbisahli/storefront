@@ -95,6 +95,13 @@ export const mapDynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: false
       }
+    ),
+    CategoryDetails: dynamic(
+      () => import('@dropgala/luma/components/CategoryDetails'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
     )
   }
 }
@@ -103,8 +110,8 @@ export default function renderRemoteComponent<Props>(
   storeTheme: StoreThemes,
   componentName: ComponentNames,
   props: Props,
-  children?: <T extends unknown>(
-    props: T
+  children?: (
+    props: any
   ) => React.ReactNode | React.ReactNode[] | Element | null
 ): ReactElement<Props, any> | null {
   const Component = mapDynamicComponents[storeTheme][componentName]
@@ -121,7 +128,7 @@ export default function renderRemoteComponent<Props>(
         ...props
       }}
     >
-      {children}
+      {children ?? null}
     </Component>
   )
 }

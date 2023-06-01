@@ -1,4 +1,4 @@
-// Original file: proto/product.proto
+// Original file: app/proto/product.proto
 
 import type {
   Unit as _productPackage_Unit,

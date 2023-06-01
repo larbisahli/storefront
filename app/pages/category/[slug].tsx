@@ -1,64 +1,65 @@
 import { setMenu, setConfig } from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
-import type { HeroBannerType } from '@dropgala/types/slider.type'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppDispatch } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect } from 'react'
 import { getHost } from 'utils'
-import ProductCard from '@components/productCard'
-import HeroBanner from '@components/HeroBanner'
-import HomePageCategories from '@components/HomePageCategories'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import Breadcrumb from '@components/Breadcrumb'
 import AppLayout from '@components/layout/AppLayout'
+import { CategoryService, ConfigService, ProductService } from '@gRPC/services'
 import type { ConfigType } from '@dropgala/types/config.type'
-import {
-  CategoryService,
-  ConfigService,
-  ProductService,
-  SlideService
-} from '@gRPC/services'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
+import Head from 'next/head'
+import CategoryDetails from '@components/CategoryDetails'
+import HomePageCategories from '@components/HomePageCategories'
 
 interface Props {
   menu: CategoryType[]
-  heroSlider: HeroBannerType[]
-  popularProducts: ProductType[]
-  host: { host: string; alias: string }
+  category: CategoryType
+  products: ProductType[]
   storeConfig: ConfigType
+  host: {
+    host: string
+    alias: string
+  }
 }
 
-export default function HomePage({
+export default function ProductPage({
   host,
   menu,
-  heroSlider = [],
-  popularProducts,
+  category,
+  products = [],
   storeConfig
 }: Props) {
   const dispatch = useAppDispatch()
 
+  console.log({ category })
+
   useEffect(() => {
-    console.log({ host, storeConfig, menu, heroSlider, popularProducts })
     dispatch(setMenu({ menu }))
     dispatch(setConfig({ storeConfig }))
   }, [])
 
+  const { categorySeo } = category
+
   return (
     <>
       <NextSeo
-        title={storeConfig?.storeName}
-        description={storeConfig?.seo?.metaDescription}
-        canonical={`https://${host?.host}`}
+        title={categorySeo?.metaTitle}
+        description={categorySeo?.metaDescription}
+        canonical={`https://${host?.host}/category/${categorySeo?.urlKey}`}
         openGraph={{
-          url: `https://${host?.host}`,
-          title: storeConfig?.seo?.metaTitle,
-          description: storeConfig?.seo?.metaDescription,
+          url: `https://${host?.host}/category/${categorySeo?.urlKey}`,
+          title: categorySeo?.metaTitle,
+          description: categorySeo?.metaDescription,
           images: [
             {
-              url: !!storeConfig?.seo?.ogImage?.length
-                ? `${mediaURL}/${storeConfig?.seo?.ogImage[0].image}`
+              url: !!categorySeo?.metaImage?.length
+                ? `${mediaURL}/${categorySeo?.metaImage[0].image}`
                 : '',
               width: 800,
               height: 600,
@@ -91,79 +92,83 @@ export default function HomePage({
           }
         ]}
       />
-
-      <div className="mb-44">
-        {/* HERO SECTION */}
-        <section>{<HeroBanner heroSlider={heroSlider} />}</section>
-        {/* CATEGORY SECTION */}
-        <section className="mb-12 mx-2">
-          {<HomePageCategories menu={menu} />}
+      <Head>
+        {categorySeo?.metaRobots && (
+          <meta name="robots" content={categorySeo?.metaRobots as string} />
+        )}
+      </Head>
+      <div className="mb-44 max-w-[1300px] 2xxl:max-w-[1500px] mx-auto">
+        {/* PRODUCT DETAIL PAGE */}
+        <section className="mb-5 py-35px px-10px">
+          <div className="pt-6 lg:pt-7">
+            <div className="mx-auto max-w-[1920px]">
+              <Breadcrumb breadcrumbs={categorySeo?.breadcrumbs} />
+            </div>
+          </div>
+          <div className="">
+            {!isEmpty(category) && <CategoryDetails category={category} />}
+          </div>
         </section>
-        {/* BESTSELLERS SECTION */}
-        <section className="mb-5 mx-2">
-          <div className="text-2xl font-semibold">Best Sellers</div>
-          {!isEmpty(popularProducts) ? (
-            <div
-              className="grid grid-cols-1 my-10 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-
-                            xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-6 gap-3 md:gap-4 2xl:gap-5"
-            >
-              {popularProducts.map((product) => (
-                <ProductCard product={product} key={product.id} />
-              ))}
-            </div>
-          ) : (
-            <div className="w-full flex flex-col items-center pt-10px md:pt-40px lg:pt-20px pb-40px">
-              <h3 className="text-24px text-gray-900 font-bold mt-35px mb-0 text-center">
-                No product found :(
-              </h3>
-            </div>
-          )}
+        <section className="mb-12 mx-2">
+          {/* {<HomePageCategories menu={category?.children} />} */}
+        </section>
+        <section className="mt-20">
+          {/* Related products */}
+          {/* <LinkedProducts title="Related Products" products={relatedProducts} /> */}
+        </section>
+        <section className="mt-20">
+          {/* Upsells */}
+          {/* <LinkedProducts
+            title="We found other products you might like!"
+            products={upsellProducts}
+          /> */}
         </section>
       </div>
     </>
   )
 }
 
-HomePage.Layout = AppLayout
+ProductPage.Layout = AppLayout
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req, locale } = context
+  const { req, locale, params } = context
 
   const { host, alias = '' } = getHost(req)
 
+  const slug = params?.slug as string
+
+  console.log({ slug })
+
   try {
-    if (!alias) {
-      throw { error: { message: 'alias not specified' } }
+    if (!alias || !slug) {
+      throw { error: { message: 'alias or name not specified' } }
     }
 
     // -----------<Remote Procedure Calls>--------------
     const storeConfig = new ConfigService()
-    const productService = new ProductService()
+    // const productService = new ProductService()
     const categoryService = new CategoryService()
-    const slideService = new SlideService()
 
     const { config, error: configError } = await storeConfig.getConfig(alias)
 
-    const { sliders = [], error: slideError } = await slideService.getHeroSlide(
-      alias
-    )
-
     const { menu = [], error: menuError } = await categoryService.getMenu(alias)
 
-    const { products: popularProducts = [], error: productError } =
-      await productService.getPopular(alias)
+    const { category = null, error: categoryError } =
+      await categoryService.getCategory(alias, slug)
 
-    if (slideError || menuError || productError || configError) {
-      console.log({ slideError, menuError, productError, configError })
-      throw { slideError, menuError, productError, configError }
+    // const { product, error: productError } =
+    //   await productService.getStoreProduct(alias, name as string)
+
+    if (isEmpty(category) || menuError || categoryError || configError) {
+      throw { menuError, categoryError }
     }
 
     return {
       props: {
         host: { host, alias },
         menu,
-        heroSlider: sliders,
-        popularProducts,
+        category,
+        // product,
         storeConfig: config,
         ...(await serverSideTranslations(locale!, [
           'common',

@@ -1,4 +1,4 @@
-// Original file: proto/attribute.proto
+// Original file: app/proto/attribute.proto
 
 export interface Attribute {
   id?: number

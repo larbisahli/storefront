@@ -1,4 +1,4 @@
-// Original file: proto/slide.proto
+// Original file: app/proto/slide.proto
 
 import type {
   StoreHeroBanner as _slidePackage_StoreHeroBanner,

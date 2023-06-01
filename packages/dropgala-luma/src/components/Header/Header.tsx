@@ -123,11 +123,14 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
           </div>
           {/* Menu Section */}
           <div className="hidden lg:flex items-center justify-center">
-            {menu?.map(({ id, name }) => {
+            {menu?.map(({ id, name, url }) => {
               return (
                 <Link
                   key={id}
-                  href="/"
+                  href={{
+                    pathname: '/category/[slug]',
+                    query: { slug: url }
+                  }}
                   onMouseEnter={() => handleFirstLevelCategoryEnter(id)}
                   onMouseLeave={handleFirstLevelCategoryLeave}
                   className="text-black uppercase font-semibold text-sm hover:text-red-600 p-4 pb-3 pl-0"

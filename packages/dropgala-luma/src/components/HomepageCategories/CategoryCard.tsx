@@ -1,5 +1,4 @@
 import { CategoryType } from '@dropgala/types/category.type'
-import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import React from 'react'
 
@@ -12,11 +11,14 @@ interface Props {
 
 const CategoryCard: React.FC<Props> = ({ category }: Props) => {
   console.log({ category })
-  const { name, thumbnail } = category
+  const { name, thumbnail, url } = category
   const { image, placeholder } = thumbnail[0] ?? {}
   return (
     <Link
-      href={'/'}
+      href={{
+        pathname: '/category/[slug]',
+        query: { slug: url }
+      }}
       className="bg-gray-200 w-full lg:w-[150px] h-[160px] lg:h-[200px] mt-5 lg:mr-5 p-3 hover:shadow-categoryCard"
     >
       <figure className="flex flex-row-reverse lg:flex-col items-center justify-between w-full h-full">

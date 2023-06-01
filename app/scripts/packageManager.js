@@ -108,6 +108,11 @@ const ComponentsMapping = (themePath) => {
       'OrderSummary',
       'ProductCardPlaceholder'
     )},
+    CategoryDetails: ${dynamicThemePath(
+      themePath,
+      'CategoryDetails',
+      'ProductCardPlaceholder'
+    )},
   }
   `
 }

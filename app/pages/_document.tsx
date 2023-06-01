@@ -14,7 +14,6 @@ export default class CustomDocument extends Document {
   }
   render() {
     const { locale } = this.props.__NEXT_DATA__
-    // eslint-disable-next-line turbo/no-undeclared-env-vars
     if (process.env.NODE_ENV !== 'production') {
       i18n?.reloadResources(locale)
     }
@@ -25,6 +24,8 @@ export default class CustomDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
             rel="stylesheet"
           />
+          <link rel="manifest" href="/manifest.json" />
+          <meta name="theme-color" content="#020024" />
         </Head>
         <body>
           <Main />

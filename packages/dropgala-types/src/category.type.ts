@@ -1,31 +1,47 @@
 import { ImageType } from './common.type'
 import { Nullable, Scalars } from './custom.type'
 
+export interface CategorySeo {
+  categoryId: number
+  metaTitle: Scalars['String']
+  urlKey: Scalars['String']
+  metaKeywords: Scalars['String']
+  metaDescription: Scalars['String']
+  metaRobots?: { value: Scalars['String'] } | string | undefined
+  breadcrumbsPriority: number
+  metaImage: ImageType[]
+  breadcrumbs: {
+    categoryLevel: number
+    categoryName: string
+    categoryUrl: number
+  }[]
+}
+
 export interface CategoryType {
   id: Scalars['Int']
   name: Scalars['String']
-  description: Nullable<Scalars['String']>
+  description: Scalars['String']
+  url: string
   children: Nullable<Array<CategoryRefLevel2>>
   thumbnail: ImageType[]
-  hasChildren?: Scalars['Boolean']
+  categorySeo: CategorySeo
 }
 
 // To prevent circular references
 export interface CategoryRefLevel2 {
   id: Scalars['Int']
   name: Scalars['String']
-  description: Nullable<Scalars['String']>
+  url: string
   thumbnail: ImageType[]
   children: Nullable<Array<CategoryRefLevel3>>
-  hasChildren?: Scalars['Boolean']
+  categorySeo: CategorySeo
 }
 
 // To prevent circular references
 export interface CategoryRefLevel3 {
   id: Scalars['Int']
   name: Scalars['String']
-  description: Nullable<Scalars['String']>
+  url: string
   thumbnail: ImageType[]
-  hasChildren?: Scalars['Boolean']
-  children: []
+  categorySeo: CategorySeo
 }

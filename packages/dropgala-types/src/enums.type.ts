@@ -14,7 +14,8 @@ export enum ComponentNames {
   CHECKOUT_BREADCRUMB = 'CheckoutBreadcrumb',
   CHECKOUT_HEADER = 'CheckoutHeader',
   CHECKOUT_CART_ITEMS = 'CheckoutCartItems',
-  ORDER_SUMMARY = 'OrderSummary'
+  ORDER_SUMMARY = 'OrderSummary',
+  CATEGORY_DETAILS = 'CategoryDetails'
 }
 
 export type StoreThemes = '@dropgala/luma'
