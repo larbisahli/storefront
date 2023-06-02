@@ -6,7 +6,7 @@ export default function ProductDescription({
   description: string
 }) {
   return (
-    <div className="w-full xl:px-2 py-5 lg:py-8 xl:py-10 sm:px-0">
+    <div className="w-full xl:px-2 py-5 lg:py-8 xl:py-10 sm:px-0 break-all">
       {ReactHtmlParser(description ?? '')}
     </div>
   )

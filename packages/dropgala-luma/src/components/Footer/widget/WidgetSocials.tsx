@@ -48,7 +48,6 @@ const WidgetSocials: React.FC<Props> = ({ social, className, storeConfig }) => {
           <div className="flex flex-wrap justify-center sm:justify-start space-s-4 md:space-s-5 mx-auto md:mx-0">
             {storeConfig?.socials?.map((item, idx) => {
               const icon = social?.find((s) => s.icon.value === item.icon.value)
-              console.log(icon)
               return (
                 <li
                   className="transition hover:opacity-80 mr-6"

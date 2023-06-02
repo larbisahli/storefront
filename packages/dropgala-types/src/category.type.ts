@@ -13,7 +13,7 @@ export interface CategorySeo {
   breadcrumbs: {
     categoryLevel: number
     categoryName: string
-    categoryUrl: number
+    categoryUrl: string
   }[]
 }
 

@@ -7,6 +7,7 @@ export enum ComponentNames {
   CART_DRAWER = 'CartDrawer',
   MENU_DRAWER = 'MenuDrawer',
   HOMEPAGE_CATEGORIES = 'HomePageCategories',
+  CATEGORIES_LIST = 'CategoryList',
   PRODUCT_CARD = 'ProductCard',
   PRODUCT_DETAILS = 'ProductDetails',
   LINKED_PRODUCTS = 'LinkedProducts',

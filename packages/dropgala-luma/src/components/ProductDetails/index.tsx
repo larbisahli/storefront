@@ -133,7 +133,15 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
     } else {
       updateSlide({ currentSlide: 0 })
     }
+
+    return () => {
+      updateSlide({ currentSlide: 0 })
+    }
   }, [selectedIndex])
+
+  useEffect(() => {
+    updateSlide({ currentSlide: 0 })
+  }, [id])
 
   function addToCart() {
     const items = cartItems?.filter((item: ProductType) => item.id === id)

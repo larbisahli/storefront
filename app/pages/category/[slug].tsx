@@ -15,7 +15,7 @@ import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import Head from 'next/head'
 import CategoryDetails from '@components/CategoryDetails'
-import HomePageCategories from '@components/HomePageCategories'
+import CategoryList from '@components/CategoryList'
 
 interface Props {
   menu: CategoryType[]
@@ -98,7 +98,6 @@ export default function ProductPage({
         )}
       </Head>
       <div className="mb-44 max-w-[1300px] 2xxl:max-w-[1500px] mx-auto">
-        {/* PRODUCT DETAIL PAGE */}
         <section className="mb-5 py-35px px-10px">
           <div className="pt-6 lg:pt-7">
             <div className="mx-auto max-w-[1920px]">
@@ -109,19 +108,13 @@ export default function ProductPage({
             {!isEmpty(category) && <CategoryDetails category={category} />}
           </div>
         </section>
+        {!isEmpty(category?.children) && categorySeo?.metaTitle && (
+          <div className="text-lg text-gray-950 font-medium my-5">
+            {categorySeo?.metaTitle}
+          </div>
+        )}
         <section className="mb-12 mx-2">
-          {/* {<HomePageCategories menu={category?.children} />} */}
-        </section>
-        <section className="mt-20">
-          {/* Related products */}
-          {/* <LinkedProducts title="Related Products" products={relatedProducts} /> */}
-        </section>
-        <section className="mt-20">
-          {/* Upsells */}
-          {/* <LinkedProducts
-            title="We found other products you might like!"
-            products={upsellProducts}
-          /> */}
+          {<CategoryList categories={category?.children ?? []} />}
         </section>
       </div>
     </>

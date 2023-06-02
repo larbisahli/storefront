@@ -102,7 +102,7 @@ const ProductCard: React.FC<ProductProps> = ({
     >
       <div
         className={cn(
-          'flex flex-col border-transparent max-w-[300px] group rounded-sm cursor-pointer hover:shadow-cardHover transition-all duration-300 relative h-full',
+          'flex flex-col border-transparent max-w-[400px] group rounded-sm cursor-pointer hover:shadow-cardHover transition-all duration-300 relative h-full',
           { 'shadow-cardHover': carousel },
           className
         )}
@@ -111,15 +111,15 @@ const ProductCard: React.FC<ProductProps> = ({
         <div className="relative flex-shrink-0 overflow-hidden">
           <div
             className={cn(
-              'flex overflow-hidden max-w-[300px] transition duration-200 ease-in-out transform group-hover:scale-105 relative'
+              'flex overflow-hidden max-w-[400px] transition duration-200 ease-in-out transform group-hover:scale-105 relative'
               // { 'm-[5px]': !carousel }
             )}
           >
             <Image
               src={image}
               customPlaceholder={placeholder}
-              width={300}
-              height={300}
+              width={400}
+              height={400}
               quality={100}
               objectFit="cover"
               className={cn('object-cover bg-skin-thumbnail', {

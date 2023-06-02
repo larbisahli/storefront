@@ -102,6 +102,13 @@ export const mapDynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: false
       }
+    ),
+    CategoryList: dynamic(
+      () => import('@dropgala/luma/components/CategoryList'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
     )
   }
 }

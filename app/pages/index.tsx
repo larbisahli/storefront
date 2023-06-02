@@ -105,7 +105,7 @@ export default function HomePage({
           {!isEmpty(popularProducts) ? (
             <div
               className="grid grid-cols-1 my-10 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-
-                            xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-6 gap-3 md:gap-4 2xl:gap-5"
+                            xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-4 2xl:gap-5"
             >
               {popularProducts.map((product) => (
                 <ProductCard product={product} key={product.id} />

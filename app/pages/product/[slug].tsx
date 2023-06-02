@@ -4,7 +4,7 @@ import type { ProductType } from '@dropgala/types/product.type'
 import { useAppDispatch } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { getHost } from 'utils'
 import ProductDetails from '@components/productDetails'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -40,9 +40,33 @@ export default function ProductPage({
     dispatch(setConfig({ storeConfig }))
   }, [])
 
-  const { productSeo, relatedProducts = [], upsellProducts = [] } = product
+  const {
+    productSeo,
+    relatedProducts = [],
+    upsellProducts = [],
+    categories = []
+  } = product
 
-  console.log({ product })
+  const selectedCategory = useMemo(() => {
+    const selectedCate = categories?.sort(
+      (a, b) =>
+        (b?.categorySeo?.breadcrumbsPriority ?? 0) -
+          (a?.categorySeo?.breadcrumbsPriority ?? 0) ?? 0
+    )[0]
+    return {
+      id: selectedCate?.id,
+      name: selectedCate?.name,
+      categorySeo: {
+        breadcrumbs: [
+          {
+            categoryLevel: 0,
+            categoryName: selectedCate?.name,
+            categoryUrl: selectedCate?.categorySeo?.urlKey
+          }
+        ]
+      }
+    }
+  }, [categories])
 
   return (
     <>
@@ -98,10 +122,10 @@ export default function ProductPage({
         <section className="mb-5 py-35px px-10px">
           <div className="pt-6 lg:pt-7">
             <div className="mx-auto max-w-[1920px]">
-              {/* <Breadcrumb
+              <Breadcrumb
                 name={product?.name!}
-                category={product?.categories![0]}
-              /> */}
+                breadcrumbs={selectedCategory?.categorySeo?.breadcrumbs ?? []}
+              />
             </div>
           </div>
           <div className="">
