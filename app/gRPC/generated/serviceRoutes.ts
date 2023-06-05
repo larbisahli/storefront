@@ -81,14 +81,15 @@ export interface ProtoGrpcType {
     Image: MessageTypeDefinition
   }
   productPackage: {
+    CategoryProductsRequest: MessageTypeDefinition
     PopularProductsRequest: MessageTypeDefinition
-    PopularProductsResponse: MessageTypeDefinition
     Product: MessageTypeDefinition
     ProductRequest: MessageTypeDefinition
     ProductResponse: MessageTypeDefinition
     ProductSeo: MessageTypeDefinition
     ProductShippingInfo: MessageTypeDefinition
     ProductType: MessageTypeDefinition
+    ProductsResponse: MessageTypeDefinition
     Unit: MessageTypeDefinition
     Variation: MessageTypeDefinition
     VariationOption: MessageTypeDefinition

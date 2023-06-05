@@ -5,10 +5,10 @@ import type {
   Product__Output as _productPackage_Product__Output
 } from '../productPackage/Product'
 
-export interface PopularProductsResponse {
+export interface ProductsResponse {
   products?: _productPackage_Product[]
 }
 
-export interface PopularProductsResponse__Output {
+export interface ProductsResponse__Output {
   products: _productPackage_Product__Output[]
 }

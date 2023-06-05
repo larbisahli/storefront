@@ -109,6 +109,17 @@ export const mapDynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: false
       }
+    ),
+    Pagination: dynamic(() => import('@dropgala/luma/components/Pagination'), {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: false
+    }),
+    Miscellaneous: dynamic(
+      () => import('@dropgala/luma/components/Miscellaneous'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
     )
   }
 }

@@ -10,7 +10,7 @@ const withPWA = require('next-pwa')({
 // const isProd = process.env.NODE_ENV === 'production'
 
 const moduleExports = {
-  // assetPrefix: isProd ? 'https://cdn.dropgala.com' : undefined,
+  assetPrefix: isProd ? 'https://d8o1if95so5nw.cloudfront.net' : undefined,
   // output: 'standalone',
   eslint: {
     // Warning: This allows production builds to successfully complete even if

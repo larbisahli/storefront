@@ -1,38 +1,9 @@
 import { ProductRef, ProductType } from '@dropgala/types/product.type'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
+import useWindowSize from '../../hooks/useWindowSize'
 
 const Slider = dynamic(() => import('../common/Slider'))
-
-const breakpoints = {
-  '1921': {
-    slidesPerView: 6
-  },
-  '1780': {
-    slidesPerView: 6
-  },
-  '1536': {
-    slidesPerView: 5
-  },
-  '1280': {
-    slidesPerView: 4
-  },
-  '1120': {
-    slidesPerView: 4
-  },
-  '800': {
-    slidesPerView: 3
-  },
-  '640': {
-    slidesPerView: 2
-  },
-  '360': {
-    slidesPerView: 2
-  },
-  '0': {
-    slidesPerView: 1
-  }
-}
 
 interface Props {
   title: string
@@ -52,6 +23,22 @@ const RelatedProducts = ({ title, products = [], children }: Props) => {
     setActualSlide(currentSlide)
   }
 
+  const { width = 800 } = useWindowSize()
+
+  const numOfSlides = useMemo(() => {
+    if (width <= 500) {
+      return 1
+    } else if (width > 500 && width <= 650) {
+      return 2
+    } else if (width > 650 && width <= 800) {
+      return 3
+    } else if (width > 800 && width <= 1200) {
+      return 4
+    } else {
+      return 5
+    }
+  }, [width])
+
   return (
     <div>
       <div className="text-xl font-semibold mb-8">{title}</div>
@@ -59,8 +46,8 @@ const RelatedProducts = ({ title, products = [], children }: Props) => {
         // @ts-ignore
         <Slider
           infiniteLoop
-          numOfSlides={5}
-          sanitize={false}
+          numOfSlides={numOfSlides}
+          sanitize={!(numOfSlides > 1)}
           doAfterSlide={updateSlide}
           slide={actualSlide}
         >

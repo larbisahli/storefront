@@ -118,6 +118,16 @@ const ComponentsMapping = (themePath) => {
       'CategoryList',
       'ProductCardPlaceholder'
     )},
+    Pagination: ${dynamicThemePath(
+      themePath,
+      'Pagination',
+      'ProductCardPlaceholder'
+    )},
+    Miscellaneous: ${dynamicThemePath(
+      themePath,
+      'Miscellaneous',
+      'ProductCardPlaceholder'
+    )},
   }
   `
 }

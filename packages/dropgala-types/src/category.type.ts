@@ -20,9 +20,9 @@ export interface CategorySeo {
 export interface CategoryType {
   id: Scalars['Int']
   name: Scalars['String']
-  description: Scalars['String']
+  description?: Scalars['String']
   url: string
-  children: Nullable<Array<CategoryRefLevel2>>
+  children?: Nullable<Array<CategoryRefLevel2>>
   thumbnail: ImageType[]
   categorySeo: CategorySeo
 }
@@ -44,4 +44,5 @@ export interface CategoryRefLevel3 {
   url: string
   thumbnail: ImageType[]
   categorySeo: CategorySeo
+  children?: Nullable<Array<CategoryRefLevel2>>
 }

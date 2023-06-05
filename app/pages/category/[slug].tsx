@@ -4,7 +4,7 @@ import type { ProductType } from '@dropgala/types/product.type'
 import { useAppDispatch } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getHost } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Breadcrumb from '@components/Breadcrumb'
@@ -16,6 +16,12 @@ import { mediaURL } from '@dropgala/utils/utils'
 import Head from 'next/head'
 import CategoryDetails from '@components/CategoryDetails'
 import CategoryList from '@components/CategoryList'
+import ProductCard from '@components/productCard'
+import Pagination from '@components/Pagination'
+import Miscellaneous from '@components/Miscellaneous'
+import { ProductCardLayout } from '@dropgala/types'
+import cn from 'clsx'
+import { useRouter } from 'next/router'
 
 interface Props {
   menu: CategoryType[]
@@ -35,14 +41,65 @@ export default function ProductPage({
   products = [],
   storeConfig
 }: Props) {
-  const dispatch = useAppDispatch()
+  const {
+    query: { slug, page = 1 }
+  } = useRouter()
 
-  console.log({ category })
+  const currentPage = page as string
+
+  const [layout, setLayout] = useState<ProductCardLayout>(
+    ProductCardLayout.Grid
+  )
+  const [categoryProducts, setCategoryProducts] = useState<{
+    [key: string]: ProductType[]
+  }>({})
+  const [isProductLimitReached, setIsProductLimitReached] = useState(false)
+
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(setMenu({ menu }))
     dispatch(setConfig({ storeConfig }))
   }, [])
+
+  useEffect(() => {
+    if (!isEmpty(products)) {
+      setCategoryProducts((prev) => {
+        return {
+          ...prev,
+          [currentPage]: products
+        }
+      })
+      setIsProductLimitReached(false)
+    } else {
+      setIsProductLimitReached(true)
+    }
+  }, [products])
+
+  /**
+   * In case the same menu link was clicked again
+   */
+  useEffect(() => {
+    if (!isEmpty(products)) {
+      setCategoryProducts(() => {
+        return { [currentPage]: products }
+      })
+      setIsProductLimitReached(false)
+    } else {
+      setCategoryProducts({})
+      setIsProductLimitReached(true)
+    }
+  }, [slug])
+
+  const productList = useMemo(() => {
+    return (
+      Object.keys(categoryProducts)
+        ?.map((key) => {
+          return categoryProducts[key]
+        })
+        ?.flat() ?? []
+    )
+  }, [categoryProducts])
 
   const { categorySeo } = category
 
@@ -109,12 +166,45 @@ export default function ProductPage({
           </div>
         </section>
         {!isEmpty(category?.children) && categorySeo?.metaTitle && (
-          <div className="text-lg text-gray-950 font-medium my-5">
+          <div className="text-sm lg:text-lg mx-2 text-gray-950 font-medium my-5">
             {categorySeo?.metaTitle}
           </div>
         )}
-        <section className="mb-12 mx-2">
+        <section className="mx-2">
           {<CategoryList categories={category?.children ?? []} />}
+        </section>
+        <section className="mx-2 my-10 ">
+          <Miscellaneous layout={layout} setLayout={setLayout} />
+        </section>
+        {/* CATEGORY PRODUCTS SECTION */}
+        <section className="mb-5 mt-20 mx-2">
+          {!isEmpty(categoryProducts) ? (
+            <div
+              className={cn('grid grid-cols-1 my-10 gap-3 md:gap-4 2xl:gap-5', {
+                'xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5':
+                  layout === ProductCardLayout.Grid
+              })}
+            >
+              {productList?.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  layout={layout}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="w-full flex flex-col items-center pt-10px md:pt-40px lg:pt-20px pb-40px">
+              <h3 className="text-24px text-gray-900 font-bold mt-35px mb-0 text-center">
+                No product found :(
+              </h3>
+            </div>
+          )}
+          {!isProductLimitReached && (
+            <div className="mt-5">
+              <Pagination />
+            </div>
+          )}
         </section>
       </div>
     </>
@@ -124,13 +214,21 @@ export default function ProductPage({
 ProductPage.Layout = AppLayout
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req, locale, params } = context
+  const {
+    req,
+    locale,
+    params,
+    query: { page }
+  } = context
 
   const { host, alias = '' } = getHost(req)
 
   const slug = params?.slug as string
 
-  console.log({ slug })
+  const currentPage =
+    isNaN(parseInt(page as string)) || parseInt(page as string) === 0
+      ? 1
+      : parseInt(page as string)
 
   try {
     if (!alias || !slug) {
@@ -139,7 +237,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     // -----------<Remote Procedure Calls>--------------
     const storeConfig = new ConfigService()
-    // const productService = new ProductService()
+    const productService = new ProductService()
     const categoryService = new CategoryService()
 
     const { config, error: configError } = await storeConfig.getConfig(alias)
@@ -149,11 +247,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { category = null, error: categoryError } =
       await categoryService.getCategory(alias, slug)
 
-    // const { product, error: productError } =
-    //   await productService.getStoreProduct(alias, name as string)
+    const { products, error: productsError } =
+      await productService.getStoreCategoryProducts(alias, slug, currentPage)
 
-    if (isEmpty(category) || menuError || categoryError || configError) {
-      throw { menuError, categoryError }
+    if (
+      isEmpty(category) ||
+      menuError ||
+      categoryError ||
+      configError ||
+      productsError
+    ) {
+      throw { menuError, categoryError, productsError }
     }
 
     return {
@@ -161,7 +265,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         host: { host, alias },
         menu,
         category,
-        // product,
+        products,
         storeConfig: config,
         ...(await serverSideTranslations(locale!, [
           'common',

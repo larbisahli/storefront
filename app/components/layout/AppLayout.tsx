@@ -40,7 +40,9 @@ const AppLayout = ({ children, className }: Props) => {
         )}
       >
         <div className="flex flex-col flex-grow">
-          <div className="mt-[110px] lg:mt-[190px] flex-auto">{children}</div>
+          <div className="mt-[110px] mx-2 lg:mt-[190px] flex-auto">
+            {children}
+          </div>
         </div>
       </main>
       <Footer />

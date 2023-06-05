@@ -83,8 +83,14 @@ message PopularProductsRequest {
   required string alias = 1;
 }
 
-message PopularProductsResponse {
+message ProductsResponse {
   repeated Product products = 1;
+}
+
+message CategoryProductsRequest {
+  required string alias = 1;
+  required string urlKey = 2;
+  required uint32 page = 3;
 }
 
 message ProductRequest {

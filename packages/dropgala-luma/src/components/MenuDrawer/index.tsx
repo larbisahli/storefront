@@ -3,12 +3,13 @@ import React from 'react'
 
 import MenuItem from './MenuItem'
 import SearchSection from './SearchSection'
+import { StoreProps } from '@dropgala/store'
 
-interface Props {
+interface Props extends StoreProps {
   menu: CategoryType[]
 }
 
-const MenuDrawerView: React.FC<Props> = ({ menu }) => {
+const MenuDrawerView: React.FC<Props> = ({ useAppDispatch, menu }) => {
   return (
     <div className="h-full overflow-auto">
       <div className="pb-20">
@@ -17,7 +18,12 @@ const MenuDrawerView: React.FC<Props> = ({ menu }) => {
         <div className="h-full">
           <div className="h-full">
             {menu?.map((category) => (
-              <MenuItem key={category.id} category={category} level={1} />
+              <MenuItem
+                key={category.id}
+                category={category}
+                useAppDispatch={useAppDispatch}
+                level={1}
+              />
             ))}
           </div>
         </div>

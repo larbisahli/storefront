@@ -28,7 +28,7 @@ function CheckoutHeader({ useAppSelector }: Props) {
           <Link href="/">
             <div className="relative">
               <div className="relative">
-                <div className="relative flex justify-center overflow-hidden w-[130px] h-[25px]">
+                <div className="relative flex justify-center overflow-hidden w-[130px] h-[50px]">
                   <Link href="/">
                     <Image
                       isCustomUrl

@@ -7,19 +7,21 @@ import { useTranslation } from 'next-i18next'
 import React, { memo, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { HeartEmpty } from '../../assets/icons/heart'
-import { ProductTypes } from '@dropgala/types'
+import { ProductCardLayout, ProductTypes } from '@dropgala/types'
 
 const Image = dynamic(() => import('../common/Image'))
 const Link = dynamic(() => import('../ui/Link'))
 
 interface ProductProps {
   product: ProductType
+  layout: ProductCardLayout
   carousel?: boolean
   className?: string
 }
 
 const ProductCard: React.FC<ProductProps> = ({
   product,
+  layout,
   className,
   carousel = false
 }) => {
@@ -80,7 +82,7 @@ const ProductCard: React.FC<ProductProps> = ({
   )
 
   const productDiscount = useMemo(
-    () => discount?.replace(/(\.0+|0+)$/, ''),
+    () => (comparePrice ? discount?.replace(/(\.0+|0+)$/, '') : null),
     [discount]
   )
 
@@ -102,8 +104,12 @@ const ProductCard: React.FC<ProductProps> = ({
     >
       <div
         className={cn(
-          'flex flex-col border-transparent max-w-[400px] group rounded-sm cursor-pointer hover:shadow-cardHover transition-all duration-300 relative h-full',
-          { 'shadow-cardHover': carousel },
+          'flex border-transparent group rounded-sm cursor-pointer hover:shadow-cardHover transition-all duration-300 relative',
+          {
+            'shadow-cardHover': carousel,
+            'flex-row w-full max-h-[400px]': layout === ProductCardLayout.List,
+            'flex-col max-w-[400] h-full': layout === ProductCardLayout.Grid
+          },
           className
         )}
         title={name}
@@ -111,8 +117,11 @@ const ProductCard: React.FC<ProductProps> = ({
         <div className="relative flex-shrink-0 overflow-hidden">
           <div
             className={cn(
-              'flex overflow-hidden max-w-[400px] transition duration-200 ease-in-out transform group-hover:scale-105 relative'
-              // { 'm-[5px]': !carousel }
+              'flex overflow-hidden max-w-[400px] transition duration-200 ease-in-out transform group-hover:scale-105 relative',
+              {
+                'max-w-[200px] lg:max-w-[350px]':
+                  layout === ProductCardLayout.List
+              }
             )}
           >
             <Image
@@ -139,15 +148,33 @@ const ProductCard: React.FC<ProductProps> = ({
           </div>
         </div>
 
-        <div className="relative flex flex-col px-3 pb-5 lg:pb-6 lg:pt-4 h-full">
+        <div
+          className={cn(
+            'relative flex flex-col px-3 pb-5 lg:pb-6 lg:pt-4 h-full',
+            {
+              'flex-1 w-full h-[200px] lg:h-[300px]':
+                layout === ProductCardLayout.List
+            }
+          )}
+        >
           <h2
-            className="line-clamp-3 h-[40px] lg:line-clamp-2 font-semibold !text-[14px]
-                        sm:text-sm lg:text-[15px] leading-5 sm:leading-5 mb-1"
+            className={cn(
+              'line-clamp-3 h-[40px] lg:line-clamp-2 font-semibold !text-[14px] sm:text-sm lg:text-[15px] leading-5 sm:leading-5 mb-1',
+              {
+                '!text-lg sm:text-sm lg:text-[15px] !line-clamp-3 h-fit':
+                  layout === ProductCardLayout.List
+              }
+            )}
           >
             {name}
           </h2>
-          <div className="uppercase h-[15px] w-full text-xs text-gray-900 font-semibold">
-            {!isVariable && percentDecrease && (
+          <div
+            className={cn(
+              'uppercase h-[15px] w-full text-xs text-gray-900 font-semibold',
+              { 'mt-5': layout === ProductCardLayout.List }
+            )}
+          >
+            {!isVariable && percentDecrease && productDiscount && (
               <span>{percentDecrease} off</span>
             )}
           </div>

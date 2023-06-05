@@ -62,7 +62,6 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
     const menuDropNode = document.getElementById('menu-drop')
     menuDropNode?.removeEventListener('mouseleave', handleMenuDropEvent)
     setSelectedFirstLevelCategory(null)
-    console.log(menuTimer.current)
   }
 
   const handleFirstLevelCategoryLeave = () => {

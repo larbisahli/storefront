@@ -16,7 +16,9 @@ export enum ComponentNames {
   CHECKOUT_HEADER = 'CheckoutHeader',
   CHECKOUT_CART_ITEMS = 'CheckoutCartItems',
   ORDER_SUMMARY = 'OrderSummary',
-  CATEGORY_DETAILS = 'CategoryDetails'
+  CATEGORY_DETAILS = 'CategoryDetails',
+  PAGINATION = 'Pagination',
+  MISCELLANEOUS = 'Miscellaneous'
 }
 
 export type StoreThemes = '@dropgala/luma'
@@ -24,6 +26,11 @@ export type StoreThemes = '@dropgala/luma'
 export enum SortOrder {
   Asc = 'ASC',
   Desc = 'DESC'
+}
+
+export enum ProductCardLayout {
+  Grid = 'GRID',
+  List = 'LIST'
 }
 
 export enum OrderBy {

@@ -8,17 +8,21 @@ import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
 
 import PlusIcon from '../../assets/icons/plus-icon'
+import { StoreProps, toggleMenu } from '@dropgala/store'
 
 const Link = dynamic(() => import('../ui/Link'))
 
 type MenuType = CategoryType | CategoryRefLevel2 | CategoryRefLevel3
 
 interface Props {
+  useAppDispatch: StoreProps['useAppDispatch']
   category: MenuType
   level?: number
 }
 
-const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
+const MenuItem: React.FC<Props> = ({ useAppDispatch, category, level = 2 }) => {
+  const dispatch = useAppDispatch()
+
   const [openSubMenuId, setOpenSubMenuId] = useState<number | null>(null)
 
   const { id, name, children = [] } = category
@@ -37,6 +41,10 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
     if (e.key === 'Enter') {
       handleOpenSubMenu()
     }
+  }
+
+  const handleMenu = () => {
+    dispatch(toggleMenu())
   }
 
   return (
@@ -61,7 +69,14 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
           </div>
         </div>
       ) : (
-        <Link href={'/'} className="my-1 flex items-center justify-between">
+        <Link
+          href={{
+            pathname: '/category/[slug]',
+            query: { slug: category.url }
+          }}
+          onClick={handleMenu}
+          className="my-1 flex items-center justify-between"
+        >
           <div
             className={cn('px-3 py-2 font-semibold', {
               'text-gray-800 font-normal px-2 py-0': level === 3
@@ -73,7 +88,13 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
       )}
       <div className="bg-gray-200 pl-4">
         {hasChildren && openSubMenuId === id && (
-          <Link href={'/'}>
+          <Link
+            href={{
+              pathname: '/category/[slug]',
+              query: { slug: category.url }
+            }}
+            onClick={handleMenu}
+          >
             <div
               className={cn('px-3 py-2 font-semibold', {
                 'text-gray-800 font-normal px-2 py-0': level === 2
@@ -87,6 +108,7 @@ const MenuItem: React.FC<Props> = ({ category, level = 2 }) => {
           children?.map((subcategory: MenuType) => (
             <MenuItem
               key={subcategory.id}
+              useAppDispatch={useAppDispatch}
               category={subcategory}
               level={level + 1}
             />

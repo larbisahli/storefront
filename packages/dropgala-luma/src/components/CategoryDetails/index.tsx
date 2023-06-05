@@ -13,8 +13,8 @@ const CategoryDetails: React.FC<Props> = ({ category }) => {
   const renderCategoryName = () => {
     return (
       <div
-        className="text-3xl border-t-2 border-b-2 mb-4
-         border-black w-fit font-medium py-1"
+        className="text-lg border-t-2 border-b-2 mb-4
+         border-black w-full font-medium py-1 lg:text-3xl lg:w-fit"
       >
         {category?.name}
       </div>
@@ -22,7 +22,11 @@ const CategoryDetails: React.FC<Props> = ({ category }) => {
   }
 
   const renderCategoryDescription = () => {
-    return <div className="text-gray-900 text-sm">{category?.description}</div>
+    return (
+      <div className="text-gray-900 text-xs lg:text-sm">
+        {category?.description}
+      </div>
+    )
   }
 
   const renderCategoryImage = () => {
@@ -46,12 +50,12 @@ const CategoryDetails: React.FC<Props> = ({ category }) => {
   }
 
   return (
-    <article className="bg-gray-100 rounded-sm flex items-center justify-between p-5">
-      <div className="flex-1 p-10">
+    <article className="bg-gray-100 rounded-sm flex items-center justify-between p-5 lg:flex-row flex-col">
+      <div className="flex-1 lg:p-8">
         {renderCategoryName()}
         {renderCategoryDescription()}
       </div>
-      <div className="flex-1 p-2">{renderCategoryImage()}</div>
+      <div className="flex-1 lg:p-2 pt-10">{renderCategoryImage()}</div>
     </article>
   )
 }

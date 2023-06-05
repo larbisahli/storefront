@@ -17,6 +17,13 @@ export default class ProductService extends ProductServiceRoutes {
       .catch((error) => ({ error, products: null }))
   }
 
+  public async getStoreCategoryProducts(alias: string, urlKey: string, page) {
+    const getCategoryProducts = promisify(this.getCategoryProducts).bind(this)
+    return await getCategoryProducts({ alias, urlKey, page })
+      .then((data) => ({ products: data?.products, error: null }))
+      .catch((error) => ({ error, products: null }))
+  }
+
   public async getStoreProduct(alias: string, slug: string) {
     const getProduct = promisify(this.getProduct).bind(this)
     return await getProduct({ alias, slug })

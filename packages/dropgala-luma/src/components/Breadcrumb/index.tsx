@@ -1,6 +1,6 @@
 import ChevronForward from '../../assets/icons/chevron-right'
 import HomeOutline from '../../assets/icons/home'
-import React from 'react'
+import React, { Fragment } from 'react'
 import dynamic from 'next/dynamic'
 import { ROUTES } from '@dropgala/utils/routes'
 import { CategoryType } from '@dropgala/types/category.type'
@@ -27,7 +27,7 @@ const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
         ?.sort((a, b) => a.categoryLevel - b.categoryLevel)
         ?.map((breadcrumb) => {
           return (
-            <>
+            <Fragment key={breadcrumb.categoryLevel}>
               <div className="text-skin-base text-opacity-40 mx-3">
                 <ChevronForward width="6px" height="10px" />
               </div>
@@ -41,7 +41,7 @@ const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
                   {breadcrumb?.categoryName}
                 </div>
               </Link>
-            </>
+            </Fragment>
           )
         })}
       {name && (
