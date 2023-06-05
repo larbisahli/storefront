@@ -7,10 +7,10 @@ const withPWA = require('next-pwa')({
   runtimeCaching
 })
 
-const isProd = process.env.NODE_ENV === 'production'
+// const isProd = process.env.NODE_ENV === 'production'
 
 const moduleExports = {
-  assetPrefix: isProd ? 'https://d8o1if95so5nw.cloudfront.net' : undefined,
+  assetPrefix: isProd ? 'https://drqcrgn4lwawk.cloudfront.net/' : undefined,
   // output: 'standalone',
   eslint: {
     // Warning: This allows production builds to successfully complete even if
