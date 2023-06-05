@@ -7,7 +7,7 @@ const withPWA = require('next-pwa')({
   runtimeCaching
 })
 
-// const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production'
 
 const moduleExports = {
   assetPrefix: isProd ? 'https://drqcrgn4lwawk.cloudfront.net/' : undefined,
