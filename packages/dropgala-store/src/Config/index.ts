@@ -1,6 +1,7 @@
 import type { StoreThemes } from '@dropgala/types/enums.type'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { ConfigType } from '@dropgala/types/config.type'
+import { HYDRATE } from 'next-redux-wrapper'
 
 import { AppState } from '../store'
 
@@ -13,7 +14,7 @@ const initialState: StoreConfigState = {
 }
 
 export const storeConfig = createSlice({
-  name: 'storeConfig',
+  name: 'ConfigReducer',
   initialState,
   reducers: {
     setConfig: (
@@ -23,11 +24,18 @@ export const storeConfig = createSlice({
       const storeConfig = action.payload.storeConfig
 
       state = {
-        ...storeConfig,
-        theme: '@dropgala/luma'
+        ...storeConfig
       }
 
       return state
+    }
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.ConfigReducer
+      }
     }
   }
 })

@@ -1,4 +1,10 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
+import {
+  Action,
+  AnyAction,
+  configureStore,
+  ThunkAction
+} from '@reduxjs/toolkit'
+import { createWrapper } from 'next-redux-wrapper'
 
 import BannerReducer from './Banner'
 import CartReducer from './Cart'
@@ -33,14 +39,15 @@ export function makeStore() {
 
 const store = makeStore()
 
-export type AppState = ReturnType<typeof store.getState>
+export const wrapper: ReturnType<typeof createWrapper> =
+  createWrapper<AppStore>(makeStore, { debug: true })
+
+// **** Types ****
+export type AppStore = ReturnType<typeof makeStore>
+
+export type AppState = ReturnType<AppStore['getState']>
 
 export type AppDispatch = typeof store.dispatch
-
-export type StoreProps = {
-  useAppDispatch: () => AppDispatch
-  useAppSelector: TypedUseSelectorHook<AppState>
-}
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -48,5 +55,12 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >
+
+export type AnyActionType = AnyAction
+
+export type StoreProps = {
+  useAppDispatch: () => AppDispatch
+  useAppSelector: TypedUseSelectorHook<AppState>
+}
 
 export default store

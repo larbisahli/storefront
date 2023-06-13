@@ -1,49 +1,41 @@
-import { setMenu, setConfig } from '@dropgala/store'
+import { selectConfig, selectMenu, wrapper } from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { HeroBannerType } from '@dropgala/types/slider.type'
 import type { ProductType } from '@dropgala/types/product.type'
-import { useAppDispatch } from '@hooks/useStore'
+import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useEffect } from 'react'
 import { getHost } from 'utils'
 import ProductCard from '@components/productCard'
 import HeroBanner from '@components/HeroBanner'
 import HomePageCategories from '@components/HomePageCategories'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import AppLayout from '@components/layout/AppLayout'
-import type { ConfigType } from '@dropgala/types/config.type'
-import {
-  CategoryService,
-  ConfigService,
-  ProductService,
-  SlideService
-} from '@gRPC/services'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
+import {
+  fetchStoreConfig,
+  fetchStoreHeroSlide,
+  fetchStoreMenu,
+  fetchStorePopularProducts
+} from '@gRPC/handlers'
 
-interface Props {
-  menu: CategoryType[]
-  heroSlider: HeroBannerType[]
-  popularProducts: ProductType[]
-  host: { host: string; alias: string }
-  storeConfig: ConfigType
+interface PageProps {
+  pageProps: {
+    menu: CategoryType[]
+    heroSlider: HeroBannerType[]
+    popularProducts: ProductType[]
+    host: { host: string; alias: string }
+  }
 }
 
-export default function HomePage({
-  host,
-  menu,
-  heroSlider = [],
-  popularProducts,
-  storeConfig
-}: Props) {
-  const dispatch = useAppDispatch()
+const HomePage = ({ pageProps }: PageProps) => {
+  const storeConfig = useAppSelector(selectConfig)
+  const { menu } = useAppSelector(selectMenu)
 
-  useEffect(() => {
-    console.log({ host, storeConfig, menu, heroSlider, popularProducts })
-    dispatch(setMenu({ menu }))
-    dispatch(setConfig({ storeConfig }))
-  }, [])
+  const { host, heroSlider = [], popularProducts } = pageProps
+
+  console.log({ storeConfig })
 
   return (
     <>
@@ -126,57 +118,43 @@ export default function HomePage({
 
 HomePage.Layout = AppLayout
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req, locale } = context
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const { req, locale } = context
 
-  const { host, alias = '' } = getHost(req)
+    const { host, alias = '' } = getHost(req)
 
-  try {
-    if (!alias) {
-      throw { error: { message: 'alias not specified' } }
-    }
+    try {
+      if (!alias) {
+        throw { error: { message: 'alias not specified' } }
+      }
 
-    // -----------<Remote Procedure Calls>--------------
-    const storeConfig = new ConfigService()
-    const productService = new ProductService()
-    const categoryService = new CategoryService()
-    const slideService = new SlideService()
+      const popularProducts = await fetchStorePopularProducts(alias)
+      const heroSlider = await fetchStoreHeroSlide(alias)
 
-    const { config, error: configError } = await storeConfig.getConfig(alias)
+      // Store
+      store.dispatch(await fetchStoreConfig(alias))
+      store.dispatch(await fetchStoreMenu(alias))
 
-    const { sliders = [], error: slideError } = await slideService.getHeroSlide(
-      alias
-    )
-
-    const { menu = [], error: menuError } = await categoryService.getMenu(alias)
-
-    const { products: popularProducts = [], error: productError } =
-      await productService.getPopular(alias)
-
-    if (slideError || menuError || productError || configError) {
-      console.log({ slideError, menuError, productError, configError })
-      throw { slideError, menuError, productError, configError }
-    }
-
-    return {
-      props: {
-        host: { host, alias },
-        menu,
-        heroSlider: sliders,
-        popularProducts,
-        storeConfig: config,
-        ...(await serverSideTranslations(locale!, [
-          'common',
-          'forms',
-          'menu',
-          'footer'
-        ]))
+      return {
+        props: {
+          host: { host, alias },
+          heroSlider,
+          popularProducts,
+          ...(await serverSideTranslations(locale!, [
+            'common',
+            'forms',
+            'menu',
+            'footer'
+          ]))
+        }
+      }
+    } catch (error) {
+      console.log('error: --------------<>', { error })
+      return {
+        notFound: true
       }
     }
-  } catch (error) {
-    console.log('error: --------------<>', { error })
-    return {
-      notFound: true
-    }
-  }
-}
+  })
+
+export default HomePage

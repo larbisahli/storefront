@@ -2,6 +2,7 @@
  * **** Generated file, Do Not Edit ****
  */
 import {
+  BreadcrumbPlaceholder,
   CartDrawerPlaceholder,
   FooterPlaceholder,
   HeaderPlaceholder,
@@ -18,11 +19,11 @@ export const mapDynamicComponents = {
   '@dropgala/luma': {
     Header: dynamic(() => import('@dropgala/luma/components/Header'), {
       loading: () => <HeaderPlaceholder />,
-      ssr: false
+      ssr: true
     }),
     Footer: dynamic(() => import('@dropgala/luma/components/Footer'), {
       loading: () => <FooterPlaceholder />,
-      ssr: false
+      ssr: true
     }),
     MenuDrawer: dynamic(() => import('@dropgala/luma/components/MenuDrawer'), {
       loading: () => <MenuDrawerPlaceholder />,
@@ -40,21 +41,21 @@ export const mapDynamicComponents = {
       () => import('@dropgala/luma/components/HomepageCategories'),
       {
         loading: () => <HeroBannerPlaceholder />,
-        ssr: false
+        ssr: true
       }
     ),
     ProductCard: dynamic(
       () => import('@dropgala/luma/components/ProductCard'),
       {
         loading: () => <ProductCardPlaceholder />,
-        ssr: false
+        ssr: true
       }
     ),
     ProductDetails: dynamic(
       () => import('@dropgala/luma/components/ProductDetails'),
       {
         loading: () => <ProductCardPlaceholder />,
-        ssr: false
+        ssr: true
       }
     ),
     LinkedProducts: dynamic(
@@ -65,13 +66,13 @@ export const mapDynamicComponents = {
       }
     ),
     Breadcrumb: dynamic(() => import('@dropgala/luma/components/Breadcrumb'), {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BreadcrumbPlaceholder />,
       ssr: false
     }),
     CheckoutBreadcrumb: dynamic(
       () => import('@dropgala/luma/components/CheckoutBreadcrumb'),
       {
-        loading: () => <ProductCardPlaceholder />,
+        loading: () => <BreadcrumbPlaceholder />,
         ssr: false
       }
     ),
@@ -86,28 +87,28 @@ export const mapDynamicComponents = {
       () => import('@dropgala/luma/components/CheckoutCartItems'),
       {
         loading: () => <ProductCardPlaceholder />,
-        ssr: false
+        ssr: true
       }
     ),
     OrderSummary: dynamic(
       () => import('@dropgala/luma/components/OrderSummary'),
       {
         loading: () => <ProductCardPlaceholder />,
-        ssr: false
+        ssr: true
       }
     ),
     CategoryDetails: dynamic(
       () => import('@dropgala/luma/components/CategoryDetails'),
       {
         loading: () => <ProductCardPlaceholder />,
-        ssr: false
+        ssr: true
       }
     ),
     CategoryList: dynamic(
       () => import('@dropgala/luma/components/CategoryList'),
       {
         loading: () => <ProductCardPlaceholder />,
-        ssr: false
+        ssr: true
       }
     ),
     Pagination: dynamic(() => import('@dropgala/luma/components/Pagination'), {
@@ -118,7 +119,114 @@ export const mapDynamicComponents = {
       () => import('@dropgala/luma/components/Miscellaneous'),
       {
         loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    )
+  },
+  '@dropgala/heim': {
+    Header: dynamic(() => import('@dropgala/heim/components/Header'), {
+      loading: () => <HeaderPlaceholder />,
+      ssr: true
+    }),
+    Footer: dynamic(() => import('@dropgala/heim/components/Footer'), {
+      loading: () => <FooterPlaceholder />,
+      ssr: true
+    }),
+    MenuDrawer: dynamic(() => import('@dropgala/heim/components/MenuDrawer'), {
+      loading: () => <MenuDrawerPlaceholder />,
+      ssr: false
+    }),
+    CartDrawer: dynamic(() => import('@dropgala/heim/components/CartDrawer'), {
+      loading: () => <CartDrawerPlaceholder />,
+      ssr: false
+    }),
+    HeroBanner: dynamic(() => import('@dropgala/heim/components/HeroBanner'), {
+      loading: () => <HeroBannerPlaceholder />,
+      ssr: false
+    }),
+    HomePageCategories: dynamic(
+      () => import('@dropgala/heim/components/HomepageCategories'),
+      {
+        loading: () => <HeroBannerPlaceholder />,
+        ssr: true
+      }
+    ),
+    ProductCard: dynamic(
+      () => import('@dropgala/heim/components/ProductCard'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    ProductDetails: dynamic(
+      () => import('@dropgala/heim/components/ProductDetails'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    LinkedProducts: dynamic(
+      () => import('@dropgala/heim/components/LinkedProducts'),
+      {
+        loading: () => <ProductCardPlaceholder />,
         ssr: false
+      }
+    ),
+    Breadcrumb: dynamic(() => import('@dropgala/heim/components/Breadcrumb'), {
+      loading: () => <BreadcrumbPlaceholder />,
+      ssr: false
+    }),
+    CheckoutBreadcrumb: dynamic(
+      () => import('@dropgala/heim/components/CheckoutBreadcrumb'),
+      {
+        loading: () => <BreadcrumbPlaceholder />,
+        ssr: false
+      }
+    ),
+    CheckoutHeader: dynamic(
+      () => import('@dropgala/heim/components/CheckoutHeader'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: false
+      }
+    ),
+    CheckoutCartItems: dynamic(
+      () => import('@dropgala/heim/components/CheckoutCartItems'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    OrderSummary: dynamic(
+      () => import('@dropgala/heim/components/OrderSummary'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    CategoryDetails: dynamic(
+      () => import('@dropgala/heim/components/CategoryDetails'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    CategoryList: dynamic(
+      () => import('@dropgala/heim/components/CategoryList'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    Pagination: dynamic(() => import('@dropgala/heim/components/Pagination'), {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: false
+    }),
+    Miscellaneous: dynamic(
+      () => import('@dropgala/heim/components/Miscellaneous'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
       }
     )
   }

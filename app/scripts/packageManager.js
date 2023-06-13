@@ -33,7 +33,7 @@ const dynamicThemePath = (
   themePath,
   componentName,
   placeholderName,
-  ssr = false
+  ssr = true
 ) => {
   return `
     dynamic(() => import('${themePath}/components/${componentName}'), {
@@ -51,17 +51,20 @@ const ComponentsMapping = (themePath) => {
     MenuDrawer: ${dynamicThemePath(
       themePath,
       'MenuDrawer',
-      'MenuDrawerPlaceholder'
+      'MenuDrawerPlaceholder',
+      false
     )},
     CartDrawer: ${dynamicThemePath(
       themePath,
       'CartDrawer',
-      'CartDrawerPlaceholder'
+      'CartDrawerPlaceholder',
+      false
     )},
     HeroBanner: ${dynamicThemePath(
       themePath,
       'HeroBanner',
-      'HeroBannerPlaceholder'
+      'HeroBannerPlaceholder',
+      false
     )},
     HomePageCategories: ${dynamicThemePath(
       themePath,
@@ -81,22 +84,26 @@ const ComponentsMapping = (themePath) => {
     LinkedProducts: ${dynamicThemePath(
       themePath,
       'LinkedProducts',
-      'ProductCardPlaceholder'
+      'ProductCardPlaceholder',
+      false
     )},
     Breadcrumb: ${dynamicThemePath(
       themePath,
       'Breadcrumb',
-      'ProductCardPlaceholder'
+      'BreadcrumbPlaceholder',
+      false
     )},
     CheckoutBreadcrumb: ${dynamicThemePath(
       themePath,
       'CheckoutBreadcrumb',
-      'ProductCardPlaceholder'
+      'BreadcrumbPlaceholder',
+      false
     )},
     CheckoutHeader: ${dynamicThemePath(
       themePath,
       'CheckoutHeader',
-      'ProductCardPlaceholder'
+      'ProductCardPlaceholder',
+      false
     )},
     CheckoutCartItems: ${dynamicThemePath(
       themePath,
@@ -121,7 +128,8 @@ const ComponentsMapping = (themePath) => {
     Pagination: ${dynamicThemePath(
       themePath,
       'Pagination',
-      'ProductCardPlaceholder'
+      'ProductCardPlaceholder',
+      false
     )},
     Miscellaneous: ${dynamicThemePath(
       themePath,
@@ -138,6 +146,7 @@ const content = `
  * **** Generated file, Do Not Edit ****
 */
 import {
+  BreadcrumbPlaceholder,
   CartDrawerPlaceholder,
   FooterPlaceholder,
   HeaderPlaceholder,

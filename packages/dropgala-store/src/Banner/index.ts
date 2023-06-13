@@ -12,7 +12,7 @@ const initialState: BannerState = {
 }
 
 export const Banner = createSlice({
-  name: 'Banner',
+  name: 'BannerReducer',
   initialState,
   reducers: {
     setHeroSlide: (

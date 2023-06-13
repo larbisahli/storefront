@@ -1,5 +1,6 @@
 import type { CategoryType } from '@dropgala/types/category.type'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { HYDRATE } from 'next-redux-wrapper'
 
 import { AppState } from '../store'
 
@@ -12,7 +13,7 @@ const initialState: MenuState = {
 }
 
 export const menu = createSlice({
-  name: 'menu',
+  name: 'MenuReducer',
   initialState,
   reducers: {
     setMenu: (
@@ -20,6 +21,14 @@ export const menu = createSlice({
       action: PayloadAction<{ menu: CategoryType[] }>
     ) => {
       state.menu = action.payload.menu
+    }
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.MenuReducer
+      }
     }
   }
 })

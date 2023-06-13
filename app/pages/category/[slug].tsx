@@ -1,7 +1,7 @@
-import { setMenu, setConfig } from '@dropgala/store'
+import { wrapper, selectConfig } from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { ProductType } from '@dropgala/types/product.type'
-import { useAppDispatch } from '@hooks/useStore'
+import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect, useMemo, useState } from 'react'
@@ -9,8 +9,6 @@ import { getHost } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Breadcrumb from '@components/Breadcrumb'
 import AppLayout from '@components/layout/AppLayout'
-import { CategoryService, ConfigService, ProductService } from '@gRPC/services'
-import type { ConfigType } from '@dropgala/types/config.type'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import Head from 'next/head'
@@ -22,30 +20,34 @@ import Miscellaneous from '@components/Miscellaneous'
 import { ProductCardLayout } from '@dropgala/types'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
+import {
+  fetchStoreCategory,
+  fetchStoreCategoryProducts,
+  fetchStoreConfig,
+  fetchStoreMenu
+} from '@gRPC/handlers'
 
-interface Props {
-  menu: CategoryType[]
-  category: CategoryType
-  products: ProductType[]
-  storeConfig: ConfigType
-  host: {
-    host: string
-    alias: string
+interface PageProps {
+  pageProps: {
+    category: CategoryType
+    products: ProductType[]
+    host: {
+      host: string
+      alias: string
+    }
   }
 }
 
-export default function ProductPage({
-  host,
-  menu,
-  category,
-  products = [],
-  storeConfig
-}: Props) {
+export default function ProductPage({ pageProps }: PageProps) {
+  const storeConfig = useAppSelector(selectConfig)
+
   const {
     query: { slug, page = 1 }
   } = useRouter()
 
   const currentPage = page as string
+
+  const { host, category, products = [] } = pageProps
 
   const [layout, setLayout] = useState<ProductCardLayout>(
     ProductCardLayout.Grid
@@ -54,13 +56,6 @@ export default function ProductPage({
     [key: string]: ProductType[]
   }>({})
   const [isProductLimitReached, setIsProductLimitReached] = useState(false)
-
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(setMenu({ menu }))
-    dispatch(setConfig({ storeConfig }))
-  }, [])
 
   useEffect(() => {
     if (!isEmpty(products)) {
@@ -213,72 +208,57 @@ export default function ProductPage({
 
 ProductPage.Layout = AppLayout
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {
-    req,
-    locale,
-    params,
-    query: { page }
-  } = context
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const {
+      req,
+      locale,
+      params,
+      query: { page }
+    } = context
 
-  const { host, alias = '' } = getHost(req)
+    const { host, alias = '' } = getHost(req)
 
-  const slug = params?.slug as string
+    const slug = params?.slug as string
 
-  const currentPage =
-    isNaN(parseInt(page as string)) || parseInt(page as string) === 0
-      ? 1
-      : parseInt(page as string)
+    const currentPage =
+      isNaN(parseInt(page as string)) || parseInt(page as string) === 0
+        ? 1
+        : parseInt(page as string)
 
-  try {
-    if (!alias || !slug) {
-      throw { error: { message: 'alias or name not specified' } }
-    }
+    try {
+      if (!alias || !slug) {
+        throw { error: { message: 'alias or name not specified' } }
+      }
 
-    // -----------<Remote Procedure Calls>--------------
-    const storeConfig = new ConfigService()
-    const productService = new ProductService()
-    const categoryService = new CategoryService()
+      const category = await fetchStoreCategory(alias, slug)
+      const products = await fetchStoreCategoryProducts(
+        alias,
+        slug,
+        currentPage
+      )
 
-    const { config, error: configError } = await storeConfig.getConfig(alias)
+      // Store
+      store.dispatch(await fetchStoreConfig(alias))
+      store.dispatch(await fetchStoreMenu(alias))
 
-    const { menu = [], error: menuError } = await categoryService.getMenu(alias)
-
-    const { category = null, error: categoryError } =
-      await categoryService.getCategory(alias, slug)
-
-    const { products, error: productsError } =
-      await productService.getStoreCategoryProducts(alias, slug, currentPage)
-
-    if (
-      isEmpty(category) ||
-      menuError ||
-      categoryError ||
-      configError ||
-      productsError
-    ) {
-      throw { menuError, categoryError, productsError }
-    }
-
-    return {
-      props: {
-        host: { host, alias },
-        menu,
-        category,
-        products,
-        storeConfig: config,
-        ...(await serverSideTranslations(locale!, [
-          'common',
-          'forms',
-          'menu',
-          'footer'
-        ]))
+      return {
+        props: {
+          host: { host, alias },
+          category,
+          products,
+          ...(await serverSideTranslations(locale!, [
+            'common',
+            'forms',
+            'menu',
+            'footer'
+          ]))
+        }
+      }
+    } catch (error) {
+      console.log('error: --------------<>', { error })
+      return {
+        notFound: true
       }
     }
-  } catch (error) {
-    console.log('error: --------------<>', { error })
-    return {
-      notFound: true
-    }
-  }
-}
+  })

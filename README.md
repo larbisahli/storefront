@@ -1,8 +1,5 @@
-pm2 stop app
-pnpm run clean
-pnpm install
-pnpm run build
-pm2 start "pnpm run start" --name app
+pm2 stop app pnpm run clean pnpm install pnpm run build pm2 start "pnpm run
+start" --name app
 
 ---
 

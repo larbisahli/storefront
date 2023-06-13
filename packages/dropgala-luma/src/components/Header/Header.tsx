@@ -1,5 +1,4 @@
 import cn from 'clsx'
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useRef, useState } from 'react'
@@ -20,9 +19,8 @@ import {
   toggleMenu
 } from '@dropgala/store'
 import { useCartItemsCount } from '../../hooks/useCartItemsCount'
-
-const Image = dynamic(() => import('../common/Image'))
-const Link = dynamic(() => import('../ui/Link'))
+import Image from '../common/Image'
+import Link from '../ui/Link'
 
 interface Props extends StoreProps {}
 

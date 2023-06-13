@@ -1,44 +1,38 @@
-import { setMenu, setConfig } from '@dropgala/store'
-import type { CategoryType } from '@dropgala/types/category.type'
+import { wrapper, selectConfig } from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
-import { useAppDispatch } from '@hooks/useStore'
+import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { getHost } from 'utils'
 import ProductDetails from '@components/productDetails'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Breadcrumb from '@components/Breadcrumb'
 import AppLayout from '@components/layout/AppLayout'
-import { CategoryService, ConfigService, ProductService } from '@gRPC/services'
-import type { ConfigType } from '@dropgala/types/config.type'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import LinkedProducts from '@components/LinkedProducts'
 import Head from 'next/head'
+import {
+  fetchStoreConfig,
+  fetchStoreMenu,
+  fetchStoreProduct
+} from '@gRPC/handlers'
 
-interface Props {
-  menu: CategoryType[]
-  product: ProductType
-  storeConfig: ConfigType
-  host: {
-    host: string
-    alias: string
+interface PageProps {
+  pageProps: {
+    product: ProductType
+    host: {
+      host: string
+      alias: string
+    }
   }
 }
 
-export default function ProductPage({
-  host,
-  menu,
-  product = {},
-  storeConfig
-}: Props) {
-  const dispatch = useAppDispatch()
+export default function ProductPage({ pageProps }: PageProps) {
+  const storeConfig = useAppSelector(selectConfig)
 
-  useEffect(() => {
-    dispatch(setMenu({ menu }))
-    dispatch(setConfig({ storeConfig }))
-  }, [])
+  const { host, product = {} } = pageProps
 
   const {
     productSeo,
@@ -150,52 +144,41 @@ export default function ProductPage({
 
 ProductPage.Layout = AppLayout
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req, locale, params } = context
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const { req, locale, params } = context
 
-  const { host, alias = '' } = getHost(req)
+    const { host, alias = '' } = getHost(req)
 
-  const slug = params?.slug
+    const slug = params?.slug
 
-  try {
-    if (!alias || !slug) {
-      throw { error: { message: 'alias or slug not specified' } }
-    }
+    try {
+      if (!alias || !slug) {
+        throw { error: { message: 'alias or slug not specified' } }
+      }
 
-    // -----------<Remote Procedure Calls>--------------
-    const storeConfig = new ConfigService()
-    const productService = new ProductService()
-    const categoryService = new CategoryService()
+      const product = await fetchStoreProduct(alias, slug as string)
 
-    const { config, error: configError } = await storeConfig.getConfig(alias)
+      // Store
+      store.dispatch(await fetchStoreConfig(alias))
+      store.dispatch(await fetchStoreMenu(alias))
 
-    const { menu = [], error: menuError } = await categoryService.getMenu(alias)
-
-    const { product, error: productError } =
-      await productService.getStoreProduct(alias, slug as string)
-
-    if (isEmpty(product) || menuError || productError || configError) {
-      throw { menuError, productError }
-    }
-
-    return {
-      props: {
-        host: { host, alias },
-        menu,
-        product,
-        storeConfig: config,
-        ...(await serverSideTranslations(locale!, [
-          'common',
-          'forms',
-          'menu',
-          'footer'
-        ]))
+      return {
+        props: {
+          host: { host, alias },
+          product,
+          ...(await serverSideTranslations(locale!, [
+            'common',
+            'forms',
+            'menu',
+            'footer'
+          ]))
+        }
+      }
+    } catch (error) {
+      console.log('error: --------------<>', { error })
+      return {
+        notFound: true
       }
     }
-  } catch (error) {
-    console.log('error: --------------<>', { error })
-    return {
-      notFound: true
-    }
-  }
-}
+  })

@@ -15,7 +15,7 @@ const initialState: DrawerState = {
 }
 
 export const drawer = createSlice({
-  name: 'drawer',
+  name: 'DrawerReducer',
   initialState,
   reducers: {
     toggleCart: (state: DrawerState) => {

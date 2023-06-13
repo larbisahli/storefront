@@ -21,7 +21,7 @@ export enum ComponentNames {
   MISCELLANEOUS = 'Miscellaneous'
 }
 
-export type StoreThemes = '@dropgala/luma'
+export type StoreThemes = '@dropgala/luma' | '@dropgala/heim'
 
 export enum SortOrder {
   Asc = 'ASC',
