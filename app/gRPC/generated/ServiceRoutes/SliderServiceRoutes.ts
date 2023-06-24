@@ -10,6 +10,14 @@ import type {
   HeroBannerResponse as _slidePackage_HeroBannerResponse,
   HeroBannerResponse__Output as _slidePackage_HeroBannerResponse__Output
 } from '../slidePackage/HeroBannerResponse'
+import type {
+  PromoBannerRequest as _slidePackage_PromoBannerRequest,
+  PromoBannerRequest__Output as _slidePackage_PromoBannerRequest__Output
+} from '../slidePackage/PromoBannerRequest'
+import type {
+  PromoBannerResponse as _slidePackage_PromoBannerResponse,
+  PromoBannerResponse__Output as _slidePackage_PromoBannerResponse__Output
+} from '../slidePackage/PromoBannerResponse'
 
 export interface SliderServiceRoutesClient extends grpc.Client {
   getStoreHeroBanner(
@@ -52,6 +60,47 @@ export interface SliderServiceRoutesClient extends grpc.Client {
     argument: _slidePackage_HeroBannerRequest,
     callback: grpc.requestCallback<_slidePackage_HeroBannerResponse__Output>
   ): grpc.ClientUnaryCall
+
+  getStorePromoBanner(
+    argument: _slidePackage_PromoBannerRequest,
+    metadata: grpc.Metadata,
+    options: grpc.CallOptions,
+    callback: grpc.requestCallback<_slidePackage_PromoBannerResponse__Output>
+  ): grpc.ClientUnaryCall
+  getStorePromoBanner(
+    argument: _slidePackage_PromoBannerRequest,
+    metadata: grpc.Metadata,
+    callback: grpc.requestCallback<_slidePackage_PromoBannerResponse__Output>
+  ): grpc.ClientUnaryCall
+  getStorePromoBanner(
+    argument: _slidePackage_PromoBannerRequest,
+    options: grpc.CallOptions,
+    callback: grpc.requestCallback<_slidePackage_PromoBannerResponse__Output>
+  ): grpc.ClientUnaryCall
+  getStorePromoBanner(
+    argument: _slidePackage_PromoBannerRequest,
+    callback: grpc.requestCallback<_slidePackage_PromoBannerResponse__Output>
+  ): grpc.ClientUnaryCall
+  getStorePromoBanner(
+    argument: _slidePackage_PromoBannerRequest,
+    metadata: grpc.Metadata,
+    options: grpc.CallOptions,
+    callback: grpc.requestCallback<_slidePackage_PromoBannerResponse__Output>
+  ): grpc.ClientUnaryCall
+  getStorePromoBanner(
+    argument: _slidePackage_PromoBannerRequest,
+    metadata: grpc.Metadata,
+    callback: grpc.requestCallback<_slidePackage_PromoBannerResponse__Output>
+  ): grpc.ClientUnaryCall
+  getStorePromoBanner(
+    argument: _slidePackage_PromoBannerRequest,
+    options: grpc.CallOptions,
+    callback: grpc.requestCallback<_slidePackage_PromoBannerResponse__Output>
+  ): grpc.ClientUnaryCall
+  getStorePromoBanner(
+    argument: _slidePackage_PromoBannerRequest,
+    callback: grpc.requestCallback<_slidePackage_PromoBannerResponse__Output>
+  ): grpc.ClientUnaryCall
 }
 
 export interface SliderServiceRoutesHandlers
@@ -59,6 +108,11 @@ export interface SliderServiceRoutesHandlers
   getStoreHeroBanner: grpc.handleUnaryCall<
     _slidePackage_HeroBannerRequest__Output,
     _slidePackage_HeroBannerResponse
+  >
+
+  getStorePromoBanner: grpc.handleUnaryCall<
+    _slidePackage_PromoBannerRequest__Output,
+    _slidePackage_PromoBannerResponse
   >
 }
 
@@ -68,5 +122,11 @@ export interface SliderServiceRoutesDefinition extends grpc.ServiceDefinition {
     _slidePackage_HeroBannerResponse,
     _slidePackage_HeroBannerRequest__Output,
     _slidePackage_HeroBannerResponse__Output
+  >
+  getStorePromoBanner: MethodDefinition<
+    _slidePackage_PromoBannerRequest,
+    _slidePackage_PromoBannerResponse,
+    _slidePackage_PromoBannerRequest__Output,
+    _slidePackage_PromoBannerResponse__Output
   >
 }

@@ -7,5 +7,5 @@
   "access": "restricted",
   "baseBranch": "app",
   "updateInternalDependencies": "patch",
-  "ignore": ["app"]
+  "ignore": []
 }

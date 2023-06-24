@@ -24,7 +24,8 @@ import {
   fetchStoreCategory,
   fetchStoreCategoryProducts,
   fetchStoreConfig,
-  fetchStoreMenu
+  fetchStoreMenu,
+  fetchStorePromoSlide
 } from '@gRPC/handlers'
 
 interface PageProps {
@@ -238,9 +239,10 @@ export const getServerSideProps: GetServerSideProps =
         currentPage
       )
 
-      // Store
+      // Redux Store
       store.dispatch(await fetchStoreConfig(alias))
       store.dispatch(await fetchStoreMenu(alias))
+      store.dispatch(await fetchStorePromoSlide(alias))
 
       return {
         props: {

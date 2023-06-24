@@ -7,7 +7,7 @@ import MyAccountActions from './AccountActions'
 import InfoSection from './InfoSection'
 import MenuDropDownComponent from './MenuDropDownComponent'
 import MobileHeader from './MobileHeader'
-import NoticeSection from './NoticeSection'
+import PromoSlider from './PromoSlider'
 import SearchSection from './SearchSection'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
@@ -15,6 +15,7 @@ import {
   selectCart,
   selectConfig,
   selectMenu,
+  selectPromoBanner,
   toggleCart,
   toggleMenu
 } from '@dropgala/store'
@@ -30,7 +31,10 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
 
   const storeConfig = useAppSelector(selectConfig)
   const { menu } = useAppSelector(selectMenu)
+  const promoBanner = useAppSelector(selectPromoBanner)
   const { items } = useAppSelector(selectCart)
+
+  console.log({ promoBanner })
 
   const dispatch = useAppDispatch()
 
@@ -90,7 +94,7 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
         )}
       >
         {/* DemoNotice */}
-        <NoticeSection text="Demo store managed by dropgala." />
+        <PromoSlider promoBanner={promoBanner} />
         {/* Navigation */}
         <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto xl:px-0 px-20px ">
           {/* Info section */}

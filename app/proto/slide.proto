@@ -24,6 +24,19 @@ message StoreHeroBanner {
   uint32 position = 9;
 }
 
+message Slider {
+  string destinationUrl = 1;
+  uint32 position = 2;
+  string text = 3;
+  string textColor = 4;
+}
+
+message StorePromoBanner {
+  string animationSpeed = 1;
+  string backgroundColor = 2;
+  string direction = 3;
+  repeated Slider sliders = 5;
+}
 
 message HeroBannerRequest {
     required string alias = 1;
@@ -32,3 +45,11 @@ message HeroBannerRequest {
 message HeroBannerResponse {
     repeated StoreHeroBanner sliders = 1;
   }
+
+message PromoBannerRequest {
+  required string alias = 1;
+}
+
+message PromoBannerResponse {
+  StorePromoBanner banner = 1;
+}

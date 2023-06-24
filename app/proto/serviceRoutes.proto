@@ -14,6 +14,7 @@ service CategoryServiceRoutes {
 
 service SliderServiceRoutes {
   rpc getStoreHeroBanner(HeroBannerRequest)              returns (HeroBannerResponse);
+  rpc getStorePromoBanner(PromoBannerRequest)            returns (PromoBannerResponse);
 }
 
 service ProductServiceRoutes {

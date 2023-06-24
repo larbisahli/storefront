@@ -258,13 +258,25 @@ module.exports = {
         350: '350ms'
       },
       animation: {
-        shake: 'shake 1s linear'
+        shake: 'shake 1s linear',
+        'spin-slow-30': 'spin 30s linear infinite',
+        'spin-slow-25': 'spin 25s linear infinite',
+        'spin-slow-10': 'spin 10s linear infinite',
+        'marquee-infinite': 'marquee 25s linear infinite'
       },
       keyframes: {
         shake: {
           '0%, 100%': { transform: 'translate3d(0,0,0)' },
           '10%, 30%, 50%, 70%, 90%': { transform: 'translate3d(-6px,0,0)' },
           '20%, 40%, 60%, 80%': { transform: 'translate3d(6px,0,0)' }
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' }
+        },
+        marquee2: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0%)' }
         }
       }
     }

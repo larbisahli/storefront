@@ -16,7 +16,8 @@ import Head from 'next/head'
 import {
   fetchStoreConfig,
   fetchStoreMenu,
-  fetchStoreProduct
+  fetchStoreProduct,
+  fetchStorePromoSlide
 } from '@gRPC/handlers'
 
 interface PageProps {
@@ -159,9 +160,10 @@ export const getServerSideProps: GetServerSideProps =
 
       const product = await fetchStoreProduct(alias, slug as string)
 
-      // Store
+      // Redux Store
       store.dispatch(await fetchStoreConfig(alias))
       store.dispatch(await fetchStoreMenu(alias))
+      store.dispatch(await fetchStorePromoSlide(alias))
 
       return {
         props: {

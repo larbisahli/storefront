@@ -44,11 +44,6 @@ export const footer = {
           id: 3,
           title: 'link-return-policy',
           path: '/privacy'
-        },
-        {
-          id: 4,
-          title: 'link-site-map',
-          path: '/'
         }
       ]
     }

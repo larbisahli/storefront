@@ -21,6 +21,10 @@ export interface ProtoGrpcType {
     HeroBannerRequest: MessageTypeDefinition
     HeroBannerResponse: MessageTypeDefinition
     HeroBannerStyle: MessageTypeDefinition
+    PromoBannerRequest: MessageTypeDefinition
+    PromoBannerResponse: MessageTypeDefinition
+    Slider: MessageTypeDefinition
     StoreHeroBanner: MessageTypeDefinition
+    StorePromoBanner: MessageTypeDefinition
   }
 }
