@@ -32,6 +32,7 @@ export const {
   CategoryServiceRoutes,
   SliderServiceRoutes,
   ProductServiceRoutes,
-  ConfigServiceRoutes
+  ConfigServiceRoutes,
+  PageServiceRoutes
 } = (grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType)
   .ServiceRoutes

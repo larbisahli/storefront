@@ -121,7 +121,11 @@ export const mapDynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: true
       }
-    )
+    ),
+    PageCms: dynamic(() => import('@dropgala/luma/components/PageCms'), {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    })
   },
   '@dropgala/heim': {
     Header: dynamic(() => import('@dropgala/heim/components/Header'), {

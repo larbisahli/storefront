@@ -38,12 +38,12 @@ export const footer = {
         {
           id: 2,
           title: 'link-terms',
-          path: '/terms'
+          path: '/terms-and-conditions'
         },
         {
           id: 3,
           title: 'link-return-policy',
-          path: '/privacy'
+          path: '/return-policy'
         }
       ]
     }

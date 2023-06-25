@@ -10,6 +10,10 @@ import type {
   ConfigServiceRoutesDefinition as _ServiceRoutes_ConfigServiceRoutesDefinition
 } from './ServiceRoutes/ConfigServiceRoutes'
 import type {
+  PageServiceRoutesClient as _ServiceRoutes_PageServiceRoutesClient,
+  PageServiceRoutesDefinition as _ServiceRoutes_PageServiceRoutesDefinition
+} from './ServiceRoutes/PageServiceRoutes'
+import type {
   ProductServiceRoutesClient as _ServiceRoutes_ProductServiceRoutesClient,
   ProductServiceRoutesDefinition as _ServiceRoutes_ProductServiceRoutesDefinition
 } from './ServiceRoutes/ProductServiceRoutes'
@@ -36,6 +40,11 @@ export interface ProtoGrpcType {
     Seo: MessageTypeDefinition
     Social: MessageTypeDefinition
   }
+  PagePackage: {
+    Page: MessageTypeDefinition
+    StorePageRequest: MessageTypeDefinition
+    StorePageResponse: MessageTypeDefinition
+  }
   ServiceRoutes: {
     CategoryServiceRoutes: SubtypeConstructor<
       typeof grpc.Client,
@@ -45,6 +54,10 @@ export interface ProtoGrpcType {
       typeof grpc.Client,
       _ServiceRoutes_ConfigServiceRoutesClient
     > & { service: _ServiceRoutes_ConfigServiceRoutesDefinition }
+    PageServiceRoutes: SubtypeConstructor<
+      typeof grpc.Client,
+      _ServiceRoutes_PageServiceRoutesClient
+    > & { service: _ServiceRoutes_PageServiceRoutesDefinition }
     ProductServiceRoutes: SubtypeConstructor<
       typeof grpc.Client,
       _ServiceRoutes_ProductServiceRoutesClient

@@ -14,7 +14,6 @@ export default class SlideService extends SliderServiceRoutes {
     const getStoreHeroBanner = promisify(this.getStoreHeroBanner).bind(this)
     return await getStoreHeroBanner({ alias })
       .then((data) => {
-        console.log({ data })
         return { sliders: data?.sliders ?? [], error: null }
       })
       .catch((error) => ({ error, sliders: null }))
@@ -24,7 +23,6 @@ export default class SlideService extends SliderServiceRoutes {
     const storeHeroBanner = promisify(this.getStorePromoBanner).bind(this)
     return await storeHeroBanner({ alias })
       .then((data) => {
-        console.log({ data })
         return { banner: data?.banner, error: null }
       })
       .catch((error) => ({ error, banner: null }))

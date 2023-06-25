@@ -34,8 +34,6 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
   const promoBanner = useAppSelector(selectPromoBanner)
   const { items } = useAppSelector(selectCart)
 
-  console.log({ promoBanner })
-
   const dispatch = useAppDispatch()
 
   const handleCart = () => {

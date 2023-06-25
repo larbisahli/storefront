@@ -136,6 +136,11 @@ const ComponentsMapping = (themePath) => {
       'Miscellaneous',
       'ProductCardPlaceholder'
     )},
+    PageCms: ${dynamicThemePath(
+      themePath,
+      'PageCms',
+      'ProductCardPlaceholder'
+    )},
   }
   `
 }

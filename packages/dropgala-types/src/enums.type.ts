@@ -18,7 +18,8 @@ export enum ComponentNames {
   ORDER_SUMMARY = 'OrderSummary',
   CATEGORY_DETAILS = 'CategoryDetails',
   PAGINATION = 'Pagination',
-  MISCELLANEOUS = 'Miscellaneous'
+  MISCELLANEOUS = 'Miscellaneous',
+  PAGE_CMS = 'PageCms'
 }
 
 export type StoreThemes = '@dropgala/luma' | '@dropgala/heim'

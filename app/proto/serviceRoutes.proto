@@ -6,6 +6,7 @@ import "product.proto";
 import "category.proto";
 import "slide.proto";
 import "settings.proto";
+import "page.proto";
 
 service CategoryServiceRoutes {
   rpc getStoreMenu(MenuRequest)                          returns (MenuResponse);
@@ -21,6 +22,10 @@ service ProductServiceRoutes {
   rpc getPopularProducts(PopularProductsRequest)         returns (ProductsResponse);
   rpc getCategoryProducts(CategoryProductsRequest)       returns (ProductsResponse);
   rpc getProduct(ProductRequest)                         returns (ProductResponse);
+}
+
+service PageServiceRoutes {
+  rpc getStorePage(StorePageRequest)                     returns (StorePageResponse);
 }
 
 service ConfigServiceRoutes {

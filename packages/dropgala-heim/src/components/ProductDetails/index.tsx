@@ -149,7 +149,6 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
         )
       })
 
-      console.log({ variationOptionExist })
       if (isEmpty(variationOptionExist)) {
         dispatch(
           addItem({
@@ -236,7 +235,6 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
                   { '!border-red-600': index === actualSlide }
                 )}
                 onClick={() => {
-                  console.log({ index })
                   updateSlide({ currentSlide: index })
                 }}
               >

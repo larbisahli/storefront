@@ -8,7 +8,6 @@ interface Props {
 }
 
 const CategoryCard: React.FC<Props> = ({ category }: Props) => {
-  console.log({ category })
   const { name, thumbnail, url } = category
   const { image, placeholder } = thumbnail[0] ?? {}
   return (
