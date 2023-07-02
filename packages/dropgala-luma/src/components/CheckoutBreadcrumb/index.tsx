@@ -38,7 +38,7 @@ const CheckoutBreadcrumb = () => {
           <Fragment key={value.name}>
             <div
               className={cn('text-gray-600 mb-1', {
-                '!text-gray-900 !font-medium':
+                '!text-black !font-medium':
                   value.activePath === (step ?? pathname)
               })}
             >

@@ -75,11 +75,10 @@ const OrderSummary: FC<Props> = ({ useAppSelector }) => {
           <div>
             <Link
               href={{
-                // pathname: '/checkout',
-                pathname: '/'
-                // query: {
-                //   step: CheckoutSteps.CONTACT_INFORMATION
-                // }
+                pathname: '/checkout',
+                query: {
+                  step: CheckoutSteps.CONTACT_INFORMATION
+                }
               }}
             >
               <div className="w-full mt-20px flex justify-center">

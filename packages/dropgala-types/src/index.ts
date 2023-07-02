@@ -1,3 +1,4 @@
 export * from './custom.type'
 export * from './enums.type'
 export * from './props.type'
+export * from './checkout.type'

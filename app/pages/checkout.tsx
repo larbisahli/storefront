@@ -5,15 +5,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/layout/CheckoutLayout'
-import CheckoutCartItems from '@components/CheckoutCartItems'
-import OrderSummary from '@components/OrderSummary'
 import { fetchStoreConfig } from '@gRPC/handlers'
+import CheckoutForm from '@components/CheckoutForm'
+import CheckoutItems from '@components/CheckoutItems'
 
 interface Props {
   host: { host: string; subdomain: string }
 }
 
-export default function CartPage({ host }: Props) {
+export default function CheckoutPage({ host }: Props) {
   return (
     <>
       <Head>
@@ -22,31 +22,31 @@ export default function CartPage({ host }: Props) {
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
         <meta name="Description" content="Put your description here." />
-        <title>Cart</title>
+        <title>Checkout</title>
       </Head>
       <div className="mb-44">
         <section className="w-full flex justify-center my-30px">
           <CheckoutBreadcrumb />
         </section>
-        <div className="flex w-full lg:flex-row flex-col border border-gray-200 rounded-md">
-          {/* 1 */}
+        <section className="flex w-full lg:flex-row flex-col-reverse border border-gray-300 rounded-md">
+          {/* Checkout Form */}
           <div className="flex-1">
-            <CheckoutCartItems />
+            <CheckoutForm isLoading={false} />
           </div>
-          {/* 2 */}
+          {/* Checkout items */}
           <div
-            style={{ background: 'rgba(0,0,0,0.03)' }}
+            style={{ background: 'rgba(0,0,0,0.05)' }}
             className="pb-5 lg:w-[40%] xl:w-[45%] w-full"
           >
-            <OrderSummary />
+            <CheckoutItems />
           </div>
-        </div>
+        </section>
       </div>
     </>
   )
 }
 
-CartPage.Layout = CheckoutLayout
+CheckoutPage.Layout = CheckoutLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {

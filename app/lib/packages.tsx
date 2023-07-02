@@ -125,7 +125,35 @@ export const mapDynamicComponents = {
     PageCms: dynamic(() => import('@dropgala/luma/components/PageCms'), {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
-    })
+    }),
+    CheckoutInformation: dynamic(
+      () => import('@dropgala/luma/components/CheckoutInformation'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    CheckoutItems: dynamic(
+      () => import('@dropgala/luma/components/CheckoutItems'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    CheckoutShipping: dynamic(
+      () => import('@dropgala/luma/components/CheckoutShipping'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    ),
+    CheckoutPayment: dynamic(
+      () => import('@dropgala/luma/components/CheckoutPayment'),
+      {
+        loading: () => <ProductCardPlaceholder />,
+        ssr: true
+      }
+    )
   },
   '@dropgala/heim': {
     Header: dynamic(() => import('@dropgala/heim/components/Header'), {
@@ -232,7 +260,11 @@ export const mapDynamicComponents = {
         loading: () => <ProductCardPlaceholder />,
         ssr: true
       }
-    )
+    ),
+    PageCms: dynamic(() => import('@dropgala/heim/components/PageCms'), {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    })
   }
 }
 

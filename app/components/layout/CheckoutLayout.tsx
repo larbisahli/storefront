@@ -1,6 +1,6 @@
 import CheckoutHeader from '@components/CheckoutHeader'
 import cn from 'clsx'
-import { Lato } from 'next/font/google'
+import { Mulish } from 'next/font/google'
 import React from 'react'
 
 interface Props {
@@ -9,8 +9,8 @@ interface Props {
 }
 
 // TODO: Try to allow the customers to dynamically choose google fonts they want to use
-const inter = Lato({
-  weight: ['300', '400', '700', '900'],
+const inter = Mulish({
+  weight: ['200', '300', '400', '700', '900'],
   subsets: ['latin'],
   variable: '--font-inter'
 })

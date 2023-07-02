@@ -141,6 +141,26 @@ const ComponentsMapping = (themePath) => {
       'PageCms',
       'ProductCardPlaceholder'
     )},
+    CheckoutInformation: ${dynamicThemePath(
+      themePath,
+      'CheckoutInformation',
+      'ProductCardPlaceholder'
+    )},
+    CheckoutItems: ${dynamicThemePath(
+      themePath,
+      'CheckoutItems',
+      'ProductCardPlaceholder'
+    )},
+    CheckoutShipping: ${dynamicThemePath(
+      themePath,
+      'CheckoutShipping',
+      'ProductCardPlaceholder'
+    )},
+    CheckoutPayment: ${dynamicThemePath(
+      themePath,
+      'CheckoutPayment',
+      'ProductCardPlaceholder'
+    )},
   }
   `
 }

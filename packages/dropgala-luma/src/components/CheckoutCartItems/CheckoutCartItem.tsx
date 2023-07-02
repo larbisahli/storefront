@@ -74,14 +74,7 @@ const CheckoutCartItem: FC<Props> = ({
     currencyCode: config?.currency?.code ?? 'USD'
   })
 
-  const productPrice = useMemo(
-    () =>
-      price
-        ?.replace(/(\.0+|0+)$/, '')
-        ?.split(/([0-9]+)/)
-        ?.filter((v) => v),
-    [price]
-  )
+  const productPrice = price?.replace(/(\.0+|0+)$/, '')
 
   const discount = usePrice({
     amount: selectedComparePrice,
@@ -172,29 +165,14 @@ const CheckoutCartItem: FC<Props> = ({
             )}
           >
             <div>
-              {productPrice?.map((v, idx) => {
-                if (v !== '$' && productPrice?.length !== idx + 1) {
-                  return (
-                    <span
-                      key={idx}
-                      className="inline-block text-[18px] lg:text-[19px] text-skin-base font-medium"
-                    >
-                      {v}
-                    </span>
-                  )
-                }
-                return (
-                  <span
-                    key={idx}
-                    className="inline-block text-[14px] lg:text-[15px] text-skin-base font-normal"
-                  >
-                    {v}
-                  </span>
-                )
-              })}
+              {!!price && (
+                <span className="inline-block text-[18px] lg:text-[19px] text-skin-base font-medium">
+                  {productPrice}
+                </span>
+              )}
             </div>
 
-            {selectedComparePrice && (
+            {!!selectedComparePrice && (
               <div className="flex items-center">
                 <div className="bg-gray-400 h-[10px] w-[1px] mx-1"></div>
                 <del
