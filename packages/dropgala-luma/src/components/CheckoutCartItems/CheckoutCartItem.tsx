@@ -31,7 +31,7 @@ const CheckoutCartItem: FC<Props> = ({
   useAppSelector
 }) => {
   const router = useRouter()
-  const { locale } = router
+  const { locale = 'en-US' } = router
 
   const dispatch = useAppDispatch!()
 

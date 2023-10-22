@@ -5,7 +5,6 @@ import ErrorBoundary from '@components/common/ErrorBoundary'
 import { wrapper } from '@dropgala/store'
 import apolloClient from '@lib/apollo-client'
 import { AppProps } from 'next/app'
-import { appWithTranslation } from 'next-i18next'
 import { Provider } from 'react-redux'
 
 const Noop: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -30,4 +29,4 @@ const App = ({ Component, ...rest }: AppProps) => {
   )
 }
 
-export default appWithTranslation(App)
+export default App

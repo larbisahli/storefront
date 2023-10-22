@@ -23,7 +23,7 @@ interface Props extends StoreProps {}
 
 function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
   const router = useRouter()
-  const { locale = '' } = router
+  const { locale = 'en-US' } = router
 
   const cart = useAppSelector(selectCart)
   const config = useAppSelector(selectConfig)

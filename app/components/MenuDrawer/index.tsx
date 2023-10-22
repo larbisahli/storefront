@@ -8,7 +8,7 @@ import {
 } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types/enums.type'
 import { useAppDispatch, useAppSelector } from '@hooks/useStore'
-import renderRemoteComponent from '@lib/packages'
+import componentFactory from '@lib/componentFactory'
 import cn from 'clsx'
 import React from 'react'
 
@@ -34,7 +34,7 @@ const MenuDrawer = () => {
             <CloseIcon width="16px" height="16px" />
           </button>
         </div>
-        {renderRemoteComponent(theme, ComponentNames.MENU_DRAWER, { menu })}
+        {componentFactory(theme, ComponentNames.MENU_DRAWER, { menu })}
       </div>
     </React.Fragment>
   )

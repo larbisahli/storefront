@@ -1,11 +1,11 @@
 import { selectConfig } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types'
 import { useAppSelector } from '@hooks/useStore'
-import renderRemoteComponent from '@lib/packages'
+import componentFactory from '@lib/componentFactory'
 
 const Footer = () => {
   const storeConfig = useAppSelector(selectConfig)
-  return renderRemoteComponent(storeConfig.theme, ComponentNames.FOOTER, {})
+  return componentFactory(storeConfig.theme, ComponentNames.FOOTER, {})
 }
 
 export default Footer

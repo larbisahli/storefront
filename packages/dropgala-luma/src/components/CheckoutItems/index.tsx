@@ -5,7 +5,7 @@ import CloseIcon from '../../assets/icons/close'
 import CouponIcon from '../../assets/icons/coupon-icon'
 import Scrollbar from '../common/Scrollbar'
 import Button from '../ui/Button'
-import Input from '../ui/input'
+import Input from '../ui/Input1'
 // import { ProductItemLoader } from '@components/ui/loaders/product-details-loaders';
 import { useMedia } from '../../hooks/useMedia'
 import cn from 'clsx'

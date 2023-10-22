@@ -18,7 +18,6 @@ import {
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import CloseIcon from '../../assets/icons/close'
 import cn from 'clsx'
-import { useTranslation } from 'next-i18next'
 import React, { Dispatch, Fragment, memo, useMemo, useState } from 'react'
 import Button from '../ui/Button'
 import dynamic from 'next/dynamic'
@@ -49,7 +48,7 @@ const CheckoutItemModal: React.FC<Props> = ({
   isOpen,
   setIsOpen
 }) => {
-  const { t } = useTranslation('common')
+  // const { t } = useTranslation('common')
 
   const dispatch = useAppDispatch()
 
@@ -213,11 +212,11 @@ const CheckoutItemModal: React.FC<Props> = ({
                   {productQuantity === 0 && <span>out of stock</span>}
                   {productQuantity > 0 && productQuantity <= 5 && (
                     <span>
-                      {t('text-only') +
+                      {/* {t('text-only') +
                         ' ' +
                         productQuantity +
                         ' ' +
-                        t('text-left')}
+                        t('text-left')} */}
                     </span>
                   )}
                 </div>

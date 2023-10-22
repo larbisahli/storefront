@@ -1,6 +1,5 @@
 const fs = require('fs')
 const prettier = require('prettier')
-const deps = require('../package.json').dependencies
 
 const prettierConfig = {
   printWidth: 80,
@@ -16,152 +15,24 @@ const prettierConfig = {
 }
 
 // Configuration
-const outputFile = 'app/lib/packages.tsx'
+const outputFile = 'app/lib/componentFactory.tsx'
 
-const packagesBlacklist = [
-  '@dropgala/query',
-  '@dropgala/store',
-  '@dropgala/types',
-  '@dropgala/utils'
+const themePaths = [
+  '@dropgala/luma'
+  // '@dropgala/heim',
 ]
 
-const themePaths = Object.keys(deps)
-  ?.filter((v) => v.startsWith('@dropgala/'))
-  ?.filter((v) => !packagesBlacklist.includes(v))
-
-const dynamicThemePath = (
+const dynamicImport = (
   themePath,
   componentName,
   placeholderName,
   ssr = true
 ) => {
   return `
-    dynamic(() => import('${themePath}/components/${componentName}'), {
-      loading: () => <${placeholderName} />,
-      ssr: ${ssr}
-    })
-    `
-}
-
-const ComponentsMapping = (themePath) => {
-  return `
-  {
-    Header: ${dynamicThemePath(themePath, 'Header', 'HeaderPlaceholder')},
-    Footer: ${dynamicThemePath(themePath, 'Footer', 'FooterPlaceholder')},
-    MenuDrawer: ${dynamicThemePath(
-      themePath,
-      'MenuDrawer',
-      'MenuDrawerPlaceholder',
-      false
-    )},
-    CartDrawer: ${dynamicThemePath(
-      themePath,
-      'CartDrawer',
-      'CartDrawerPlaceholder',
-      false
-    )},
-    HeroBanner: ${dynamicThemePath(
-      themePath,
-      'HeroBanner',
-      'HeroBannerPlaceholder',
-      false
-    )},
-    HomePageCategories: ${dynamicThemePath(
-      themePath,
-      'HomepageCategories',
-      'HeroBannerPlaceholder'
-    )},
-    ProductCard: ${dynamicThemePath(
-      themePath,
-      'ProductCard',
-      'ProductCardPlaceholder'
-    )},
-    ProductDetails: ${dynamicThemePath(
-      themePath,
-      'ProductDetails',
-      'ProductCardPlaceholder'
-    )},
-    LinkedProducts: ${dynamicThemePath(
-      themePath,
-      'LinkedProducts',
-      'ProductCardPlaceholder',
-      false
-    )},
-    Breadcrumb: ${dynamicThemePath(
-      themePath,
-      'Breadcrumb',
-      'BreadcrumbPlaceholder',
-      false
-    )},
-    CheckoutBreadcrumb: ${dynamicThemePath(
-      themePath,
-      'CheckoutBreadcrumb',
-      'BreadcrumbPlaceholder',
-      false
-    )},
-    CheckoutHeader: ${dynamicThemePath(
-      themePath,
-      'CheckoutHeader',
-      'ProductCardPlaceholder',
-      false
-    )},
-    CheckoutCartItems: ${dynamicThemePath(
-      themePath,
-      'CheckoutCartItems',
-      'ProductCardPlaceholder'
-    )},
-    OrderSummary: ${dynamicThemePath(
-      themePath,
-      'OrderSummary',
-      'ProductCardPlaceholder'
-    )},
-    CategoryDetails: ${dynamicThemePath(
-      themePath,
-      'CategoryDetails',
-      'ProductCardPlaceholder'
-    )},
-    CategoryList: ${dynamicThemePath(
-      themePath,
-      'CategoryList',
-      'ProductCardPlaceholder'
-    )},
-    Pagination: ${dynamicThemePath(
-      themePath,
-      'Pagination',
-      'ProductCardPlaceholder',
-      false
-    )},
-    Miscellaneous: ${dynamicThemePath(
-      themePath,
-      'Miscellaneous',
-      'ProductCardPlaceholder'
-    )},
-    PageCms: ${dynamicThemePath(
-      themePath,
-      'PageCms',
-      'ProductCardPlaceholder'
-    )},
-    CheckoutInformation: ${dynamicThemePath(
-      themePath,
-      'CheckoutInformation',
-      'ProductCardPlaceholder'
-    )},
-    CheckoutItems: ${dynamicThemePath(
-      themePath,
-      'CheckoutItems',
-      'ProductCardPlaceholder'
-    )},
-    CheckoutShipping: ${dynamicThemePath(
-      themePath,
-      'CheckoutShipping',
-      'ProductCardPlaceholder'
-    )},
-    CheckoutPayment: ${dynamicThemePath(
-      themePath,
-      'CheckoutPayment',
-      'ProductCardPlaceholder'
-    )},
-  }
+  dynamic(() => import('${themePath}/components/${componentName}'), {
+    loading: () => <${placeholderName} />,
+    ssr: ${ssr}
+  })
   `
 }
 
@@ -179,29 +50,247 @@ import {
   MenuDrawerPlaceholder,
   ProductCardPlaceholder
 } from '@components/placeholders'
-import type { ComponentNames, StoreThemes } from '@dropgala/types/enums.type'
+import { ComponentNames, StoreThemes } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { useAppDispatch, useAppSelector } from '@hooks/useStore'
 
-export const mapDynamicComponents = {${themePaths?.map(
-  (themePath) => `'${[themePath]}': ${ComponentsMapping(themePath)}`
-)}};
+const Header = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'Header',
+      'HeaderPlaceholder'
+    )}`
+)}}
+const Footer = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'Footer',
+      'FooterPlaceholder'
+    )}`
+)}}
+const MenuDrawer = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'MenuDrawer',
+      'MenuDrawerPlaceholder',
+      false
+    )}`
+)}}
+const CartDrawer = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CartDrawer',
+      'CartDrawerPlaceholder',
+      false
+    )}`
+)}}
+const HeroBanner = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'HeroBanner',
+      'HeroBannerPlaceholder',
+      false
+    )}`
+)}}
+const HomepageCategories = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'HomepageCategories',
+      'HeroBannerPlaceholder'
+    )}`
+)}}
+const ProductCard = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'ProductCard',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const ProductDetails = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'ProductDetails',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const LinkedProducts = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'LinkedProducts',
+      'ProductCardPlaceholder',
+      false
+    )}`
+)}}
+const Breadcrumb = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'Breadcrumb',
+      'BreadcrumbPlaceholder',
+      false
+    )}`
+)}}
+const CheckoutBreadcrumb = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CheckoutBreadcrumb',
+      'BreadcrumbPlaceholder',
+      false
+    )}`
+)}}
+const CheckoutHeader = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CheckoutHeader',
+      'ProductCardPlaceholder',
+      false
+    )}`
+)}}
+const CheckoutCartItems = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CheckoutCartItems',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const OrderSummary = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'OrderSummary',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const CategoryDetails = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CategoryDetails',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const CategoryList = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CategoryList',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const Pagination = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'Pagination',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const Miscellaneous = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'Miscellaneous',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const PageCms = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'PageCms',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const CheckoutInformation = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CheckoutInformation',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const CheckoutItems = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CheckoutItems',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const CheckoutShipping = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CheckoutShipping',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const CheckoutPayment = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CheckoutPayment',
+      'ProductCardPlaceholder'
+    )}`
+)}}
 
-export default function renderRemoteComponent<Props>(
+const components = new Map<ComponentNames, {[key in StoreThemes]: React.ComponentType<any>}>();
+components.set(ComponentNames.HEADER, Header);
+components.set(ComponentNames.FOOTER, Footer);
+components.set(ComponentNames.MENU_DRAWER, MenuDrawer);
+components.set(ComponentNames.CART_DRAWER, CartDrawer);
+components.set(ComponentNames.HERO_BANNER, HeroBanner);
+components.set(ComponentNames.HOMEPAGE_CATEGORIES, HomepageCategories);
+components.set(ComponentNames.PRODUCT_CARD, ProductCard);
+components.set(ComponentNames.PRODUCT_DETAILS, ProductDetails);
+components.set(ComponentNames.LINKED_PRODUCTS, LinkedProducts);
+components.set(ComponentNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb);
+components.set(ComponentNames.CHECKOUT_HEADER, CheckoutHeader);
+components.set(ComponentNames.BREADCRUMB, Breadcrumb);
+components.set(ComponentNames.CHECKOUT_CART_ITEMS, CheckoutCartItems);
+components.set(ComponentNames.ORDER_SUMMARY, OrderSummary);
+components.set(ComponentNames.CATEGORY_DETAILS, CategoryDetails);
+components.set(ComponentNames.CATEGORIES_LIST, CategoryList);
+components.set(ComponentNames.PAGINATION, Pagination);
+components.set(ComponentNames.MISCELLANEOUS, Miscellaneous);
+components.set(ComponentNames.PAGE_CMS, PageCms);
+components.set(ComponentNames.CHECKOUT_INFORMATION, CheckoutInformation);
+components.set(ComponentNames.CHECKOUT_ITEMS, CheckoutItems);
+components.set(ComponentNames.CHECKOUT_SHIPPING, CheckoutShipping);
+components.set(ComponentNames.CHECKOUT_PAYMENT, CheckoutPayment);
+
+export default function componentFactory<Props>(
   storeTheme: StoreThemes,
   componentName: ComponentNames,
   props: Props,
-  children?: (
+  children?:(
     props: any
   ) => React.ReactNode | React.ReactNode[] | Element | null
-): ReactElement<Props, any> | null {
-  const Component = mapDynamicComponents[storeTheme][componentName]
-
-  if (!Component) {
+): ReactElement<Props> | null {
+  const modules = components.get(componentName)
+  if(isEmpty(modules)){
+    console.warn('Component ' + componentName + ' cannot be found in componentFactory and skipped from render.');
     return null
   }
-
+  const Component = modules[storeTheme]
+  if (!Component) {
+    console.warn('Theme ' + storeTheme + ' cannot be found in componentFactory and skipped from render.');
+    return null
+  }
   return (
     <Component
       {...{
@@ -226,5 +315,6 @@ try {
     `===============> Packages File was written successfully to ${outputFile}`
   )
 } catch (error) {
+  console.log(error)
   console.error(`Failed to write packages file: ${(error, __dirname)}`)
 }

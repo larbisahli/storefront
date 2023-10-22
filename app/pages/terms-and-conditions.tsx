@@ -1,7 +1,6 @@
 import { selectConfig, wrapper } from '@dropgala/store'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { getHost } from 'utils'
 import AppLayout from '@components/layout/AppLayout'
 import { NextSeo } from 'next-seo'
@@ -105,13 +104,13 @@ export const getServerSideProps: GetServerSideProps =
       return {
         props: {
           host: { host, alias },
-          page,
-          ...(await serverSideTranslations(locale!, [
-            'common',
-            'forms',
-            'menu',
-            'footer'
-          ]))
+          page
+          // ...(await serverSideTranslations(locale!, [
+          //   'common',
+          //   'forms',
+          //   'menu',
+          //   'footer'
+          // ]))
         }
       }
     } catch (error) {

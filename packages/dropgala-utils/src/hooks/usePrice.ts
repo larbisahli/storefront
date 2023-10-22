@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 export function usePrice({
   amount,
   currencyCode,
-  locale
+  locale = 'en-US'
 }: {
   amount: number
   currencyCode: string

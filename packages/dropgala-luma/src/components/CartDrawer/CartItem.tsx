@@ -31,7 +31,7 @@ const CartItem: React.FC<CartItemProps> = ({
   const router = useRouter()
   const config = useAppSelector(selectConfig)
 
-  const { locale = '' } = router
+  const { locale = 'en-US' } = router
 
   const {
     name,

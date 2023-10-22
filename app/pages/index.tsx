@@ -4,7 +4,6 @@ import type { HeroBannerType } from '@dropgala/types/slider.type'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { getHost } from 'utils'
 import ProductCard from '@components/productCard'
 import HeroBanner from '@components/HeroBanner'
@@ -130,25 +129,25 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
-      const popularProducts = await fetchStorePopularProducts(alias)
-      const heroSlider = await fetchStoreHeroSlide(alias)
+      const popularProducts = [] //await fetchStorePopularProducts(alias)
+      const heroSlider = [] //await fetchStoreHeroSlide(alias)
 
       // Redux Store
       store.dispatch(await fetchStoreConfig(alias))
-      store.dispatch(await fetchStoreMenu(alias))
-      store.dispatch(await fetchStorePromoSlide(alias))
+      // store.dispatch(await fetchStoreMenu(alias))
+      // store.dispatch(await fetchStorePromoSlide(alias))
 
       return {
         props: {
           host: { host, alias },
           heroSlider,
-          popularProducts,
-          ...(await serverSideTranslations(locale!, [
-            'common',
-            'forms',
-            'menu',
-            'footer'
-          ]))
+          popularProducts
+          // ...(await serverSideTranslations(locale!, [
+          //   'common',
+          //   'forms',
+          //   'menu',
+          //   'footer'
+          // ]))
         }
       }
     } catch (error) {

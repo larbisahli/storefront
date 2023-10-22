@@ -1,5 +1,3 @@
-import { useTranslation } from 'next-i18next'
-
 import Heading from '../../ui/Heading'
 import Link from '../../ui/Link'
 
@@ -18,11 +16,11 @@ interface Props {
 
 const WidgetLink: React.FC<Props> = ({ className, data }) => {
   const { widgetTitle, lists } = data
-  const { t } = useTranslation('footer')
+  // const { t } = useTranslation('footer')
   return (
     <div className={`${className}`}>
       <Heading variant="mediumHeading" className="mb-4 sm:mb-5 lg:mb-6 pb-0.5">
-        {t(`${widgetTitle}`)}
+        {/* {t(`${widgetTitle}`)} */}
       </Heading>
       <ul className="text-sm lg:text-15px flex flex-col space-y-3">
         {lists.map((list) => (
@@ -40,7 +38,7 @@ const WidgetLink: React.FC<Props> = ({ className, data }) => {
               href={list.path ? list.path : '#!'}
               className="transition-colors duration-200 hover:text-skin-base"
             >
-              {t(`${list.title}`)}
+              {/* {t(`${list.title}`)} */}
             </Link>
           </li>
         ))}

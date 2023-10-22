@@ -1,13 +1,12 @@
 import getDirection from '@dropgala/utils/get-direction'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
 import React from 'react'
 
 import EmailIcon from '../../../assets/icons/email-icon'
 import SendIcon from '../../../assets/icons/send-icon'
 import Heading from '../../ui/Heading'
-import Input from '../../ui/Input'
+import Input from '../../ui/Input1'
 import Text from '../../ui/Text'
 
 interface Props {
@@ -20,7 +19,7 @@ const defaultValues = {
   email: ''
 }
 const WidgetSubscription: React.FC<Props> = ({ className }) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   // const {
   //   register,
   //   handleSubmit,
@@ -36,11 +35,11 @@ const WidgetSubscription: React.FC<Props> = ({ className }) => {
   return (
     <div className={cn('flex flex-col', className)}>
       <Heading variant="mediumHeading" className="mb-4 lg:mb-6 lg:pb-0.5">
-        {t('footer:widget-title-subscribe')}
+        {/* {t('footer:widget-title-subscribe')} */}
       </Heading>
 
       <Text className="lg:-mt-1 max-w-[400px]">
-        {t('footer:text-subscribe')}
+        {/* {t('footer:text-subscribe')} */}
       </Text>
       <form
         className="relative mt-5 max-w-[400px]"
@@ -54,7 +53,7 @@ const WidgetSubscription: React.FC<Props> = ({ className }) => {
         </span>
         <Input
           name="email"
-          placeholder={t('forms:placeholder-email-subscribe')}
+          placeholder="" //{t('forms:placeholder-email-subscribe')}
           type="email"
           id="subscription-email"
           variant="solid"

@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
 import Button from '../ui/Button'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { CheckoutSteps } from '@dropgala/types'
@@ -47,19 +46,19 @@ const payment = [
 interface Props extends StoreProps {}
 
 const OrderSummary: FC<Props> = ({ useAppSelector }) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
 
   const cart = useAppSelector!(selectCart)
   const config = useAppSelector(selectConfig)
 
   const router = useRouter()
-  const { locale } = router
+  const { locale = 'en-US' } = router
 
   const calculatePrice = UseCartItemsTotalPrice(cart)
 
   const totalPrice = usePrice({
     amount: calculatePrice,
-    locale: locale ?? 'us',
+    locale,
     currencyCode: config?.currency?.code ?? 'USD'
   })
 

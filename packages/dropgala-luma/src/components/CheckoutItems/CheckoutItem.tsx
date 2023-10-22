@@ -24,7 +24,7 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
   item
 }) => {
   const router = useRouter()
-  const { locale } = router
+  const { locale = 'en-US' } = router
 
   const config = useAppSelector(selectConfig)
 

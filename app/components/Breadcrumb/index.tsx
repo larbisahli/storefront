@@ -2,7 +2,7 @@ import { selectConfig } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types'
 import type { CategoryType } from '@dropgala/types/category.type'
 import { useAppSelector } from '@hooks/useStore'
-import renderRemoteComponent from '@lib/packages'
+import componentFactory from '@lib/componentFactory'
 
 interface Props {
   name?: string
@@ -11,8 +11,7 @@ interface Props {
 
 const Breadcrumb = ({ name, breadcrumbs }: Props) => {
   const { theme } = useAppSelector(selectConfig)
-
-  return renderRemoteComponent(theme, ComponentNames.BREADCRUMB, {
+  return componentFactory(theme, ComponentNames.BREADCRUMB, {
     name,
     breadcrumbs
   })

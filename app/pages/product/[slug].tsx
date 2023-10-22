@@ -2,7 +2,6 @@ import { wrapper, selectConfig } from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useMemo } from 'react'
 import { getHost } from 'utils'
 import ProductDetails from '@components/productDetails'
@@ -168,13 +167,13 @@ export const getServerSideProps: GetServerSideProps =
       return {
         props: {
           host: { host, alias },
-          product,
-          ...(await serverSideTranslations(locale!, [
-            'common',
-            'forms',
-            'menu',
-            'footer'
-          ]))
+          product
+          // ...(await serverSideTranslations(locale!, [
+          //   'common',
+          //   'forms',
+          //   'menu',
+          //   'footer'
+          // ]))
         }
       }
     } catch (error) {

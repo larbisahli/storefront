@@ -4,7 +4,6 @@ import Badge from '../ui/Badge'
 import Button from '../ui/Button'
 import TagLabel from '../ui/TagLabel'
 import cn from 'clsx'
-import { useTranslation } from 'next-i18next'
 import { useEffect, useMemo, useState } from 'react'
 
 import { ProductTypes } from '@dropgala/types'
@@ -35,7 +34,7 @@ interface Props extends StoreProps {
 }
 
 const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
 
   const cart = useAppSelector(selectCart)
 
@@ -355,11 +354,11 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
                   textColor="!text-red-600"
                   border="border border-sink-base"
                 >
-                  {t('text-only') +
+                  {/* {t('text-only') +
                     ' ' +
                     productQuantity +
                     ' ' +
-                    t('text-left')}
+                    t('text-left')} */}
                 </Badge>
               ) : (
                 <div className=""></div>
@@ -378,9 +377,9 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
                   { '!bg-gray-700': productQuantity === 0 }
                 )}
               >
-                {productQuantity === 0
+                {/* {productQuantity === 0
                   ? t('text-sold-out')
-                  : t('text-add-to-cart')}
+                  : t('text-add-to-cart')} */}
               </Button>
               <Button className="border rounded-sm h-[50px] !px-3 border-black flex flex-0 items-center justify-center m-1">
                 <HeartEmpty className="text-black" width={25} height={25} />

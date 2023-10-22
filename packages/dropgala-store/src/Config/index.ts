@@ -1,4 +1,4 @@
-import type { StoreThemes } from '@dropgala/types/enums.type'
+import { StoreThemes } from '@dropgala/types/enums.type'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { ConfigType } from '@dropgala/types/config.type'
 import { HYDRATE } from 'next-redux-wrapper'
@@ -10,7 +10,7 @@ export interface StoreConfigState extends ConfigType {
 }
 
 const initialState: StoreConfigState = {
-  theme: '@dropgala/luma'
+  theme: StoreThemes.LUMA
 }
 
 export const storeConfig = createSlice({

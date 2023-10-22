@@ -1,16 +1,11 @@
 import { selectConfig } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types'
 import { useAppSelector } from '@hooks/useStore'
-import renderRemoteComponent from '@lib/packages'
+import componentFactory from '@lib/componentFactory'
 
 const CheckoutHeader = () => {
   const storeConfig = useAppSelector(selectConfig)
-
-  return renderRemoteComponent(
-    storeConfig.theme,
-    ComponentNames.CHECKOUT_HEADER,
-    {}
-  )
+  return componentFactory(storeConfig.theme, ComponentNames.CHECKOUT_HEADER, {})
 }
 
 export default CheckoutHeader

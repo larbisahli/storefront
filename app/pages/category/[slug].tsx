@@ -3,7 +3,6 @@ import type { CategoryType } from '@dropgala/types/category.type'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect, useMemo, useState } from 'react'
 import { getHost } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -248,13 +247,13 @@ export const getServerSideProps: GetServerSideProps =
         props: {
           host: { host, alias },
           category,
-          products,
-          ...(await serverSideTranslations(locale!, [
-            'common',
-            'forms',
-            'menu',
-            'footer'
-          ]))
+          products
+          // ...(await serverSideTranslations(locale!, [
+          //   'common',
+          //   'forms',
+          //   'menu',
+          //   'footer'
+          // ]))
         }
       }
     } catch (error) {

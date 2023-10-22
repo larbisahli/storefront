@@ -3,7 +3,6 @@ import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import type { ProductType } from '@dropgala/types/product.type'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
 import React, { memo, useMemo } from 'react'
 import { HeartEmpty } from '../../assets/icons/heart'
 import { ProductCardLayout, ProductTypes } from '@dropgala/types'
@@ -25,11 +24,11 @@ const ProductCard: React.FC<ProductProps> = ({
   carousel = false,
   useAppSelector
 }) => {
-  const { t } = useTranslation('common')
+  // const { t } = useTranslation('common')
   const config = useAppSelector(selectConfig)
 
   const router = useRouter()
-  const { locale } = router
+  const { locale = 'en-US' } = router
 
   const {
     name,
@@ -139,7 +138,7 @@ const ProductCard: React.FC<ProductProps> = ({
             {isSoldOut && (
               <div className="absolute pt-2.5 md:pt-3.5 z-10 -mx-0.5 sm:-mx-1 inset-0 bg-gray-200 rounded opacity-75 flex items-center justify-center">
                 <span className="text-xl font-bold uppercase text-gray-800">
-                  {t('text-sold-out')}
+                  {/* {t('text-sold-out')} */}
                 </span>
               </div>
             )}

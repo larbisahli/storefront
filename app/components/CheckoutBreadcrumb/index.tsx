@@ -1,11 +1,11 @@
 import { selectConfig } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types'
 import { useAppSelector } from '@hooks/useStore'
-import renderRemoteComponent from '@lib/packages'
+import componentFactory from '@lib/componentFactory'
 
 const CheckoutBreadcrumb = () => {
   const { theme } = useAppSelector(selectConfig)
-  return renderRemoteComponent(theme, ComponentNames.CHECKOUT_BREADCRUMB, {})
+  return componentFactory(theme, ComponentNames.CHECKOUT_BREADCRUMB, {})
 }
 
 export default CheckoutBreadcrumb

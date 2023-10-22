@@ -1,7 +1,6 @@
 import { wrapper } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/layout/CheckoutLayout'
@@ -64,13 +63,13 @@ export const getServerSideProps: GetServerSideProps =
 
       return {
         props: {
-          host: { host, alias },
-          ...(await serverSideTranslations(locale!, [
-            'common',
-            'forms',
-            'menu',
-            'footer'
-          ]))
+          host: { host, alias }
+          // ...(await serverSideTranslations(locale!, [
+          //   'common',
+          //   'forms',
+          //   'menu',
+          //   'footer'
+          // ]))
         }
       }
     } catch (error) {

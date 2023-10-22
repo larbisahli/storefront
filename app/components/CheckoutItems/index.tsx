@@ -1,12 +1,11 @@
 import { selectConfig } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types/enums.type'
 import { useAppSelector } from '@hooks/useStore'
-import renderRemoteComponent from '@lib/packages'
+import componentFactory from '@lib/componentFactory'
 
 const CheckoutItems = () => {
   const { theme } = useAppSelector(selectConfig)
-
-  return renderRemoteComponent(theme, ComponentNames.CHECKOUT_ITEMS, {})
+  return componentFactory(theme, ComponentNames.CHECKOUT_ITEMS, {})
 }
 
 export default CheckoutItems

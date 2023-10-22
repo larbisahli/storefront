@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.11",
-    "@dropgala/heim": "workspace:*",
     "@dropgala/luma": "workspace:*",
     "@dropgala/query": "workspace:*",
     "@dropgala/store": "workspace:*",
@@ -24,15 +23,12 @@
     "clsx": "^1.1.1",
     "crypto-hash": "^2.0.1",
     "graphql": "^16.6.0",
-    "i18next": "^22.4.13",
     "next": "^13.2.4",
-    "next-i18next": "^13.2.2",
     "next-pwa": "^5.6.0",
     "next-seo": "^6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.1",
-    "react-i18next": "^12.2.0",
     "react-redux": "^8.0.5",
     "yup": "^1.2.0"
   },

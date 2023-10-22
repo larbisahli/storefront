@@ -26,7 +26,15 @@ export enum ComponentNames {
   PAGE_CMS = 'PageCms'
 }
 
-export type StoreThemes = '@dropgala/luma' | '@dropgala/heim'
+export enum StoreThemes {
+  LUMA = '@dropgala/luma',
+  HEIM = '@dropgala/heim'
+}
+
+export enum StoreThemesName {
+  LUMA = 'luma',
+  HEIM = 'heim'
+}
 
 export enum SortOrder {
   Asc = 'ASC',

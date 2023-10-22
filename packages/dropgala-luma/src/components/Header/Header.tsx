@@ -1,6 +1,5 @@
 import cn from 'clsx'
 import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useRef, useState } from 'react'
 
 import MyAccountActions from './AccountActions'
@@ -27,7 +26,7 @@ interface Props extends StoreProps {}
 
 const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
   const router = useRouter()
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
 
   const storeConfig = useAppSelector(selectConfig)
   const { menu } = useAppSelector(selectMenu)

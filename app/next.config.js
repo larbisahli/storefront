@@ -1,11 +1,12 @@
-const { i18n } = require('./next-i18next.config')
-
 const runtimeCaching = require('next-pwa/cache')
 const withPWA = require('next-pwa')({
   dest: 'public',
   disable: process.env.NODE_ENV === 'development',
   runtimeCaching
 })
+
+const LOCALES = ['en-US', 'fr', 'nl-NL'] // max 100
+const DEFAULT_LOCALE = 'en-US'
 
 // const isProd = process.env.NODE_ENV === 'production'
 
@@ -24,7 +25,11 @@ const moduleExports = {
     // !! WARN !!
     ignoreBuildErrors: true
   },
-  i18n,
+  i18n: {
+    // These are all the locales you want to support in your application
+    locales: LOCALES,
+    defaultLocale: DEFAULT_LOCALE
+  },
   images: {
     deviceSizes: [320, 420, 768, 1024, 1200],
     // iconSizes: [],

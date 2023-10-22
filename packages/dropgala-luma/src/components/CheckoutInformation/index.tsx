@@ -1,6 +1,6 @@
 import { CheckoutFormValues } from '@dropgala/types'
 import Checkbox from '../ui/checkbox'
-import Input from '../ui/input'
+import Input from '../ui/Input1'
 import Label from '../ui/label'
 import SelectInput from '../ui/selectInput'
 import { useRouter } from 'next/router'

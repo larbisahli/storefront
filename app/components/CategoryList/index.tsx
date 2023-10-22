@@ -6,7 +6,7 @@ import type {
 } from '@dropgala/types/category.type'
 import { ComponentNames } from '@dropgala/types/enums.type'
 import { useAppSelector } from '@hooks/useStore'
-import renderRemoteComponent from '@lib/packages'
+import componentFactory from '@lib/componentFactory'
 
 interface Props {
   categories: CategoryType[] | CategoryRefLevel2[] | CategoryRefLevel3[]
@@ -14,8 +14,7 @@ interface Props {
 
 const CategoryList = ({ categories }: Props) => {
   const { theme } = useAppSelector(selectConfig)
-
-  return renderRemoteComponent(theme, ComponentNames.CATEGORIES_LIST, {
+  return componentFactory(theme, ComponentNames.CATEGORIES_LIST, {
     categories
   })
 }
