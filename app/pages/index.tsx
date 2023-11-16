@@ -19,6 +19,7 @@ import {
   fetchStorePopularProducts,
   fetchStorePromoSlide
 } from '@gRPC/handlers'
+import { useState } from 'react'
 
 interface PageProps {
   pageProps: {
@@ -36,6 +37,8 @@ const HomePage = ({ pageProps }: PageProps) => {
   const { host, heroSlider = [], popularProducts } = pageProps
 
   console.log({ storeConfig })
+
+  const [x, setX] = useState(false)
 
   return (
     <>
@@ -83,10 +86,9 @@ const HomePage = ({ pageProps }: PageProps) => {
           }
         ]}
       />
-
       <div className="mb-44">
         {/* HERO SECTION */}
-        <section>{<HeroBanner heroSlider={heroSlider} />}</section>
+       <section><HeroBanner heroSlider={heroSlider} /></section>
         {/* CATEGORY SECTION */}
         <section className="mb-12 mx-2">
           {<HomePageCategories menu={menu} />}

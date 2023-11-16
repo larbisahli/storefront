@@ -68,7 +68,7 @@ export default function CheckoutForm({ initialValues, isLoading }: IProps) {
 
     const variables = {
       // Make sure to change this to your payment completion page
-      // return_url: `http://localhost:3000/${ROUTES.COMPLETE_ORDER}`,
+      // return_url: `http://localhost:80/${ROUTES.COMPLETE_ORDER}`,
       shipping: {
         address: {
           state: values.state,
