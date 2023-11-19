@@ -9,18 +9,25 @@ type SubtypeConstructor<
 }
 
 export interface ProtoGrpcType {
-  CommonPackage: {
+  commons: {
     Currency: MessageTypeDefinition
+    GoogleAnalytics: MessageTypeDefinition
     Icon: MessageTypeDefinition
     Seo: MessageTypeDefinition
     Social: MessageTypeDefinition
+    Unit: MessageTypeDefinition
   }
-  PagePackage: {
-    Page: MessageTypeDefinition
-    StorePageRequest: MessageTypeDefinition
-    StorePageResponse: MessageTypeDefinition
+  google: {
+    protobuf: {
+      Timestamp: MessageTypeDefinition
+    }
   }
-  photoPackage: {
+  media: {
     Image: MessageTypeDefinition
+  }
+  page: {
+    Page: MessageTypeDefinition
+    PageRequest: MessageTypeDefinition
+    PageResponse: MessageTypeDefinition
   }
 }

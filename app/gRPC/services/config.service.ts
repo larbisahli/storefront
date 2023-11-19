@@ -10,9 +10,9 @@ export default class ConfigService extends ConfigServiceRoutes {
     super(RPCStoreFrontPort, createInsecure())
   }
 
-  public async getConfig(alias: string) {
-    const getStoreMenu = promisify(this.getStoreConfig).bind(this)
-    return await getStoreMenu({ alias })
+  public async getStoreConfig(alias: string, storeId?: string) {
+    const config = promisify(this.getConfig).bind(this)
+    return await config({ alias, storeId })
       .then((data) => ({ config: data?.config, error: null }))
       .catch((error) => ({ error, config: null }))
   }

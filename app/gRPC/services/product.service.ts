@@ -11,22 +11,26 @@ export default class ProductService extends ProductServiceRoutes {
   }
 
   public async getPopular(alias: string) {
-    const getPopularProducts = promisify(this.getPopularProducts).bind(this)
-    return await getPopularProducts({ alias })
+    const popularProducts = promisify(this.getPopularProducts).bind(this)
+    return await popularProducts({ alias })
       .then((data) => ({ products: data?.products ?? [], error: null }))
       .catch((error) => ({ error, products: null }))
   }
 
-  public async getStoreCategoryProducts(alias: string, urlKey: string, page) {
-    const getCategoryProducts = promisify(this.getCategoryProducts).bind(this)
-    return await getCategoryProducts({ alias, urlKey, page })
+  public async getStoreCategoryProducts(
+    alias: string,
+    urlKey: string,
+    page: number
+  ) {
+    const categoryProducts = promisify(this.getCategoryProducts).bind(this)
+    return await categoryProducts({ alias, urlKey, page })
       .then((data) => ({ products: data?.products, error: null }))
       .catch((error) => ({ error, products: null }))
   }
 
   public async getStoreProduct(alias: string, slug: string) {
-    const getProduct = promisify(this.getProduct).bind(this)
-    return await getProduct({ alias, slug })
+    const product = promisify(this.getProduct).bind(this)
+    return await product({ alias, slug })
       .then((data) => ({ product: data?.product, error: null }))
       .catch((error) => ({ error, product: null }))
   }

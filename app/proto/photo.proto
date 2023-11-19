@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package photoPackage;
-
-message Image {
-    uint32 id = 1;
-    string image = 2;
-    string placeholder = 3;
-}

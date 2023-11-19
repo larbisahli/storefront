@@ -45,4 +45,15 @@ export interface ConfigType {
     appId: string
     pageId: string
   }
+  language?: LanguageType
+}
+
+export interface LanguageType {
+  id: number
+  name: string
+  localeId: string
+  direction: 'LTR' | 'RTL'
+  iso2: string
+  isDefault: boolean
+  translation: any
 }

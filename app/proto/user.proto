@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package userPackage;
-
-message User {
-    string id = 1;
-    bool active = 2;
-}

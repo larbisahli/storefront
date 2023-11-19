@@ -10,16 +10,20 @@ export default class CategoryService extends CategoryServiceRoutes {
     super(RPCStoreFrontPort, createInsecure())
   }
 
-  public async getMenu(alias: string) {
-    const getStoreMenu = promisify(this.getStoreMenu).bind(this)
-    return await getStoreMenu({ alias })
+  public async getStoreMenu(
+    alias: string,
+    storeLanguageId: number,
+    storeId?: string
+  ) {
+    const menu = promisify(this.getMenu).bind(this)
+    return await menu({ alias, storeLanguageId, storeId })
       .then((data) => ({ menu: data?.menu ?? [], error: null }))
       .catch((error) => ({ error, menu: null }))
   }
 
-  public async getCategory(alias: string, urlKey: string) {
-    const getStoreCategory = promisify(this.getStoreCategory).bind(this)
-    return await getStoreCategory({ alias, urlKey })
+  public async getStoreCategory(alias: string, urlKey: string) {
+    const category = promisify(this.getCategory).bind(this)
+    return await category({ alias, urlKey })
       .then((data) => ({ category: data?.category, error: null }))
       .catch((error) => ({ error, category: null }))
   }

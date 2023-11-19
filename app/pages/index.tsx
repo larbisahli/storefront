@@ -14,12 +14,14 @@ import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
   fetchStoreConfig,
-  fetchStoreHeroSlide,
+  fetchStoreHeroSlides,
+  fetchStoreLanguage,
   fetchStoreMenu,
   fetchStorePopularProducts,
   fetchStorePromoSlide
 } from '@gRPC/handlers'
 import { useState } from 'react'
+import { LanguageType } from '@dropgala/types/config.type'
 
 interface PageProps {
   pageProps: {
@@ -88,7 +90,9 @@ const HomePage = ({ pageProps }: PageProps) => {
       />
       <div className="mb-44">
         {/* HERO SECTION */}
-       <section><HeroBanner heroSlider={heroSlider} /></section>
+        <section>
+          <HeroBanner heroSlider={heroSlider} />
+        </section>
         {/* CATEGORY SECTION */}
         <section className="mb-12 mx-2">
           {<HomePageCategories menu={menu} />}
@@ -126,18 +130,46 @@ export const getServerSideProps: GetServerSideProps =
 
     const { host, alias = '' } = getHost(req)
 
+    const storeId = undefined
+
     try {
       if (!alias) {
         throw { error: { message: 'alias not specified' } }
       }
 
       const popularProducts = [] //await fetchStorePopularProducts(alias)
-      const heroSlider = [] //await fetchStoreHeroSlide(alias)
 
       // Redux Store
-      store.dispatch(await fetchStoreConfig(alias))
-      // store.dispatch(await fetchStoreMenu(alias))
+      store.dispatch(await fetchStoreConfig(alias, storeId))
+
+      // Check Locale
+      const { ConfigReducer } = store.getState()
+      const locales = ConfigReducer.locales as LanguageType[]
+
+      if (!locales) {
+        return {
+          notFound: true
+        }
+      }
+
+      const currentLocale = locales?.find((l) => l.localeId === locale)
+
+      if (isEmpty(currentLocale)) {
+        const defaultLocale = locales?.find((l) => l.isDefault)
+        return {
+          redirect: {
+            destination: `/${defaultLocale?.localeId}`,
+            permanent: false
+          }
+        }
+      }
+      const storeLanguageId = currentLocale?.id!
+
+      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
+      store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
       // store.dispatch(await fetchStorePromoSlide(alias))
+
+      const heroSlider = await fetchStoreHeroSlides(alias, storeLanguageId)
 
       return {
         props: {
