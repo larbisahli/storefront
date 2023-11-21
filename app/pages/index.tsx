@@ -40,6 +40,8 @@ const HomePage = ({ pageProps }: PageProps) => {
 
   console.log({ storeConfig })
 
+  console.log({ storeConfig })
+
   const [x, setX] = useState(false)
 
   return (
@@ -72,19 +74,19 @@ const HomePage = ({ pageProps }: PageProps) => {
         }}
         additionalLinkTags={[
           {
-            rel: 'icon',
-            href: !!storeConfig?.favicon?.length
-              ? `${mediaURL}/${storeConfig?.favicon[0].image}`
-              : ''
+            rel: 'apple-touch-icon',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_ios_180x180.png`,
+            sizes: '180x180'
           },
           {
-            rel: 'apple-touch-icon',
-            href: 'https://www.test.ie/touch-icon-ipad.jpg',
-            sizes: '76x76'
+            rel: 'icon',
+            type: 'image/png',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_android_36x36.png`,
+            sizes: '36x36'
           },
           {
             rel: 'manifest',
-            href: '/manifest.json'
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
           }
         ]}
       />

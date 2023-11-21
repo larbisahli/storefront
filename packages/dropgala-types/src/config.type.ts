@@ -7,6 +7,7 @@ export interface ConfigType {
   storeName?: string
   storeEmail?: string
   storeNumber?: string
+  alias?: string
   theme: StoreThemes
   currency?: {
     symbol: string
