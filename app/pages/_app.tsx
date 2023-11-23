@@ -1,5 +1,7 @@
 import '@styles/tailwind.css'
-
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 import { ApolloProvider } from '@apollo/client'
 import ErrorBoundary from '@components/common/ErrorBoundary'
 import { wrapper } from '@dropgala/store'

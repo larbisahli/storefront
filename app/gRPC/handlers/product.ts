@@ -2,9 +2,13 @@ import { ProductService } from '@gRPC/services'
 
 const productService = new ProductService()
 
-export const fetchStorePopularProducts = async (alias: string) => {
+export const fetchStorePopularProducts = async (
+  alias: string,
+  storeLanguageId: number,
+  storeId?: string
+) => {
   const { products: popularProducts = [], error: popularProductError } =
-    await productService.getPopular(alias)
+    await productService.getPopular(alias, storeLanguageId, storeId)
   if (popularProductError) throw { popularProductError }
   return popularProducts
 }

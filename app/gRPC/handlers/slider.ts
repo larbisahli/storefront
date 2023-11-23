@@ -15,9 +15,15 @@ export const fetchStoreHeroSlides = async (
   return sliders
 }
 
-export const fetchStorePromoSlide = async (alias: string) => {
+export const fetchStorePromoSlide = async (
+  alias: string,
+  storeLanguageId: number,
+  storeId?: string
+) => {
   const { banner, error: slideError } = await slideService.getStorePromoBanner(
-    alias
+    alias,
+    storeLanguageId,
+    storeId
   )
   if (slideError) throw { slideError }
   return setPromoBanner({ banner: banner as unknown as PromoBannerType })

@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/useStore'
 const Header = {
   '@dropgala/luma': dynamic(() => import('@dropgala/luma/components/Header'), {
     loading: () => <HeaderPlaceholder />,
-    ssr: true
+    ssr: false
   })
 }
 const Footer = {

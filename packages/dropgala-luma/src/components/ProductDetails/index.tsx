@@ -24,7 +24,7 @@ import type {
 } from '@dropgala/types/attribute.type'
 import { selectedVariationOptionFun } from '@dropgala/utils/utils'
 import Image from '../common/Image'
-import Slider from '../common/Slider'
+import Slider from 'react-slick'
 import ProductDescription from './ProductDescription'
 import ProductAttributes from './ProductAttributes'
 import VariationPrice from './VariationPrice'
@@ -209,7 +209,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
       <div className="flex flex-col lg:flex-row-reverse">
         <div className="max-w-[600px] ">
           {/* @ts-ignore */}
-          <Slider infiniteLoop doAfterSlide={updateSlide} slide={actualSlide}>
+          {/* <Slider infiniteLoop doAfterSlide={updateSlide} slide={actualSlide}>
             {productGallery?.map(
               ({ id, image, placeholder }: ImageType, idx) => (
                 <Image
@@ -222,7 +222,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
                 />
               )
             )}
-          </Slider>
+          </Slider> */}
         </div>
         <div className="flex w-full lg:w-[50px] max-h-[600px] items-center flex-row lg:flex-col justify-center lg:justify-start">
           {productGallery?.map(({ id, image, placeholder }, index) => {

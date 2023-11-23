@@ -7,7 +7,7 @@ interface Props {
 const InfoSection = ({ storeConfig }: Props) => {
   const { storeEmail, storeNumber, currency: { code } = {} } = storeConfig
   return (
-    <div className="hidden lg:flex items-center justify-between pt-2 pb-1  xl:px-0 px-20px">
+    <div className="hidden lg:flex items-center justify-between pt-2 pb-1 px-2">
       <div className="flex items-center text-xs text-gray-900">
         {storeNumber && (
           <div className="pr-5 flex items-center">

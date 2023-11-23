@@ -12,12 +12,9 @@ interface Props {
 const CategoryList: React.FC<Props> = ({ categories = [], className = '' }) => {
   return (
     <div
-      className={cn(
-        'max-w-screen-xl xxl:max-w-screen-xxl mx-auto xl:px-0',
-        className
-      )}
+      className={cn('max-w-screen-xl xxl:max-w-screen-xxl mx-auto', className)}
     >
-      <div className="flex items-center lg:flex-row flex-col flex-wrap lg:px-0">
+      <div className="flex items-center lg:flex-row flex-col flex-wrap">
         {categories?.map((category) => {
           return <CategoryCard key={category.id} category={category} />
         })}

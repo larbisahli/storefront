@@ -23,9 +23,13 @@ export default class SlideService extends SliderServiceRoutes {
       .catch((error) => ({ error, sliders: null }))
   }
 
-  public async getStorePromoBanner(alias: string) {
+  public async getStorePromoBanner(
+    alias: string,
+    storeLanguageId: number,
+    storeId?: string
+  ) {
     const promoBanner = promisify(this.getPromoBanner).bind(this)
-    return await promoBanner({ alias })
+    return await promoBanner({ alias, storeLanguageId, storeId })
       .then((data) => {
         return { banner: data?.banner, error: null }
       })

@@ -41,15 +41,14 @@ const HeroBannerCard: FC<BannerProps> = ({
       )}
     >
       <div
-        className="absolute h-full w-full overflow-hidden"
+        className="absolute max-h-[500px] top-0 bottom-0 right-0 left-0 max-w-[1400px] overflow-hidden"
         style={{ zIndex: -1 }}
       >
         <Image
           src={image}
           customPlaceholder={placeholder}
           layout="fill"
-          alt=""
-          className="object-cover"
+          objectFit="cover"
         />
       </div>
       <div

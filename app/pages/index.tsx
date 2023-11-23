@@ -139,12 +139,8 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
-      const popularProducts = [] //await fetchStorePopularProducts(alias)
-
-      // Redux Store
-      store.dispatch(await fetchStoreConfig(alias, storeId))
-
       // Check Locale
+      store.dispatch(await fetchStoreConfig(alias, storeId))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -167,11 +163,19 @@ export const getServerSideProps: GetServerSideProps =
       }
       const storeLanguageId = currentLocale?.id!
 
+      const popularProducts = await fetchStorePopularProducts(
+        alias,
+        storeLanguageId,
+        storeId
+      )
+      const heroSlider = await fetchStoreHeroSlides(alias, storeLanguageId)
+
+      // Redux Store
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
       store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-      // store.dispatch(await fetchStorePromoSlide(alias))
-
-      const heroSlider = await fetchStoreHeroSlides(alias, storeLanguageId)
+      store.dispatch(
+        await fetchStorePromoSlide(alias, storeLanguageId, storeId)
+      )
 
       return {
         props: {

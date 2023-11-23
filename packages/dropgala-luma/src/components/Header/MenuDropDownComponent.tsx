@@ -19,7 +19,7 @@ const MenuDropDownComponent = ({ menu, selectedFirstLevelCategory }: Props) => {
 
   return (
     <div id="menu-drop" className="pt-3 pb-8">
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid grid-cols-5 gap-3 px-2">
         {secondLevelCategories?.map(
           ({ id, name, children = [], url: url2 }) => {
             return (

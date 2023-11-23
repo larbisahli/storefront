@@ -1,8 +1,9 @@
 import type { HeroBannerType } from '@dropgala/types/slider.type'
 import cn from 'clsx'
 import React, { memo, useState } from 'react'
-import Slider from '../common/Slider'
 import HeroBannerCard from './hero-banner-card'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 
 interface Props {
   items?: HeroBannerType[]
@@ -24,38 +25,36 @@ const HeroSliderBlock: React.FC<Props> = ({
   contentClassName = 'py-24',
   ...props
 }) => {
-  const [actualSlide, setActualSlide] = useState(0)
-
-  const updateSlide = ({ currentSlide }: any) => {
-    setActualSlide(currentSlide)
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
   }
-
   return (
     <div className={cn(className)}>
-      {/* @ts-ignore */}
-      <Slider {...props} doAfterSlide={updateSlide} slide={actualSlide}>
+      <Swiper
+        className="max-h-[350px] lg:max-h-[500px]"
+        centeredSlides={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false
+        }}
+        loop={true}
+        pagination={{
+          clickable: true
+        }}
+        modules={[Autoplay, Pagination, Navigation]}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
         {items?.map((banner: any) => (
-          <HeroBannerCard
-            key={`banner--key${banner.id}`}
-            banner={banner}
-            className={contentClassName}
-          />
+          <SwiperSlide key={`banner--key${banner.id}`}>
+            <HeroBannerCard banner={banner} className={contentClassName} />
+          </SwiperSlide>
         ))}
-      </Slider>
-      <div className="flex items-center justify-center">
-        {items?.length > 1 &&
-          items?.map((_, index) => {
-            return (
-              <button
-                key={index}
-                style={createStyles(index === actualSlide)}
-                onClick={() => updateSlide({ currentSlide: index })}
-              >
-                &bull;
-              </button>
-            )
-          })}
-      </div>
+      </Swiper>
     </div>
   )
 }

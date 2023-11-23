@@ -19,15 +19,13 @@ export interface HeroBannerType {
 
 export interface PromoBannerType {
   id?: Scalars['Int']
-  animationSpeed: string
+  delaySpeed: string
   backgroundColor: string
   direction: 'RTL' | 'LTR'
   published?: Scalars['Boolean']
   status?: 'draft' | 'publish'
   sliders?: {
-    text: string
-    textColor: string
-    position?: Scalars['Int']
-    destinationUrl: string
+    content: string
+    position: number
   }[]
 }

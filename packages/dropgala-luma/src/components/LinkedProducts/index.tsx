@@ -1,7 +1,7 @@
 import { ProductRef, ProductType } from '@dropgala/types/product.type'
 import { useMemo, useState } from 'react'
 import useWindowSize from '../../hooks/useWindowSize'
-import Slider from '../common/Slider'
+import Slider from 'react-slick'
 
 interface Props {
   title: string
@@ -42,15 +42,15 @@ const RelatedProducts = ({ title, products = [], children }: Props) => {
       <div className="text-xl font-semibold mb-8">{title}</div>
       {
         // @ts-ignore
-        <Slider
-          infiniteLoop
-          numOfSlides={numOfSlides}
-          sanitize={!(numOfSlides > 1)}
-          doAfterSlide={updateSlide}
-          slide={actualSlide}
-        >
-          {products?.map((product) => children({ product, className: 'mx-4' }))}
-        </Slider>
+        // <Slider
+        //   infiniteLoop
+        //   numOfSlides={numOfSlides}
+        //   sanitize={!(numOfSlides > 1)}
+        //   doAfterSlide={updateSlide}
+        //   slide={actualSlide}
+        // >
+        //   {products?.map((product) => children({ product, className: 'mx-4' }))}
+        // </Slider>
       }
     </div>
   )

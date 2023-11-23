@@ -93,11 +93,11 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
         {/* DemoNotice */}
         <PromoSlider promoBanner={promoBanner} />
         {/* Navigation */}
-        <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto xl:px-0 px-20px ">
+        <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto ">
           {/* Info section */}
           <InfoSection storeConfig={storeConfig} />
           {/* Nav */}
-          <div className="flex items-center bg-white h-60px relative">
+          <div className="flex items-center bg-white h-60px relative px-2">
             <div className="flex relative justify-center overflow-hidden">
               <Link href="/">
                 <div className="relative">
