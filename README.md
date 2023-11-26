@@ -234,3 +234,5 @@ the following:
 - Rename folders in `packages/*` to replace `acme` with your desired scope
 - Search and replace `acme` with your desired scope
 - Re-run `pnpm install`
+
+gcloud auth configure-docker

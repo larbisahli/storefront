@@ -193,3 +193,17 @@
   -webkit-transform: scale(1);
   transform: scale(1);
 }
+
+/* ------ Swiper ------ */
+
+.swiper-pagination-bullet {
+  width: 20px !important;
+  height: 3px !important;
+  border-radius: 1px !important;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #000 !important;
+}

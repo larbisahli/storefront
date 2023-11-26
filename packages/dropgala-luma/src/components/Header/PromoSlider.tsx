@@ -26,6 +26,7 @@ const PromoSlider = ({ promoBanner }: Props) => {
       className="h-[40px] w-screen relative text-white text-center font-medium"
     >
       <Swiper
+        dir={direction?.toLocaleLowerCase()}
         centeredSlides={true}
         autoplay={{
           delay: Number(delaySpeed),

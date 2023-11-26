@@ -10,7 +10,7 @@
     "build": "turbo run build",
     "build:app": "turbo run build --filter=app...",
     "dev": "turbo run dev",
-    "start": "turbo run start",
+    "start": "turbo run start -p 80",
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "turbo run lint",
     "format": "prettier --write .",

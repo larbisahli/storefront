@@ -48,6 +48,9 @@ const HeroSliderBlock: React.FC<Props> = ({
         modules={[Autoplay, Pagination, Navigation]}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
+        thumbsContainerClass='bg-blue-400'
+        slideThumbActiveClass='bg-red-400'
+
       >
         {items?.map((banner: any) => (
           <SwiperSlide key={`banner--key${banner.id}`}>
