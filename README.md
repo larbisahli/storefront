@@ -236,3 +236,4 @@ the following:
 - Re-run `pnpm install`
 
 gcloud auth configure-docker
+https://cloud.google.com/container-registry/docs/advanced-authentication#console
