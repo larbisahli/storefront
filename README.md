@@ -237,3 +237,30 @@ the following:
 
 gcloud auth configure-docker
 https://cloud.google.com/container-registry/docs/advanced-authentication#console
+
+# ======================================
+
+https://www.section.io/engineering-education/data-encryption-and-decryption-in-node-js-using-crypto/
+
+sudo certbot certonly --manual --preferred-challenges=dns --email larbi.sahli@dropgala.com --server https://acme-v02.api.letsencrypt.org/directory -d *.dropgala.shop
+
+
+https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.dropgala.shop
+
+# -----------------------------
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/dropgala.shop/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/dropgala.shop/privkey.pem
+This certificate expires on 2024-02-25.
+These files will be updated when the certificate renews.
+
+NEXT STEPS:
+- This certificate will not be renewed automatically. Autorenewal of --manual certificates requires the use of an authentication hook script (--manual-auth-hook) but one was not provided. To renew this certificate, repeat this same certbot command before the certificate's expiry date.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+
+
