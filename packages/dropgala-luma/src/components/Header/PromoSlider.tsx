@@ -13,7 +13,7 @@ interface Props {
 const PromoSlider = ({ promoBanner }: Props) => {
   const { delaySpeed, direction, sliders, backgroundColor } = promoBanner ?? {}
 
-  if (isEmpty(promoBanner)) return <></>
+  if (isEmpty(sliders)) return <></>
 
   const slides = useMemo(
     () => clone(sliders)?.sort((a, b) => a.position - b.position),
@@ -43,10 +43,10 @@ const PromoSlider = ({ promoBanner }: Props) => {
               className="flex justify-center items-center w-screen h-[40px]"
             >
               <DynamicContent
-                tagName="p"
+                tagName="span"
                 innerHtml={content}
                 attrs={{
-                  className: 'calender--dscnt-items--title'
+                  className: 'line-clamp-1 px-1'
                 }}
               />
             </div>

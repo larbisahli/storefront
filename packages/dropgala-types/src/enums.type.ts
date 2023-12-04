@@ -23,7 +23,10 @@ export enum ComponentNames {
   CATEGORY_DETAILS = 'CategoryDetails',
   PAGINATION = 'Pagination',
   MISCELLANEOUS = 'Miscellaneous',
-  PAGE_CMS = 'PageCms'
+  PAGE_CMS = 'PageCms',
+  INSTALL_PROMPT = 'InstallPrompt',
+  PRODUCT_NOT_FOUND = 'ProductNotFound',
+  COOKIE_POPUP = 'CookiePopup'
 }
 
 export enum StoreThemes {

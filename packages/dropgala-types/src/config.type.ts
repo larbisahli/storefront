@@ -9,7 +9,16 @@ export interface ConfigType {
   storeNumber?: string
   alias?: string
   theme: StoreThemes
-  currency?: {
+  currencies?: {
+    symbol: string
+    name: string
+    symbol_native: string
+    decimal_digits: number
+    rounding: number
+    code: string
+    name_plural: string
+  }[]
+  defaultCurrency?: {
     symbol: string
     name: string
     symbol_native: string
@@ -47,6 +56,15 @@ export interface ConfigType {
     pageId: string
   }
   language?: LanguageType
+  device: {
+    userAgent: string | null
+    isMobile: boolean
+    isSafari: boolean
+    isDesktop: boolean
+    isAndroid: boolean
+    isIos: boolean
+    isSSR: boolean
+  }
 }
 
 export interface LanguageType {

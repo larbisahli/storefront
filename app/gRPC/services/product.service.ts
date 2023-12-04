@@ -22,19 +22,32 @@ export default class ProductService extends ProductServiceRoutes {
   }
 
   public async getStoreCategoryProducts(
-    alias: string,
     urlKey: string,
-    page: number
+    page: number,
+    alias: string,
+    storeLanguageId: number,
+    storeId?: string
   ) {
     const categoryProducts = promisify(this.getCategoryProducts).bind(this)
-    return await categoryProducts({ alias, urlKey, page })
+    return await categoryProducts({
+      urlKey,
+      page,
+      alias,
+      storeLanguageId,
+      storeId
+    })
       .then((data) => ({ products: data?.products, error: null }))
       .catch((error) => ({ error, products: null }))
   }
 
-  public async getStoreProduct(alias: string, slug: string) {
+  public async getStoreProduct(
+    slug: string,
+    alias: string,
+    storeLanguageId: number,
+    storeId?: string
+  ) {
     const product = promisify(this.getProduct).bind(this)
-    return await product({ alias, slug })
+    return await product({ slug, alias, storeLanguageId, storeId })
       .then((data) => ({ product: data?.product, error: null }))
       .catch((error) => ({ error, product: null }))
   }

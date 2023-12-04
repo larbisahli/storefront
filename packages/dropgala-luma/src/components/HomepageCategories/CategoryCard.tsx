@@ -16,21 +16,23 @@ const CategoryCard: React.FC<Props> = ({ category }: Props) => {
         pathname: '/category/[slug]',
         query: { slug: url }
       }}
-      className="bg-gray-200 w-full lg:w-[150px] h-[160px] lg:h-[200px] mt-5 lg:mr-5 p-3 hover:shadow-categoryCard"
+      className="max-h-[300px] w-full hover:shadow-categoryCard"
     >
-      <figure className="flex flex-row-reverse lg:flex-col items-center justify-between w-full h-full">
-        <div className="w-[120px] h-[120px]">
-          <Image
-            src={image}
-            customPlaceholder={placeholder}
-            alt={name}
-            width={120}
-            height={120}
-            className="object-cover rounded-sm"
-          />
-        </div>
-        <figcaption className="pt-3 px-1 self-end lg:self-center">
-          <span className="font-semibold text-sm lg:text-center whitespace-break-spaces line-clamp-2 relative">
+      <figure className="relative">
+        <Image
+          src={image}
+          customPlaceholder={placeholder}
+          alt={name}
+          width={500}
+          height={300}
+          className="object-cover rounded-sm"
+        />
+        <figcaption className="absolute bottom-6 w-full">
+          <span
+            className="bg-black cbg-opacity-60 py-2 px-1 uppercase text-white text-sm w-[90%]
+          mx-auto lg:text-center whitespace-break-spaces line-clamp-1 relative
+          rounded-sm font-manrope font-normal"
+          >
             {name}
           </span>
         </figcaption>

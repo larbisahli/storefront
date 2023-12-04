@@ -5,6 +5,7 @@ import Button from '../ui/Button'
 import TagLabel from '../ui/TagLabel'
 import cn from 'clsx'
 import { useEffect, useMemo, useState } from 'react'
+import { Navigation } from 'swiper/modules'
 
 import { ProductTypes } from '@dropgala/types'
 import type { ProductType } from '@dropgala/types/product.type'
@@ -15,6 +16,7 @@ import {
   StoreProps,
   addItem,
   selectCart,
+  selectConfig,
   setOrderQuantity,
   toggleCart
 } from '@dropgala/store'
@@ -24,10 +26,11 @@ import type {
 } from '@dropgala/types/attribute.type'
 import { selectedVariationOptionFun } from '@dropgala/utils/utils'
 import Image from '../common/Image'
-import Slider from 'react-slick'
 import ProductDescription from './ProductDescription'
 import ProductAttributes from './ProductAttributes'
 import VariationPrice from './VariationPrice'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import useWindowSize from 'hooks/useWindowSize'
 
 interface Props extends StoreProps {
   product: ProductType
@@ -37,6 +40,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   // const { t } = useTranslation()
 
   const cart = useAppSelector(selectCart)
+  const { device } = useAppSelector(selectConfig)
 
   const dispatch = useAppDispatch()
 
@@ -205,24 +209,39 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
       )
     }
 
+    const { width: windowWidth = 0 } = useWindowSize()
+
+    const maxWidth = windowWidth > 600 ? '600px' : `${windowWidth}px`
+
+    console.log({ device })
+
     return (
-      <div className="flex flex-col lg:flex-row-reverse">
-        <div className="max-w-[600px] ">
-          {/* @ts-ignore */}
-          {/* <Slider infiniteLoop doAfterSlide={updateSlide} slide={actualSlide}>
+      <div className="flex flex-col lg:flex-row-reverse" style={{ maxWidth }}>
+        <div
+          className="flex-1"
+          style={{ maxWidth: device?.isDesktop ? 'calc(100% - 50px)' : '100%' }}
+        >
+          <Swiper
+            loop
+            navigation={device?.isDesktop}
+            modules={[Navigation]}
+            className="max-w-fit"
+          >
             {productGallery?.map(
               ({ id, image, placeholder }: ImageType, idx) => (
-                <Image
-                  key={`${id}-${idx}`}
-                  src={image}
-                  customPlaceholder={placeholder}
-                  width={600}
-                  height={600}
-                  objectFit="cover"
-                />
+                <SwiperSlide>
+                  <Image
+                    key={`${id}-${idx}`}
+                    src={image}
+                    customPlaceholder={placeholder}
+                    width={600}
+                    height={600}
+                    objectFit="cover"
+                  />
+                </SwiperSlide>
               )
             )}
-          </Slider> */}
+          </Swiper>
         </div>
         <div className="flex w-full lg:w-[50px] max-h-[600px] items-center flex-row lg:flex-col justify-center lg:justify-start">
           {productGallery?.map(({ id, image, placeholder }, index) => {
@@ -263,7 +282,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
           className="text-sm md:text-15px text-base text-opacity-80 inline-flex
                       items-center justify-center me-2 relative top-1"
         >
-          <LabelIcon className="mr-2" /> {t('text-tags')}:
+          {/* <LabelIcon className="mr-2" /> {t('text-tags')}: */}
         </li>
         {tags?.map((item) => (
           <li className="inline-block p-[3px]" key={`tag-${item?.id}`}>
@@ -276,13 +295,13 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
 
   return (
     <div className="pt-6 md:pt-7 pb-2">
-      <div className="lg:grid grid-cols-11 gap-14 2xl:gap-8">
-        <div className="relative col-span-5 xl:col-span-5 mb-6 md:mb-8 lg:mb-0">
-          <div className="max-w-[650px] sticky top-[200px] overflow-hidden lg:mx-0 mx-auto">
+      <div className="flex items-center flex-col lg:flex-row justify-between">
+        <div className="relative flex flex-1 mb-6 md:mb-8 lg:mb-0 mr-2">
+          <div className="max-w-[600px] xl:max-w-[700px] sticky top-[200px] overflow-hidden lg:mx-0 mx-auto">
             {renderGallery()}
           </div>
         </div>
-        <div className="flex-shrink-0 flex flex-col col-span-6 xl:col-span-6 xl:ps-2">
+        <div className="flex-shrink-0 flex flex-col w-full flex-1 xl:ps-2 ml-2">
           <div className="pb-3 lg:pb-5">
             <div className="md:mb-2.5 block">
               <h2 className="text-skin-base text-lg md:text-xl font-medium transition-colors duration-300 mb-2">

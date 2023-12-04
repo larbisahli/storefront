@@ -18,9 +18,19 @@ export const fetchStoreMenu = async (
   return setMenu({ menu: menu as unknown as CategoryType[] })
 }
 
-export const fetchStoreCategory = async (alias: string, slug: string) => {
+export const fetchStoreCategory = async (
+  slug: string,
+  alias: string,
+  storeLanguageId: number,
+  storeId?: string
+) => {
   const { category = null, error: categoryError } =
-    await categoryService.getStoreCategory(alias, slug)
+    await categoryService.getStoreCategory(
+      slug,
+      alias,
+      storeLanguageId,
+      storeId
+    )
   if (categoryError) throw { categoryError }
   return category
 }

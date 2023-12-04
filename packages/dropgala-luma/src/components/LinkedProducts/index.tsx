@@ -1,7 +1,6 @@
 import { ProductRef, ProductType } from '@dropgala/types/product.type'
 import { useMemo, useState } from 'react'
 import useWindowSize from '../../hooks/useWindowSize'
-import Slider from 'react-slick'
 
 interface Props {
   title: string

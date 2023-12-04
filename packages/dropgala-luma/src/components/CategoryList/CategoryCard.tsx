@@ -1,5 +1,5 @@
 import { CategoryType } from '@dropgala/types/category.type'
-import React from 'react'
+import React, { memo } from 'react'
 import Image from '../common/Image'
 import Link from '../ui/Link'
 
@@ -39,4 +39,4 @@ const CategoryCard: React.FC<Props> = ({ category }: Props) => {
   )
 }
 
-export default CategoryCard
+export default memo(CategoryCard)

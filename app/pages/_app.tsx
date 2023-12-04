@@ -8,6 +8,8 @@ import { wrapper } from '@dropgala/store'
 import apolloClient from '@lib/apollo-client'
 import { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
+import InstallPrompt from '@components/InstallPrompt'
+import CookiePopup from '@components/CookiePopup'
 
 const Noop: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>{children}</>
@@ -15,14 +17,14 @@ const Noop: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const App = ({ Component, ...rest }: AppProps) => {
   const Layout = (Component as any).Layout || Noop
-
   const { store, props } = wrapper.useWrappedStore(rest)
-
   return (
     <ErrorBoundary>
       <Provider store={store}>
         <ApolloProvider client={apolloClient}>
           <Layout {...props}>
+            <InstallPrompt />
+            <CookiePopup />
             <Component {...props} />
           </Layout>
         </ApolloProvider>

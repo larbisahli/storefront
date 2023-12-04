@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/useStore'
 const Header = {
   '@dropgala/luma': dynamic(() => import('@dropgala/luma/components/Header'), {
     loading: () => <HeaderPlaceholder />,
-    ssr: false
+    ssr: true
   })
 }
 const Footer = {
@@ -214,6 +214,33 @@ const CheckoutPayment = {
     }
   )
 }
+const InstallPrompt = {
+  '@dropgala/luma': dynamic(
+    () => import('@dropgala/luma/components/InstallPrompt'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const ProductNotFound = {
+  '@dropgala/luma': dynamic(
+    () => import('@dropgala/luma/components/ProductNotFound'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const CookiePopup = {
+  '@dropgala/luma': dynamic(
+    () => import('@dropgala/luma/components/CookiePopup'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
 
 const components = new Map<
   ComponentNames,
@@ -242,6 +269,9 @@ components.set(ComponentNames.CHECKOUT_INFORMATION, CheckoutInformation)
 components.set(ComponentNames.CHECKOUT_ITEMS, CheckoutItems)
 components.set(ComponentNames.CHECKOUT_SHIPPING, CheckoutShipping)
 components.set(ComponentNames.CHECKOUT_PAYMENT, CheckoutPayment)
+components.set(ComponentNames.INSTALL_PROMPT, InstallPrompt)
+components.set(ComponentNames.PRODUCT_NOT_FOUND, ProductNotFound)
+components.set(ComponentNames.COOKIE_POPUP, CookiePopup)
 
 export default function componentFactory<Props>(
   storeTheme: StoreThemes,

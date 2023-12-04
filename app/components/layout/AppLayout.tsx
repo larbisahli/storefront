@@ -2,7 +2,7 @@ import Header from '@components/Header'
 import CartDrawer from '@components/CartDrawer'
 import MenuDrawer from '@components/MenuDrawer'
 import cn from 'clsx'
-import { Lato, Mulish } from 'next/font/google'
+import { Lato, Mulish, Merriweather, Roboto } from 'next/font/google'
 import React from 'react'
 import Footer from '@components/Footer'
 
@@ -12,22 +12,21 @@ interface Props {
 }
 
 // TODO: Try to allow the customers to dynamically choose google fonts they want to use
-const inter = Mulish({
+const inter = Lato({
   weight: ['300', '400', '700', '900'],
   subsets: ['latin'],
-  variable: '--font-inter'
+  variable: '--font-inter',
+  display: 'swap'
 })
 
 const AppLayout = ({ children, className }: Props) => {
   return (
-    <div
-      className={cn(
-        inter.variable,
-        // Dynamic font family
-        'font-lato',
-        'relative'
-      )}
-    >
+    <div className="relative">
+      <style jsx global>{`
+        html {
+          font-family: ${inter.style.fontFamily};
+        }
+      `}</style>
       <Header />
       <CartDrawer />
       <MenuDrawer />
@@ -41,6 +40,7 @@ const AppLayout = ({ children, className }: Props) => {
       >
         <div className="flex flex-col flex-grow">
           <div className="mt-[110px] mx-2 lg:mt-[190px] flex-auto">
+            <div className="z-40"></div>
             {children}
           </div>
         </div>

@@ -247,6 +247,30 @@ const CheckoutPayment = {${themePaths?.map(
       'ProductCardPlaceholder'
     )}`
 )}}
+const InstallPrompt = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'InstallPrompt',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const ProductNotFound = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'ProductNotFound',
+      'ProductCardPlaceholder'
+    )}`
+)}}
+const CookiePopup = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CookiePopup',
+      'ProductCardPlaceholder'
+    )}`
+)}}
 
 const components = new Map<ComponentNames, {[key in StoreThemes]: React.ComponentType<any>}>();
 components.set(ComponentNames.HEADER, Header);
@@ -272,6 +296,9 @@ components.set(ComponentNames.CHECKOUT_INFORMATION, CheckoutInformation);
 components.set(ComponentNames.CHECKOUT_ITEMS, CheckoutItems);
 components.set(ComponentNames.CHECKOUT_SHIPPING, CheckoutShipping);
 components.set(ComponentNames.CHECKOUT_PAYMENT, CheckoutPayment);
+components.set(ComponentNames.INSTALL_PROMPT, InstallPrompt);
+components.set(ComponentNames.PRODUCT_NOT_FOUND, ProductNotFound);
+components.set(ComponentNames.COOKIE_POPUP, CookiePopup);
 
 export default function componentFactory<Props>(
   storeTheme: StoreThemes,

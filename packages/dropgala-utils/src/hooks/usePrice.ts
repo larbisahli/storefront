@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 
 export function usePrice({
   amount,
-  currencyCode,
+  currencyCode = 'USD',
   locale = 'en-US'
 }: {
   amount: number
-  currencyCode: string
+  currencyCode: string | undefined
   locale: string
 }) {
   const formatCurrency = useMemo(

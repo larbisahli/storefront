@@ -10,7 +10,16 @@ export interface StoreConfigState extends ConfigType {
 }
 
 const initialState: StoreConfigState = {
-  theme: StoreThemes.LUMA
+  theme: StoreThemes.LUMA,
+  device: {
+    userAgent: null,
+    isSafari: false,
+    isMobile: false,
+    isDesktop: true,
+    isAndroid: false,
+    isIos: false,
+    isSSR: false
+  }
 }
 
 export const storeConfig = createSlice({
@@ -23,6 +32,7 @@ export const storeConfig = createSlice({
     ) => {
       const storeConfig = action.payload.storeConfig
       return {
+        ...state,
         ...storeConfig
       }
     },
@@ -32,10 +42,25 @@ export const storeConfig = createSlice({
     ) => {
       const language = action.payload.storeLanguage
       return { ...state, language }
+    },
+    setDefaultCurrency: (
+      state: StoreConfigState,
+      action: PayloadAction<{ defaultCurrency: ConfigType['defaultCurrency'] }>
+    ) => {
+      const defaultCurrency = action.payload.defaultCurrency
+      return { ...state, defaultCurrency }
+    },
+    setConfigDevice: (
+      state: StoreConfigState,
+      action: PayloadAction<{ device: ConfigType['device'] | undefined }>
+    ) => {
+      const device = action.payload.device
+      if (device) return { ...state, device }
+      return state
     }
   },
   extraReducers: {
-    [HYDRATE]: (state, action) => {
+    [HYDRATE]: (state: StoreConfigState, action) => {
       return {
         ...state,
         ...action.payload.ConfigReducer
@@ -44,7 +69,8 @@ export const storeConfig = createSlice({
   }
 })
 
-export const { setConfig, setLanguage } = storeConfig.actions
+export const { setConfig, setLanguage, setDefaultCurrency, setConfigDevice } =
+  storeConfig.actions
 
 export const selectConfig = (state: AppState): StoreConfigState =>
   state.ConfigReducer

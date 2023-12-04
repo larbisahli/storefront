@@ -21,7 +21,7 @@ export interface CategoryType {
   id: Scalars['Int']
   name: Scalars['String']
   description?: Scalars['String']
-  url: string
+  urlKey: string
   children?: Nullable<Array<CategoryRefLevel2>>
   thumbnail: ImageType[]
   categorySeo: CategorySeo
@@ -31,7 +31,7 @@ export interface CategoryType {
 export interface CategoryRefLevel2 {
   id: Scalars['Int']
   name: Scalars['String']
-  url: string
+  urlKey: string
   thumbnail: ImageType[]
   children: Nullable<Array<CategoryRefLevel3>>
   categorySeo: CategorySeo
@@ -41,7 +41,7 @@ export interface CategoryRefLevel2 {
 export interface CategoryRefLevel3 {
   id: Scalars['Int']
   name: Scalars['String']
-  url: string
+  urlKey: string
   thumbnail: ImageType[]
   categorySeo: CategorySeo
   children?: Nullable<Array<CategoryRefLevel2>>

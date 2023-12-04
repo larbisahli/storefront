@@ -64,11 +64,11 @@ export const siteSettings = {
   },
   placeholders: {
     product: {
-      image: 'placeholders/image.jpg',
+      image: 'dropgala/placeholders/image.jpg',
       placeholder: 'placeholders/image__placeholder.png'
     },
     avatar: {
-      image: 'placeholders/avatar.jpg',
+      image: 'dropgala/placeholders/avatar.jpg',
       placeholder: 'placeholders/avatar__placeholder.png'
     }
   }

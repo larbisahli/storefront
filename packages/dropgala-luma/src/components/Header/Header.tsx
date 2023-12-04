@@ -1,6 +1,6 @@
 import cn from 'clsx'
 import { useRouter } from 'next/router'
-import { FC, Fragment, useRef, useState } from 'react'
+import { FC, Fragment, useCallback, useRef, useState } from 'react'
 
 import MyAccountActions from './AccountActions'
 import InfoSection from './InfoSection'
@@ -15,12 +15,14 @@ import {
   selectConfig,
   selectMenu,
   selectPromoBanner,
+  setDefaultCurrency,
   toggleCart,
   toggleMenu
 } from '@dropgala/store'
 import { useCartItemsCount } from '../../hooks/useCartItemsCount'
 import Image from '../common/Image'
 import Link from '../ui/Link'
+import { ConfigType } from '@dropgala/types/config.type'
 
 interface Props extends StoreProps {}
 
@@ -35,13 +37,20 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
 
   const dispatch = useAppDispatch()
 
-  const handleCart = () => {
+  const handleCart = useCallback(() => {
     dispatch(toggleCart())
-  }
+  }, [])
 
-  const handleMenu = () => {
+  const handleMenu = useCallback(() => {
     dispatch(toggleMenu())
-  }
+  }, [])
+
+  const handleDefaultCurrency = useCallback(
+    (defaultCurrency: ConfigType['defaultCurrency']) => {
+      dispatch(setDefaultCurrency({ defaultCurrency }))
+    },
+    []
+  )
 
   const itemsCount = useCartItemsCount(items)
 
@@ -76,6 +85,8 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
     }, 500)
   }
 
+  console.log({ menu })
+
   const storeLogo = !!storeConfig?.logo?.length
     ? `${mediaURL}/${storeConfig?.logo[0].image}`
     : '/assets/images/default_logo.webp'
@@ -95,7 +106,10 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
         {/* Navigation */}
         <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto ">
           {/* Info section */}
-          <InfoSection storeConfig={storeConfig} />
+          <InfoSection
+            storeConfig={storeConfig}
+            handleDefaultCurrency={handleDefaultCurrency}
+          />
           {/* Nav */}
           <div className="flex items-center bg-white h-60px relative px-2">
             <div className="flex relative justify-center overflow-hidden">
@@ -121,13 +135,13 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
           </div>
           {/* Menu Section */}
           <div className="hidden lg:flex items-center justify-center">
-            {menu?.map(({ id, name, url }) => {
+            {menu?.map(({ id, name, urlKey }) => {
               return (
                 <Link
                   key={id}
                   href={{
                     pathname: '/category/[slug]',
-                    query: { slug: url }
+                    query: { slug: urlKey }
                   }}
                   onMouseEnter={() => handleFirstLevelCategoryEnter(id)}
                   onMouseLeave={handleFirstLevelCategoryLeave}

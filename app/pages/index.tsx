@@ -1,4 +1,9 @@
-import { selectConfig, selectMenu, wrapper } from '@dropgala/store'
+import {
+  selectConfig,
+  selectMenu,
+  setConfigDevice,
+  wrapper
+} from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { HeroBannerType } from '@dropgala/types/slider.type'
 import type { ProductType } from '@dropgala/types/product.type'
@@ -20,8 +25,10 @@ import {
   fetchStorePopularProducts,
   fetchStorePromoSlide
 } from '@gRPC/handlers'
-import { useState } from 'react'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import getMobileDetect from '@dropgala/utils/isMobile'
 import { LanguageType } from '@dropgala/types/config.type'
+import ProductNotFound from '@components/ProductNotFound'
 
 interface PageProps {
   pageProps: {
@@ -34,15 +41,11 @@ interface PageProps {
 
 const HomePage = ({ pageProps }: PageProps) => {
   const storeConfig = useAppSelector(selectConfig)
+  const { __ } = useTranslation(storeConfig?.language, 'exception')
   const { menu } = useAppSelector(selectMenu)
-
   const { host, heroSlider = [], popularProducts } = pageProps
 
   console.log({ storeConfig })
-
-  console.log({ storeConfig })
-
-  const [x, setX] = useState(false)
 
   return (
     <>
@@ -86,7 +89,8 @@ const HomePage = ({ pageProps }: PageProps) => {
           },
           {
             rel: 'manifest',
-            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
+            // href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
+            href: '/webmanifest.json'
           }
         ]}
       />
@@ -96,26 +100,35 @@ const HomePage = ({ pageProps }: PageProps) => {
           <HeroBanner heroSlider={heroSlider} />
         </section>
         {/* CATEGORY SECTION */}
-        <section className="mb-12 mx-2">
+        <section className="mt-16">
           {<HomePageCategories menu={menu} />}
         </section>
         {/* BESTSELLERS SECTION */}
-        <section className="mb-5 mx-2">
-          <div className="text-2xl font-semibold">Best Sellers</div>
+        <section className="mt-8">
+          <div className="text-2xl font-semibold">{__('Best Sellers')}</div>
           {!isEmpty(popularProducts) ? (
             <div
               className="grid grid-cols-1 my-10 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-
                             xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-4 2xl:gap-5"
             >
-              {popularProducts.map((product) => (
+              {[
+                ...popularProducts,
+                ...popularProducts,
+                ...popularProducts,
+                ...popularProducts,
+                ...popularProducts,
+                ...popularProducts,
+                ...popularProducts,
+                ...popularProducts,
+                ...popularProducts,
+                ...popularProducts
+              ].map((product) => (
                 <ProductCard product={product} key={product.id} />
               ))}
             </div>
           ) : (
             <div className="w-full flex flex-col items-center pt-10px md:pt-40px lg:pt-20px pb-40px">
-              <h3 className="text-24px text-gray-900 font-bold mt-35px mb-0 text-center">
-                No product found :(
-              </h3>
+              <ProductNotFound />
             </div>
           )}
         </section>
@@ -129,9 +142,8 @@ HomePage.Layout = AppLayout
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
     const { req, locale } = context
-
+    const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
-
     const storeId = undefined
 
     try {
@@ -139,7 +151,7 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
-      // Check Locale
+      // Check if store has locales
       store.dispatch(await fetchStoreConfig(alias, storeId))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
@@ -150,8 +162,8 @@ export const getServerSideProps: GetServerSideProps =
         }
       }
 
+      // Check if incoming locale is available, if not redirect to default local
       const currentLocale = locales?.find((l) => l.localeId === locale)
-
       if (isEmpty(currentLocale)) {
         const defaultLocale = locales?.find((l) => l.isDefault)
         return {
@@ -161,33 +173,31 @@ export const getServerSideProps: GetServerSideProps =
           }
         }
       }
-      const storeLanguageId = currentLocale?.id!
 
-      const popularProducts = await fetchStorePopularProducts(
-        alias,
-        storeLanguageId,
-        storeId
-      )
-      const heroSlider = await fetchStoreHeroSlides(alias, storeLanguageId)
+      // Get current store language id for resource request
+      const storeLanguageId = currentLocale?.id!
+      const device = getMobileDetect(userAgent)
 
       // Redux Store
+      store.dispatch(setConfigDevice({ device }))
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
       store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
       store.dispatch(
         await fetchStorePromoSlide(alias, storeLanguageId, storeId)
       )
 
+      // Page data props
+      const heroSlider = await fetchStoreHeroSlides(alias, storeLanguageId)
+      const popularProducts = await fetchStorePopularProducts(
+        alias,
+        storeLanguageId,
+        storeId
+      )
       return {
         props: {
           host: { host, alias },
           heroSlider,
           popularProducts
-          // ...(await serverSideTranslations(locale!, [
-          //   'common',
-          //   'forms',
-          //   'menu',
-          //   'footer'
-          // ]))
         }
       }
     } catch (error) {

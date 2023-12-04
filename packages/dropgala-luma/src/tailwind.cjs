@@ -42,7 +42,7 @@ module.exports = {
     boxShadow: {
       card: '0px 0px 6px rgba(79, 95, 120, 0.1)',
       badge: '0px 0px 4px rgba(79, 95, 90, 0.04)',
-      cardHover: '0px 0px 8px rgba(79, 95, 120, 0.2)',
+      cardHover: '1px 1px 20px rgba(79, 95, 120, 0.5)',
       cardHoverNoTop: '0px 6px 8px rgba(79, 95, 120, 0.2)',
       category: '0px 1px 6px rgba(79, 95, 120, 0.12)',
       categoryCard: '0 0 8px 0px rgba(0, 0, 0, 0.2)',

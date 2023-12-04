@@ -1,14 +1,19 @@
 import { ConfigType } from '@dropgala/types/config.type'
+import CurrencySwitcherList from './CurrencySwitcherList'
+import { memo } from 'react'
 
 interface Props {
   storeConfig: ConfigType
+  handleDefaultCurrency: (
+    defaultCurrency: ConfigType['defaultCurrency']
+  ) => void
 }
 
-const InfoSection = ({ storeConfig }: Props) => {
-  const { storeEmail, storeNumber, currency: { code } = {} } = storeConfig
+const InfoSection = ({ storeConfig, handleDefaultCurrency }: Props) => {
+  const { storeEmail, storeNumber } = storeConfig
   return (
     <div className="hidden lg:flex items-center justify-between pt-2 pb-1 px-2">
-      <div className="flex items-center text-xs text-gray-900">
+      <div className="flex items-center text-xs text-gray-900 flex-1">
         {storeNumber && (
           <div className="pr-5 flex items-center">
             <div className="pr-3">Telephone:</div>
@@ -22,9 +27,14 @@ const InfoSection = ({ storeConfig }: Props) => {
           </div>
         )}
       </div>
-      {code && <div className="text-sm text-gray-900">{code}</div>}
+      <div className="flex-0">
+        <CurrencySwitcherList
+          storeConfig={storeConfig}
+          handleDefaultCurrency={handleDefaultCurrency}
+        />
+      </div>
     </div>
   )
 }
 
-export default InfoSection
+export default memo(InfoSection)

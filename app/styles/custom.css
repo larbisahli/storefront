@@ -207,3 +207,18 @@
 .swiper-pagination-bullet-active {
   background-color: #000 !important;
 }
+/*
+.swiper-button-prev {
+  background-image: url("/assets/svg/logo.svg");
+}
+
+.swiper-button-next {
+  background-image: url("/assets/svg/logo.svg") !important;
+} */
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 25px !important;
+  color: #000000 !important;
+  font-weight: 700;
+}

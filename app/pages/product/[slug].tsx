@@ -1,4 +1,4 @@
-import { wrapper, selectConfig } from '@dropgala/store'
+import { wrapper, selectConfig, setConfigDevice } from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
@@ -14,10 +14,13 @@ import LinkedProducts from '@components/LinkedProducts'
 import Head from 'next/head'
 import {
   fetchStoreConfig,
+  fetchStoreLanguage,
   fetchStoreMenu,
   fetchStoreProduct,
   fetchStorePromoSlide
 } from '@gRPC/handlers'
+import { LanguageType } from '@dropgala/types/config.type'
+import getMobileDetect from '@dropgala/utils/isMobile'
 
 interface PageProps {
   pageProps: {
@@ -33,6 +36,8 @@ export default function ProductPage({ pageProps }: PageProps) {
   const storeConfig = useAppSelector(selectConfig)
 
   const { host, product = {} } = pageProps
+
+  console.log({ product })
 
   const {
     productSeo,
@@ -111,7 +116,7 @@ export default function ProductPage({ pageProps }: PageProps) {
       <Head>
         <meta name="keywords" content={productSeo?.metaKeywords} />
       </Head>
-      <div className="mb-44 max-w-[1300px] 2xxl:max-w-[1500px] mx-auto">
+      <div className="mb-44 max-w-[1300px] xl:max-w-[1500px] mx-auto">
         {/* PRODUCT DETAIL PAGE */}
         <section className="mb-5 py-35px px-10px">
           <div className="pt-6 lg:pt-7">
@@ -147,33 +152,64 @@ ProductPage.Layout = AppLayout
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
     const { req, locale, params } = context
-
+    const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
+    const storeId = undefined
 
     const slug = params?.slug
 
     try {
-      if (!alias || !slug) {
-        throw { error: { message: 'alias or slug not specified' } }
+      if (!alias) {
+        throw { error: { message: 'alias not specified' } }
       }
 
-      const product = await fetchStoreProduct(alias, slug as string)
+      // Check if store has locales
+      store.dispatch(await fetchStoreConfig(alias, storeId))
+      const { ConfigReducer } = store.getState()
+      const locales = ConfigReducer.locales as LanguageType[]
+
+      if (!locales) {
+        return {
+          notFound: true
+        }
+      }
+
+      // Check if incoming locale is available, if not redirect to default local
+      const currentLocale = locales?.find((l) => l.localeId === locale)
+      if (isEmpty(currentLocale)) {
+        const defaultLocale = locales?.find((l) => l.isDefault)
+        return {
+          redirect: {
+            destination: `/${defaultLocale?.localeId}`,
+            permanent: false
+          }
+        }
+      }
+
+      // Get current store language id for resource request
+      const storeLanguageId = currentLocale?.id!
+      const device = getMobileDetect(userAgent)
 
       // Redux Store
-      store.dispatch(await fetchStoreConfig(alias))
-      store.dispatch(await fetchStoreMenu(alias))
-      store.dispatch(await fetchStorePromoSlide(alias))
+      store.dispatch(setConfigDevice({ device }))
+      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
+      store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(
+        await fetchStorePromoSlide(alias, storeLanguageId, storeId)
+      )
+
+      // Page props data
+      const product = await fetchStoreProduct(
+        slug as string,
+        alias,
+        storeLanguageId,
+        storeId
+      )
 
       return {
         props: {
           host: { host, alias },
           product
-          // ...(await serverSideTranslations(locale!, [
-          //   'common',
-          //   'forms',
-          //   'menu',
-          //   'footer'
-          // ]))
         }
       }
     } catch (error) {

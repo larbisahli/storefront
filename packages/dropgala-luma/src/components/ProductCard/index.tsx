@@ -9,6 +9,7 @@ import { ProductCardLayout, ProductTypes } from '@dropgala/types'
 import Image from '../common/Image'
 import Link from '../ui/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
+import StarIcon from '../../assets/icons/star'
 
 interface ProductProps extends StoreProps {
   product: ProductType
@@ -24,11 +25,10 @@ const ProductCard: React.FC<ProductProps> = ({
   carousel = false,
   useAppSelector
 }) => {
-  // const { t } = useTranslation('common')
   const config = useAppSelector(selectConfig)
 
   const router = useRouter()
-  const { locale = 'en-US' } = router
+  const { locale } = router
 
   const {
     name,
@@ -50,25 +50,25 @@ const ProductCard: React.FC<ProductProps> = ({
   const price = usePrice({
     amount: salePrice!,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const maxPrice_ = usePrice({
     amount: maxPrice!,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const minPrice_ = usePrice({
     amount: minPrice!,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const discount = usePrice({
     amount: comparePrice!,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const productMaxPrice = useMemo(
@@ -104,31 +104,35 @@ const ProductCard: React.FC<ProductProps> = ({
     >
       <div
         className={cn(
-          'flex border-transparent group rounded-sm cursor-pointer hover:shadow-cardHover transition-all duration-300 relative',
+          'flex border-transparent w-fit group rounded-md cursor-pointer hover:shadow-cardHover hover:border border-solid transition-all duration-300 relative',
           {
             'shadow-cardHover': carousel,
             'flex-row w-full max-h-[400px]': layout === ProductCardLayout.List,
-            'flex-col max-w-[400] h-full': layout === ProductCardLayout.Grid
+            'flex-col h-full': layout === ProductCardLayout.Grid
           },
           className
         )}
         title={name}
       >
-        <div className="relative flex-shrink-0 overflow-hidden">
+        <div
+          className={cn(
+            'relative flex-shrink-0 overflow-hidden max-w-[400px]',
+            {
+              'max-w-[200px] lg:max-w-[350px]':
+                layout === ProductCardLayout.List
+            }
+          )}
+        >
           <div
-            className={cn(
-              'flex overflow-hidden max-w-[400px] transition duration-200 ease-in-out transform group-hover:scale-105 relative',
-              {
-                'max-w-[200px] lg:max-w-[350px]':
-                  layout === ProductCardLayout.List
-              }
-            )}
+            className={
+              'flex px-3 py-7 rounded-ms overflow-hidden transition duration-200 ease-in-out transform group-hover:scale-105 relative'
+            }
           >
             <Image
               src={image}
               customPlaceholder={placeholder}
-              width={400}
-              height={400}
+              width={450}
+              height={450}
               quality={100}
               objectFit="cover"
               className={cn('object-cover bg-skin-thumbnail', {
@@ -150,13 +154,22 @@ const ProductCard: React.FC<ProductProps> = ({
 
         <div
           className={cn(
-            'relative flex flex-col px-3 pb-5 lg:pb-6 lg:pt-4 h-full',
+            'relative flex px-3 flex-col pb-5 lg:pb-6 lg:pt-4 h-full',
             {
               'flex-1 w-full h-[200px] lg:h-[300px]':
                 layout === ProductCardLayout.List
             }
           )}
         >
+          {/* Product Ratings */}
+          <div className="flex items-center mb-1 text-orange-600">
+            <StarIcon width={18} height={18} />
+            <StarIcon width={18} height={18} />
+            <StarIcon width={18} height={18} />
+            <StarIcon width={18} height={18} />
+            <StarIcon width={18} height={18} />
+            <div className="text-xs font-bold text-black">{`(${5})`}</div>
+          </div>
           <h2
             className={cn(
               'line-clamp-3 h-[40px] lg:line-clamp-2 font-semibold !text-[14px] sm:text-sm lg:text-[15px] leading-5 sm:leading-5 mb-1',
@@ -170,7 +183,7 @@ const ProductCard: React.FC<ProductProps> = ({
           </h2>
           <div
             className={cn(
-              'uppercase h-[15px] w-full text-xs text-gray-900 font-semibold',
+              'uppercase h-[15px] w-full text-xs text-red-700 font-semibold',
               { 'mt-5': layout === ProductCardLayout.List }
             )}
           >
@@ -179,10 +192,17 @@ const ProductCard: React.FC<ProductProps> = ({
             )}
           </div>
           <div className="mb-1 lg:mb-1.5 flex items-center">
+            {!isVariable && productDiscount && (
+              <div className="text-base mr-3">
+                <del className="text-opacity-80 text-gray-700">
+                  {productDiscount}
+                </del>
+              </div>
+            )}
             {!isVariable && (
               <div
-                className={cn('leading-none text-[18px] font-[600]', {
-                  'text-red-700 text-opacity-80': productDiscount
+                className={cn('leading-none text-[24px] font-[600]', {
+                  'text-black text-opacity-80': productDiscount
                 })}
               >
                 {productPrice}
@@ -195,14 +215,8 @@ const ProductCard: React.FC<ProductProps> = ({
                 {productMinPrice} - {productMaxPrice}
               </div>
             )}
-            {!isVariable && productDiscount && (
-              <div className="text-[18px] ml-3">
-                <del className="text-opacity-80 text-gray-600">
-                  {productDiscount}
-                </del>
-              </div>
-            )}
           </div>
+          <span className="text-xs font-medium">Excl. tax: $0.25</span>
         </div>
       </div>
     </Link>

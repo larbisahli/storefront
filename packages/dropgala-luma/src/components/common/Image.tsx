@@ -26,12 +26,18 @@ const ImageComponent = ({
     () => Base64Fallback
   )
   const [srcImage, setSrc] = useState(() => src)
+  const [srcImagePlaceholder, setSrcImagePlaceholder] = useState(
+    () => customPlaceholder
+  )
 
   useEffect(() => {
     if (src) {
       setSrc(src)
     }
-  }, [src])
+    if (customPlaceholder) {
+      setSrcImagePlaceholder(customPlaceholder)
+    }
+  }, [src, customPlaceholder])
 
   /**
    * Convert Placeholder image url to base64
@@ -39,7 +45,7 @@ const ImageComponent = ({
   useEffect(() => {
     async function toBase64() {
       try {
-        const data = await fetch(`${mediaURL}/${customPlaceholder}`)
+        const data = await fetch(`${mediaURL}/${srcImagePlaceholder}`)
         const blob = await data.blob()
 
         return await new Promise<string>((resolve) => {
@@ -66,8 +72,6 @@ const ImageComponent = ({
     }
   }, [customPlaceholder])
 
-  const customImagePlaceholder = siteSettings?.placeholders?.product?.image
-
   return (
     <Image
       src={isCustomUrl ? srcImage : `${mediaURL}/${srcImage}`}
@@ -76,11 +80,18 @@ const ImageComponent = ({
       {...props}
       alt={props.alt ?? ''}
       // In case there is an error return a dummy image placeholder
-      onError={() =>
+      onError={() => {
         setSrc(
-          isCustomUrl ? `/${customImagePlaceholder}` : customImagePlaceholder
+          isCustomUrl
+            ? `${mediaURL}/${siteSettings.placeholders.product.image}`
+            : siteSettings.placeholders.product.image
         )
-      }
+        setSrcImagePlaceholder(
+          isCustomUrl
+            ? `${mediaURL}/${siteSettings.placeholders.product.placeholder}`
+            : siteSettings.placeholders.product.placeholder
+        )
+      }}
     />
   )
 }

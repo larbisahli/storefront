@@ -1,5 +1,5 @@
 import cn from 'clsx'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import CartIcon from '../../assets/icons/cart-icon'
 import HomeSvg from '../../assets/icons/home'
@@ -18,14 +18,13 @@ const MobileHeader = ({ handleCart, handleMenu, itemsCount }: Props) => {
 
   const controlNavbar = () => {
     if (typeof window !== 'undefined') {
-      if (window.scrollY > lastScrollY) {
+      if (window.scrollY < lastScrollY) {
         // if scroll down hide the navbar
         setShow(false)
       } else {
         // if scroll up show the navbar
         setShow(true)
       }
-
       // remember current page location to use in the next move
       setLastScrollY(window.scrollY)
     }
@@ -34,7 +33,6 @@ const MobileHeader = ({ handleCart, handleMenu, itemsCount }: Props) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlNavbar)
-
       // cleanup function
       return () => {
         window.removeEventListener('scroll', controlNavbar)
@@ -89,4 +87,4 @@ const MobileHeader = ({ handleCart, handleMenu, itemsCount }: Props) => {
   )
 }
 
-export default MobileHeader
+export default memo(MobileHeader)
