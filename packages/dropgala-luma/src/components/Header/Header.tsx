@@ -118,7 +118,7 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
                   <Image
                     isCustomUrl
                     src={storeLogo}
-                    // layout="fill"
+                    objectFit="cover"
                     height={50}
                     width={50}
                     alt="logo"

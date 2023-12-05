@@ -1,6 +1,7 @@
 import { ConfigType } from '@dropgala/types/config.type'
 import CurrencySwitcherList from './CurrencySwitcherList'
 import { memo } from 'react'
+import LanguageSwitcherList from './LanguageSwitcherList'
 
 interface Props {
   storeConfig: ConfigType
@@ -27,11 +28,12 @@ const InfoSection = ({ storeConfig, handleDefaultCurrency }: Props) => {
           </div>
         )}
       </div>
-      <div className="flex-0">
+      <div className="flex-0 flex justify-center items-center">
         <CurrencySwitcherList
           storeConfig={storeConfig}
           handleDefaultCurrency={handleDefaultCurrency}
         />
+        <LanguageSwitcherList storeConfig={storeConfig} />
       </div>
     </div>
   )

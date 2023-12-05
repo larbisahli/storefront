@@ -89,8 +89,7 @@ const HomePage = ({ pageProps }: PageProps) => {
           },
           {
             rel: 'manifest',
-            // href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
-            href: '/webmanifest.json'
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
           }
         ]}
       />
@@ -111,18 +110,7 @@ const HomePage = ({ pageProps }: PageProps) => {
               className="grid grid-cols-1 my-10 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-
                             xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-4 2xl:gap-5"
             >
-              {[
-                ...popularProducts,
-                ...popularProducts,
-                ...popularProducts,
-                ...popularProducts,
-                ...popularProducts,
-                ...popularProducts,
-                ...popularProducts,
-                ...popularProducts,
-                ...popularProducts,
-                ...popularProducts
-              ].map((product) => (
+              {popularProducts.map((product) => (
                 <ProductCard product={product} key={product.id} />
               ))}
             </div>

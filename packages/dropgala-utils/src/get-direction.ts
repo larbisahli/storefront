@@ -9,7 +9,8 @@ export default function getDirection(locale: string | undefined) {
     'ar-om',
     'ar-qa',
     'ar-sa',
-    'he-il'
+    'he-il',
+    'fa-ir'
   ]
   return rtlLanguages.includes(locale) ? 'rtl' : 'ltr'
 }

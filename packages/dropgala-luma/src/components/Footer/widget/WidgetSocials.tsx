@@ -34,7 +34,7 @@ const WidgetSocials: React.FC<Props> = ({ social, className, storeConfig }) => {
                   <Image
                     isCustomUrl
                     src={storeLogo}
-                    // layout="fill"
+                    objectFit="cover"
                     height={50}
                     width={50}
                     alt="logo"

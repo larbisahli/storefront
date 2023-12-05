@@ -21,7 +21,7 @@ const MenuDropDownComponent = ({ menu, selectedFirstLevelCategory }: Props) => {
     <div id="menu-drop" className="pt-3 pb-8">
       <div className="grid grid-cols-5 gap-3 px-2">
         {secondLevelCategories?.map(
-          ({ id, name, children = [], url: url2 }) => {
+          ({ id, name, children = [], urlKey: url2 }) => {
             return (
               <div key={id} className="text-black text-sm flex flex-col">
                 <Link
@@ -34,7 +34,7 @@ const MenuDropDownComponent = ({ menu, selectedFirstLevelCategory }: Props) => {
                   {name}
                 </Link>
                 {(children as CategoryType[])?.map(
-                  ({ id, name, url: url3 }) => {
+                  ({ id, name, urlKey: url3 }) => {
                     return (
                       <Link
                         href={{

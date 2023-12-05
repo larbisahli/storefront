@@ -202,7 +202,7 @@ const ProductCard: React.FC<ProductProps> = ({
             {!isVariable && (
               <div
                 className={cn('leading-none text-[24px] font-[600]', {
-                  'text-black text-opacity-80': productDiscount
+                  'text-black': productDiscount
                 })}
               >
                 {productPrice}
