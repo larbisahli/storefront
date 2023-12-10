@@ -72,8 +72,8 @@ const TermsAndConditionsPage = ({ pageProps }: PageProps) => {
         ]}
       />
 
-      <div className="mb-44">
-        <section className="mb-12 mx-2">
+      <div className="mb-44 mx-2">
+        <section className="mb-12">
           <PageCms page={page} />
         </section>
       </div>

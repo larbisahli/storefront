@@ -46,22 +46,16 @@ const payment = [
 interface Props extends StoreProps {}
 
 const OrderSummary: FC<Props> = ({ useAppSelector }) => {
-  // const { t } = useTranslation()
-
   const cart = useAppSelector!(selectCart)
-  const config = useAppSelector(selectConfig)
-
+  const { defaultCurrency } = useAppSelector(selectConfig)
   const router = useRouter()
   const { locale = 'en-US' } = router
-
   const calculatePrice = UseCartItemsTotalPrice(cart)
-
   const totalPrice = usePrice({
     amount: calculatePrice,
     locale,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: defaultCurrency?.code
   })
-
   return (
     <div className="w-full h-full mt-5 relative last:border-b-0 px-4">
       <div className="sticky top-0">

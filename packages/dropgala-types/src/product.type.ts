@@ -33,7 +33,7 @@ export interface ProductType {
   maxPrice?: Scalars['Float']
   minPrice?: Scalars['Float']
   quantity?: Scalars['Int']
-  type?: { id: ProductTypes }
+  type?: ProductTypes
   inStock?: Scalars['Boolean']
   shortDescription?: Nullable<Scalars['String']>
   description?: Scalars['String']
@@ -78,9 +78,8 @@ export interface ProductRef {
   quantity?: Scalars['Int']
 }
 
-export interface VariationsType {
+export interface VariationsType extends AttributeType {
   attribute: AttributeType
-  values?: Array<Nullable<AttributeValueType>>
   value?: Nullable<AttributeValueType>
 }
 

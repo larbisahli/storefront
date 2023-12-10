@@ -12,7 +12,7 @@ const CategoryDetails: React.FC<Props> = ({ category }) => {
     return (
       <div
         className="text-lg border-t-2 border-b-2 mb-4
-         border-black w-full font-medium py-1 lg:text-3xl lg:w-fit"
+         border-black w-full font-medium py-1 lg:text-3xl lg:w-fit lg:text-left text-center"
       >
         {category?.name}
       </div>
@@ -21,7 +21,7 @@ const CategoryDetails: React.FC<Props> = ({ category }) => {
 
   const renderCategoryDescription = () => {
     return (
-      <div className="text-gray-900 text-xs lg:text-sm">
+      <div className="text-gray-900 text-xs lg:text-sm lg:text-left text-center">
         {category?.description}
       </div>
     )
@@ -35,12 +35,12 @@ const CategoryDetails: React.FC<Props> = ({ category }) => {
     const { image, placeholder } = category?.thumbnail[0]
 
     return (
-      <div className="flex w-full items-end">
+      <div className="flex w-fit">
         <Image
           src={image}
           customPlaceholder={placeholder}
           objectFit="contain"
-          width={500}
+          width={250}
           height={250}
         />
       </div>
@@ -53,7 +53,9 @@ const CategoryDetails: React.FC<Props> = ({ category }) => {
         {renderCategoryName()}
         {renderCategoryDescription()}
       </div>
-      <div className="flex-1 lg:p-2 pt-10">{renderCategoryImage()}</div>
+      <div className="flex-1 lg:p-2 pt-10 flex justify-end">
+        {renderCategoryImage()}
+      </div>
     </article>
   )
 }

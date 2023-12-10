@@ -17,19 +17,22 @@ export interface CategorySeo {
   }[]
 }
 
-export interface CategoryType {
+export interface CategoryType extends CategorySeo {
   id: Scalars['Int']
+  level: Scalars['Int']
   name: Scalars['String']
+  parent?: Nullable<CategoryRefLevel2>
   description?: Scalars['String']
   urlKey: string
   children?: Nullable<Array<CategoryRefLevel2>>
   thumbnail: ImageType[]
-  categorySeo: CategorySeo
 }
 
 // To prevent circular references
-export interface CategoryRefLevel2 {
+export interface CategoryRefLevel2 extends CategorySeo {
   id: Scalars['Int']
+  level: Scalars['Int']
+  parent?: Nullable<CategoryRefLevel3>
   name: Scalars['String']
   urlKey: string
   thumbnail: ImageType[]
@@ -38,8 +41,9 @@ export interface CategoryRefLevel2 {
 }
 
 // To prevent circular references
-export interface CategoryRefLevel3 {
+export interface CategoryRefLevel3 extends CategorySeo {
   id: Scalars['Int']
+  level: Scalars['Int']
   name: Scalars['String']
   urlKey: string
   thumbnail: ImageType[]

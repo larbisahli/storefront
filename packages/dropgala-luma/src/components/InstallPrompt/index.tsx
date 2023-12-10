@@ -1,9 +1,12 @@
 import { memo, useEffect, useState } from 'react'
-import BrowserDatabase from '@dropgala/utils/BrowserDatabase'
+import BrowserDatabase, {
+  THREE_DAYS_IN_SECONDS
+} from '@dropgala/utils/BrowserDatabase'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import { standaloneMode } from '@dropgala/utils/isMobile'
 import InstallPromptIOS from './InstallPromptIOS'
 import InstallPromptAndroid from './InstallPromptAndroid'
+import { localStorageKeyNames } from '@dropgala/types'
 
 declare global {
   interface Window {
@@ -51,11 +54,9 @@ const InstallPrompt = ({ useAppSelector, useAppDispatch }: Props) => {
 
   const handleBannerClose = () => {
     setIsBannerClosed(true)
-    const THREE_DAYS_IN_SECONDS = 259200
-
     BrowserDatabase.setItem(
       true,
-      'postpone_installation',
+      localStorageKeyNames.POSTPONE_INSTALLATION,
       THREE_DAYS_IN_SECONDS
     )
   }
@@ -78,7 +79,6 @@ const InstallPrompt = ({ useAppSelector, useAppDispatch }: Props) => {
   const hasSupport = () => {
     const { isAndroid, isIos, isSafari } = device
     const isStandaloneMode = standaloneMode()
-    console.log({ isStandaloneMode })
     return (
       ((isAndroid && hasInstallPromptEvent) || (isIos && isSafari)) &&
       !isStandaloneMode &&

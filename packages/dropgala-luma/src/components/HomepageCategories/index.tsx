@@ -33,7 +33,7 @@ const HomePageCategories: React.FC<Props> = ({
       <div
         className={cn(
           device.isMobile && 'flex items-center flex-col flex-wrap',
-          device.isDesktop && 'grid lg:grid-cols-3 lg:gap-3 grid-cols-2 gap-2'
+          device.isDesktop && 'grid lg:grid-cols-3 lg:gap-4 grid-cols-2 gap-3'
         )}
       >
         {categories?.map((category) => {

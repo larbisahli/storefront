@@ -11,14 +11,14 @@ interface Props extends StoreProps {
   selectedVariationOption?: VariationOptionsType
   salePrice: number
   comparePrice: number
-  isVariableType: boolean
+  isConfigurable: boolean
 }
 
 function VariationPrice({
   selectedVariationOption,
   salePrice,
   comparePrice,
-  isVariableType,
+  isConfigurable,
   useAppSelector
 }: Props) {
   const router = useRouter()
@@ -26,10 +26,10 @@ function VariationPrice({
 
   const config = useAppSelector(selectConfig)
 
-  const selectedSalePrice = isVariableType
+  const selectedSalePrice = isConfigurable
     ? selectedVariationOption?.salePrice
     : salePrice
-  const selectedComparePrice = isVariableType
+  const selectedComparePrice = isConfigurable
     ? selectedVariationOption?.comparePrice
     : comparePrice
 
@@ -41,7 +41,7 @@ function VariationPrice({
   const price = usePrice({
     amount: selectedSalePrice ?? 0,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const productPrice = useMemo(
@@ -56,7 +56,7 @@ function VariationPrice({
   const discount = usePrice({
     amount: selectedComparePrice ?? 0,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const productDiscount = useMemo(
@@ -65,24 +65,23 @@ function VariationPrice({
   )
 
   return (
-    <div className="flex items-center mt-5">
-      <div className="text-skin-base font-bold text-base md:text-xl xl:text-[22px]">
-        {!!selectedSalePrice && productPrice}
+    <div className="flex-1">
+      <div className="flex items-center">
+        <div className="text-skin-base font-bold text-xl lg:text-2xl leading-none">
+          {!!selectedSalePrice && productPrice}
+        </div>
+        {!!selectedComparePrice && (
+          <>
+            <del className="pl-3 text-gray-900 text-xs xl:text-base text-opacity-50 leading-none">
+              {productDiscount}
+            </del>
+            <Badge textColor="text-red-700 font-semibold">
+              {percentDecrease} {'off'}
+            </Badge>
+          </>
+        )}
       </div>
-      {!!selectedComparePrice && (
-        <>
-          <del className="pl-3 text-gray-900 text-base text-opacity-50">
-            {productDiscount}
-          </del>
-          <Badge
-            backgroundColor="bg-red-300"
-            border="border border-red-200"
-            textColor="text-red-700"
-          >
-            {percentDecrease} {'OFF'}
-          </Badge>
-        </>
-      )}
+      <span className="text-xs text-gray-900">Excl. tax: $500.00</span>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { setMenu } from '@dropgala/store'
+import { setHomePageCategories, setMenu } from '@dropgala/store'
 import { CategoryType } from '@dropgala/types/category.type'
 import { CategoryService } from '@gRPC/services'
 
@@ -16,6 +16,19 @@ export const fetchStoreMenu = async (
   )
   if (menuError) throw { menuError }
   return setMenu({ menu: menu as unknown as CategoryType[] })
+}
+
+export const fetchStoreHomePageCategories = async (
+  alias: string,
+  localeId: number,
+  storeId?: string
+) => {
+  const { categories = [], error: menuError } =
+    await categoryService.getStoreHomePageCategories(alias, localeId, storeId)
+  if (menuError) throw { menuError }
+  return setHomePageCategories({
+    categories: categories as unknown as CategoryType[]
+  })
 }
 
 export const fetchStoreCategory = async (

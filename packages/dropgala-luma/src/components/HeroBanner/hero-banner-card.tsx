@@ -4,15 +4,19 @@ import type { FC } from 'react'
 import { memo } from 'react'
 import Image from '../common/Image'
 import Link from '../ui/Link'
+import { ConfigType } from '@dropgala/types/config.type'
+import useWindowSize from 'hooks/useWindowSize'
 
 interface BannerProps {
   banner: HeroBannerType
   className?: string
+  device: ConfigType['device']
 }
 
 const HeroBannerCard: FC<BannerProps> = ({
   banner,
-  className = 'py-20 xy:pt-24'
+  className = 'py-20 xy:pt-24',
+  device
 }) => {
   const {
     title,
@@ -24,18 +28,19 @@ const HeroBannerCard: FC<BannerProps> = ({
   } = banner!
 
   const { image, placeholder } = thumbnail[0] ?? {}
+  const { width } = useWindowSize()
 
   return (
     <div
       className={cn(
-        'bg-blue-300 relative w-full bg-no-repeat bg-cover bg-center z-0',
+        'bg-gray-100 relative w-full bg-no-repeat bg-cover bg-center z-0',
         'min-h-[400px] md:min-h-[460px] lg:min-h-[500px] xl:min-h-[520px]',
         className
       )}
     >
       <div
-        className="absolute max-h-[500px] top-0 bottom-0 right-0 left-0 max-w-[1400px] overflow-hidden"
-        style={{ zIndex: -1 }}
+        className="absolute max-h-[350px] lg:max-h-[500px] top-0 bottom-0 right-0 left-0 max-w-[1400px] overflow-hidden"
+        style={{ zIndex: -1, ...(device.isMobile && { maxWidth: width }) }}
       >
         <Image
           src={image}
@@ -56,8 +61,8 @@ const HeroBannerCard: FC<BannerProps> = ({
       >
         <div
           className={cn(
-            'h-full w-fit flex z-50 flex-col px-5 lg:px-8 xl:max-w-[750px] 2xl:max-w-[850px]',
-            'max-w-[480px] md:max-w-[550px] mx-12 h-min'
+            'h-full w-fit flex z-50 flex-col px-5 lg:px-2 xl:max-w-[750px] 2xl:max-w-[850px]',
+            'max-w-[480px] md:max-w-[550px] mx-0 lg:mx-12 h-min'
           )}
         >
           <h2

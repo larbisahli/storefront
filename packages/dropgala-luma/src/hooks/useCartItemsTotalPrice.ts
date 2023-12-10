@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 export const UseCartItemsTotalPrice = (cart: CartState) => {
   const cartItemsTotalPrice = (items: ProductType[], coupon = null) => {
     let total = items.reduce((salePrice: number, product: ProductType) => {
-      const isVariableType = product.type!.id === ProductTypes.Variable
+      const isVariableType = product.type === ProductTypes.Variable
       const selectedPrice = isVariableType
         ? product?.orderVariationOption?.salePrice ?? product.salePrice
         : product.salePrice

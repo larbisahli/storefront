@@ -1,17 +1,13 @@
-import { selectConfig } from '@dropgala/store'
-import type { CategoryType } from '@dropgala/types/category.type'
+import { selectConfig, selectMenu } from '@dropgala/store'
 import { ComponentNames } from '@dropgala/types/enums.type'
 import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
-interface Props {
-  menu: CategoryType[]
-}
-
-const HomePageCategories = ({ menu }: Props) => {
+const HomePageCategories = () => {
   const { theme } = useAppSelector(selectConfig)
+  const { homePageCategories } = useAppSelector(selectMenu)
   return componentFactory(theme, ComponentNames.HOMEPAGE_CATEGORIES, {
-    categories: menu
+    categories: homePageCategories
   })
 }
 

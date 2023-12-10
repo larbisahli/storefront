@@ -20,6 +20,7 @@ import { mediaURL } from '@dropgala/utils/utils'
 import {
   fetchStoreConfig,
   fetchStoreHeroSlides,
+  fetchStoreHomePageCategories,
   fetchStoreLanguage,
   fetchStoreMenu,
   fetchStorePopularProducts,
@@ -42,11 +43,7 @@ interface PageProps {
 const HomePage = ({ pageProps }: PageProps) => {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'exception')
-  const { menu } = useAppSelector(selectMenu)
   const { host, heroSlider = [], popularProducts } = pageProps
-
-  console.log({ storeConfig })
-
   return (
     <>
       <NextSeo
@@ -95,16 +92,18 @@ const HomePage = ({ pageProps }: PageProps) => {
       />
       <div className="mb-44">
         {/* HERO SECTION */}
-        <section>
+        <section className="mx-0 lg:mx-2">
           <HeroBanner heroSlider={heroSlider} />
         </section>
         {/* CATEGORY SECTION */}
-        <section className="mt-16">
-          {<HomePageCategories menu={menu} />}
+        <section className="mt-16 mx-0 lg:mx-2">
+          {<HomePageCategories />}
         </section>
         {/* BESTSELLERS SECTION */}
-        <section className="mt-8">
-          <div className="text-2xl font-semibold">{__('Best Sellers')}</div>
+        <section className="mt-8 mx-2">
+          <div className="text-2xl lg:text-3xl text-center lg:text-left font-semibold">
+            {__('Best Sellers')}
+          </div>
           {!isEmpty(popularProducts) ? (
             <div
               className="grid grid-cols-1 my-10 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-
@@ -170,6 +169,9 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
       store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(
+        await fetchStoreHomePageCategories(alias, storeLanguageId, storeId)
+      )
       store.dispatch(
         await fetchStorePromoSlide(alias, storeLanguageId, storeId)
       )

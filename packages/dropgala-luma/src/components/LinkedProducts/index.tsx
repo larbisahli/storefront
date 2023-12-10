@@ -1,6 +1,6 @@
 import { ProductRef, ProductType } from '@dropgala/types/product.type'
-import { useMemo, useState } from 'react'
-import useWindowSize from '../../hooks/useWindowSize'
+import { Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 interface Props {
   title: string
@@ -14,42 +14,49 @@ interface Props {
   }) => JSX.Element
 }
 const RelatedProducts = ({ title, products = [], children }: Props) => {
-  const [actualSlide, setActualSlide] = useState(0)
-
-  const updateSlide = ({ currentSlide }: any) => {
-    setActualSlide(currentSlide)
-  }
-
-  const { width = 800 } = useWindowSize()
-
-  const numOfSlides = useMemo(() => {
-    if (width <= 500) {
-      return 1
-    } else if (width > 500 && width <= 650) {
-      return 2
-    } else if (width > 650 && width <= 800) {
-      return 3
-    } else if (width > 800 && width <= 1200) {
-      return 4
-    } else {
-      return 5
-    }
-  }, [width])
-
   return (
     <div>
-      <div className="text-xl font-semibold mb-8">{title}</div>
+      <div className="text-xl font-semibold mb-8 px-2">{title}</div>
       {
-        // @ts-ignore
-        // <Slider
-        //   infiniteLoop
-        //   numOfSlides={numOfSlides}
-        //   sanitize={!(numOfSlides > 1)}
-        //   doAfterSlide={updateSlide}
-        //   slide={actualSlide}
-        // >
-        //   {products?.map((product) => children({ product, className: 'mx-4' }))}
-        // </Slider>
+        <Swiper
+          loop
+          slidesPerView={1}
+          spaceBetween={0}
+          centeredSlides={true}
+          pagination={{
+            clickable: true
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 5
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 5
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 5
+            }
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          {[
+            ...products,
+            ...products,
+            ...products,
+            ...products,
+            ...products
+          ]?.map((product) => {
+            return (
+              <SwiperSlide className="my-5">
+                {children({ product, className: 'mx-auto' })}
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
       }
     </div>
   )

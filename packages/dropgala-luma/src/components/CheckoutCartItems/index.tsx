@@ -20,14 +20,14 @@ const CheckoutCartItems: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
 
   const { cartItems, outOfStockItems } = useMemo(() => {
     const cartItems = items?.filter((item) => {
-      if (item.type?.id === ProductTypes.Simple) {
+      if (item.type === ProductTypes.Simple) {
         return (item?.quantity ?? 0) > 0
       } else {
         return (item?.orderVariationOption?.quantity ?? 0) > 0
       }
     })
     const outOfStockItems = items?.filter((item) => {
-      if (item.type?.id === ProductTypes.Simple) {
+      if (item.type === ProductTypes.Simple) {
         return item.quantity === 0
       } else {
         return item.orderVariationOption?.quantity === 0

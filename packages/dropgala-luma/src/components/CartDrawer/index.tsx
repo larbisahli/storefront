@@ -1,7 +1,6 @@
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { siteSettings } from '../../settings/site-settings'
 import Button from '../ui/Button'
 import CartItem from './CartItem'
 import EmptyCart from './EmptyCart'
@@ -18,6 +17,8 @@ import {
 } from '@dropgala/store'
 import Link from '../ui/Link'
 import Scrollbar from '../common/Scrollbar'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import cn from 'clsx'
 
 interface Props extends StoreProps {}
 
@@ -26,7 +27,10 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
   const { locale = 'en-US' } = router
 
   const cart = useAppSelector(selectCart)
-  const config = useAppSelector(selectConfig)
+  const { defaultCurrency, language, isMobileHeaderTransition } =
+    useAppSelector(selectConfig)
+
+  const { __ } = useTranslation(language, 'common')
 
   const { items = [] } = cart
 
@@ -42,7 +46,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
   const totalPrice = usePrice({
     amount: calculatePrice,
     locale,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: defaultCurrency?.code ?? 'USD'
   })
 
   const incrementItem = (item: CartItemType) => {
@@ -55,13 +59,18 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
 
   const renderContent = () => {
     if (items?.length === 0) {
-      return <EmptyCart />
+      return <EmptyCart language={language} />
     }
 
     return (
       <>
-        <div className="w-full flex absolute justify-center top-0 z-[-1] px-30px border-b border-gray-200">
-          <h2 className="font-bold text-24px m-0">Your Basket</h2>
+        <div
+          style={{ background: 'rgba(0,0,0,0.03)' }}
+          className="w-full py-2 flex absolute justify-center top-0 z-[-1] border-b border-gray-200"
+        >
+          <h2 className="font-bold text-lg lg:text-xl uppercase">
+            {__('My Cart')}
+          </h2>
         </div>
 
         <Scrollbar className="cart-scrollbar flex-grow">
@@ -85,14 +94,14 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
     <div className="flex flex-col w-full h-full">
       <div className="flex-1 overflow-y-auto">{renderContent()}</div>
       <div
-        style={{ background: 'rgba(0,0,0,0.05)' }}
-        className="flex flex-col p-30px lg:pb-30px pb-[75px]"
+        style={{ background: 'rgba(0,0,0,0.03)' }}
+        className={cn('flex flex-col p-4 lg:p-7 lg:!mb-0 !mb-12')}
       >
         <div className="flex items-center justify-between">
-          <span className="text-gray-700 font-medium">Shipping</span>
+          <span className="text-gray-700 font-medium">{__('Shipping')}</span>
 
           <span className="text-12px text-gray-600 uppercase">
-            calculated at checkout
+            {__('calculated at checkout')}
           </span>
         </div>
         <div
@@ -101,9 +110,9 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
         ></div>
         <div className="flex items-center justify-between">
           <span className="text-gray-900 font-bold text-lg">
-            Subtotal &nbsp;
+            {__('Subtotal')} &nbsp;
             <span className="font-normal text-gray-700 text-13px">
-              (Incl. VAT)
+              {__('(Incl. VAT)')}
             </span>
           </span>
 
@@ -126,7 +135,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
                 disabled={false}
                 onClick={handleCloseCart}
               >
-                View Cart ({itemsCount})
+                {__('View Cart (%s)', itemsCount)}
               </Button>
             </Link>
             <Link
@@ -141,7 +150,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
                 disabled={false}
                 onClick={handleCloseCart}
               >
-                secure checkout
+                {__('Secure Checkout')}
               </Button>
             </Link>
           </div>
@@ -150,7 +159,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
             className="!w-full text-white bg-black font-medium"
             disabled={true}
           >
-            View bag
+            {__('View bag')}
           </Button>
         )}
       </div>

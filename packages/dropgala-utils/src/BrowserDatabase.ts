@@ -1,5 +1,10 @@
 // TODO: maybe consider moving to IndexedDB instead of localStorage
 
+import { localStorageKeyNames } from '@dropgala/types'
+
+export const ONE_MONTH_IN_SECONDS = 2592000
+export const THREE_DAYS_IN_SECONDS = 259200
+
 /**
  * Set of helpers related to Browser Database
  */
@@ -39,7 +44,11 @@ export class BrowserDatabase {
    * @return {Void}
    * @memberof BrowserDatabase
    */
-  setItem<T>(data: T, location: string, expiration?: number): void {
+  setItem<T>(
+    data: T,
+    location: localStorageKeyNames,
+    expiration?: number
+  ): void {
     localStorage.setItem(
       location,
       JSON.stringify({

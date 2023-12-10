@@ -6,10 +6,12 @@ import { AppState } from '../store'
 
 export interface MenuState {
   menu: CategoryType[]
+  homePageCategories: CategoryType[]
 }
 
 const initialState: MenuState = {
-  menu: []
+  menu: [],
+  homePageCategories: []
 }
 
 export const menu = createSlice({
@@ -21,6 +23,12 @@ export const menu = createSlice({
       action: PayloadAction<{ menu: CategoryType[] }>
     ) => {
       state.menu = action.payload.menu
+    },
+    setHomePageCategories: (
+      state: MenuState,
+      action: PayloadAction<{ categories: CategoryType[] }>
+    ) => {
+      state.homePageCategories = action.payload.categories
     }
   },
   extraReducers: {
@@ -33,7 +41,7 @@ export const menu = createSlice({
   }
 })
 
-export const { setMenu } = menu.actions
+export const { setMenu, setHomePageCategories } = menu.actions
 
 export const selectMenu = (state: AppState): MenuState => state.MenuReducer
 

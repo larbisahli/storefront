@@ -13,11 +13,9 @@ interface Props {
 const LanguageSwitcherList = ({ storeConfig }: Props) => {
   const { locales, defaultCurrency } = storeConfig
 
-  const { locale, push, events, reload } = useRouter()
+  const { asPath, locale, push, events, reload } = useRouter()
 
   const ref = useRef(null)
-
-  console.log({ storeConfig })
 
   const [open, setOpen] = useState(false)
 
@@ -26,8 +24,6 @@ const LanguageSwitcherList = ({ storeConfig }: Props) => {
   }
 
   useOnClickOutside(ref, handleClickOutside)
-
-  console.log({ locale })
 
   const currentLocale = useMemo(
     () => locales?.find((l) => l.localeId === locale),
@@ -50,13 +46,13 @@ const LanguageSwitcherList = ({ storeConfig }: Props) => {
       </button>
 
       {open && (
-        <div className="bg-white shadow absolute border border-solid border-gray-300 z-50 -right-0">
+        <div className="bg-white shadow text-center absolute border border-solid border-gray-300 z-50 -right-0">
           {locales?.map(({ name, localeId }) => (
             <div
               key={localeId}
               onClick={() => {
                 setOpen(false)
-                push('', undefined, {
+                push(asPath, asPath, {
                   locale: localeId ?? false,
                   shallow: true
                 })

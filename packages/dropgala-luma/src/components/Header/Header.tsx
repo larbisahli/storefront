@@ -1,5 +1,4 @@
 import cn from 'clsx'
-import { useRouter } from 'next/router'
 import { FC, Fragment, useCallback, useRef, useState } from 'react'
 
 import MyAccountActions from './AccountActions'
@@ -27,10 +26,10 @@ import { ConfigType } from '@dropgala/types/config.type'
 interface Props extends StoreProps {}
 
 const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
-  const router = useRouter()
   // const { t } = useTranslation()
 
   const storeConfig = useAppSelector(selectConfig)
+  const { device, isMobileHeaderTransition } = storeConfig
   const { menu } = useAppSelector(selectMenu)
   const promoBanner = useAppSelector(selectPromoBanner)
   const { items } = useAppSelector(selectCart)
@@ -85,8 +84,6 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
     }, 500)
   }
 
-  console.log({ menu })
-
   const storeLogo = !!storeConfig?.logo?.length
     ? `${mediaURL}/${storeConfig?.logo[0].image}`
     : '/assets/images/default_logo.webp'
@@ -95,10 +92,7 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
     <Fragment>
       <header
         className={cn(
-          'text-gray-700 body-font fixed w-full z-20 bg-white border-b border-gray-300',
-          {
-            'shadow-mobile lg:shadow-header': true
-          }
+          'text-gray-700 body-font fixed w-full z-20 bg-white border-b border-gray-300'
         )}
       >
         {/* DemoNotice */}
@@ -119,8 +113,8 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
                     isCustomUrl
                     src={storeLogo}
                     objectFit="cover"
-                    height={50}
-                    width={50}
+                    height={device?.isDesktop ? 45 : 30}
+                    width={device?.isDesktop ? 45 : 30}
                     alt="logo"
                   />
                 </div>
@@ -163,6 +157,7 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
         handleCart={handleCart}
         handleMenu={handleMenu}
         itemsCount={itemsCount}
+        isMobileHeaderTransition={isMobileHeaderTransition}
       />
     </Fragment>
   )

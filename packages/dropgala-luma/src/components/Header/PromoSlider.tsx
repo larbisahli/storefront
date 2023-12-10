@@ -27,17 +27,17 @@ const PromoSlider = ({ promoBanner }: Props) => {
     >
       <Swiper
         dir={direction?.toLocaleLowerCase()}
-        centeredSlides={true}
+        loop
+        centeredSlides
         autoplay={{
           delay: Number(delaySpeed),
           disableOnInteraction: false
         }}
-        loop={true}
         modules={[Autoplay]}
         className="h-full"
       >
         {slides?.map(({ content }, idx) => (
-          <SwiperSlide>
+          <SwiperSlide key={`banner--key${idx}`}>
             <div
               key={idx}
               className="flex justify-center items-center w-screen h-[40px]"
@@ -46,7 +46,8 @@ const PromoSlider = ({ promoBanner }: Props) => {
                 tagName="span"
                 innerHtml={content}
                 attrs={{
-                  className: 'line-clamp-1 px-1'
+                  className:
+                    'line-clamp-2 px-1 text-sm lg:text-base leading-[14px]'
                 }}
               />
             </div>

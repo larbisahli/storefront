@@ -8,18 +8,18 @@ interface Props {
 }
 
 const MobileCategoryCard: React.FC<Props> = ({ category }: Props) => {
-  const { name, thumbnail, url } = category
+  const { name, thumbnail, urlKey } = category
   const { image, placeholder } = thumbnail[0] ?? {}
   return (
     <Link
       href={{
         pathname: '/category/[slug]',
-        query: { slug: url }
+        query: { slug: urlKey }
       }}
-      className="bg-gray-200 w-full h-[160px] mt-5 p-3 hover:shadow-categoryCard"
+      className="bg-gray-200 group w-full h-[160px] mt-5 p-3 hover:shadow-categoryCard"
     >
       <figure className="flex flex-row-reverse items-center justify-between w-full h-full">
-        <div className="w-[120px] h-[120px]">
+        <div className="w-[120px] h-[120px] transition duration-200 ease-in-out transform group-hover:scale-105">
           <Image
             src={image}
             customPlaceholder={placeholder}

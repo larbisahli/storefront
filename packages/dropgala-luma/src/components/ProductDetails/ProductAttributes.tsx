@@ -7,6 +7,8 @@ import cn from 'clsx'
 import React, { memo, useEffect, useMemo } from 'react'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { AttributeValueType } from '@dropgala/types/attribute.type'
+import { ConfigType } from '@dropgala/types/config.type'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 interface Props {
   className?: string
@@ -16,6 +18,8 @@ interface Props {
   setSelectedVariations: (key: any) => void
   selectedVariations: VariationsType[]
   defaultVariationOption?: VariationOptionsType
+  isConfigurable?: boolean
+  language?: ConfigType['language'] | undefined
 }
 
 const ProductAttributes: React.FC<Props> = ({
@@ -25,9 +29,13 @@ const ProductAttributes: React.FC<Props> = ({
   variationOptions,
   selectedVariations,
   setSelectedVariations,
-  defaultVariationOption
+  defaultVariationOption,
+  isConfigurable,
+  language
 }) => {
   const { attribute, values } = variation
+
+  const { __ } = useTranslation(language, 'common')
 
   useEffect(() => {
     try {
@@ -82,20 +90,44 @@ const ProductAttributes: React.FC<Props> = ({
 
   if (isEmpty(variation)) return null
 
+  if (isConfigurable) {
+    return (
+      <div className={cn(className)}>
+        <div className="text-14px font-normal mb-3 capitalize">
+          <span className="text-skin-base font-medium">
+            {__('Choose %s', attribute?.name)}
+          </span>
+          <span className="mr-1 font-medium">:</span>
+          <span className="text-13px text-gray-800">
+            {selectedVariation?.value?.value ?? ''}
+          </span>
+        </div>
+        <ul className="flex flex-wrap">
+          {values?.map((value) => (
+            <AttributeValueLabel
+              key={value?.id}
+              value={value!}
+              type={attribute?.type}
+              selectedAttributeValueId={selectedVariation?.value?.id!}
+              handleSelectedAttributeValue={handleSelectedAttributeValue}
+            />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
   return (
     <div className={cn(className)}>
-      <div className="text-14px font-normal mb-3 capitalize">
-        <span className="text-skin-base font-medium">{`Choose ${attribute?.name}`}</span>
-        <span className="mr-1 font-medium">:</span>
-        <span className="text-13px text-gray-800">
-          {selectedVariation?.value?.value ?? ''}
-        </span>
+      <div className="text-14px font-normal mb-2 capitalize">
+        <span className="text-skin-base font-medium">{attribute?.name}</span>
       </div>
       <ul className="flex flex-wrap">
         {values?.map((value) => (
           <AttributeValueLabel
             key={value?.id}
             value={value!}
+            type={attribute?.type}
             selectedAttributeValueId={selectedVariation?.value?.id!}
             handleSelectedAttributeValue={handleSelectedAttributeValue}
           />

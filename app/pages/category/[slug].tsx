@@ -100,22 +100,29 @@ export default function ProductPage({ pageProps }: PageProps) {
     )
   }, [categoryProducts])
 
-  const { categorySeo } = category
+  const {
+    metaTitle,
+    metaImage,
+    breadcrumbs,
+    metaRobots,
+    metaDescription,
+    urlKey
+  } = category
 
   return (
     <>
       <NextSeo
-        title={categorySeo?.metaTitle}
-        description={categorySeo?.metaDescription}
-        canonical={`https://${host?.host}/category/${categorySeo?.urlKey}`}
+        title={metaTitle}
+        description={metaDescription}
+        canonical={`https://${host?.host}/category/${urlKey}`}
         openGraph={{
-          url: `https://${host?.host}/category/${categorySeo?.urlKey}`,
-          title: categorySeo?.metaTitle,
-          description: categorySeo?.metaDescription,
+          url: `https://${host?.host}/category/${urlKey}`,
+          title: metaTitle,
+          description: metaDescription,
           images: [
             {
-              url: !!categorySeo?.metaImage?.length
-                ? `${mediaURL}/${categorySeo?.metaImage[0].image}`
+              url: !!metaImage?.length
+                ? `${mediaURL}/${metaImage[0].image}`
                 : '',
               width: 800,
               height: 600,
@@ -149,61 +156,53 @@ export default function ProductPage({ pageProps }: PageProps) {
         ]}
       />
       <Head>
-        {categorySeo?.metaRobots && (
-          <meta name="robots" content={categorySeo?.metaRobots as string} />
-        )}
+        {metaRobots && <meta name="robots" content={metaRobots as string} />}
       </Head>
-      <div className="mb-44 max-w-[1300px] xl:max-w-[1500px] mx-auto">
-        <section className="mb-5 py-35px px-10px">
-          <div className="pt-6 lg:pt-7">
-            <div className="mx-auto max-w-[1920px]">
-              <Breadcrumb breadcrumbs={categorySeo?.breadcrumbs} />
-            </div>
+      <section className="mb-5 py-35px mx-0 lg:mx-2">
+        <div className="pt-6 lg:pt-7">
+          <div className="mx-auto max-w-[1920px]">
+            <Breadcrumb breadcrumbs={breadcrumbs} />
           </div>
-          <div className="">
-            {!isEmpty(category) && <CategoryDetails category={category} />}
+        </div>
+        <div className="">
+          {!isEmpty(category) && <CategoryDetails category={category} />}
+        </div>
+      </section>
+      {!isEmpty(category?.children) && metaTitle && (
+        <div className="text-sm lg:text-lg mx-2 text-gray-950 font-medium my-5">
+          {metaTitle}
+        </div>
+      )}
+      <section className="mx-2">
+        {<CategoryList categories={category?.children ?? []} />}
+      </section>
+      <section className="mx-2 my-10 ">
+        <Miscellaneous layout={layout} setLayout={setLayout} />
+      </section>
+      {/* CATEGORY PRODUCTS SECTION */}
+      <section className="mb-44 mt-20 mx-2">
+        {!isEmpty(categoryProducts) ? (
+          <div
+            className={cn('grid grid-cols-1 my-10 gap-3 md:gap-4 2xl:gap-5', {
+              'xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5':
+                layout === ProductCardLayout.Grid
+            })}
+          >
+            {productList?.map((product) => (
+              <ProductCard key={product.id} product={product} layout={layout} />
+            ))}
           </div>
-        </section>
-        {!isEmpty(category?.children) && categorySeo?.metaTitle && (
-          <div className="text-sm lg:text-lg mx-2 text-gray-950 font-medium my-5">
-            {categorySeo?.metaTitle}
+        ) : (
+          <div className="w-full flex flex-col items-center pt-10px md:pt-40px lg:pt-20px pb-40px">
+            <ProductNotFound />
           </div>
         )}
-        <section className="mx-2">
-          {<CategoryList categories={category?.children ?? []} />}
-        </section>
-        <section className="mx-2 my-10 ">
-          <Miscellaneous layout={layout} setLayout={setLayout} />
-        </section>
-        {/* CATEGORY PRODUCTS SECTION */}
-        <section className="mb-5 mt-20 mx-2">
-          {!isEmpty(categoryProducts) ? (
-            <div
-              className={cn('grid grid-cols-1 my-10 gap-3 md:gap-4 2xl:gap-5', {
-                'xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5':
-                  layout === ProductCardLayout.Grid
-              })}
-            >
-              {productList?.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  layout={layout}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="w-full flex flex-col items-center pt-10px md:pt-40px lg:pt-20px pb-40px">
-              <ProductNotFound />
-            </div>
-          )}
-          {!isProductLimitReached && (
-            <div className="mt-5">
-              <Pagination />
-            </div>
-          )}
-        </section>
-      </div>
+        {!isProductLimitReached && (
+          <div className="mt-5">
+            <Pagination />
+          </div>
+        )}
+      </section>
     </>
   )
 }
@@ -261,8 +260,6 @@ export const getServerSideProps: GetServerSideProps =
       // Get current store language id for resource request
       const storeLanguageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
-
-      console.log({ locale, storeLanguageId })
 
       // Redux Store
       store.dispatch(setConfigDevice({ device }))

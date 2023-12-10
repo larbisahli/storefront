@@ -1,5 +1,5 @@
 import cn from 'clsx'
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
 import CartIcon from '../../assets/icons/cart-icon'
 import HomeSvg from '../../assets/icons/home'
@@ -10,15 +10,22 @@ interface Props {
   handleCart: () => void
   handleMenu: () => void
   itemsCount: number
+  isMobileHeaderTransition: boolean | undefined
 }
 
-const MobileHeader = ({ handleCart, handleMenu, itemsCount }: Props) => {
+const MobileHeader = ({
+  handleCart,
+  handleMenu,
+  itemsCount,
+  isMobileHeaderTransition = true
+}: Props) => {
+  const _lastScrollY = useRef(0)
   const [show, setShow] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
   const controlNavbar = () => {
     if (typeof window !== 'undefined') {
-      if (window.scrollY < lastScrollY) {
+      if (window.scrollY < _lastScrollY.current) {
         // if scroll down hide the navbar
         setShow(false)
       } else {
@@ -31,6 +38,10 @@ const MobileHeader = ({ handleCart, handleMenu, itemsCount }: Props) => {
   }
 
   useEffect(() => {
+    _lastScrollY.current = lastScrollY
+  }, [lastScrollY])
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlNavbar)
       // cleanup function
@@ -38,14 +49,17 @@ const MobileHeader = ({ handleCart, handleMenu, itemsCount }: Props) => {
         window.removeEventListener('scroll', controlNavbar)
       }
     }
-  }, [lastScrollY])
+  }, [])
 
   return (
     <nav
       className={cn(
         'fixed w-full right-0 left-0 bottom-0 z-40 flex lg:!hidden',
-        'items-center bg-gray-300 py-3 px-5 justify-between tra transition-transform',
-        { 'translate-y-full': show, 'translate-y-0': !show }
+        'items-center bg-gray-300 py-3 px-5 justify-between transition-transform',
+        {
+          'translate-y-full': show && isMobileHeaderTransition,
+          'translate-y-0': !show || !isMobileHeaderTransition
+        }
       )}
     >
       <div className="mx-3 flex-1 flex justify-center">

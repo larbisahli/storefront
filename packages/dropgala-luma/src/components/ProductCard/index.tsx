@@ -10,6 +10,7 @@ import Image from '../common/Image'
 import Link from '../ui/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import StarIcon from '../../assets/icons/star'
+import { getIsRTL } from '@dropgala/utils/get-direction'
 
 interface ProductProps extends StoreProps {
   product: ProductType
@@ -27,8 +28,7 @@ const ProductCard: React.FC<ProductProps> = ({
 }) => {
   const config = useAppSelector(selectConfig)
 
-  const router = useRouter()
-  const { locale } = router
+  const { locale } = useRouter()
 
   const {
     name,
@@ -45,7 +45,7 @@ const ProductCard: React.FC<ProductProps> = ({
 
   const isSoldOut = !disableOutOfStock && !inStock
 
-  const isVariable = type?.id === ProductTypes.Variable
+  const isVariable = type === ProductTypes.Variable
 
   const price = usePrice({
     amount: salePrice!,
@@ -101,10 +101,11 @@ const ProductCard: React.FC<ProductProps> = ({
         pathname: '/product/[slug]',
         query: { slug }
       }}
+      className="lg:mx-0 mx-auto"
     >
       <div
         className={cn(
-          'flex border-transparent w-fit group rounded-md cursor-pointer hover:shadow-cardHover hover:border border-solid transition-all duration-300 relative',
+          'flex border-transparent w-fit group rounded-md cursor-pointer lg:hover:shadow-cardHover hover:border border-solid transition-all duration-300 relative',
           {
             'shadow-cardHover': carousel,
             'flex-row w-full max-h-[400px]': layout === ProductCardLayout.List,
@@ -193,7 +194,9 @@ const ProductCard: React.FC<ProductProps> = ({
           </div>
           <div className="mb-1 lg:mb-1.5 flex items-center">
             {!isVariable && productDiscount && (
-              <div className="text-base mr-3">
+              <div
+                className={cn('text-base', getIsRTL(locale) ? 'ml-3' : 'mr-3')}
+              >
                 <del className="text-opacity-80 text-gray-700">
                   {productDiscount}
                 </del>

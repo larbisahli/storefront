@@ -11,6 +11,8 @@ interface Props extends StoreProps {}
 function CheckoutHeader({ useAppSelector }: Props) {
   const storeConfig = useAppSelector(selectConfig)
 
+  const { device } = storeConfig
+
   const storeLogo = !!storeConfig?.logo?.length
     ? `${mediaURL}/${storeConfig?.logo[0].image}`
     : '/assets/images/default_logo.webp'
@@ -18,7 +20,7 @@ function CheckoutHeader({ useAppSelector }: Props) {
   return (
     <header
       className={cn(
-        'flex items-center text-gray-700 body-font w-full h-50px border-b border-gray-300'
+        'flex items-center text-gray-700 body-font w-full h-60px border-b border-gray-300'
       )}
     >
       <div className="flex items-center justify-between w-full px-4">
@@ -31,8 +33,9 @@ function CheckoutHeader({ useAppSelector }: Props) {
                     <Image
                       isCustomUrl
                       src={storeLogo}
-                      height={50}
-                      width={50}
+                      objectFit="cover"
+                      height={device?.isDesktop ? 45 : 30}
+                      width={device?.isDesktop ? 45 : 30}
                       alt="logo"
                     />
                   </Link>

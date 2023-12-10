@@ -1,7 +1,10 @@
 // import { Request } from '@graphql/index';
 // import { PRODUCT_CART } from '@graphql/queries/product';
-import { ProductTypes } from '@dropgala/types/enums.type'
+import { ProductTypes, localStorageKeyNames } from '@dropgala/types/enums.type'
 import type { CartItemType, CartState } from '@dropgala/types/product.type'
+import BrowserDatabase, {
+  ONE_MONTH_IN_SECONDS
+} from '@dropgala/utils/BrowserDatabase'
 import { filter, isArray } from '@dropgala/utils/lodashFunctions'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
@@ -20,6 +23,14 @@ export const fetchProductInfo = createAsyncThunk(
 const initialState: CartState = {
   items: [],
   coupon: {}
+}
+
+const updateBrowserDatabase = (state: CartState) => {
+  BrowserDatabase.setItem(
+    state,
+    localStorageKeyNames.CART_TOTALS,
+    ONE_MONTH_IN_SECONDS
+  )
 }
 
 export const cartSlice = createSlice({
@@ -41,13 +52,14 @@ export const cartSlice = createSlice({
         variations: variations ?? [],
         ...rest
       })
+      updateBrowserDatabase(state)
     },
     updateItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const updatedItem = action.payload
       state.items = state.items?.map((item) => {
         if (item.id === updatedItem.id) {
           item = { ...item, ...updatedItem }
-          if (item.type!.id === ProductTypes.Variable) {
+          if (item.type === ProductTypes.Variable) {
             const orderOption = item.orderVariationOption
             const selectedOption = item.variationOptions?.find(
               (v) => v.id === orderOption?.id
@@ -61,7 +73,7 @@ export const cartSlice = createSlice({
               item.orderQuantity = selectedOption?.quantity!
             }
           } else if (
-            item.type?.id === ProductTypes.Simple &&
+            item.type === ProductTypes.Simple &&
             updatedItem.quantity !== 0 &&
             item?.orderQuantity! > updatedItem.quantity!
           ) {
@@ -70,6 +82,7 @@ export const cartSlice = createSlice({
         }
         return item
       })
+      updateBrowserDatabase(state)
     },
     removeItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
@@ -77,6 +90,7 @@ export const cartSlice = createSlice({
         state.items,
         (item: CartItemType) => item.key !== key
       )
+      updateBrowserDatabase(state)
     },
     incrementItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
@@ -86,6 +100,7 @@ export const cartSlice = createSlice({
         }
         return item
       })
+      updateBrowserDatabase(state)
     },
     decrementItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
@@ -103,6 +118,7 @@ export const cartSlice = createSlice({
           (item: CartItemType) => item.key !== key
         )
       }
+      updateBrowserDatabase(state)
     },
     setOrderQuantity: (
       state: CartState,
@@ -114,7 +130,7 @@ export const cartSlice = createSlice({
       const orderQuantity = action.payload.orderQuantity!
 
       state.items = state?.items?.map((item) => {
-        if (type!.id === ProductTypes.Variable) {
+        if (type === ProductTypes.Variable) {
           if (item.key === key) {
             const optionQuantity = item.orderVariationOption?.quantity!
             if (item.orderQuantity! + orderQuantity > optionQuantity) {
@@ -123,7 +139,7 @@ export const cartSlice = createSlice({
               item.orderQuantity! += orderQuantity!
             }
           }
-        } else if (item.type?.id === ProductTypes.Simple) {
+        } else if (item.type === ProductTypes.Simple) {
           if (item.id === id) {
             if (item.orderQuantity! + orderQuantity > item.quantity!) {
               item.orderQuantity = item.quantity
@@ -134,6 +150,7 @@ export const cartSlice = createSlice({
         }
         return item
       })
+      updateBrowserDatabase(state)
     },
     setOrderVariationOption: (
       state: CartState,
@@ -150,6 +167,14 @@ export const cartSlice = createSlice({
         }
         return item
       })
+      updateBrowserDatabase(state)
+    },
+    setCartInit: (
+      state: CartState,
+      action: PayloadAction<{ state: CartState }>
+    ) => {
+      state = action.payload.state
+      return state
     },
     rehydrate: (state: CartState, action: PayloadAction<CartItemType[]>) => {
       if (isArray(action.payload)) {
@@ -194,6 +219,7 @@ export const {
   incrementItem,
   decrementItem,
   setOrderQuantity,
+  setCartInit,
   rehydrate,
   setOrderVariationOption
 } = cartSlice.actions

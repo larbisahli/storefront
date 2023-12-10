@@ -28,8 +28,6 @@ const CurrencySwitcherList = ({
 
   useOnClickOutside(ref, handleClickOutside)
 
-  console.log({ currencies })
-
   return (
     <div ref={ref} className={'relative'}>
       <button

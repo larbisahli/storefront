@@ -51,7 +51,7 @@ const CheckoutCartItem: FC<Props> = ({
     orderVariationOption
   } = item
 
-  const isVariableType = type?.id === ProductTypes.Variable
+  const isVariableType = type === ProductTypes.Variable
 
   const selectedSalePrice =
     (isVariableType ? orderVariationOption?.salePrice : salePrice) ?? 0
@@ -158,7 +158,7 @@ const CheckoutCartItem: FC<Props> = ({
 
           <div
             className={cn(
-              'flex items-center text-13px text-gray-500 mt-3px mb-3px',
+              'flex items-center text-13px text-gray-900 mt-3px mb-3px',
               {
                 'opacity-50': disabled
               }
@@ -166,7 +166,7 @@ const CheckoutCartItem: FC<Props> = ({
           >
             <div>
               {!!price && (
-                <span className="inline-block text-[18px] lg:text-[19px] text-skin-base font-medium">
+                <span className="inline-block text-[18px] lg:text-[19px] font-semibold">
                   {productPrice}
                 </span>
               )}
@@ -175,10 +175,7 @@ const CheckoutCartItem: FC<Props> = ({
             {!!selectedComparePrice && (
               <div className="flex items-center">
                 <div className="bg-gray-400 h-[10px] w-[1px] mx-1"></div>
-                <del
-                  style={{ color: '#a5a5a5' }}
-                  className="text-[13px] text-skin-base text-opacity-80"
-                >
+                <del className="text-[13px] text-gray-600 text-opacity-80">
                   {productDiscount}
                 </del>
               </div>

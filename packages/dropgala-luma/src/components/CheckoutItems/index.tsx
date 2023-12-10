@@ -107,7 +107,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
           </div>
         </div>
         {/* Cart Items */}
-        <Scrollbar className="cart-scrollbar !max-h-[300px] flex-grow pr-2">
+        <Scrollbar className="cart-scrollbar overflow-x-hidden !max-h-[300px] flex-grow pr-2">
           {isEmpty(items)
             ? Array.from({ length: 2 }).map((_, idx) => (
                 // <ProductItemLoader key={idx} />

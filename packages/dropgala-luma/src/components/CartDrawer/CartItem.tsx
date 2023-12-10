@@ -45,7 +45,7 @@ const CartItem: React.FC<CartItemProps> = ({
     orderVariationOption = {} as VariationOptionsType
   } = item
 
-  const isVariableType = type?.id === ProductTypes.Variable
+  const isVariableType = type === ProductTypes.Variable
 
   const selectedSalePrice = isVariableType
     ? orderVariationOption?.salePrice
@@ -70,7 +70,7 @@ const CartItem: React.FC<CartItemProps> = ({
   const price = usePrice({
     amount: selectedSalePrice ?? 0,
     locale,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const productPrice = useMemo(() => price?.replace(/(\.0+|0+)$/, ''), [price])
@@ -78,7 +78,7 @@ const CartItem: React.FC<CartItemProps> = ({
   const discount = usePrice({
     amount: selectedComparePrice ?? 0,
     locale,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const productDiscount = useMemo(
@@ -89,7 +89,7 @@ const CartItem: React.FC<CartItemProps> = ({
   const total = usePrice({
     amount: (selectedSalePrice ?? 0) * (item.orderQuantity ?? 1),
     locale,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: config?.defaultCurrency?.code
   })
 
   const totalPrice = useMemo(() => total?.replace(/(\.0+|0+)$/, ''), [total])
@@ -98,7 +98,7 @@ const CartItem: React.FC<CartItemProps> = ({
 
   return (
     <div
-      className="w-full h-auto flex justify-start items-start bg-white py-6 px-30px border-b
+      className="w-full h-auto flex justify-start items-start bg-white py-6 p-3 lg:p-70 border-b
                     border-gray-200 relative last:border-b-0"
     >
       <Link
@@ -116,7 +116,6 @@ const CartItem: React.FC<CartItemProps> = ({
             customPlaceholder={placeholder}
             width={105}
             height={105}
-            quality={100}
             className="object-cover bg-skin-thumbnail rounded-sm"
             alt=""
           />
@@ -130,21 +129,21 @@ const CartItem: React.FC<CartItemProps> = ({
             query: { slug }
           }}
         >
-          <div className="line-clamp-2 !text-[13px] sm:text-sm lg:text-[15px] leading-4 sm:leading-5 mb-1 text-gray-800">
+          <div className="line-clamp-2 text-sm lg:text-base leading-4 sm:leading-5 mb-1 text-gray-800">
             <div onClick={handleCloseCart}>{name}</div>
           </div>
         </Link>
 
-        <div className="flex items-center text-13px text-gray-700 mt-3px mb-3px">
+        <div className="flex items-center text-13px mt-3px mb-3px">
           <div>
-            <span className="inline-block text-base lg:text-[19px] text-skin-base font-medium">
+            <span className="inline-block text-base lg:text-[19px] text-gray-900 font-semibold">
               {productPrice}
             </span>
           </div>
 
           {selectedComparePrice && (
             <div className="flex items-center">
-              <div className="bg-gray-500 h-[17px] w-[1px] mx-1"></div>
+              <div className="bg-gray-600 h-[17px] w-[1px] mx-1"></div>
               <del className="text-base text-gray-600 text-opacity-80">
                 {productDiscount}
               </del>
@@ -152,7 +151,7 @@ const CartItem: React.FC<CartItemProps> = ({
           )}
         </div>
 
-        <div className="flex items-center text-13px text-gray-500 mb-10px flex-wrap">
+        <div className="flex items-center text-13px text-gray-700 mb-10px flex-wrap">
           {variations?.map((variation) => {
             return (
               <div

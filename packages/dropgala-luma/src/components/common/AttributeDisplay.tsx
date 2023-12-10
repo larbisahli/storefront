@@ -40,8 +40,9 @@ function AttributeDisplay({
     return selected
   }, [variations, orderVariationOption, attribute])
 
-  const color = selectedVariation?.value?.color
+  const isColor = selectedVariation?.attribute?.type === 'color'
   const value = selectedVariation?.value?.value
+  const name = selectedVariation?.value?.name
 
   const isOnClick = onClick instanceof Function
 
@@ -59,18 +60,18 @@ function AttributeDisplay({
           'rounded border shadow-badge flex justify-center items-center font-medium',
           'text-sm text-gray-700 transition duration-200 ease-in-out py-1 px-2 border-gray-300',
           {
-            '!rounded-full': color,
-            '!w-7': color,
-            '!h-7': color,
+            '!rounded-full': isColor,
+            '!w-5': isColor,
+            '!h-5': isColor,
             'border-none': isOnClick
           }
         )}
         style={{
-          background: color ?? ''
+          background: isColor ? value : ''
         }}
-        title={value}
+        title={name}
       >
-        <span>{color ? '' : value}</span>
+        <span>{isColor ? '' : value}</span>
       </div>
       {isOnClick && (
         <div className="text-black px-2">

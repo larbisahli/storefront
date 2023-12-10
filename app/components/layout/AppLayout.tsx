@@ -5,6 +5,13 @@ import cn from 'clsx'
 import { Lato, Mulish, Merriweather, Roboto } from 'next/font/google'
 import React from 'react'
 import Footer from '@components/Footer'
+import { useEffect } from 'react'
+import BrowserDatabase from '@dropgala/utils/BrowserDatabase'
+import { localStorageKeyNames } from '@dropgala/types'
+import { CartState } from '@dropgala/types/product.type'
+import { useAppDispatch, useAppSelector } from '@hooks/useStore'
+import { selectCart, setCartInit } from '@dropgala/store'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
 interface Props {
   children: React.ReactNode
@@ -20,6 +27,16 @@ const inter = Lato({
 })
 
 const AppLayout = ({ children, className }: Props) => {
+  const cartState = useAppSelector(selectCart)
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    const data = BrowserDatabase.getItem<CartState>(
+      localStorageKeyNames.CART_TOTALS
+    )
+    if (data && isEmpty(cartState?.items)) {
+      dispatch(setCartInit({ state: data }))
+    }
+  }, [])
   return (
     <div className="relative">
       <style jsx global>{`
@@ -39,7 +56,7 @@ const AppLayout = ({ children, className }: Props) => {
         )}
       >
         <div className="flex flex-col flex-grow">
-          <div className="mt-[110px] mx-2 lg:mt-[190px] flex-auto">
+          <div className="mt-[101px] lg:mt-[183px] flex-auto">
             <div className="z-40"></div>
             {children}
           </div>

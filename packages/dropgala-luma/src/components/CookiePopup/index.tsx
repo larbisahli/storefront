@@ -1,12 +1,12 @@
 import { StoreProps, selectConfig } from '@dropgala/store'
-import BrowserDatabase from '@dropgala/utils/BrowserDatabase'
+import BrowserDatabase, {
+  ONE_MONTH_IN_SECONDS
+} from '@dropgala/utils/BrowserDatabase'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import Link from '../ui/Link'
 import { useEffect, useState } from 'react'
 import cn from 'clsx'
-
-const COOKIE_POPUP = 'cookie_popup'
-const ONE_MONTH_IN_SECONDS = 2592000
+import { localStorageKeyNames } from '@dropgala/types'
 
 const CookiePopup = ({ useAppSelector }: StoreProps) => {
   const { language, alias, device } = useAppSelector(selectConfig)
@@ -25,12 +25,13 @@ const CookiePopup = ({ useAppSelector }: StoreProps) => {
   }, [])
 
   const getAcceptCookieValue = () => {
-    const param = `${COOKIE_POPUP}_${alias}`
+    const param = `${localStorageKeyNames.COOKIE_POPUP}_${alias}`
     return !!BrowserDatabase.getItem(param)
   }
 
   const acceptCookies = () => {
-    const param = `${COOKIE_POPUP}_${alias}`
+    const param =
+      `${localStorageKeyNames.COOKIE_POPUP}_${alias}` as unknown as localStorageKeyNames
     BrowserDatabase.setItem(true, param, ONE_MONTH_IN_SECONDS)
     setIsAccepted(true)
   }

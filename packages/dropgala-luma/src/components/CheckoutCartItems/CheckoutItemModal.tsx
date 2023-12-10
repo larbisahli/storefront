@@ -18,7 +18,7 @@ import {
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import CloseIcon from '../../assets/icons/close'
 import cn from 'clsx'
-import React, { Dispatch, Fragment, memo, useMemo, useState } from 'react'
+import React, { Dispatch, memo, useMemo, useState } from 'react'
 import Button from '../ui/Button'
 import dynamic from 'next/dynamic'
 import { selectedVariationOptionFun } from '@dropgala/utils/utils'
@@ -76,7 +76,7 @@ const CheckoutItemModal: React.FC<Props> = ({
     { attribute: AttributeType; value: AttributeValueType }[]
   >([])
 
-  const isVariableType = type?.id === ProductTypes.Variable
+  const isVariableType = type === ProductTypes.Variable
 
   const selectedVariationOption = useMemo(() => {
     return selectedVariationOptionFun({
@@ -182,7 +182,7 @@ const CheckoutItemModal: React.FC<Props> = ({
                   </div>
                   <div className="split-line-thin"></div>
                   <VariationPrice
-                    isVariableType={isVariableType}
+                    isConfigurable={isVariableType}
                     salePrice={salePrice!}
                     comparePrice={comparePrice!}
                     selectedVariationOption={selectedVariationOption}

@@ -62,6 +62,7 @@ export interface ConfigType {
     pageId: string
   }
   language?: LanguageType
+  isMobileHeaderTransition?: boolean
   device: {
     userAgent: string | null
     isMobile: boolean

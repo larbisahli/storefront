@@ -10,7 +10,7 @@ export const tuple = <T extends string[]>(...args: T) => args
 
 const buttonVariants = tuple('primary', 'secondary', 'elevation', 'border')
 const buttonSizes = tuple('big', 'normal', 'small')
-const CounterSizesF = tuple('big', 'normal')
+const CounterSizesF = tuple('big', 'normal', 'small')
 
 export type ButtonVariants = (typeof buttonVariants)[number]
 export type ButtonSizes = (typeof buttonSizes)[number]

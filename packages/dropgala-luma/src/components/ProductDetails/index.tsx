@@ -31,6 +31,8 @@ import ProductAttributes from './ProductAttributes'
 import VariationPrice from './VariationPrice'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import useWindowSize from 'hooks/useWindowSize'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import StarIcon from '../../assets/icons/star'
 
 interface Props extends StoreProps {
   product: ProductType
@@ -40,7 +42,9 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   // const { t } = useTranslation()
 
   const cart = useAppSelector(selectCart)
-  const { device } = useAppSelector(selectConfig)
+  const { device, language } = useAppSelector(selectConfig)
+
+  const { __ } = useTranslation(language, 'common')
 
   const dispatch = useAppDispatch()
 
@@ -48,6 +52,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   const [selectedVariations, setSelectedVariations] = useState<
     { attribute: AttributeType; value: AttributeValueType }[]
   >([])
+  const [swiper, setSwiper] = useState(null)
 
   const [actualSlide, setActualSlide] = useState(0)
   const [productGallery, setProductGallery] = useState<ImageType[]>([])
@@ -75,7 +80,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
     ? thumbnail![0]
     : {}
 
-  const isVariableType = type?.id === ProductTypes.Variable
+  const isConfigurable = type === ProductTypes.Variable
 
   const selectedVariationOption = useMemo(() => {
     return selectedVariationOptionFun({
@@ -83,10 +88,6 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
       variationOptions
     })
   }, [selectedVariations, variationOptions])
-
-  const updateSlide = ({ currentSlide }: any) => {
-    setActualSlide(currentSlide)
-  }
 
   const selectedIndex = useMemo(() => {
     if (isEmpty(productGallery)) {
@@ -117,33 +118,17 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   }, [gallery])
 
   const productQuantity =
-    (isVariableType ? selectedVariationOption?.quantity : quantity) ?? 0
+    (isConfigurable ? selectedVariationOption?.quantity : quantity) ?? 0
 
-  const productSku = isVariableType ? selectedVariationOption?.sku : sku
+  const productSku = isConfigurable ? selectedVariationOption?.sku : sku
 
   const isSoldOut = productQuantity === 0
-
-  useEffect(() => {
-    if (selectedIndex >= 0) {
-      updateSlide({ currentSlide: selectedIndex })
-    } else {
-      updateSlide({ currentSlide: 0 })
-    }
-
-    return () => {
-      updateSlide({ currentSlide: 0 })
-    }
-  }, [selectedIndex])
-
-  useEffect(() => {
-    updateSlide({ currentSlide: 0 })
-  }, [id])
 
   function addToCart() {
     const items = cartItems?.filter((item: ProductType) => item.id === id)
     const orderQuantity = selectedQuantity
 
-    if (isVariableType) {
+    if (isConfigurable) {
       const variationOptionExist = items?.find((item) => {
         return (
           !!item?.orderVariationOption?.id &&
@@ -209,11 +194,10 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
       )
     }
 
+    const slideTo = (index: number) => swiper && swiper.slideTo(index)
+
     const { width: windowWidth = 0 } = useWindowSize()
-
     const maxWidth = windowWidth > 600 ? '600px' : `${windowWidth}px`
-
-    console.log({ device })
 
     return (
       <div className="flex flex-col lg:flex-row-reverse" style={{ maxWidth }}>
@@ -223,13 +207,17 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
         >
           <Swiper
             loop
+            onSlideChange={(swiper) => {
+              setSwiper(swiper)
+              setActualSlide(swiper?.realIndex)
+            }}
             navigation={device?.isDesktop}
             modules={[Navigation]}
             className="max-w-fit"
           >
             {productGallery?.map(
               ({ id, image, placeholder }: ImageType, idx) => (
-                <SwiperSlide>
+                <SwiperSlide key={`product--key${id}`}>
                   <Image
                     key={`${id}-${idx}`}
                     src={image}
@@ -250,10 +238,10 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
                 key={id}
                 className={cn(
                   'm-1 md:h-45px md:w-45px h-35px w-35px border border-gray-100 transition-all',
-                  { '!border-red-600': index === actualSlide }
+                  { '!border-red-600': index === actualSlide ?? 0 }
                 )}
                 onClick={() => {
-                  updateSlide({ currentSlide: index })
+                  slideTo(index)
                 }}
               >
                 <Image
@@ -271,6 +259,91 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
     )
   }
 
+  const renderDesktopProductActions = () => {
+    return (
+      <>
+        {/* QUANTITY */}
+        <div className="mt-2 flex items-center">
+          <Counter
+            single
+            size={'big'}
+            value={selectedQuantity}
+            onIncrement={() => setSelectedQuantity((prev) => prev + 1)}
+            onDecrement={() =>
+              setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
+            }
+            disabled={productQuantity - selectedQuantity <= 0}
+          />
+          <div className="pl-2">
+            {productQuantity > 0 && productQuantity <= 5 ? (
+              <Badge textColor="!text-red-600 capitalize">
+                {__('only %s left', productQuantity)}
+              </Badge>
+            ) : (
+              <div className=""></div>
+            )}
+          </div>
+        </div>
+        {/* BUTTONS */}
+        <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5 mt-5">
+          <div className="flex items-center w-full">
+            <Button
+              onClick={addToCart}
+              disabled={productQuantity === 0}
+              className={cn(
+                'bg-gray-900 hover:bg-gray-800 text-white rounded-sm font-semibold text-lg mr-2 flex-1 h-[50px]',
+                { '!bg-gray-700': productQuantity === 0 }
+              )}
+            >
+              {productQuantity === 0 ? __('sold out') : __('Add to cart')}
+            </Button>
+            <Button className="border rounded-sm h-[50px] !px-3 border-black flex flex-0 items-center justify-center m-1">
+              <HeartEmpty className="text-black" width={25} height={25} />
+            </Button>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  const renderMobileProductActions = () => {
+    return (
+      <div className="fixed flex justify-between items-center bottom-[52px] z-10 bg-white left-0 right-0 px-2 py-3 border-t border-gray-300">
+        {/* QUANTITY */}
+        <div className="flex items-center">
+          <Counter
+            single
+            size={'big'}
+            value={selectedQuantity}
+            onIncrement={() => setSelectedQuantity((prev) => prev + 1)}
+            onDecrement={() =>
+              setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
+            }
+            disabled={productQuantity - selectedQuantity <= 0}
+          />
+        </div>
+        {/* BUTTONS */}
+        <div className="pl-2 flex-1">
+          <div className="flex items-center w-full">
+            <Button
+              onClick={addToCart}
+              disabled={productQuantity === 0}
+              className={cn(
+                'bg-gray-900 hover:bg-gray-800 text-white rounded-sm font-semibold text-lg mr-2 flex-1 h-[45px]',
+                { '!bg-gray-700': productQuantity === 0 }
+              )}
+            >
+              {productQuantity === 0 ? __('sold out') : __('Add to cart')}
+            </Button>
+            <Button className="border rounded-sm h-[45px] !px-2 border-black flex flex-0 items-center justify-center">
+              <HeartEmpty className="text-black" width={25} height={25} />
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   const renderTags = () => {
     if (isEmpty(tags)) {
       return null
@@ -282,7 +355,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
           className="text-sm md:text-15px text-base text-opacity-80 inline-flex
                       items-center justify-center me-2 relative top-1"
         >
-          {/* <LabelIcon className="mr-2" /> {t('text-tags')}: */}
+          <LabelIcon className="mr-2" /> {__('Tags')}:
         </li>
         {tags?.map((item) => (
           <li className="inline-block p-[3px]" key={`tag-${item?.id}`}>
@@ -293,49 +366,61 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
     )
   }
 
+  const renderProductActions = () => {
+    if (device?.isMobile) {
+      return renderMobileProductActions()
+    }
+    return renderDesktopProductActions()
+  }
+
   return (
     <div className="pt-6 md:pt-7 pb-2">
-      <div className="flex items-center flex-col lg:flex-row justify-between">
-        <div className="relative flex flex-1 mb-6 md:mb-8 lg:mb-0 mr-2">
-          <div className="max-w-[600px] xl:max-w-[700px] sticky top-[200px] overflow-hidden lg:mx-0 mx-auto">
+      <div className="flex flex-col lg:flex-row justify-between h-full">
+        <div className="relative flex-1 mb-6 md:mb-8 lg:mb-0">
+          <div className="max-w-[600px] xl:max-w-[700px] sticky top-[200px] h-fit overflow-hidden lg:mx-0 mx-auto">
             {renderGallery()}
           </div>
         </div>
-        <div className="flex-shrink-0 flex flex-col w-full flex-1 xl:ps-2 ml-2">
+        <div className="flex-shrink-0 flex flex-col w-full flex-1 xl:ps-2 lg:ml-2 px-2">
           <div className="pb-3 lg:pb-5">
             <div className="md:mb-2.5 block">
-              <h2 className="text-skin-base text-lg md:text-xl font-medium transition-colors duration-300 mb-2">
+              <h2 className="text-skin-base text-xl md:text-3xl font-semibold transition-colors duration-300 mb-2">
                 {name}
               </h2>
+              {/* Product Ratings */}
+              <div className="flex items-center mb-1 text-orange-600">
+                <StarIcon width={18} height={18} />
+                <StarIcon width={18} height={18} />
+                <StarIcon width={18} height={18} />
+                <StarIcon width={18} height={18} />
+                <StarIcon width={18} height={18} />
+                <div className="text-xs font-bold text-black">{`(${5})`}</div>
+                <button className="text-sm font-bold text-red-700 px-4">
+                  {__('Write a review')}
+                </button>
+              </div>
             </div>
             <div className="h-[1px] w-full bg-gray-300"></div>
-            <div className="flex items-end justify-between">
+            <div className="flex justify-between items-center pt-4">
               <VariationPrice
                 salePrice={salePrice!}
                 comparePrice={comparePrice!}
                 selectedVariationOption={selectedVariationOption}
-                isVariableType={isVariableType}
+                isConfigurable={isConfigurable}
                 useAppSelector={useAppSelector}
                 useAppDispatch={useAppDispatch}
               />
               {productSku && (
                 <div className="text-gray-600 uppercase flex flex-col items-end">
-                  {isSoldOut ? (
-                    <div className="text-gray-800 text-xs font-medium">
-                      out of stock
-                    </div>
-                  ) : (
-                    <div className="text-xs font-medium text-gray-800">
-                      In stock
-                    </div>
-                  )}
-                  {`SKU#: ${productSku}`}
+                  <div className="text-xs font-medium text-gray-900">
+                    {isSoldOut ? __('Out of stock') : __('In stock')}
+                  </div>
+                  <span className="text-sm">{`SKU: ${productSku}`}</span>
                 </div>
               )}
             </div>
           </div>
           <div className="h-[1px] w-full bg-gray-300"></div>
-
           {/* VARIATIONS */}
           <div className="my-3">
             {variations?.map((variation) => {
@@ -347,68 +432,19 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
                     variations,
                     variationOptions,
                     selectedVariations,
-                    setSelectedVariations
+                    setSelectedVariations,
+                    isConfigurable,
+                    language
                   }}
                 />
               )
             })}
           </div>
-
-          {/* QUANTITY */}
-          <div className="mt-2 flex items-center">
-            <Counter
-              single
-              size={'big'}
-              value={selectedQuantity}
-              onIncrement={() => setSelectedQuantity((prev) => prev + 1)}
-              onDecrement={() =>
-                setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
-              }
-              disabled={productQuantity - selectedQuantity <= 0}
-            />
-            <div className="pl-2">
-              {productQuantity > 0 && productQuantity <= 5 ? (
-                <Badge
-                  backgroundColor="bg-gray-200"
-                  textColor="!text-red-600"
-                  border="border border-sink-base"
-                >
-                  {/* {t('text-only') +
-                    ' ' +
-                    productQuantity +
-                    ' ' +
-                    t('text-left')} */}
-                </Badge>
-              ) : (
-                <div className=""></div>
-              )}
-            </div>
-          </div>
-
-          {/* BUTTONS */}
-          <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5 mt-5">
-            <div className="flex items-center w-full">
-              <Button
-                onClick={addToCart}
-                disabled={productQuantity === 0}
-                className={cn(
-                  'bg-gray-900 hover:bg-gray-800 text-white rounded-sm font-semibold text-lg mr-2 flex-1 h-[50px]',
-                  { '!bg-gray-700': productQuantity === 0 }
-                )}
-              >
-                {/* {productQuantity === 0
-                  ? t('text-sold-out')
-                  : t('text-add-to-cart')} */}
-              </Button>
-              <Button className="border rounded-sm h-[50px] !px-3 border-black flex flex-0 items-center justify-center m-1">
-                <HeartEmpty className="text-black" width={25} height={25} />
-              </Button>
-            </div>
-          </div>
+          {renderProductActions()}
           {/* Tags */}
           {renderTags()}
           {/* Description */}
-          <ProductDescription description={description!} />
+          <ProductDescription description={description ?? ''} />
         </div>
       </div>
     </div>

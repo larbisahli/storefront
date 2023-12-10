@@ -29,8 +29,9 @@ const Counter: React.FC<CounterProps> = ({
   const btnClassName = cn(
     'text-skin-base rounded-xs bg-gray-200 transition border border-solid',
     'border-gray-400 shadow-current duration-300 hover:bg-gray-400 focus:outline-none',
-    'w-30px h-30px',
-    { 'w-35px h-35px': size === 'big' }
+    { 'w-30px h-30px': size === 'normal' },
+    { 'w-35px h-35px': size === 'big' },
+    { 'w-25px h-25px': size === 'small' }
   )
 
   return (
@@ -41,8 +42,8 @@ const Counter: React.FC<CounterProps> = ({
 
       <span
         className={cn(
-          'font-medium text-skin-base  text-lg flex items-center justify-center',
-          'h-full w-45px px-2 transition-colors duration-250 ease-in-out cursor-default'
+          'font-medium text-skin-base text-lg flex items-center justify-center',
+          'h-full w-35px px-2 transition-colors duration-250 ease-in-out cursor-default'
         )}
       >
         {value}

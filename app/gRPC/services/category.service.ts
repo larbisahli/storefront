@@ -21,6 +21,17 @@ export default class CategoryService extends CategoryServiceRoutes {
       .catch((error) => ({ error, menu: null }))
   }
 
+  public async getStoreHomePageCategories(
+    alias: string,
+    storeLanguageId: number,
+    storeId?: string
+  ) {
+    const homePageCategories = promisify(this.getHomePageCategories).bind(this)
+    return await homePageCategories({ alias, storeLanguageId, storeId })
+      .then((data) => ({ categories: data?.categories ?? [], error: null }))
+      .catch((error) => ({ error, categories: null }))
+  }
+
   public async getStoreCategory(
     urlKey: string,
     alias: string,

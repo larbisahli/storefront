@@ -4,34 +4,22 @@ import React, { memo, useState } from 'react'
 import HeroBannerCard from './hero-banner-card'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
+import { StoreProps, selectConfig } from '@dropgala/store'
 
 interface Props {
   items?: HeroBannerType[]
   className?: string
   contentClassName?: string
+  useAppSelector: StoreProps['useAppSelector']
 }
-
-const createStyles = (isActive: boolean) => ({
-  background: 'transparent',
-  border: 0,
-  color: isActive ? '#333' : '#ccc',
-  cursor: 'pointer',
-  fontSize: '32px'
-})
 
 const HeroSliderBlock: React.FC<Props> = ({
   items = [],
   className = 'mb-7',
   contentClassName = 'py-24',
-  ...props
+  useAppSelector
 }) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  }
+  const { device } = useAppSelector(selectConfig)
   return (
     <div className={cn(className)}>
       <Swiper
@@ -46,14 +34,16 @@ const HeroSliderBlock: React.FC<Props> = ({
           clickable: true
         }}
         modules={[Autoplay, Pagination, Navigation]}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
         thumbsContainerClass="bg-blue-400"
         slideThumbActiveClass="bg-red-400"
       >
         {items?.map((banner: any) => (
-          <SwiperSlide key={`banner--key${banner.id}`}>
-            <HeroBannerCard banner={banner} className={contentClassName} />
+          <SwiperSlide key={`hero-banner--key${banner.id}`}>
+            <HeroBannerCard
+              banner={banner}
+              className={contentClassName}
+              device={device}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

@@ -8,13 +8,13 @@ interface Props {
 }
 
 const CategoryCard: React.FC<Props> = ({ category }: Props) => {
-  const { name, thumbnail, categorySeo } = category
+  const { name, thumbnail, urlKey } = category
   const { image, placeholder } = thumbnail[0] ?? {}
   return (
     <Link
       href={{
         pathname: '/category/[slug]',
-        query: { slug: categorySeo?.urlKey }
+        query: { slug: urlKey }
       }}
       className="outline outline-1 outline-gray-300 [last-child]:bg-purple-800 w-full lg:w-[200px] h-[160px] lg:h-[220px] p-3 hover:shadow-categoryCard"
     >

@@ -44,7 +44,7 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
     VariationsType[]
   >([])
 
-  const isVariableType = type?.id === ProductTypes.Variable
+  const isVariableType = type === ProductTypes.Variable
 
   // const selectedVariationOption = useMemo(() => {
   //   const selectedAttributesOption = selectedVariations?.map(

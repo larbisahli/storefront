@@ -1,8 +1,13 @@
-import { wrapper, selectConfig, setConfigDevice } from '@dropgala/store'
+import {
+  wrapper,
+  selectConfig,
+  setConfigDevice,
+  setMobileHeaderTransition
+} from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { getHost } from 'utils'
 import ProductDetails from '@components/productDetails'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -21,6 +26,8 @@ import {
 } from '@gRPC/handlers'
 import { LanguageType } from '@dropgala/types/config.type'
 import getMobileDetect from '@dropgala/utils/isMobile'
+import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 
 interface PageProps {
   pageProps: {
@@ -33,11 +40,13 @@ interface PageProps {
 }
 
 export default function ProductPage({ pageProps }: PageProps) {
+  const {
+    query: { slug = null }
+  } = useRouter()
   const storeConfig = useAppSelector(selectConfig)
+  const dispatch = useDispatch()
 
   const { host, product = {} } = pageProps
-
-  console.log({ product })
 
   const {
     productSeo,
@@ -46,25 +55,40 @@ export default function ProductPage({ pageProps }: PageProps) {
     categories = []
   } = product
 
-  const selectedCategory = useMemo(() => {
+  useEffect(() => {
+    dispatch(setMobileHeaderTransition({ allow: false }))
+  }, [slug])
+
+  const breadcrumbs = useMemo(() => {
     const selectedCate = categories?.sort(
       (a, b) =>
-        (b?.categorySeo?.breadcrumbsPriority ?? 0) -
-          (a?.categorySeo?.breadcrumbsPriority ?? 0) ?? 0
+        (b?.breadcrumbsPriority ?? 0) - (a?.breadcrumbsPriority ?? 0) ?? 0
     )[0]
-    return {
-      id: selectedCate?.id,
-      name: selectedCate?.name,
-      categorySeo: {
-        breadcrumbs: [
-          {
-            categoryLevel: 0,
-            categoryName: selectedCate?.name,
-            categoryUrl: selectedCate?.categorySeo?.urlKey
-          }
-        ]
+    return [
+      ...(selectedCate?.parent
+        ? [
+            {
+              categoryLevel: selectedCate?.parent?.level,
+              categoryName: selectedCate?.parent?.name,
+              categoryUrl: selectedCate?.parent?.urlKey
+            }
+          ]
+        : []),
+      ...(selectedCate?.parent?.parent
+        ? [
+            {
+              categoryLevel: selectedCate?.parent?.parent?.level,
+              categoryName: selectedCate?.parent?.parent?.name,
+              categoryUrl: selectedCate?.parent?.parent?.urlKey
+            }
+          ]
+        : []),
+      {
+        categoryLevel: selectedCate?.level,
+        categoryName: selectedCate?.name,
+        categoryUrl: selectedCate?.urlKey
       }
-    }
+    ]
   }, [categories])
 
   return (
@@ -118,13 +142,10 @@ export default function ProductPage({ pageProps }: PageProps) {
       </Head>
       <div className="mb-44 max-w-[1300px] xl:max-w-[1500px] mx-auto">
         {/* PRODUCT DETAIL PAGE */}
-        <section className="mb-5 py-35px px-10px">
+        <section className="mb-5 py-35px">
           <div className="pt-6 lg:pt-7">
-            <div className="mx-auto max-w-[1920px]">
-              <Breadcrumb
-                name={product?.name!}
-                breadcrumbs={selectedCategory?.categorySeo?.breadcrumbs ?? []}
-              />
+            <div className="mx-auto">
+              <Breadcrumb name={product?.name!} breadcrumbs={breadcrumbs} />
             </div>
           </div>
           <div className="">

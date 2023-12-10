@@ -11,7 +11,7 @@ export function usePrice({
 }) {
   const formatCurrency = useMemo(
     () =>
-      new Intl.NumberFormat(locale, {
+      new Intl.NumberFormat(undefined, {
         style: 'currency',
         currency: currencyCode
       }),

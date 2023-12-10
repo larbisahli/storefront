@@ -23,7 +23,7 @@ export default function CartPage({ host }: Props) {
         <meta name="Description" content="Put your description here." />
         <title>Cart</title>
       </Head>
-      <div className="mb-44">
+      <div className="mb-44 mx-2">
         <section className="w-full flex justify-center my-30px">
           <CheckoutBreadcrumb />
         </section>

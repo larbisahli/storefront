@@ -9,6 +9,7 @@ interface Props {
   className?: string
   selectedAttributeValueId: number
   handleSelectedAttributeValue: (key: AttributeValueType) => void
+  type: 'color' | 'text' | undefined
   value: AttributeValueType
 }
 
@@ -17,13 +18,14 @@ const AttributeValueLabel = ({
   className,
   selectedAttributeValueId,
   handleSelectedAttributeValue,
+  type,
   value
 }: Props) => {
-  const color = value?.color
-  const id = value?.id
-
+  const { id, name } = value
+  const isColor = type === 'color'
   return (
     <li
+      title={name}
       className={cn(
         `cursor-pointer rounded-[2px] border px-4 min-w-[66px] h-[32px]
          shadow-badge mb-2 md:mb-3 mr-2 flex justify-center items-center
@@ -33,14 +35,14 @@ const AttributeValueLabel = ({
         {
           'border-gray-900 text-gray-900 border-2':
             selectedAttributeValueId === id,
-          '!rounded-full !p-0 !min-w-0': color,
-          '!h-9 !w-9': color,
-          'shadow-badge': color
+          '!rounded-full !p-0 !min-w-0': isColor,
+          '!h-9 !w-9': isColor,
+          'shadow-badge': isColor
         },
         className
       )}
       style={{
-        background: color ?? ''
+        background: isColor ? value?.value : ''
       }}
       onClick={() => {
         handleSelectedAttributeValue(value)
@@ -49,10 +51,10 @@ const AttributeValueLabel = ({
         }
       }}
     >
-      {color
+      {isColor
         ? selectedAttributeValueId === id && (
             <div
-              style={{ background: color }}
+              style={{ background: value?.value }}
               className="h-8 w-8 rounded-full flex items-center justify-center border-2"
             ></div>
           )

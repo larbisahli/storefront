@@ -11,6 +11,7 @@ export interface StoreConfigState extends ConfigType {
 
 const initialState: StoreConfigState = {
   theme: StoreThemes.LUMA,
+  isMobileHeaderTransition: true,
   device: {
     userAgent: null,
     isSafari: false,
@@ -57,6 +58,12 @@ export const storeConfig = createSlice({
       const device = action.payload.device
       if (device) return { ...state, device }
       return state
+    },
+    setMobileHeaderTransition: (
+      state: StoreConfigState,
+      action: PayloadAction<{ allow: boolean }>
+    ) => {
+      state.isMobileHeaderTransition = action.payload.allow
     }
   },
   extraReducers: {
@@ -69,8 +76,13 @@ export const storeConfig = createSlice({
   }
 })
 
-export const { setConfig, setLanguage, setDefaultCurrency, setConfigDevice } =
-  storeConfig.actions
+export const {
+  setConfig,
+  setLanguage,
+  setDefaultCurrency,
+  setConfigDevice,
+  setMobileHeaderTransition
+} = storeConfig.actions
 
 export const selectConfig = (state: AppState): StoreConfigState =>
   state.ConfigReducer

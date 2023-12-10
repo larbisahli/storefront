@@ -97,3 +97,9 @@ export enum ProductTypes {
   Simple = 'simple',
   Variable = 'variable'
 }
+
+export enum localStorageKeyNames {
+  CART_TOTALS = 'cart_totals',
+  COOKIE_POPUP = 'cookie_popup',
+  POSTPONE_INSTALLATION = 'postpone_installation'
+}
