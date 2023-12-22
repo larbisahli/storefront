@@ -1,4 +1,4 @@
-import LabelIcon from '../../assets/icons/label-icon'
+import LabelIcon from '@dropgala/assets/icons/label-icon'
 import Counter from '../common/Counter'
 import Badge from '../ui/Badge'
 import Button from '../ui/Button'
@@ -11,7 +11,7 @@ import { ProductTypes } from '@dropgala/types'
 import type { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import type { ImageType } from '@dropgala/types/common.type'
-import { HeartEmpty } from '../../assets/icons/heart'
+import { HeartEmpty } from '@dropgala/assets/icons/heart'
 import {
   StoreProps,
   addItem,
@@ -32,15 +32,13 @@ import VariationPrice from './VariationPrice'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import useWindowSize from 'hooks/useWindowSize'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
-import StarIcon from '../../assets/icons/star'
+import StarIcon from '@dropgala/assets/icons/star'
 
 interface Props extends StoreProps {
   product: ProductType
 }
 
 const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
-  // const { t } = useTranslation()
-
   const cart = useAppSelector(selectCart)
   const { device, language } = useAppSelector(selectConfig)
 
@@ -62,8 +60,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   const {
     id,
     name,
-    salePrice,
-    comparePrice,
+    price,
     quantity,
     sku,
     disableOutOfStock,
@@ -88,15 +85,6 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
       variationOptions
     })
   }, [selectedVariations, variationOptions])
-
-  const selectedIndex = useMemo(() => {
-    if (isEmpty(productGallery)) {
-      return 0
-    }
-    return productGallery?.findIndex(
-      (i) => i?.id === selectedVariationOption?.thumbnail[0]?.id
-    )
-  }, [productGallery, selectedVariationOption])
 
   useEffect(() => {
     const { thumbnail = [] } = selectedVariationOption ?? {}
@@ -211,7 +199,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
               setSwiper(swiper)
               setActualSlide(swiper?.realIndex)
             }}
-            navigation={device?.isDesktop}
+            navigation
             modules={[Navigation]}
             className="max-w-fit"
           >
@@ -403,8 +391,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
             <div className="h-[1px] w-full bg-gray-300"></div>
             <div className="flex justify-between items-center pt-4">
               <VariationPrice
-                salePrice={salePrice!}
-                comparePrice={comparePrice!}
+                price={price}
                 selectedVariationOption={selectedVariationOption}
                 isConfigurable={isConfigurable}
                 useAppSelector={useAppSelector}

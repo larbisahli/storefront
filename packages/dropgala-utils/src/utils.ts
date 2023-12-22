@@ -76,3 +76,12 @@ export const selectedVariationOptionFun = ({
     return isEqual(sortBy(vop?.options), sortBy(selectedAttributesOption))
   })
 }
+
+export const toTwoDecimalPlaces = (number: number) => {
+  return typeof number !== 'undefined'
+    ? number.toLocaleString('en', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })
+    : null
+}

@@ -31,3 +31,7 @@ export function getIsRTL(locale: string | undefined) {
   ]
   return rtlLanguages.includes(locale)
 }
+
+/** @namespace Util/CSS/isRtl */
+export const isRtl = (): boolean =>
+  document.documentElement.getAttribute('dir') === 'rtl'

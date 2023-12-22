@@ -48,11 +48,11 @@
     "dist"
   ],
   "peerDependencies": {
+    "@dropgala/types": "workspace:*",
     "@types/react": "^18.0.31",
     "react": "^17.0.0 || ^18.2.0-0"
   },
   "dependencies": {
-    "@dropgala/types": "workspace:*",
     "@types/lodash": "^4.14.192",
     "lodash": "^4.17.21"
   },

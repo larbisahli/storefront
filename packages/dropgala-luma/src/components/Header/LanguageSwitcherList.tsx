@@ -1,8 +1,8 @@
 import { ConfigType } from '@dropgala/types/config.type'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
 import { memo, useMemo, useRef, useState } from 'react'
-import ArrowDownIcon from '../../assets/icons/arrow-down'
-import ArrowUpIcon from '../../assets/icons/arrow-up'
+import ArrowDownIcon from '@dropgala/assets/icons/arrow-down'
+import ArrowUpIcon from '@dropgala/assets/icons/arrow-up'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
 
@@ -38,10 +38,10 @@ const LanguageSwitcherList = ({ storeConfig }: Props) => {
       >
         <div>{currentLocale?.name}</div>
         <div className={cn('p-1', open && 'block', !open && 'hidden')}>
-          <ArrowUpIcon />
+          <ArrowUpIcon width={16} height={16} />
         </div>
         <div className={cn('p-1', !open && 'block', open && 'hidden')}>
-          <ArrowDownIcon />
+          <ArrowDownIcon width={16} height={16} />
         </div>
       </button>
 

@@ -1,16 +1,16 @@
-import { usePercentDecrease } from '../../hooks/usePercentDecrease'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import type { ProductType } from '@dropgala/types/product.type'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
-import React, { memo, useMemo } from 'react'
-import { HeartEmpty } from '../../assets/icons/heart'
+import React, { memo } from 'react'
+import { HeartEmpty } from '@dropgala/assets/icons/heart'
 import { ProductCardLayout, ProductTypes } from '@dropgala/types'
 import Image from '../common/Image'
 import Link from '../ui/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
-import StarIcon from '../../assets/icons/star'
+import StarIcon from '@dropgala/assets/icons/star'
 import { getIsRTL } from '@dropgala/utils/get-direction'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 interface ProductProps extends StoreProps {
   product: ProductType
@@ -28,72 +28,90 @@ const ProductCard: React.FC<ProductProps> = ({
 }) => {
   const config = useAppSelector(selectConfig)
 
-  const { locale } = useRouter()
+  const { __ } = useTranslation(config.language, 'common')
+
+  const { locale = 'en-US' } = useRouter()
 
   const {
     name,
+    ratingSummary,
+    reviewCount,
     thumbnail,
     slug,
-    salePrice = 0,
-    comparePrice = 0,
+    priceRange,
     type,
-    maxPrice = 0,
-    minPrice = 0,
     inStock,
     disableOutOfStock
   } = product ?? {}
 
   const isSoldOut = !disableOutOfStock && !inStock
 
-  const isVariable = type === ProductTypes.Variable
+  const isConfigurable = type === ProductTypes.Variable
 
-  const price = usePrice({
-    amount: salePrice!,
+  const priceRangeMaxFinalPrice =
+    priceRange?.maximumPrice?.finalPrice?.value ?? 0
+  const priceRangeMinFinalPrice =
+    priceRange?.minimumPrice?.finalPrice?.value ?? 0
+  const priceRangeMaxFinalPriceExclTax =
+    priceRange?.maximumPrice?.finalPriceExclTax?.value ?? 0
+  const priceRangeMinFinalPriceExclTax =
+    priceRange?.minimumPrice?.finalPriceExclTax?.value ?? 0
+  const discountAmountOff = priceRange?.maximumPrice?.discount?.amountOff ?? 0
+  const discountPercentOff = priceRange?.maximumPrice?.discount?.percentOff ?? 0
+
+  const finalPrice = usePrice({
+    amount: priceRangeMaxFinalPrice,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })
 
-  const maxPrice_ = usePrice({
-    amount: maxPrice!,
+  const ExclTaxFinalMaxPrice = usePrice({
+    amount: priceRangeMaxFinalPriceExclTax,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })
 
-  const minPrice_ = usePrice({
-    amount: minPrice!,
+  const finalMinPrice = usePrice({
+    amount: priceRangeMinFinalPrice,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })
 
-  const discount = usePrice({
-    amount: comparePrice!,
+  const ExclTaxFinalMinPrice = usePrice({
+    amount: priceRangeMinFinalPriceExclTax,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })
 
-  const productMaxPrice = useMemo(
-    () => maxPrice_?.replace(/(\.0+|0+)$/, ''),
-    [maxPrice_]
-  )
-
-  const productMinPrice = useMemo(
-    () => minPrice_?.replace(/(\.0+|0+)$/, ''),
-    [minPrice_]
-  )
-
-  const productDiscount = useMemo(
-    () => (comparePrice ? discount?.replace(/(\.0+|0+)$/, '') : null),
-    [discount]
-  )
-
-  const productPrice = useMemo(
-    () => price?.replace(/(\.0+|0+)$/, ''),
-    [discount]
-  )
-
-  const percentDecrease = usePercentDecrease({ comparePrice, salePrice })
+  const discountValue = usePrice({
+    amount: discountAmountOff,
+    locale: locale!,
+    currencyCode: config?.defaultCurrency?.code
+  })
 
   const { image = '', placeholder = '' } = (thumbnail && thumbnail[0]) ?? {}
+
+  const renderProductRating = () => {
+    if (ratingSummary && reviewCount) {
+      return (
+        <div className="flex items-center mb-1">
+          {Array.from({ length: 5 })?.map((_, idx) => (
+            <span
+              key={idx}
+              className={cn(
+                reviewCount >= idx + 1 ? 'text-orange-600' : 'text-gray-400'
+              )}
+            >
+              <StarIcon width={18} height={18} />
+            </span>
+          ))}
+          <div className="text-xs font-bold text-black">{`(${ratingSummary})`}</div>
+        </div>
+      )
+    }
+
+    return null
+  }
 
   return (
     <Link
@@ -143,7 +161,7 @@ const ProductCard: React.FC<ProductProps> = ({
             {isSoldOut && (
               <div className="absolute pt-2.5 md:pt-3.5 z-10 -mx-0.5 sm:-mx-1 inset-0 bg-gray-200 rounded opacity-75 flex items-center justify-center">
                 <span className="text-xl font-bold uppercase text-gray-800">
-                  {/* {t('text-sold-out')} */}
+                  {__('Sold Out')}
                 </span>
               </div>
             )}
@@ -163,17 +181,10 @@ const ProductCard: React.FC<ProductProps> = ({
           )}
         >
           {/* Product Ratings */}
-          <div className="flex items-center mb-1 text-orange-600">
-            <StarIcon width={18} height={18} />
-            <StarIcon width={18} height={18} />
-            <StarIcon width={18} height={18} />
-            <StarIcon width={18} height={18} />
-            <StarIcon width={18} height={18} />
-            <div className="text-xs font-bold text-black">{`(${5})`}</div>
-          </div>
+          {renderProductRating()}
           <h2
             className={cn(
-              'line-clamp-3 h-[40px] lg:line-clamp-2 font-semibold !text-[14px] sm:text-sm lg:text-[15px] leading-5 sm:leading-5 mb-1',
+              'line-clamp-3 h-[40px] lg:line-clamp-2 font-semibold !text-[14px] sm:text-sm lg:text-[15px] leading-5 sm:leading-5',
               {
                 '!text-lg sm:text-sm lg:text-[15px] !line-clamp-3 h-fit':
                   layout === ProductCardLayout.List
@@ -188,38 +199,50 @@ const ProductCard: React.FC<ProductProps> = ({
               { 'mt-5': layout === ProductCardLayout.List }
             )}
           >
-            {!isVariable && percentDecrease && productDiscount && (
-              <span>{percentDecrease} off</span>
+            {!isConfigurable && discountPercentOff && discountValue && (
+              <span>{`${Math.round(discountPercentOff)}%`} off</span>
             )}
           </div>
           <div className="mb-1 lg:mb-1.5 flex items-center">
-            {!isVariable && productDiscount && (
+            {!isConfigurable && discountValue && (
               <div
                 className={cn('text-base', getIsRTL(locale) ? 'ml-3' : 'mr-3')}
               >
                 <del className="text-opacity-80 text-gray-700">
-                  {productDiscount}
+                  {discountValue}
                 </del>
               </div>
             )}
-            {!isVariable && (
+            {!isConfigurable && (
               <div
                 className={cn('leading-none text-[24px] font-[600]', {
-                  'text-black': productDiscount
+                  'text-black': discountValue
                 })}
               >
-                {productPrice}
+                {finalPrice}
               </div>
             )}
-            {isVariable && (
+            {isConfigurable && (
               <div
-                className={cn('leading-none pt-[5px] text-[18px] font-[600]')}
+                className={cn(
+                  'flex items-center leading-none pt-[5px] text-[18px] font-[600]'
+                )}
               >
-                {productMinPrice} - {productMaxPrice}
+                <span className="text-sm font-medium pr-2">
+                  {__('As low as')}
+                </span>
+                <span className="text-black text-[24px] font-[600]">
+                  {finalMinPrice}
+                </span>
               </div>
             )}
           </div>
-          <span className="text-xs font-medium">Excl. tax: $0.25</span>
+          <span className="text-xs font-medium">
+            {__(
+              'Excl. tax: %s',
+              isConfigurable ? ExclTaxFinalMinPrice : ExclTaxFinalMaxPrice
+            )}
+          </span>
         </div>
       </div>
     </Link>

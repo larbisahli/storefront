@@ -1,29 +1,33 @@
-import React, { InputHTMLAttributes } from 'react'
+import React, { InputHTMLAttributes, ReactNode } from 'react'
+import cn from 'clsx'
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
-  label?: string
+  inputClassName?: string
+  label?: () => ReactNode
   name: string
   id: string
   error?: string
 }
 
 const Radio = React.forwardRef<HTMLInputElement, Props>(
-  ({ style, className, label, name, id, error, ...rest }, ref) => {
+  (
+    { style, className, label, name, id, error, inputClassName, ...rest },
+    ref
+  ) => {
     return (
-      <div style={style} className={className}>
-        <div className="flex items-center">
+      <div style={style} className="w-full">
+        <div className="flex items-center relative">
           <input
             id={id}
             name={name}
             type="radio"
             ref={ref}
-            className="radio_input"
+            className={cn('radio_input', inputClassName)}
             {...rest}
           />
-
-          <label htmlFor={id} className="text-body text-sm">
-            {label}
+          <label htmlFor={id} className="w-full">
+            {label && label()}
           </label>
         </div>
 

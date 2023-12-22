@@ -1,4 +1,4 @@
-import ChevronForward from '../../assets/icons/chevron-right'
+import ChevronRight from '@dropgala/assets/icons/chevron-right'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
@@ -46,7 +46,7 @@ const CheckoutBreadcrumb = () => {
             </div>
             {index + 1 !== steps.length && (
               <div className="text-skin-base text-opacity-40 text-15px px-[9px] mb-1">
-                <ChevronForward width="10px" height="11px" />
+                <ChevronRight width="10px" height="11px" />
               </div>
             )}
           </Fragment>

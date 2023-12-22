@@ -1,3 +1,7 @@
+:root {
+  --color-primary: #000;
+}
+
 @keyframes skeleton-loading {
   to {
     background-position: 100%;
@@ -103,12 +107,12 @@
 }
 
 .checkbox:focus + label:before {
-  border-color: rgb(var(--color-primary));
+  border-color: var(--color-primary);
 }
 
 .checkbox:checked + label:before {
-  background-color: rgb(var(--color-primary));
-  border-color: rgb(var(--color-primary));
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .checkbox:disabled + label {
@@ -139,59 +143,27 @@
 .radio_input[type='radio']:checked,
 .radio_input[type='radio']:not(:checked) {
   position: absolute;
-  left: -9999px;
-  display: none;
+  width: 20px;
+  height: 20px;
+  z-index: 10;
+  top: 50%;
+  right: 0px;
+  transform: translate(-50%, -50%);
 }
 
 .radio_input[type='radio']:checked + label,
 .radio_input[type='radio']:not(:checked) + label {
   position: relative;
-  padding-left: 28px;
   cursor: pointer;
   line-height: 18px;
+  @apply mt-2;
 }
 
-.radio_input[type='radio']:checked + label:before,
-.radio_input[type='radio']:not(:checked) + label:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 18px;
-  height: 18px;
-  border: 1px solid rgb(216, 216, 216);
-  border-radius: 100%;
-  background-color: #ffffff;
+.radio_input[type='radio']:not(:checked) + label .label-bg {
 }
 
-.radio_input[type='radio']:checked + label:before {
-  border-color: rgb(var(--color-primary));
-}
-
-.radio_input[type='radio']:checked + label:after,
-.radio_input[type='radio']:not(:checked) + label:after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  background: rgb(var(--color-primary));
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  border-radius: 100%;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-}
-
-.radio_input[type='radio']:not(:checked) + label:after {
-  opacity: 0;
-  -webkit-transform: scale(0);
-  transform: scale(0);
-}
-
-.radio_input[type='radio']:checked + label:after {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+.radio_input[type='radio']:checked + label > .label-bg {
+  @apply bg-gray-400 shadow-cart;
 }
 
 /* ------ Swiper ------ */
@@ -218,7 +190,7 @@
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 25px !important;
   color: #000000 !important;
   font-weight: 700;
+  @apply !text-base lg:!text-xl;
 }

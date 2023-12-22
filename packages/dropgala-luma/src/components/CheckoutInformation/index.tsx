@@ -42,7 +42,7 @@ const CheckoutInformation = ({ errors, control, register }: Props) => {
     <div className="shadow overflow-hidden sm:rounded-md">
       <div className="py-5">
         <div className="">
-          <div className="text-lg font-medium mb-4">Contact information</div>
+          <div className="text-lg font-semibold mb-4">Contact information</div>
           <div className="mb-4">
             <Input
               isRequiredLabel
@@ -59,16 +59,19 @@ const CheckoutInformation = ({ errors, control, register }: Props) => {
               label={'Email me with news and offers'}
             />
           </div>
-          <div className="text-lg font-medium mb-4 mt-8">Shipping address</div>
+          <div className="text-lg font-semibold mb-4 mt-8">
+            Shipping address
+          </div>
           <div className="flex flex-wrap items-center justify-between">
             <div className="sm:w-fit w-full">
               <Input
                 isRequiredLabel
                 label={'First name'}
                 // @ts-ignore
-                {...register('first_name')}
+                {...register('firstName')}
                 variant="outline"
                 className="mb-6"
+                error={errors.firstName?.message}
               />
             </div>
 
@@ -77,8 +80,8 @@ const CheckoutInformation = ({ errors, control, register }: Props) => {
                 isRequiredLabel
                 label={'Last name'}
                 // @ts-ignore
-                {...register('last_name')}
-                error={errors.last_name?.message!}
+                {...register('lastName')}
+                error={errors.lastName?.message!}
                 variant="outline"
                 className="mb-6"
               />
@@ -117,7 +120,6 @@ const CheckoutInformation = ({ errors, control, register }: Props) => {
               <Input
                 isRequiredLabel
                 label={'City'}
-                // @ts-ignore
                 {...register('city')}
                 error={errors.city?.message!}
                 variant="outline"
@@ -127,7 +129,6 @@ const CheckoutInformation = ({ errors, control, register }: Props) => {
             <div className="sm:flex-1 flex-0 mb-6 sm:mb-0 mx-0 sm:mx-2 sm:w-fit w-full">
               <Input
                 label={'State / Province'}
-                // @ts-ignore
                 {...register('state')}
                 error={errors.state?.message!}
                 variant="outline"
@@ -137,9 +138,8 @@ const CheckoutInformation = ({ errors, control, register }: Props) => {
             <div className="sm:flex-1 flex-0 sm:w-fit w-full">
               <Input
                 label={'ZIP / Postal code'}
-                // @ts-ignore
-                {...register('zip_code')}
-                error={errors.zip_code?.message}
+                {...register('zipCode')}
+                error={errors.zipCode?.message}
                 variant="outline"
               />
             </div>

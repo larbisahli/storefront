@@ -1,5 +1,5 @@
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
-import CloseIcon from 'assets/icons/close'
+import CloseIcon from '@dropgala/assets/icons/close'
 
 const InstallPromptAndroid = ({
   handleAppInstall,
@@ -14,7 +14,7 @@ const InstallPromptAndroid = ({
         onClick={handleBannerClose}
         aria-label={__('Close')}
       >
-        <CloseIcon width="12" height="12" />
+        <CloseIcon width={12} height={12} />
       </button>
     )
   }

@@ -1,23 +1,21 @@
 // import usePrice from '@framework/product/use-price';
 import Badge from '../ui/Badge'
-import { usePercentDecrease } from '../../hooks/usePercentDecrease'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { useRouter } from 'next/router'
-import { memo, useMemo } from 'react'
-import { VariationOptionsType } from '@dropgala/types/product.type'
+import { memo } from 'react'
+import { PriceType, VariationOptionsType } from '@dropgala/types/product.type'
 import { StoreProps, selectConfig } from '@dropgala/store'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 interface Props extends StoreProps {
   selectedVariationOption?: VariationOptionsType
-  salePrice: number
-  comparePrice: number
+  price?: PriceType
   isConfigurable: boolean
 }
 
 function VariationPrice({
   selectedVariationOption,
-  salePrice,
-  comparePrice,
+  price,
   isConfigurable,
   useAppSelector
 }: Props) {
@@ -26,62 +24,62 @@ function VariationPrice({
 
   const config = useAppSelector(selectConfig)
 
-  const selectedSalePrice = isConfigurable
-    ? selectedVariationOption?.salePrice
-    : salePrice
-  const selectedComparePrice = isConfigurable
-    ? selectedVariationOption?.comparePrice
-    : comparePrice
+  const { __ } = useTranslation(config.language, 'common')
 
-  const percentDecrease = usePercentDecrease({
-    comparePrice: selectedComparePrice ?? 0,
-    salePrice: selectedSalePrice ?? 0
-  })
+  const selectedFinalPrice = isConfigurable
+    ? selectedVariationOption?.price?.finalPrice?.value
+    : price?.finalPrice?.value
 
-  const price = usePrice({
-    amount: selectedSalePrice ?? 0,
+  const selectedDiscountAmountOff = isConfigurable
+    ? selectedVariationOption?.price?.discount?.amountOff
+    : price?.discount?.amountOff
+
+  const selectedFinalPriceExclTax = isConfigurable
+    ? selectedVariationOption?.price?.finalPriceExclTax?.value
+    : price?.finalPriceExclTax.value
+
+  const selectedDiscountPercentOff = isConfigurable
+    ? selectedVariationOption?.price?.discount?.percentOff
+    : price?.discount?.percentOff
+
+  const productPriceValue = usePrice({
+    amount: selectedFinalPrice ?? 0,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })
-
-  const productPrice = useMemo(
-    () =>
-      price
-        ?.replace(/(\.0+|0+)$/, '')
-        ?.split(/([0-9]+)/)
-        ?.filter((v) => v),
-    [price]
-  )
 
   const discount = usePrice({
-    amount: selectedComparePrice ?? 0,
+    amount: selectedDiscountAmountOff ?? 0,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })
 
-  const productDiscount = useMemo(
-    () => discount?.replace(/(\.0+|0+)$/, ''),
-    [discount]
-  )
+  const finalPriceExclTax = usePrice({
+    amount: selectedFinalPriceExclTax ?? 0,
+    locale: locale!,
+    currencyCode: config?.defaultCurrency?.code
+  })
 
   return (
     <div className="flex-1">
       <div className="flex items-center">
         <div className="text-skin-base font-bold text-xl lg:text-2xl leading-none">
-          {!!selectedSalePrice && productPrice}
+          {!!selectedFinalPrice && productPriceValue}
         </div>
-        {!!selectedComparePrice && (
+        {!!selectedDiscountAmountOff && (
           <>
-            <del className="pl-3 text-gray-900 text-xs xl:text-base text-opacity-50 leading-none">
-              {productDiscount}
+            <del className="pl-3 text-gray-900 text-base text-opacity-70 leading-none">
+              {discount}
             </del>
             <Badge textColor="text-red-700 font-semibold">
-              {percentDecrease} {'off'}
+              {`${Math.round(selectedDiscountPercentOff ?? 0)}%`} {'off'}
             </Badge>
           </>
         )}
       </div>
-      <span className="text-xs text-gray-900">Excl. tax: $500.00</span>
+      <span className="text-[14px] font-medium">
+        {__('Excl. tax: %s', finalPriceExclTax)}
+      </span>
     </div>
   )
 }

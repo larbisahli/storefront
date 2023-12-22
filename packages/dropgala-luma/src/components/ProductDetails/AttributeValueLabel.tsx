@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { AttributeTypeTypes } from '@dropgala/types'
 import { AttributeValueType } from '@dropgala/types/attribute.type'
 import cn from 'clsx'
 import { memo } from 'react'
@@ -9,7 +10,7 @@ interface Props {
   className?: string
   selectedAttributeValueId: number
   handleSelectedAttributeValue: (key: AttributeValueType) => void
-  type: 'color' | 'text' | undefined
+  type: AttributeTypeTypes | undefined
   value: AttributeValueType
 }
 
@@ -22,7 +23,7 @@ const AttributeValueLabel = ({
   value
 }: Props) => {
   const { id, name } = value
-  const isColor = type === 'color'
+  const isColor = type === AttributeTypeTypes.COLOR
   return (
     <li
       title={name}

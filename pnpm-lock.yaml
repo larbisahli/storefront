@@ -16,11 +16,12 @@ importers:
       '@types/node': 17.0.45
       prettier: 2.8.4
       rimraf: 5.0.0
-      turbo: 1.10.16
+      turbo: 1.11.2
 
   app:
     specifiers:
       '@apollo/client': ^3.7.11
+      '@dropgala/assets': workspace:*
       '@dropgala/luma': workspace:*
       '@dropgala/query': workspace:*
       '@dropgala/store': workspace:*
@@ -29,6 +30,8 @@ importers:
       '@grpc/grpc-js': ^1.8.14
       '@grpc/proto-loader': ^0.7.6
       '@hookform/resolvers': ^3.1.1
+      '@stripe/react-stripe-js': ^2.4.0
+      '@stripe/stripe-js': ^2.2.1
       '@types/node': ^18.15.11
       '@types/react': ^18.0.31
       '@types/react-redux': ^7.1.25
@@ -54,6 +57,7 @@ importers:
       yup: ^1.2.0
     dependencies:
       '@apollo/client': 3.7.11_gdcq4dv6opitr3wbfwyjmanyra
+      '@dropgala/assets': link:../packages/dropgala-assets
       '@dropgala/luma': link:../packages/dropgala-luma
       '@dropgala/query': link:../packages/dropgala-query
       '@dropgala/store': link:../packages/dropgala-store
@@ -62,6 +66,8 @@ importers:
       '@grpc/grpc-js': 1.8.14
       '@grpc/proto-loader': 0.7.6
       '@hookform/resolvers': 3.1.1_react-hook-form@7.45.1
+      '@stripe/react-stripe-js': 2.4.0_ztiyoasxgjnxo7pvhtgictoesy
+      '@stripe/stripe-js': 2.2.1
       clsx: 1.2.1
       crypto-hash: 2.0.1
       graphql: 16.6.0
@@ -87,12 +93,38 @@ importers:
       tailwindcss: 3.3.0_postcss@8.4.21
       typescript: 4.8.4
 
+  packages/dropgala-assets:
+    specifiers:
+      '@swc/cli': ^0.1.57
+      '@swc/core': ^1.3.10
+      '@types/node': ^18.15.11
+      '@types/react': ^18.0.31
+      eslint: ^8.16.0
+      eslint-config-dropgala: workspace:*
+      typescript: 4.8.4
+    devDependencies:
+      '@swc/cli': 0.1.62_@swc+core@1.3.40
+      '@swc/core': 1.3.40
+      '@types/node': 18.15.11
+      '@types/react': 18.2.6
+      eslint: 8.36.0
+      eslint-config-dropgala: link:../eslint-config-dropgala
+      typescript: 4.8.4
+
+  packages/dropgala-gtm:
+    specifiers:
+      eslint: ^8.16.0
+      eslint-config-dropgala: workspace:*
+      tsup: ^5.12.8
+      typescript: ^4.5.5
+    devDependencies:
+      eslint: 8.36.0
+      eslint-config-dropgala: link:../eslint-config-dropgala
+      tsup: 5.12.9_typescript@4.9.5
+      typescript: 4.9.5
+
   packages/dropgala-luma:
     specifiers:
-      '@dropgala/query': workspace:*
-      '@dropgala/store': workspace:*
-      '@dropgala/types': workspace:*
-      '@dropgala/utils': workspace:*
       '@swc/cli': ^0.1.57
       '@swc/core': ^1.3.10
       '@swc/helpers': ^0.4.12
@@ -103,20 +135,14 @@ importers:
       eslint: ^8.16.0
       eslint-config-dropgala: workspace:*
       html-react-parser: ^3.0.16
-      intersection-observer: ^0.12.2
       next: ^13.2.4
       react-hook-form: ^7.45.1
       react-redux: ^8.0.5
       react-select: ^5.7.3
       typescript: 4.8.4
     dependencies:
-      '@dropgala/query': link:../dropgala-query
-      '@dropgala/store': link:../dropgala-store
-      '@dropgala/types': link:../dropgala-types
-      '@dropgala/utils': link:../dropgala-utils
       '@swc/helpers': 0.4.14
       html-react-parser: 3.0.16
-      intersection-observer: 0.12.2
       react-select: 5.7.3_@types+react@18.2.6
     devDependencies:
       '@swc/cli': 0.1.62_@swc+core@1.3.40
@@ -149,9 +175,6 @@ importers:
 
   packages/dropgala-store:
     specifiers:
-      '@dropgala/query': workspace:*
-      '@dropgala/types': workspace:*
-      '@dropgala/utils': workspace:*
       '@reduxjs/toolkit': ^1.9.3
       eslint: ^8.16.0
       eslint-config-dropgala: workspace:*
@@ -160,9 +183,6 @@ importers:
       tsup: ^5.12.8
       typescript: ^4.5.5
     dependencies:
-      '@dropgala/query': link:../dropgala-query
-      '@dropgala/types': link:../dropgala-types
-      '@dropgala/utils': link:../dropgala-utils
       '@reduxjs/toolkit': 1.9.3
       nanoid: 4.0.2
       next-redux-wrapper: 8.1.0
@@ -186,7 +206,6 @@ importers:
 
   packages/dropgala-utils:
     specifiers:
-      '@dropgala/types': workspace:*
       '@types/lodash': ^4.14.192
       '@types/react': ^18.0.31
       eslint: ^8.16.0
@@ -196,7 +215,6 @@ importers:
       tsup: ^5.12.8
       typescript: ^4.5.5
     dependencies:
-      '@dropgala/types': link:../dropgala-types
       '@types/lodash': 4.14.192
       lodash: 4.17.21
     devDependencies:
@@ -222,9 +240,9 @@ importers:
       typescript: ^4.8.4
     devDependencies:
       eslint: 8.36.0
-      eslint-config-next: 14.0.4-canary.10_vgl77cfdswitgr47lm5swmv43m
+      eslint-config-next: 14.0.5-canary.19_vgl77cfdswitgr47lm5swmv43m
       eslint-config-prettier: 8.7.0_eslint@8.36.0
-      eslint-config-turbo: 1.10.16_eslint@8.36.0
+      eslint-config-turbo: 1.11.2_eslint@8.36.0
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.36.0
       eslint-plugin-prettier: 4.2.1_eqzx3hpkgx5nnvxls3azrcc7dm
       eslint-plugin-react: 7.32.2_eslint@8.36.0
@@ -2269,8 +2287,8 @@ packages:
   /@next/env/13.2.4:
     resolution: {integrity: sha512-+Mq3TtpkeeKFZanPturjcXt+KHfKYnLlX6jMLyCrmpq6OOs4i1GqBOAauSkii9QeKCMTYzGppar21JU57b/GEA==}
 
-  /@next/eslint-plugin-next/14.0.4-canary.10:
-    resolution: {integrity: sha512-ZsU9KJMhBXigNZjTSDs+6oWnszoIXA3u4U18HuBhVh6RoYCaw3mO9owdq+alDTFZndc2hS4H2TCyzpP1pgS3OQ==}
+  /@next/eslint-plugin-next/14.0.5-canary.19:
+    resolution: {integrity: sha512-Ym0wXD5VpfmGRQmdk4Ny0c1VX6d5xyaWgY7aZYXs8+/9E4uOCeTfdSOXl7bcXkm8NY3D0PMgEHdTKHO+uVyirg==}
     dependencies:
       glob: 7.1.7
     dev: true
@@ -2528,6 +2546,23 @@ packages:
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
     engines: {node: '>=10'}
     dev: true
+
+  /@stripe/react-stripe-js/2.4.0_ztiyoasxgjnxo7pvhtgictoesy:
+    resolution: {integrity: sha512-1jVQEL3OuhuzNlf4OdfqovHt+MkWh8Uh8xpLxx/xUFUDdF+7/kDOrGKy+xJO3WLCfZUL7NAy+/ypwXbbYZi0tg==}
+    peerDependencies:
+      '@stripe/stripe-js': ^1.44.1 || ^2.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@stripe/stripe-js': 2.2.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@stripe/stripe-js/2.2.1:
+    resolution: {integrity: sha512-Wd81A0u8EwT3cf+Xv1mpMI18RbXVhgh19MtPcF9ojNTlG3kl36B1+XFe1KQfnJxD3WRnVfDuI0rNCK53mcGm6g==}
+    dev: false
 
   /@surma/rollup-plugin-off-main-thread/2.2.3:
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}
@@ -3057,9 +3092,9 @@ packages:
     resolution: {integrity: sha512-roTU0KWIOmJ4DRLmwKd19Otg0/mT3qPNt0Qb3GWW8iObuZXxrjB/pzn0R3hqpRSWg4HCwqx+0vwOnWnvlOyeIA==}
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: 1.0.2
-      define-properties: 1.2.0
-      es-abstract: 1.21.2
+      call-bind: 1.0.5
+      define-properties: 1.2.1
+      es-abstract: 1.22.3
       es-shim-unscopables: 1.0.0
     dev: true
 
@@ -4244,8 +4279,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /eslint-config-next/14.0.4-canary.10_vgl77cfdswitgr47lm5swmv43m:
-    resolution: {integrity: sha512-esWmW0iIhLmcr4/HMRYe4SgZAgf1/k6Ek7qGnkBStsUpH3YRRSAgQzC8WRU9AiA1jWhP208CNPh98rEv27PnYw==}
+  /eslint-config-next/14.0.5-canary.19_vgl77cfdswitgr47lm5swmv43m:
+    resolution: {integrity: sha512-20TkraezNmWqqtcDI4fSqCXJXE9+CdZK5QIMDFCgj36xrlIrYTm/kyTOkRo8cyTtr1wxQLkt54otUkjCT5WGUA==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -4253,7 +4288,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 14.0.4-canary.10
+      '@next/eslint-plugin-next': 14.0.5-canary.19
       '@rushstack/eslint-patch': 1.5.1
       '@typescript-eslint/parser': 5.55.0_vgl77cfdswitgr47lm5swmv43m
       eslint: 8.36.0
@@ -4278,13 +4313,13 @@ packages:
       eslint: 8.36.0
     dev: true
 
-  /eslint-config-turbo/1.10.16_eslint@8.36.0:
-    resolution: {integrity: sha512-O3NQI72bQHV7FvSC6lWj66EGx8drJJjuT1kuInn6nbMLOHdMBhSUX/8uhTAlHRQdlxZk2j9HtgFCIzSc93w42g==}
+  /eslint-config-turbo/1.11.2_eslint@8.36.0:
+    resolution: {integrity: sha512-vqbyCH6kCHFoIAWUmGL61c0BfUQNz0XAl2RzAnEkSQ+PLXvEvuV2HsvL51UOzyyElfJlzZuh9T4BvUqb5KR9Eg==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.36.0
-      eslint-plugin-turbo: 1.10.16_eslint@8.36.0
+      eslint-plugin-turbo: 1.11.2_eslint@8.36.0
     dev: true
 
   /eslint-import-resolver-node/0.3.7:
@@ -4490,8 +4525,8 @@ packages:
       eslint: 8.36.0
     dev: true
 
-  /eslint-plugin-turbo/1.10.16_eslint@8.36.0:
-    resolution: {integrity: sha512-ZjrR88MTN64PNGufSEcM0tf+V1xFYVbeiMeuIqr0aiABGomxFLo4DBkQ7WI4WzkZtWQSIA2sP+yxqSboEfL9MQ==}
+  /eslint-plugin-turbo/1.11.2_eslint@8.36.0:
+    resolution: {integrity: sha512-U6DX+WvgGFiwEAqtOjm4Ejd9O4jsw8jlFNkQi0ywxbMnbiTie+exF4Z0F/B1ajtjjeZkBkgRnlU+UkoraBN+bw==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
@@ -4851,7 +4886,6 @@ packages:
 
   /function-bind/1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
-    dev: true
 
   /function.prototype.name/1.1.5:
     resolution: {integrity: sha512-uN7m/BzVKQnCUF/iW8jYea67v++2u7m5UgENbHRtdDVclOUP+FMPlCNdmk0h/ysGyo2tavMJEDqJAkJdRa1vMA==}
@@ -5138,7 +5172,6 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       function-bind: 1.1.2
-    dev: true
 
   /hoist-non-react-statics/3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
@@ -5258,10 +5291,6 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
 
-  /intersection-observer/0.12.2:
-    resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
-    dev: false
-
   /is-arguments/1.1.1:
     resolution: {integrity: sha512-8Q7EARjzEnKpt/PCD7e1cgUS0a6X8u5tdSiMqXhojOdoV9TsMsiO+9VLC5vAmO8N7/GmXn7yjR8qnA6bVAEzfA==}
     engines: {node: '>= 0.4'}
@@ -5321,12 +5350,12 @@ packages:
     resolution: {integrity: sha512-RRjxlvLDkD1YJwDbroBHMb+cukurkDWNyHx7D3oNB5x9rb5ogcksMC5wHCadcXoo67gVr/+3GFySh3134zi6rw==}
     dependencies:
       has: 1.0.3
+    dev: true
 
   /is-core-module/2.13.1:
     resolution: {integrity: sha512-hHrIjvZsftOsvKSn2TRYl63zvxsgE0K+0mYMoH6gD4omR5IWB2KynivBQczo3+wF1cCkjzvptnI9Q0sPU66ilw==}
     dependencies:
       hasown: 2.0.0
-    dev: true
 
   /is-date-object/1.0.5:
     resolution: {integrity: sha512-9YQaSxsAiSwcvS33MBk3wTCVnWK+HhF8VZR2jRxehM16QcVOdHqPn4VPHmRK4lSr38n9JriurInLcP90xsYNfQ==}
@@ -7289,7 +7318,7 @@ packages:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
     hasBin: true
     dependencies:
-      is-core-module: 2.11.0
+      is-core-module: 2.13.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
@@ -8140,64 +8169,64 @@ packages:
       yargs: 17.7.1
     dev: true
 
-  /turbo-darwin-64/1.10.16:
-    resolution: {integrity: sha512-+Jk91FNcp9e9NCLYlvDDlp2HwEDp14F9N42IoW3dmHI5ZkGSXzalbhVcrx3DOox3QfiNUHxzWg4d7CnVNCuuMg==}
+  /turbo-darwin-64/1.11.2:
+    resolution: {integrity: sha512-toFmRG/adriZY3hOps7nYCfqHAS+Ci6xqgX3fbo82kkLpC6OBzcXnleSwuPqjHVAaRNhVoB83L5njcE9Qwi2og==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-darwin-arm64/1.10.16:
-    resolution: {integrity: sha512-jqGpFZipIivkRp/i+jnL8npX0VssE6IAVNKtu573LXtssZdV/S+fRGYA16tI46xJGxSAivrZ/IcgZrV6Jk80bw==}
+  /turbo-darwin-arm64/1.11.2:
+    resolution: {integrity: sha512-FCsEDZ8BUSFYEOSC3rrARQrj7x2VOrmVcfrMUIhexTxproRh4QyMxLfr6LALk4ymx6jbDCxWa6Szal8ckldFbA==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-64/1.10.16:
-    resolution: {integrity: sha512-PpqEZHwLoizQ6sTUvmImcRmACyRk9EWLXGlqceogPZsJ1jTRK3sfcF9fC2W56zkSIzuLEP07k5kl+ZxJd8JMcg==}
+  /turbo-linux-64/1.11.2:
+    resolution: {integrity: sha512-Vzda/o/QyEske5CxLf0wcu7UUS+7zB90GgHZV4tyN+WZtoouTvbwuvZ3V6b5Wgd3OJ/JwWR0CXDK7Sf4VEMr7A==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-arm64/1.10.16:
-    resolution: {integrity: sha512-TMjFYz8to1QE0fKVXCIvG/4giyfnmqcQIwjdNfJvKjBxn22PpbjeuFuQ5kNXshUTRaTJihFbuuCcb5OYFNx4uw==}
+  /turbo-linux-arm64/1.11.2:
+    resolution: {integrity: sha512-bRLwovQRz0yxDZrM4tQEAYV0fBHEaTzUF0JZ8RG1UmZt/CqtpnUrJpYb1VK8hj1z46z9YehARpYCwQ2K0qU4yw==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-64/1.10.16:
-    resolution: {integrity: sha512-+jsf68krs0N66FfC4/zZvioUap/Tq3sPFumnMV+EBo8jFdqs4yehd6+MxIwYTjSQLIcpH8KoNMB0gQYhJRLZzw==}
+  /turbo-windows-64/1.11.2:
+    resolution: {integrity: sha512-LgTWqkHAKgyVuLYcEPxZVGPInTjjeCnN5KQMdJ4uQZ+xMDROvMFS2rM93iQl4ieDJgidwHCxxCxaU9u8c3d/Kg==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-arm64/1.10.16:
-    resolution: {integrity: sha512-sKm3hcMM1bl0B3PLG4ifidicOGfoJmOEacM5JtgBkYM48ncMHjkHfFY7HrJHZHUnXM4l05RQTpLFoOl/uIo2HQ==}
+  /turbo-windows-arm64/1.11.2:
+    resolution: {integrity: sha512-829aVBU7IX0c/B4G7g1VI8KniAGutHhIupkYMgF6xPkYVev2G3MYe6DMS/vsLt9GGM9ulDtdWxWrH5P2ngK8IQ==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo/1.10.16:
-    resolution: {integrity: sha512-2CEaK4FIuSZiP83iFa9GqMTQhroW2QryckVqUydmg4tx78baftTOS0O+oDAhvo9r9Nit4xUEtC1RAHoqs6ZEtg==}
+  /turbo/1.11.2:
+    resolution: {integrity: sha512-jPC7LVQJzebs5gWf8FmEvsvXGNyKbN+O9qpvv98xpNaM59aS0/Irhd0H0KbcqnXfsz7ETlzOC3R+xFWthC4Z8A==}
     hasBin: true
     optionalDependencies:
-      turbo-darwin-64: 1.10.16
-      turbo-darwin-arm64: 1.10.16
-      turbo-linux-64: 1.10.16
-      turbo-linux-arm64: 1.10.16
-      turbo-windows-64: 1.10.16
-      turbo-windows-arm64: 1.10.16
+      turbo-darwin-64: 1.11.2
+      turbo-darwin-arm64: 1.11.2
+      turbo-linux-64: 1.11.2
+      turbo-linux-arm64: 1.11.2
+      turbo-windows-64: 1.11.2
+      turbo-windows-arm64: 1.11.2
     dev: true
 
   /type-check/0.4.0:

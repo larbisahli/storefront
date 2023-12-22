@@ -11,7 +11,7 @@ const persistedQueriesLink = createPersistedQueryLink({
 })
 
 const httpLink = new HttpLink({
-  uri: `${apiURL}/graphql`,
+  uri: `${apiURL}/storefront-graphql`,
   credentials: 'include'
 })
 

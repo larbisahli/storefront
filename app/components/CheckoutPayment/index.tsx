@@ -3,18 +3,19 @@ import { CheckoutFormValues } from '@dropgala/types'
 import { ComponentNames } from '@dropgala/types/enums.type'
 import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
-import { UseFormRegister } from 'react-hook-form/dist/types'
+import { UseFormRegister, UseFormWatch } from 'react-hook-form/dist/types'
 
 interface Props {
   register: UseFormRegister<CheckoutFormValues>
+  watch: UseFormWatch<CheckoutFormValues>
 }
 
-const CheckoutPayment = ({ register }: Props) => {
+const CheckoutPayment = ({ register, watch }: Props) => {
   const { theme } = useAppSelector(selectConfig)
-  return null
-  // return componentFactory(theme, ComponentNames.CHECKOUT_PAYMENT, {
-  //   register
-  // })
+  return componentFactory(theme, ComponentNames.CHECKOUT_PAYMENT, {
+    register,
+    watch
+  })
 }
 
 export default CheckoutPayment

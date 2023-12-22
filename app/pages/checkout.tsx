@@ -1,12 +1,15 @@
-import { wrapper } from '@dropgala/store'
+import { setConfigDevice, wrapper } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/layout/CheckoutLayout'
-import { fetchStoreConfig } from '@gRPC/handlers'
+import { fetchStoreConfig, fetchStoreLanguage } from '@gRPC/handlers'
 import CheckoutForm from '@components/CheckoutForm'
 import CheckoutItems from '@components/CheckoutItems'
+import { LanguageType } from '@dropgala/types/config.type'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import getMobileDetect from '@dropgala/utils/isMobile'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -30,12 +33,12 @@ export default function CheckoutPage({ host }: Props) {
         <section className="flex w-full lg:flex-row flex-col-reverse border border-gray-300 rounded-md">
           {/* Checkout Form */}
           <div className="flex-1">
-            <CheckoutForm isLoading={false} />
+            <CheckoutForm />
           </div>
           {/* Checkout items */}
           <div
             style={{ background: 'rgba(0,0,0,0.05)' }}
-            className="pb-5 lg:w-[40%] xl:w-[45%] w-full"
+            className="lg:w-[40%] xl:w-[45%] w-full"
           >
             <CheckoutItems />
           </div>
@@ -50,26 +53,49 @@ CheckoutPage.Layout = CheckoutLayout
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
     const { req, locale } = context
-
+    const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
+    const storeId = undefined
 
     try {
       if (!alias) {
         throw { error: { message: 'alias not specified' } }
       }
 
+      // Check if store has locales
+      store.dispatch(await fetchStoreConfig(alias, storeId))
+      const { ConfigReducer } = store.getState()
+      const locales = ConfigReducer.locales as LanguageType[]
+
+      if (!locales) {
+        return {
+          notFound: true
+        }
+      }
+
+      // Check if incoming locale is available, if not redirect to default local
+      const currentLocale = locales?.find((l) => l.localeId === locale)
+      if (isEmpty(currentLocale)) {
+        const defaultLocale = locales?.find((l) => l.isDefault)
+        return {
+          redirect: {
+            destination: `/${defaultLocale?.localeId}`,
+            permanent: false
+          }
+        }
+      }
+
+      // Get current store language id for resource request
+      const storeLanguageId = currentLocale?.id!
+      const device = getMobileDetect(userAgent)
+
       // Redux Store
-      store.dispatch(await fetchStoreConfig(alias))
+      store.dispatch(setConfigDevice({ device }))
+      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
 
       return {
         props: {
           host: { host, alias }
-          // ...(await serverSideTranslations(locale!, [
-          //   'common',
-          //   'forms',
-          //   'menu',
-          //   'footer'
-          // ]))
         }
       }
     } catch (error) {

@@ -10,21 +10,28 @@ interface Props {
 const CheckoutShipping = ({ register }: Props) => {
   return (
     <div className="mb-10">
-      <h1 className="my-8 text-xl text-gray-900 font-medium">
+      <h1 className="my-8 text-xl text-gray-900 font-semibold">
         Delivery method
       </h1>
-      <Scrollbar className="cart-scrollbar flex-grow">
+      <Scrollbar className="cart-scrollbar flex-grow w-full">
         {Array.from({ length: 3 }).map((_, idx) => (
-          <ShippingOption key={idx} register={register} />
+          <Radio
+            {...register('orderShipping.id')}
+            label={() => <ShippingOption />}
+            inputClassName="absolute right-0 top-0 m-2 z-10"
+            id={idx.toString()}
+            key={idx}
+            value={idx}
+          />
         ))}
       </Scrollbar>
     </div>
   )
 }
 
-const ShippingOption = ({ register }: Props) => {
+const ShippingOption = ({}) => {
   return (
-    <div className="bg-gray-100 w-full sm:rounded mt-3 relative shadow border border-gray-300 cursor-pointer">
+    <div className="bg-gray-100 label-bg w-full sm:rounded relative shadow border border-gray-300">
       <div className="px-3 py-4">
         <div className="font-semibold text-base text-skin-base">
           <span>Shipping:</span>
@@ -36,14 +43,6 @@ const ShippingOption = ({ register }: Props) => {
         <div className="text-sm">Estimated days: {'1-3 days'}</div>
         <div className="text-sm bg-gray-200 border border-gray-300 px-2 py-1 max-w-fit mt-2 rounded shadow-badge">
           Tracking Available
-        </div>
-        <div className="absolute right-0 top-0 m-2">
-          <Radio
-            {...register('status')}
-            label={''}
-            id="published"
-            value="publish"
-          />
         </div>
       </div>
     </div>

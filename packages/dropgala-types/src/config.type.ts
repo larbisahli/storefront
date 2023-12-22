@@ -72,6 +72,10 @@ export interface ConfigType {
     isIos: boolean
     isSSR: boolean
   }
+  tax?: {
+    name: string
+    rate: number
+  }
 }
 
 export interface LanguageType {

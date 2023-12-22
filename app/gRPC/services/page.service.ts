@@ -6,9 +6,14 @@ export default class PageService extends PageServiceRoutes {
     super(RPCStoreFrontPort, createInsecure())
   }
 
-  public async getStorePage(alias: string, slug: string) {
+  public async getStorePage(
+    alias: string,
+    storeLanguageId: number,
+    slug: string,
+    storeId?: string
+  ) {
     const page = promisify(this.getPage).bind(this)
-    return await page({ alias, slug })
+    return await page({ alias, storeLanguageId, slug, storeId })
       .then((data) => ({ page: data?.page, error: null }))
       .catch((error) => ({ error, page: null }))
   }

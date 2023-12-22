@@ -2,9 +2,9 @@ import type { CounterSizes } from '@dropgala/types/props.type'
 import cn from 'clsx'
 import React from 'react'
 
-import Minus from '../../assets/icons/minus-icon'
-import Plus from '../../assets/icons/plus-icon'
-import Trash from '../../assets/icons/trash'
+import Minus from '@dropgala/assets/icons/minus-icon'
+import Plus from '@dropgala/assets/icons/plus-icon'
+import Trash from '@dropgala/assets/icons/trash'
 import IconButton from '../ui/IconButton'
 
 type CounterProps = {

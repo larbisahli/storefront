@@ -6,7 +6,7 @@ import {
 import cn from 'clsx'
 import React, { useState } from 'react'
 
-import PlusIcon from '../../assets/icons/plus-icon'
+import PlusIcon from '@dropgala/assets/icons/plus-icon'
 import { StoreProps, toggleMenu } from '@dropgala/store'
 import Link from '../ui/Link'
 

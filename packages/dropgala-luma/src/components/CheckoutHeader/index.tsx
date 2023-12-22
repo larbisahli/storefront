@@ -1,6 +1,6 @@
 import { StoreProps, selectConfig } from '@dropgala/store'
-import ArrowRightFilled from '../../assets/icons/filed-right-arrow'
-import SecureLock from '../../assets/icons/secure-lock'
+import ArrowRightFilled from '@dropgala/assets/icons/filed-right-arrow'
+import SecureLock from '@dropgala/assets/icons/secure-lock'
 import { mediaURL } from '@dropgala/utils/utils'
 import cn from 'clsx'
 import Image from '../common/Image'
@@ -49,7 +49,7 @@ function CheckoutHeader({ useAppSelector }: Props) {
           ></div>
           <div style={{ color: '#83b293' }} className="flex items-center">
             <div>
-              <SecureLock width="23px" height="23px" />
+              <SecureLock width={23} height={23} />
             </div>
             <div className="pl-2 text-xs">SECURE CHECKOUT</div>
           </div>
@@ -58,7 +58,7 @@ function CheckoutHeader({ useAppSelector }: Props) {
           <div className="flex items-center text-gray-600">
             <div className="pt-[2px] text-xs">CONTINUE SHOPPING</div>
             <div className="pl-2">
-              <ArrowRightFilled width="9px" height="9px" />
+              <ArrowRightFilled width={9} height={9} />
             </div>
           </div>
         </Link>

@@ -2,6 +2,8 @@ import React from 'react'
 
 import { siteSettings } from '../../settings/site-settings'
 import Image from '../common/Image'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { ConfigType } from '@dropgala/types/config.type'
 
 interface CopyrightProps {
   payment?: {
@@ -12,23 +14,24 @@ interface CopyrightProps {
     width: number
     height: number
   }[]
+  storeConfig: ConfigType
 }
 const year = new Date().getFullYear()
-const Copyright: React.FC<CopyrightProps> = ({ payment }) => {
-  // const { t } = useTranslation('footer')
+const Copyright: React.FC<CopyrightProps> = ({ payment, storeConfig }) => {
+  const { __ } = useTranslation(storeConfig?.language, 'common')
   return (
     <div className="pb-20 lg:pb-7">
       <div className="mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10">
         <div className="flex flex-col md:flex-row text-center md:justify-between border-t border-skin-three pt-6 lg:pt-7">
           <p className="text-skin-base text-sm leading-7 lg:leading-[27px] lg:text-15px">
-            {/* &copy;&nbsp;{t('text-copyright')} {year}&nbsp; */}
+            &copy;&nbsp;{__('copyright')} {year}&nbsp;
             <a
               className="text-skin-base transition-colors duration-200 ease-in-out hover:text-skin-primary"
               href={siteSettings.author.websiteUrl}
             >
               {siteSettings.author.name}
             </a>
-            {/* &nbsp; {t('text-all-rights-reserved')} */}
+            &nbsp; {__('All Rights Reserved')}
           </p>
 
           {payment && (
@@ -48,8 +51,7 @@ const Copyright: React.FC<CopyrightProps> = ({ payment }) => {
                       isCustomUrl
                       placeholder="empty"
                       src={item.image}
-                      // alt={t(item.name) ?? ''}
-                      alt=""
+                      alt={item.name ?? ''}
                       height={item.height}
                       width={item.width}
                     />

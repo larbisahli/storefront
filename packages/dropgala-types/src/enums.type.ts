@@ -19,6 +19,7 @@ export enum ComponentNames {
   CHECKOUT_PAYMENT = 'CheckoutPayment',
   CHECKOUT_HEADER = 'CheckoutHeader',
   CHECKOUT_CART_ITEMS = 'CheckoutCartItems',
+  CHECKOUT_FORM = 'CheckoutForm',
   ORDER_SUMMARY = 'OrderSummary',
   CATEGORY_DETAILS = 'CategoryDetails',
   PAGINATION = 'Pagination',
@@ -30,8 +31,8 @@ export enum ComponentNames {
 }
 
 export enum StoreThemes {
-  LUMA = '@dropgala/luma',
-  HEIM = '@dropgala/heim'
+  LUMA = '@dropgala/luma'
+  // HEIM = '@dropgala/heim'
 }
 
 export enum StoreThemesName {
@@ -102,4 +103,9 @@ export enum localStorageKeyNames {
   CART_TOTALS = 'cart_totals',
   COOKIE_POPUP = 'cookie_popup',
   POSTPONE_INSTALLATION = 'postpone_installation'
+}
+
+export enum AttributeTypeTypes {
+  COLOR = 'color',
+  TEXT = 'text'
 }

@@ -23,6 +23,11 @@ export const drawer = createSlice({
       state.isMenu = false
       state.isOpen = !state.isOpen
     },
+    hideCart: (state: DrawerState) => {
+      state.isCart = true
+      state.isMenu = false
+      state.isOpen = false
+    },
     toggleMenu: (state: DrawerState) => {
       state.isMenu = true
       state.isCart = false
@@ -31,7 +36,7 @@ export const drawer = createSlice({
   }
 })
 
-export const { toggleCart, toggleMenu } = drawer.actions
+export const { toggleCart, toggleMenu, hideCart } = drawer.actions
 
 export const selectDrawer = (state: AppState): DrawerState =>
   state.DrawerReducer

@@ -6,9 +6,7 @@ export interface PageType {
   name: string
   content: string
   published: boolean
-  seo: {
-    metaTitle: string
-    metaDescription: string
-    ogImage: ImageType[]
-  }
+  metaTitle: string
+  metaDescription: string
+  ogImage: ImageType[]
 }

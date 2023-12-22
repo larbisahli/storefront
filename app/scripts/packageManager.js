@@ -1,5 +1,6 @@
 const fs = require('fs')
 const prettier = require('prettier')
+const enums = require('@dropgala/types/enums.type')
 
 const prettierConfig = {
   printWidth: 80,
@@ -17,10 +18,7 @@ const prettierConfig = {
 // Configuration
 const outputFile = 'app/lib/componentFactory.tsx'
 
-const themePaths = [
-  '@dropgala/luma'
-  // '@dropgala/heim',
-]
+const themePaths = Object.values(enums.StoreThemes)
 
 const dynamicImport = (
   themePath,

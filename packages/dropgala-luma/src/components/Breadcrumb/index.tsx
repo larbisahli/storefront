@@ -1,5 +1,5 @@
-import ChevronForward from '../../assets/icons/chevron-right'
-import HomeOutline from '../../assets/icons/home'
+import ChevronRight from '@dropgala/assets/icons/chevron-right'
+import HomeOutline from '@dropgala/assets/icons/home'
 import React, { Fragment } from 'react'
 import { ROUTES } from '@dropgala/utils/routes'
 import { CategoryType } from '@dropgala/types/category.type'
@@ -7,7 +7,7 @@ import Link from '../ui/Link'
 
 interface Props {
   name?: string
-  breadcrumbs: CategoryType['categorySeo']['breadcrumbs']
+  breadcrumbs: CategoryType['breadcrumbs']
 }
 
 const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
@@ -27,7 +27,7 @@ const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
           return (
             <Fragment key={breadcrumb.categoryLevel}>
               <div className="text-skin-base text-opacity-40 mx-3">
-                <ChevronForward width="6px" height="10px" />
+                <ChevronRight width={6} height={10} />
               </div>
               <Link
                 href={{
@@ -45,7 +45,7 @@ const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
       {name && (
         <>
           <div className="text-skin-base text-opacity-40 text-15px mx-2">
-            <ChevronForward width="6px" height="10px" />
+            <ChevronRight width={6} height={10} />
           </div>
           <div className="inline-flex items-center text-black line-clamp-1">
             {name}

@@ -1,9 +1,9 @@
-import SiteLogo from '../../assets/icons/logo'
+import SiteLogo from '@dropgala/assets/icons/logo'
 
 const Logo = ({ width }: { width: number }) => {
   return (
     <div>
-      <SiteLogo width={width} id="id" />
+      <SiteLogo width={width} />
     </div>
   )
 }

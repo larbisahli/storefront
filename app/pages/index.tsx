@@ -44,6 +44,7 @@ const HomePage = ({ pageProps }: PageProps) => {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'exception')
   const { host, heroSlider = [], popularProducts } = pageProps
+  console.log({ storeConfig, popularProducts })
   return (
     <>
       <NextSeo

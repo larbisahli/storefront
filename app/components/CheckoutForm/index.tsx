@@ -9,86 +9,97 @@ import { useForm } from 'react-hook-form'
 
 import CheckoutInformation from '@components/CheckoutInformation'
 import { checkoutValidationSchema } from './checkout-validation-schema'
-import { CheckoutFormValues, CheckoutSteps } from '@dropgala/types'
+import {
+  CheckoutFormValues,
+  CheckoutSteps,
+  PaymentIntentType
+} from '@dropgala/types'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Button from './button'
 import CheckoutShipping from '@components/CheckoutShipping'
 import CheckoutPayment from '@components/CheckoutPayment'
+import { useMutation } from '@apollo/client'
+import { CREATE_ORDER } from 'graphql/order'
 
 const defaultValues = {
-  first_name: '',
-  last_name: '',
+  firstName: '',
+  lastName: '',
   email: '',
   address1: '',
-  address2: '',
-  country: null,
+  address2: null,
+  country: { name: 'Morocco', iso2: 'ma' },
   subscribe: false,
-  city: '',
-  state: '',
-  zip_code: '',
-  order_shipping: null
+  city: null,
+  state: null,
+  zipCode: null,
+  orderShipping: null,
+  paymentMethod: null
 }
 
-type IProps = {
-  initialValues?: any
-  isLoading: boolean
-}
-
-export default function CheckoutForm({ initialValues, isLoading }: IProps) {
+export default function CheckoutForm() {
   const router = useRouter()
 
   const { step, previous_step } = router.query
 
-  const [error, setEError] = useState()
+  const [{ clientSecret, paymentIntent }, setPaymentIntent] =
+    useState<PaymentIntentType>({
+      paymentIntent: null,
+      clientSecret: null
+    })
+
+  console.log('------------------------->', { clientSecret, paymentIntent })
+
+  const [error, setError] = useState()
 
   const {
     register,
     handleSubmit,
+    reset,
     control,
     formState: { errors },
-    trigger,
-    setError
+    watch,
+    trigger
   } = useForm<CheckoutFormValues>({
-    defaultValues: initialValues
-      ? {
-          ...initialValues
-        }
-      : (defaultValues as unknown),
+    defaultValues,
     resolver: yupResolver(checkoutValidationSchema)
   })
 
-  //   useErrorLogger(error);
+  const [CreateOrder, { loading }] = useMutation(CREATE_ORDER, {
+    context: {
+      headers: {
+        'x-csrf-token': 'csrfToken'
+      }
+    },
+    onCompleted: (data: { forgetPassword: { success: boolean } }) => {
+      if (data?.forgetPassword?.success) {
+        reset()
+      }
+    }
+  })
+
+  // useErrorLogger(error); SENTRY
 
   const onSubmit = async (values: CheckoutFormValues) => {
     // Create an order
-
-    const name = values.first_name
-      ? `${values.first_name} ${values.last_name}`
-      : values.last_name
-
     const variables = {
-      // Make sure to change this to your payment completion page
-      // return_url: `http://localhost:80/${ROUTES.COMPLETE_ORDER}`,
-      shipping: {
-        address: {
-          state: values.state,
-          city: values.city,
-          country: values.country.iso2,
-          postal_code: values.zip_code,
-          line1: values.address1,
-          line2: values.address2
-        },
-        name
+      ...values,
+      country: {
+        iso2: values.country.iso2,
+        name: values.country.name,
+        region: values.country.region,
+        subregion: values.country.subregion,
+        phoneCode: values.country.phone_code,
+        currency: values.country.currency
       },
-      payment_method_data: {
-        billing_details: {
-          email: values.email,
-          name
-        }
+      orderShipping: {
+        id: Number(values.orderShipping?.id)
       }
     }
+    console.log('onSubmit values :>> ', { values, variables })
 
-    console.log('onSubmit values :>> ', variables)
+    CreateOrder({ variables }).catch((err) => {
+      setError(err)
+    })
   }
 
   const validationToNextStep = async () => {
@@ -147,12 +158,13 @@ export default function CheckoutForm({ initialValues, isLoading }: IProps) {
     }
   }
 
+  const isLoading = false
+
   return (
     <div className="px-5 py-3 mt-10 sm:mt-0 flex justify-center h-full items-start">
       <div className="max-w-[550px]">
         <div className="mt-5 md:mt-0">
           {/* <CheckoutBreadcrumb /> */}
-
           <form
             className="relative min-h-[400px] sm:min-w-[500px] min-w-[300px] xs:min-w-[400px]"
             onSubmit={handleSubmit(onSubmit)}
@@ -186,7 +198,7 @@ export default function CheckoutForm({ initialValues, isLoading }: IProps) {
                 '!block': step === CheckoutSteps.PAYMENT_METHOD
               })}
             >
-              <CheckoutPayment register={register} />
+              <CheckoutPayment register={register} watch={watch} />
             </div>
             <div
               className={cn('my-5 flex items-center', {
@@ -234,7 +246,7 @@ export default function CheckoutForm({ initialValues, isLoading }: IProps) {
               ) : (
                 <Button
                   type="button"
-                  className="bg-black  font-medium place-content-end"
+                  className="bg-black font-semibold place-content-end"
                   loading={false}
                   disabled={false}
                   onClick={validationToNextStep}

@@ -1,4 +1,4 @@
-import { selectConfig, wrapper } from '@dropgala/store'
+import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
@@ -7,12 +7,17 @@ import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
   fetchStoreConfig,
+  fetchStoreLanguage,
   fetchStoreMenu,
   fetchStorePromoSlide
 } from '@gRPC/handlers'
 import { fetchStorePage } from '@gRPC/handlers/page'
 import { PageType } from '@dropgala/types/page.type'
 import PageCms from '@components/pageCms'
+import { LanguageType } from '@dropgala/types/config.type'
+import getMobileDetect from '@dropgala/utils/isMobile'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import Breadcrumb from '@components/Breadcrumb'
 
 interface PageProps {
   pageProps: {
@@ -29,16 +34,16 @@ const TermsAndConditionsPage = ({ pageProps }: PageProps) => {
     <>
       <NextSeo
         title={page?.name}
-        description={page?.seo?.metaDescription}
-        canonical={`https://${host?.host}/about-us`}
+        description={page?.metaDescription}
+        canonical={`https://${host?.host}/terms-and-conditions`}
         openGraph={{
-          url: `https://${host?.host}/about-us`,
-          title: page?.seo?.metaTitle,
-          description: page?.seo?.metaDescription,
+          url: `https://${host?.host}/terms-and-conditions`,
+          title: page?.metaTitle,
+          description: page?.metaDescription,
           images: [
             {
-              url: !!page?.seo?.ogImage?.length
-                ? `${mediaURL}/${page?.seo?.ogImage[0].image}`
+              url: !!page?.ogImage?.length
+                ? `${mediaURL}/${page?.ogImage[0].image}`
                 : '',
               width: 800,
               height: 600,
@@ -55,28 +60,30 @@ const TermsAndConditionsPage = ({ pageProps }: PageProps) => {
         }}
         additionalLinkTags={[
           {
-            rel: 'icon',
-            href: !!storeConfig?.favicon?.length
-              ? `${mediaURL}/${storeConfig?.favicon[0].image}`
-              : ''
+            rel: 'apple-touch-icon',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_ios_180x180.png`,
+            sizes: '180x180'
           },
           {
-            rel: 'apple-touch-icon',
-            href: 'https://www.test.ie/touch-icon-ipad.jpg',
-            sizes: '76x76'
+            rel: 'icon',
+            type: 'image/png',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_android_36x36.png`,
+            sizes: '36x36'
           },
           {
             rel: 'manifest',
-            href: '/manifest.json'
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
           }
         ]}
       />
-
-      <div className="mb-44 mx-2">
-        <section className="mb-12">
-          <PageCms page={page} />
-        </section>
-      </div>
+      <section className="mb-5">
+        <div className="pt-6 lg:pt-7">
+          <Breadcrumb breadcrumbs={[]} name={page.name} />
+        </div>
+      </section>
+      <section className="mb-44">
+        <PageCms page={page} />
+      </section>
     </>
   )
 }
@@ -86,31 +93,62 @@ TermsAndConditionsPage.Layout = AppLayout
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
     const { req, locale } = context
-
+    const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
+    const storeId = undefined
 
     try {
       if (!alias) {
         throw { error: { message: 'alias not specified' } }
       }
 
-      const page = await fetchStorePage(alias, 'terms-and-conditions')
+      // Check if store has locales
+      store.dispatch(await fetchStoreConfig(alias, storeId))
+      const { ConfigReducer } = store.getState()
+      const locales = ConfigReducer.locales as LanguageType[]
+
+      if (!locales) {
+        return {
+          notFound: true
+        }
+      }
+
+      // Check if incoming locale is available, if not redirect to default local
+      const currentLocale = locales?.find((l) => l.localeId === locale)
+      if (isEmpty(currentLocale)) {
+        const defaultLocale = locales?.find((l) => l.isDefault)
+        return {
+          redirect: {
+            destination: `/${defaultLocale?.localeId}`,
+            permanent: false
+          }
+        }
+      }
+
+      // Get current store language id for resource request
+      const storeLanguageId = currentLocale?.id!
+      const device = getMobileDetect(userAgent)
 
       // Redux Store
-      store.dispatch(await fetchStoreConfig(alias))
-      store.dispatch(await fetchStoreMenu(alias))
-      store.dispatch(await fetchStorePromoSlide(alias))
+      store.dispatch(setConfigDevice({ device }))
+      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
+      store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(
+        await fetchStorePromoSlide(alias, storeLanguageId, storeId)
+      )
+
+      // Page Query
+      const page = await fetchStorePage(
+        alias,
+        storeLanguageId,
+        'terms-and-conditions',
+        storeId
+      )
 
       return {
         props: {
           host: { host, alias },
           page
-          // ...(await serverSideTranslations(locale!, [
-          //   'common',
-          //   'forms',
-          //   'menu',
-          //   'footer'
-          // ]))
         }
       }
     } catch (error) {

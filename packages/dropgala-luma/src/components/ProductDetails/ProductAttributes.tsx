@@ -9,6 +9,7 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { AttributeValueType } from '@dropgala/types/attribute.type'
 import { ConfigType } from '@dropgala/types/config.type'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { AttributeTypeTypes } from '@dropgala/types'
 
 interface Props {
   className?: string
@@ -46,7 +47,9 @@ const ProductAttributes: React.FC<Props> = ({
       if (isEmpty(defaultVariationOption)) {
         selectedVariationOption =
           variationOptions?.reduce((acc, loc) =>
-            acc?.salePrice < loc?.salePrice ? acc : loc
+            acc?.price?.finalPrice?.value < loc?.price?.finalPrice?.value
+              ? acc
+              : loc
           ) ?? ({} as VariationOptionsType)
       } else {
         selectedVariationOption = defaultVariationOption
@@ -99,7 +102,9 @@ const ProductAttributes: React.FC<Props> = ({
           </span>
           <span className="mr-1 font-medium">:</span>
           <span className="text-13px text-gray-800">
-            {selectedVariation?.value?.value ?? ''}
+            {selectedVariation?.value?.name ??
+              selectedVariation?.value?.value ??
+              ''}
           </span>
         </div>
         <ul className="flex flex-wrap">

@@ -16,7 +16,7 @@ import {
   VariationOptionsType
 } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import CloseIcon from '../../assets/icons/close'
+import CloseIcon from '@dropgala/assets/icons/close'
 import cn from 'clsx'
 import React, { Dispatch, memo, useMemo, useState } from 'react'
 import Button from '../ui/Button'
@@ -161,7 +161,7 @@ const CheckoutItemModal: React.FC<Props> = ({
               role="button"
               className="absolute top-0 right-0 m-2"
             >
-              <CloseIcon width="10px" height="10px" />
+              <CloseIcon width={10} height={10} />
             </div>
             <div className="flex flex-wrap item-center justify-center w-full">
               <div className="w-auto flex rounded-sm mt-3 mb-3">

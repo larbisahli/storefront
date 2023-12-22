@@ -29,6 +29,7 @@ const Widgets: React.FC<WidgetsProps> = ({ storeConfig, widgets }) => {
           <WidgetLink
             key={`footer-widget--key${widget.id}`}
             data={widget}
+            storeConfig={storeConfig}
             className="pb-3.5 sm:pb-0 col-span-1 md:col-span-2"
           />
         ))}

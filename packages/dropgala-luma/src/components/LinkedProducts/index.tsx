@@ -43,13 +43,7 @@ const RelatedProducts = ({ title, products = [], children }: Props) => {
           modules={[Pagination]}
           className="mySwiper"
         >
-          {[
-            ...products,
-            ...products,
-            ...products,
-            ...products,
-            ...products
-          ]?.map((product) => {
+          {products?.map((product) => {
             return (
               <SwiperSlide className="my-5">
                 {children({ product, className: 'mx-auto' })}

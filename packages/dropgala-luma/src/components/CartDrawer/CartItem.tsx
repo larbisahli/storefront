@@ -13,6 +13,7 @@ import type { ImageType } from '@dropgala/types/common.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Link from '../ui/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 interface CartItemProps extends StoreProps {
   item: CartItemType
@@ -31,6 +32,8 @@ const CartItem: React.FC<CartItemProps> = ({
   const router = useRouter()
   const config = useAppSelector(selectConfig)
 
+  const { __ } = useTranslation(config.language, 'common')
+
   const { locale = 'en-US' } = router
 
   const {
@@ -39,23 +42,30 @@ const CartItem: React.FC<CartItemProps> = ({
     slug,
     type,
     quantity,
-    salePrice,
-    comparePrice,
+    price,
     variations,
     orderVariationOption = {} as VariationOptionsType
   } = item
 
-  const isVariableType = type === ProductTypes.Variable
+  const isConfigurable = type === ProductTypes.Variable
 
-  const selectedSalePrice = isVariableType
-    ? orderVariationOption?.salePrice
-    : salePrice
+  const selectedSalePrice = isConfigurable
+    ? orderVariationOption?.price?.finalPrice?.value
+    : price?.finalPrice?.value
 
-  const selectedComparePrice = isVariableType
-    ? orderVariationOption?.comparePrice
-    : comparePrice
+  const selectedDiscountPrice = isConfigurable
+    ? orderVariationOption?.price?.discount?.amountOff
+    : price?.discount?.amountOff
 
-  const productQuantity = isVariableType
+  const selectedDiscountPercent = isConfigurable
+    ? orderVariationOption?.price?.discount?.percentOff
+    : price?.discount?.percentOff
+
+  const finalPriceExclTaxValue = isConfigurable
+    ? orderVariationOption?.price?.finalPriceExclTax?.value
+    : price?.finalPriceExclTax?.value
+
+  const productQuantity = isConfigurable
     ? orderVariationOption?.quantity
     : quantity
 
@@ -67,32 +77,29 @@ const CartItem: React.FC<CartItemProps> = ({
     ? selectedItemThumbnail![0]
     : ({} as ImageType)
 
-  const price = usePrice({
+  const itemPrice = usePrice({
     amount: selectedSalePrice ?? 0,
     locale,
     currencyCode: config?.defaultCurrency?.code
   })
 
-  const productPrice = useMemo(() => price?.replace(/(\.0+|0+)$/, ''), [price])
-
-  const discount = usePrice({
-    amount: selectedComparePrice ?? 0,
+  const discountValue = usePrice({
+    amount: selectedDiscountPrice ?? 0,
     locale,
     currencyCode: config?.defaultCurrency?.code
   })
 
-  const productDiscount = useMemo(
-    () => discount?.replace(/(\.0+|0+)$/, ''),
-    [discount]
-  )
+  const ExclTaxFinalPrice = usePrice({
+    amount: (finalPriceExclTaxValue ?? 0) * (item.orderQuantity ?? 1),
+    locale: locale!,
+    currencyCode: config?.defaultCurrency?.code
+  })
 
   const total = usePrice({
     amount: (selectedSalePrice ?? 0) * (item.orderQuantity ?? 1),
     locale,
     currencyCode: config?.defaultCurrency?.code
   })
-
-  const totalPrice = useMemo(() => total?.replace(/(\.0+|0+)$/, ''), [total])
 
   const { image = '', placeholder = '' } = imageThumbnail
 
@@ -137,16 +144,21 @@ const CartItem: React.FC<CartItemProps> = ({
         <div className="flex items-center text-13px mt-3px mb-3px">
           <div>
             <span className="inline-block text-base lg:text-[19px] text-gray-900 font-semibold">
-              {productPrice}
+              {itemPrice}
             </span>
           </div>
 
-          {selectedComparePrice && (
+          {selectedDiscountPrice && (
             <div className="flex items-center">
               <div className="bg-gray-600 h-[17px] w-[1px] mx-1"></div>
               <del className="text-base text-gray-600 text-opacity-80">
-                {productDiscount}
+                {discountValue}
               </del>
+              {selectedDiscountPercent && (
+                <span className="mx-2 self-end pb-[2px] uppercase text-xs text-red-700 font-semibold">
+                  {`${Math.round(selectedDiscountPercent)}%`} off
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -163,6 +175,7 @@ const CartItem: React.FC<CartItemProps> = ({
                 </span>
                 <AttributeDisplay
                   {...{
+                    isConfigurable,
                     orderVariationOption,
                     variations,
                     variation
@@ -179,9 +192,14 @@ const CartItem: React.FC<CartItemProps> = ({
             onDecrement={() => decrementItem(item)}
             disabled={(productQuantity ?? 0) - (item.orderQuantity ?? 0) <= 0}
           />
-          <span className="font-semibold text-lg text-gray-900 flex-shrink-0">
-            {totalPrice}
-          </span>
+          <div className="flex flex-col items-end">
+            <span className="font-semibold text-lg text-gray-900 flex-shrink-0">
+              {total}
+            </span>
+            <span className="text-gray-800 text-xs font-medium">
+              {__('Excl. tax: %s', ExclTaxFinalPrice)}
+            </span>
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { wrapper } from '@dropgala/store'
+import { setConfigDevice, wrapper } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { getHost } from 'utils'
@@ -6,7 +6,10 @@ import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/layout/CheckoutLayout'
 import CheckoutCartItems from '@components/CheckoutCartItems'
 import OrderSummary from '@components/OrderSummary'
-import { fetchStoreConfig } from '@gRPC/handlers'
+import { fetchStoreConfig, fetchStoreLanguage } from '@gRPC/handlers'
+import { LanguageType } from '@dropgala/types/config.type'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import getMobileDetect from '@dropgala/utils/isMobile'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -50,26 +53,49 @@ CartPage.Layout = CheckoutLayout
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
     const { req, locale } = context
-
+    const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
+    const storeId = undefined
 
     try {
       if (!alias) {
         throw { error: { message: 'alias not specified' } }
       }
 
+      // Check if store has locales
+      store.dispatch(await fetchStoreConfig(alias, storeId))
+      const { ConfigReducer } = store.getState()
+      const locales = ConfigReducer.locales as LanguageType[]
+
+      if (!locales) {
+        return {
+          notFound: true
+        }
+      }
+
+      // Check if incoming locale is available, if not redirect to default local
+      const currentLocale = locales?.find((l) => l.localeId === locale)
+      if (isEmpty(currentLocale)) {
+        const defaultLocale = locales?.find((l) => l.isDefault)
+        return {
+          redirect: {
+            destination: `/${defaultLocale?.localeId}`,
+            permanent: false
+          }
+        }
+      }
+
+      // Get current store language id for resource request
+      const storeLanguageId = currentLocale?.id!
+      const device = getMobileDetect(userAgent)
+
       // Redux Store
-      store.dispatch(await fetchStoreConfig(alias))
+      store.dispatch(setConfigDevice({ device }))
+      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
 
       return {
         props: {
           host: { host, alias }
-          // ...(await serverSideTranslations(locale!, [
-          //   'common',
-          //   'forms',
-          //   'menu',
-          //   'footer'
-          // ]))
         }
       }
     } catch (error) {

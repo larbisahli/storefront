@@ -10,14 +10,14 @@ import {
   decrementItem,
   incrementItem,
   removeItem,
-  selectConfig,
-  toggleCart
+  selectConfig
 } from '@dropgala/store'
 import { CartItemType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import CheckoutItemModal from './CheckoutItemModal'
 import Image from '../common/Image'
 import Link from '../ui/Link'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 interface Props extends StoreProps {
   item: CartItemType
@@ -35,7 +35,9 @@ const CheckoutCartItem: FC<Props> = ({
 
   const dispatch = useAppDispatch!()
 
-  const config = useAppSelector(selectConfig)
+  const { defaultCurrency, language } = useAppSelector(selectConfig)
+
+  const { __ } = useTranslation(language, 'common')
 
   let [isOpen, setIsOpen] = useState(false)
 
@@ -45,59 +47,63 @@ const CheckoutCartItem: FC<Props> = ({
     slug,
     type,
     quantity,
-    salePrice,
-    comparePrice,
+    price,
     variations,
     orderVariationOption
   } = item
 
-  const isVariableType = type === ProductTypes.Variable
+  const isConfigurable = type === ProductTypes.Variable
 
   const selectedSalePrice =
-    (isVariableType ? orderVariationOption?.salePrice : salePrice) ?? 0
+    (isConfigurable
+      ? orderVariationOption?.price?.finalPrice.value
+      : price?.finalPrice.value) ?? 0
 
   const selectedComparePrice =
-    (isVariableType ? orderVariationOption?.comparePrice : comparePrice) ?? 0
+    (isConfigurable
+      ? orderVariationOption?.price?.discount?.amountOff
+      : price?.discount?.amountOff) ?? 0
 
   const productQuantity =
-    (isVariableType ? orderVariationOption?.quantity : quantity) ?? 0
+    (isConfigurable ? orderVariationOption?.quantity : quantity) ?? 0
+
+  const finalPriceExclTaxValue = isConfigurable
+    ? orderVariationOption?.price?.finalPriceExclTax?.value
+    : price?.finalPriceExclTax?.value
+
+  const selectedDiscountPercent = isConfigurable
+    ? orderVariationOption?.price?.discount?.percentOff
+    : price?.discount?.percentOff
 
   const { image, placeholder } = !isEmpty(orderVariationOption?.thumbnail)
-    ? orderVariationOption?.thumbnail[0]
+    ? orderVariationOption?.thumbnail[0] ?? { image: '', placeholder: '' }
     : !isEmpty(thumbnail)
     ? thumbnail![0]
     : { image: '', placeholder: '' }
 
-  const price = usePrice({
+  const ItemPrice = usePrice({
     amount: selectedSalePrice,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: defaultCurrency?.code
   })
-
-  const productPrice = price?.replace(/(\.0+|0+)$/, '')
 
   const discount = usePrice({
     amount: selectedComparePrice,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: defaultCurrency?.code
   })
-
-  const productDiscount = useMemo(
-    () => discount?.replace(/(\.0+|0+)$/, ''),
-    [discount]
-  )
 
   const total = usePrice({
     amount: selectedSalePrice * item?.orderQuantity!,
     locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    currencyCode: defaultCurrency?.code
   })
 
-  const totalPrice = useMemo(() => total?.replace(/(\.0+|0+)$/, ''), [total])
-
-  const hideCart = () => {
-    dispatch(toggleCart())
-  }
+  const ExclTaxFinalPrice = usePrice({
+    amount: finalPriceExclTaxValue ?? 0,
+    locale: locale!,
+    currencyCode: defaultCurrency?.code
+  })
 
   const handleOpenAttribute = () => {
     setIsOpen(true)
@@ -116,7 +122,7 @@ const CheckoutCartItem: FC<Props> = ({
         passHref
       >
         <div className="event flex w-110px h-165px rounded-sm overflow-hidden bg-gray-100 flex-shrink-0">
-          <div onClick={hideCart} className="relative">
+          <div className="relative">
             <Image
               src={image}
               customPlaceholder={placeholder}
@@ -152,7 +158,7 @@ const CheckoutCartItem: FC<Props> = ({
                 }
               )}
             >
-              <div onClick={hideCart}>{name}</div>
+              <div>{name}</div>
             </div>
           </Link>
 
@@ -164,22 +170,31 @@ const CheckoutCartItem: FC<Props> = ({
               }
             )}
           >
-            <div>
-              {!!price && (
-                <span className="inline-block text-[18px] lg:text-[19px] font-semibold">
-                  {productPrice}
-                </span>
-              )}
-            </div>
-
-            {!!selectedComparePrice && (
+            <div className="flex flex-col">
               <div className="flex items-center">
-                <div className="bg-gray-400 h-[10px] w-[1px] mx-1"></div>
-                <del className="text-[13px] text-gray-600 text-opacity-80">
-                  {productDiscount}
-                </del>
+                {!!ItemPrice && (
+                  <span className="inline-block text-[18px] lg:text-[19px] font-semibold">
+                    {ItemPrice}
+                  </span>
+                )}
+                {!!selectedComparePrice && (
+                  <div className="flex items-center">
+                    <div className="bg-gray-400 h-[10px] w-[1px] mx-1"></div>
+                    <del className="text-[13px] text-gray-600 text-opacity-80">
+                      {discount}
+                    </del>
+                    {selectedDiscountPercent && (
+                      <span className="mx-2 self-end pb-[2px] uppercase text-xs text-red-700 font-semibold">
+                        {`${Math.round(selectedDiscountPercent)}%`} off
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
-            )}
+              <span className="text-gray-800 text-xs font-medium">
+                {__('Excl. tax: %s', ExclTaxFinalPrice)}
+              </span>
+            </div>
           </div>
           {disabled && (
             <div className="mt-3 text-skin-red text-xs">Reselect</div>
@@ -191,10 +206,11 @@ const CheckoutCartItem: FC<Props> = ({
                   key={variation?.attribute?.id}
                   className="pr-2 flex items-center my-1"
                 >
-                  <span className="text-skin-base">
+                  <span className="text-gray-800">
                     {variation?.attribute?.name}:
                   </span>
                   <AttributeDisplay
+                    isConfigurable={isConfigurable}
                     orderVariationOption={orderVariationOption}
                     variations={variations}
                     variation={variation}
@@ -237,7 +253,7 @@ const CheckoutCartItem: FC<Props> = ({
           })}
         >
           <span className="font-semibold text-16px text-gray-900 flex-shrink-0">
-            {totalPrice}
+            {total}
           </span>
         </div>
       </div>

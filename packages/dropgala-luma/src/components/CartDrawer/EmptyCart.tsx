@@ -1,5 +1,5 @@
 import { ConfigType } from '@dropgala/types/config.type'
-import EmptyCartSVG from '../../assets/icons/empty-svg'
+import EmptyCartSVG from '@dropgala/assets/icons/empty-svg'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 export default function EmptyCart({

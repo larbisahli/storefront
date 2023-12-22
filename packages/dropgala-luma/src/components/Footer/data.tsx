@@ -2,47 +2,47 @@ export const footer = {
   widgets: [
     {
       id: 1,
-      widgetTitle: 'widget-title-about',
+      widgetTitle: 'About',
       lists: [
         {
           id: 1,
-          title: 'link-about-us',
+          title: 'About us',
           path: '/about-us'
         },
         {
           id: 2,
-          title: 'link-contact-us',
+          title: 'Contact us',
           path: '/contact-us'
         },
         {
           id: 3,
-          title: 'link-faq',
+          title: 'FAQ',
           path: '/faq'
         },
         {
           id: 4,
-          title: 'link-customer-support',
+          title: 'Customer Support',
           path: '/contact-us'
         }
       ]
     },
     {
       id: 2,
-      widgetTitle: 'widget-title-our-information',
+      widgetTitle: 'Information',
       lists: [
         {
           id: 1,
-          title: 'link-privacy',
+          title: 'Privacy',
           path: '/privacy'
         },
         {
           id: 2,
-          title: 'link-terms',
+          title: 'Terms',
           path: '/terms-and-conditions'
         },
         {
           id: 3,
-          title: 'link-return-policy',
+          title: 'Return Policy',
           path: '/return-policy'
         }
       ]

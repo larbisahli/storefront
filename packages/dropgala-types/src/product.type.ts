@@ -14,12 +14,34 @@ export interface VariationOptionsType {
   active: boolean
   thumbnail: ImageType[]
   options: number[]
-  salePrice: Scalars['Float']
-  comparePrice: Scalars['Float']
-  buyingPrice: Scalars['Float']
+  price: PriceType
   quantity: Scalars['Int']
   sku: Scalars['String']
   key?: string
+}
+
+export interface PriceType {
+  finalPrice: {
+    currency: {
+      code: string
+    }
+    value: number
+  }
+  finalPriceExclTax: {
+    currency: {
+      code: string
+    }
+    value: number
+  }
+  discount?: {
+    amountOff?: number
+    percentOff?: number
+  }
+}
+
+interface PriceRangeType {
+  maximumPrice: PriceType
+  minimumPrice: PriceType
 }
 
 export interface ProductType {
@@ -27,11 +49,8 @@ export interface ProductType {
   slug?: Scalars['String']
   name?: Scalars['String']
   sku?: Nullable<Scalars['String']>
-  salePrice?: Scalars['Float']
-  comparePrice?: Scalars['Float']
-  buyingPrice?: Scalars['Float']
-  maxPrice?: Scalars['Float']
-  minPrice?: Scalars['Float']
+  priceRange?: PriceRangeType
+  price?: PriceType
   quantity?: Scalars['Int']
   type?: ProductTypes
   inStock?: Scalars['Boolean']
@@ -54,6 +73,8 @@ export interface ProductType {
   // Order properties for the cart functionality
   orderQuantity?: number
   orderVariationOption?: VariationOptionsType | undefined
+  ratingSummary?: number
+  reviewCount?: number
 }
 
 export interface ProductSeoType {

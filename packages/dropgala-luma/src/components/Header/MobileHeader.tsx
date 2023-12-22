@@ -1,10 +1,10 @@
 import cn from 'clsx'
 import { memo, useEffect, useRef, useState } from 'react'
 
-import CartIcon from '../../assets/icons/cart-icon'
-import HomeSvg from '../../assets/icons/home'
-import MenuSearchIcon from '../../assets/icons/menu-search'
-import UserIcon from '../../assets/icons/user'
+import CartIcon from '@dropgala/assets/icons/cart-icon'
+import HomeSvg from '@dropgala/assets/icons/home'
+import MenuSearchIcon from '@dropgala/assets/icons/menu-search'
+import UserIcon from '@dropgala/assets/icons/user'
 
 interface Props {
   handleCart: () => void
@@ -64,7 +64,7 @@ const MobileHeader = ({
     >
       <div className="mx-3 flex-1 flex justify-center">
         <button className="text-gray-800 hover:text-red-500">
-          <HomeSvg width="25px" height="25px" />
+          <HomeSvg width={25} height={25} />
         </button>
       </div>
       <div className="mx-3 flex-1 flex justify-center">
@@ -72,12 +72,12 @@ const MobileHeader = ({
           className="text-gray-800 hover:text-red-500"
           onClick={handleMenu}
         >
-          <MenuSearchIcon width="28px" height="28px" />
+          <MenuSearchIcon width={28} height={28} />
         </button>
       </div>
       <div className="mx-3 flex-1 flex justify-center">
         <button className="text-gray-800 hover:text-red-500">
-          <UserIcon width="25px" height="25px" />
+          <UserIcon width={25} height={25} />
         </button>
       </div>
       <div className="mx-3 flex-1 flex justify-center">
@@ -86,7 +86,7 @@ const MobileHeader = ({
           onClick={handleCart}
           aria-label="cart-button"
         >
-          <CartIcon width="22px" height="22px" />
+          <CartIcon width={22} height={22} />
           <span
             className={cn(
               'absolute bg-red-600 rounded-full h-[16px] w-[16px] text-center text-white',

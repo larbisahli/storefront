@@ -1,3 +1,4 @@
+import { AttributeTypeTypes } from 'enums.type'
 import { Nullable, Scalars } from './custom.type'
 
 export interface AttributeValueType {
@@ -9,7 +10,7 @@ export interface AttributeValueType {
 
 export interface AttributeType {
   id?: number
-  type?: 'color' | 'text'
+  type?: AttributeTypeTypes
   name?: Scalars['String']
   values?: AttributeValueType[] | []
 }

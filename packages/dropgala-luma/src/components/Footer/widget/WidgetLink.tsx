@@ -1,5 +1,7 @@
+import { ConfigType } from '@dropgala/types/config.type'
 import Heading from '../../ui/Heading'
 import Link from '../../ui/Link'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 interface Props {
   className?: string
@@ -12,15 +14,16 @@ interface Props {
       icon?: any
     }[]
   }
+  storeConfig: ConfigType
 }
 
-const WidgetLink: React.FC<Props> = ({ className, data }) => {
+const WidgetLink: React.FC<Props> = ({ className, data, storeConfig }) => {
   const { widgetTitle, lists } = data
-  // const { t } = useTranslation('footer')
+  const { __ } = useTranslation(storeConfig?.language, 'common')
   return (
     <div className={`${className}`}>
       <Heading variant="mediumHeading" className="mb-4 sm:mb-5 lg:mb-6 pb-0.5">
-        {/* {t(`${widgetTitle}`)} */}
+        {__(`${widgetTitle}`)}
       </Heading>
       <ul className="text-sm lg:text-15px flex flex-col space-y-3">
         {lists.map((list) => (
@@ -38,7 +41,7 @@ const WidgetLink: React.FC<Props> = ({ className, data }) => {
               href={list.path ? list.path : '#!'}
               className="transition-colors duration-200 hover:text-skin-base"
             >
-              {/* {t(`${list.title}`)} */}
+              {__(`${list.title}`)}
             </Link>
           </li>
         ))}

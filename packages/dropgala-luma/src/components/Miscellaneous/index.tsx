@@ -1,6 +1,6 @@
 import React from 'react'
-import GridIcon from '../../assets/icons/grid'
-import ListIcon from '../../assets/icons/list'
+import GridIcon from '@dropgala/assets/icons/grid'
+import ListIcon from '@dropgala/assets/icons/list'
 import cn from 'clsx'
 import { ProductCardLayout } from '@dropgala/types'
 

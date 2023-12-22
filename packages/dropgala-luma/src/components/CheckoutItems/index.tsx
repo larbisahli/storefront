@@ -1,8 +1,8 @@
-import ArrowDownIcon from '../../assets/icons/arrow-down'
-import ArrowUpIcon from '../../assets/icons/arrow-up'
-import CardIcon from '../../assets/icons/card'
-import CloseIcon from '../../assets/icons/close'
-import CouponIcon from '../../assets/icons/coupon-icon'
+import ArrowDownIcon from '@dropgala/assets/icons/arrow-down'
+import ArrowUpIcon from '@dropgala/assets/icons/arrow-up'
+import CardIcon from '@dropgala/assets/icons/card'
+import CloseIcon from '@dropgala/assets/icons/close'
+import CouponIcon from '@dropgala/assets/icons/coupon-icon'
 import Scrollbar from '../common/Scrollbar'
 import Button from '../ui/Button'
 import Input from '../ui/Input1'
@@ -16,20 +16,26 @@ import CheckoutItem from './CheckoutItem'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { StoreProps, selectCart, selectConfig } from '@dropgala/store'
-import { UseCartItemsTotalPrice } from '../../hooks/useCartItemsTotalPrice'
+import {
+  UseCartItemsTotalPrice,
+  UseCartItemsTotalPriceExclTax
+} from '../../hooks/useCartItemsTotalPrice'
 import { useCartItemsCount } from '../../hooks/useCartItemsCount'
-import EditIcon from '../../assets/icons/edit'
+import EditIcon from '@dropgala/assets/icons/edit'
 import Link from '../ui/Link'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 interface Props extends StoreProps {}
 
 const CheckoutItems = ({ useAppSelector }: Props) => {
   const router = useRouter()
-  const { locale } = router
+  const { locale = 'en-US' } = router
 
   const [open, setOpen] = useState(false)
 
-  const config = useAppSelector(selectConfig)
+  const { defaultCurrency, tax, language } = useAppSelector(selectConfig)
+
+  const { __ } = useTranslation(language, 'common')
 
   const cart = useAppSelector(selectCart)
 
@@ -44,12 +50,25 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
 
   const itemsCount = useCartItemsCount(items)
 
-  const calculatePrice = UseCartItemsTotalPrice(cart)
+  const itemsTotalPrice = UseCartItemsTotalPrice(cart)
+  const totalPriceExclTax = UseCartItemsTotalPriceExclTax(cart)
 
   const totalPrice = usePrice({
-    amount: calculatePrice,
-    locale: locale!,
-    currencyCode: config?.currency?.code ?? 'USD'
+    amount: itemsTotalPrice,
+    locale,
+    currencyCode: defaultCurrency?.code
+  })
+
+  const totalExclTax = usePrice({
+    amount: totalPriceExclTax,
+    locale,
+    currencyCode: defaultCurrency?.code
+  })
+
+  const totalTax = usePrice({
+    amount: itemsTotalPrice - totalPriceExclTax,
+    locale,
+    currencyCode: defaultCurrency?.code
   })
 
   const isMobile = useMedia('(max-width: 1023px)', false)
@@ -62,6 +81,69 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
     }
   }, [isMobile])
 
+  const renderSubTotal = () => {
+    return (
+      <div className="mt-3 flex items-center justify-between">
+        <span className="text-gray-900 text-sm">
+          {__('Subtotal')} &nbsp;
+          <span className="font-normal text-gray-700 text-13px">
+            {__('(Incl. VAT)')}
+          </span>
+        </span>
+        <div className="flex flex-col items-end">
+          <span className="font-semibold text-base text-gray-900">
+            {totalPrice}
+          </span>
+          <div className="text-right w-full text-gray-900 text-xs font-medium">
+            {__('Excl. tax: %s', totalExclTax)}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const renderTaxTotal = () => {
+    return (
+      <div className="mt-3 flex items-center justify-between">
+        <span className="text-gray-900 text-sm">
+          {__('Tax total (%s)', `${tax?.rate}%`)}
+        </span>
+        <span className="text-sm font-semibold text-base text-gray-900">
+          {totalTax}
+        </span>
+      </div>
+    )
+  }
+
+  const renderDiscount = () => {
+    return (
+      <div className="mt-3 flex items-center justify-between">
+        <span className="text-gray-900 text-sm">
+          {__('Discount (%s)', '-5%')}
+        </span>
+        <span className="text-sm font-semibold text-base text-gray-900">
+          {'-$12.89'}
+        </span>
+      </div>
+    )
+  }
+
+  const renderTotal = () => {
+    return (
+      <div className="flex items-center justify-between">
+        <span className="text-black font-bold text-base">
+          {__('Order total')}
+        </span>
+        <div className="flex items-end flex-col">
+          <span className="text-black font-bold text-lg">{totalPrice}</span>
+          <div className="text-right w-full text-gray-800 text-xs font-medium">
+            {__('Excl. tax: %s', totalExclTax)}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="2xxl:max-w-[550px] mx-auto">
       <div
@@ -71,12 +153,16 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
       >
         <button
           onClick={() => setOpen((prev) => !prev)}
-          className="flex items-center justify-between px-4 p-3 w-full"
+          className="flex items-center justify-between p-3 w-full"
         >
           <div className="flex items-center">
-            <CardIcon width="1.3rem" height="1.3rem" />
-            <div className="p-1">Show order summary</div>
-            {open ? <ArrowUpIcon /> : <ArrowDownIcon />}
+            <CardIcon width={14} height={14} />
+            <div className="p-1">{__('Show order summary')}</div>
+            {open ? (
+              <ArrowUpIcon width={14} height={14} />
+            ) : (
+              <ArrowDownIcon width={14} height={14} />
+            )}
           </div>
           <span className="text-skin-base text-base font-medium">
             {totalPrice}
@@ -86,7 +172,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
 
       <div
         className={cn(
-          'py-4 px-6 lg:rounded-r-md rounded-none border border-b-gray-400 lg:border-b-transparent border-l-transparent',
+          'py-4 px-2 lg:rounded-r-md rounded-none border border-b-gray-400 lg:border-b-transparent border-l-transparent',
           { hidden: !open }
         )}
       >
@@ -101,25 +187,20 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
             <Link href="/cart">
               {' '}
               <span className="underline text-sm px-1 font-medium">
-                Edit shopping cart
+                {__('Edit shopping cart')}
               </span>
             </Link>
           </div>
         </div>
         {/* Cart Items */}
         <Scrollbar className="cart-scrollbar overflow-x-hidden !max-h-[300px] flex-grow pr-2">
-          {isEmpty(items)
-            ? Array.from({ length: 2 }).map((_, idx) => (
-                // <ProductItemLoader key={idx} />
-                <div>LOADING</div>
-              ))
-            : items?.map((item) => (
-                <CheckoutItem
-                  item={item}
-                  key={item.key || item.id}
-                  useAppSelector={useAppSelector}
-                />
-              ))}
+          {items?.map((item) => (
+            <CheckoutItem
+              item={item}
+              key={item.key || item.id}
+              useAppSelector={useAppSelector}
+            />
+          ))}
         </Scrollbar>
         <div
           style={{ background: 'rgba(0,0,0,0.05)' }}
@@ -132,7 +213,9 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
             inputClassName="placeholder-gray-500 border border-solid border-gray-400"
             placeholder="Discount code"
           />
-          <Button className="bg-gray-500 h-10 px-5 capitalize">Apply</Button>
+          <Button className="bg-black text-white h-10 px-5 capitalize">
+            {__('Apply')}
+          </Button>
         </div>
         {/* COUPON */}
         <div
@@ -140,13 +223,13 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
           className="flex items-center bg-gray-400 w-fit px-2 py-1 my-3 shadow-card"
         >
           <div>
-            <CouponIcon width="1.2rem" height="1.2rem" />
+            <CouponIcon width={14} height={14} />
           </div>
-          <div className="p-1 lg:max-w-[110px] overflow-hidden text-skin-base">
+          <div className="p-1 lg:max-w-[200px] overflow-hidden text-skin-base">
             {'VT_XYRXSQIZQ'}
           </div>
           <button className="m-1">
-            <CloseIcon width="10px" height="10px" />
+            <CloseIcon width={10} height={10} />
           </button>
         </div>
         <div
@@ -155,32 +238,18 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
         ></div>
         <div>
           <div className="flex items-center justify-between">
-            <span className="text-gray-700 text-sm">Subtotal</span>
-
-            <span className="text-gray-900">{totalPrice}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-gray-700 text-sm">Shipping</span>
-
-            <span className="text-12px text-gray-600">
-              calculated at next step
+            <span className="text-gray-900 text-sm">{__('Shipping')}</span>
+            <span className="text-12px text-gray-800">
+              {__('Calculated at next step')}
             </span>
           </div>
+          <div className="h-[1px] w-full bg-gray-400 my-10px"></div>
+          {renderSubTotal()}
+          {renderDiscount()}
+          {renderTaxTotal()}
         </div>
-        <div
-          style={{ background: 'rgba(0,0,0,0.05)' }}
-          className="split-line-thin my-20px"
-        ></div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-700 font-semibold text-base">Total</span>
-
-          <div className="flex items-end">
-            <span className="text-gray-600 pr-2 text-sm">{'USD'}</span>
-            <span className="font-semibold text-18px text-gray-800">
-              {totalPrice}
-            </span>
-          </div>
-        </div>
+        <div className="h-[1px] w-full bg-gray-400 my-20px"></div>
+        {renderTotal()}
       </div>
     </div>
   )
