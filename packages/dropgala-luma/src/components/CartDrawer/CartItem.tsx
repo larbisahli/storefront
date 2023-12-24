@@ -7,13 +7,16 @@ import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { useRouter } from 'next/router'
 import React, { memo, useMemo } from 'react'
 
-import { siteSettings } from '../../settings/site-settings'
 import { AttributeDisplay, Counter, Image } from '../common'
 import type { ImageType } from '@dropgala/types/common.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Link from '../ui/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import {
+  decrementItemThunk,
+  incrementItemThunk
+} from '@dropgala/store/Cart/thunks'
 
 interface CartItemProps extends StoreProps {
   item: CartItemType
@@ -27,12 +30,14 @@ const CartItem: React.FC<CartItemProps> = ({
   incrementItem,
   decrementItem,
   handleCloseCart,
-  useAppSelector
+  useAppSelector,
+  useAppDispatch
 }) => {
   const router = useRouter()
-  const config = useAppSelector(selectConfig)
+  const { language, defaultCurrency, csrf } = useAppSelector(selectConfig)
+  const dispatch = useAppDispatch()
 
-  const { __ } = useTranslation(config.language, 'common')
+  const { __ } = useTranslation(language, 'common')
 
   const { locale = 'en-US' } = router
 
@@ -80,28 +85,50 @@ const CartItem: React.FC<CartItemProps> = ({
   const itemPrice = usePrice({
     amount: selectedSalePrice ?? 0,
     locale,
-    currencyCode: config?.defaultCurrency?.code
+    currencyCode: defaultCurrency?.code
   })
 
   const discountValue = usePrice({
     amount: selectedDiscountPrice ?? 0,
     locale,
-    currencyCode: config?.defaultCurrency?.code
+    currencyCode: defaultCurrency?.code
   })
 
   const ExclTaxFinalPrice = usePrice({
     amount: (finalPriceExclTaxValue ?? 0) * (item.orderQuantity ?? 1),
     locale: locale!,
-    currencyCode: config?.defaultCurrency?.code
+    currencyCode: defaultCurrency?.code
   })
 
   const total = usePrice({
     amount: (selectedSalePrice ?? 0) * (item.orderQuantity ?? 1),
     locale,
-    currencyCode: config?.defaultCurrency?.code
+    currencyCode: defaultCurrency?.code
   })
 
   const { image = '', placeholder = '' } = imageThumbnail
+
+  const handleIncrementItem = () => {
+    dispatch(
+      incrementItemThunk({
+        cartId: '123',
+        itemId: '123',
+        storeId: '1233',
+        csrfToken: csrf?.csrfToken!
+      })
+    )
+  }
+
+  const handleDecrementItem = () => {
+    dispatch(
+      decrementItemThunk({
+        cartId: '123',
+        itemId: '123',
+        storeId: '1233',
+        csrfToken: csrf?.csrfToken!
+      })
+    )
+  }
 
   return (
     <div
@@ -188,8 +215,8 @@ const CartItem: React.FC<CartItemProps> = ({
         <div className="flex items-center justify-between">
           <Counter
             value={item.orderQuantity ?? 1}
-            onIncrement={() => incrementItem(item)}
-            onDecrement={() => decrementItem(item)}
+            onIncrement={handleIncrementItem}
+            onDecrement={handleDecrementItem}
             disabled={(productQuantity ?? 0) - (item.orderQuantity ?? 0) <= 0}
           />
           <div className="flex flex-col items-end">

@@ -15,7 +15,7 @@ import { TypedUseSelectorHook } from '@dropgala/types'
 
 const PRODUCTION_ENV = process.env.NODE_ENV === 'production'
 
-export function makeStore() {
+export function createStore() {
   return configureStore({
     reducer: {
       CartReducer,
@@ -37,13 +37,13 @@ export function makeStore() {
   })
 }
 
-const store = makeStore()
+const store = createStore()
 
 export const wrapper: ReturnType<typeof createWrapper> =
-  createWrapper<AppStore>(makeStore, { debug: true })
+  createWrapper<AppStore>(createStore, { debug: true })
 
 // **** Types ****
-export type AppStore = ReturnType<typeof makeStore>
+export type AppStore = ReturnType<typeof createStore>
 
 export type AppState = ReturnType<AppStore['getState']>
 

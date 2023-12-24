@@ -7,6 +7,7 @@ import { AppState } from '../store'
 
 export interface StoreConfigState extends ConfigType {
   theme: StoreThemes
+  csrf?: { csrfToken?: string; csrfError?: string }
 }
 
 const initialState: StoreConfigState = {

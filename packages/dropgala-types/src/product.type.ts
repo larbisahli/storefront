@@ -115,4 +115,5 @@ export type CartItemType = ProductType & {
 export interface CartState {
   items: CartItemType[]
   coupon: CouponType
+  status: 'idle' | 'pending' | 'succeeded' | 'failed'
 }

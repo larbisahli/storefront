@@ -57,6 +57,7 @@
     "@dropgala/store": "workspace:*",
     "@dropgala/types": "workspace:*",
     "@dropgala/utils": "workspace:*",
+    "@apollo/client": "^3.7.11",
     "@stripe/react-stripe-js": "^2.4.0",
     "@stripe/stripe-js": "^2.2.1",
     "clsx": "^1.1.1",

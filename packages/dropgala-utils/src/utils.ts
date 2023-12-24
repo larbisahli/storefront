@@ -85,3 +85,5 @@ export const toTwoDecimalPlaces = (number: number) => {
       })
     : null
 }
+
+export const daysToSeconds = (days: number) => 60 * 60 * (24 * days)

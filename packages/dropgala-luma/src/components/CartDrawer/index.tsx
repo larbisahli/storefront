@@ -114,7 +114,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="flex-1 overflow-y-auto">{renderContent()}</div>
+      <div className="flex-1 overflow-hidden">{renderContent()}</div>
       <div className={cn('flex flex-col lg:!mb-0 !mb-12')}>
         <div
           style={{ background: 'rgba(0,0,0,0.03)' }}

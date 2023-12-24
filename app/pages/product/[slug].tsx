@@ -185,7 +185,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias, storeId))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 

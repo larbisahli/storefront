@@ -1,6 +1,5 @@
-import { setConfigDevice, wrapper } from '@dropgala/store'
+import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
-import Head from 'next/head'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/layout/CheckoutLayout'
@@ -10,22 +9,66 @@ import CheckoutItems from '@components/CheckoutItems'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import getMobileDetect from '@dropgala/utils/isMobile'
+import { useAppSelector } from '@hooks/useStore'
+import { NextSeo } from 'next-seo'
+import { mediaURL } from '@dropgala/utils/utils'
+import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { XSRFHandler } from '@middleware/utils'
 
 interface Props {
   host: { host: string; subdomain: string }
 }
 
 export default function CheckoutPage({ host }: Props) {
+  const storeConfig = useAppSelector(selectConfig)
+  const { __ } = useTranslation(storeConfig?.language, 'common')
+  console.log({ storeConfig })
   return (
     <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
-        <meta name="Description" content="Put your description here." />
-        <title>Checkout</title>
-      </Head>
+      <NextSeo
+        title={__('Checkout')}
+        description={storeConfig?.seo?.metaDescription}
+        canonical={`https://${host?.host}`}
+        openGraph={{
+          url: `https://${host?.host}`,
+          title: storeConfig?.seo?.metaTitle,
+          description: storeConfig?.seo?.metaDescription,
+          images: [
+            {
+              url: !!storeConfig?.seo?.ogImage?.length
+                ? `${mediaURL}/${storeConfig?.seo?.ogImage[0].image}`
+                : '',
+              width: 800,
+              height: 600,
+              alt: 'Og Image Alt',
+              type: 'image/png'
+            }
+          ],
+          siteName: storeConfig?.storeName
+        }}
+        twitter={{
+          handle: storeConfig?.seo?.twitterHandle,
+          site: '@site',
+          cardType: 'summary_large_image'
+        }}
+        additionalLinkTags={[
+          {
+            rel: 'apple-touch-icon',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_ios_180x180.png`,
+            sizes: '180x180'
+          },
+          {
+            rel: 'icon',
+            type: 'image/png',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_android_36x36.png`,
+            sizes: '36x36'
+          },
+          {
+            rel: 'manifest',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
+          }
+        ]}
+      />
       <div className="mb-44 mx-2">
         <section className="w-full flex justify-center my-30px">
           <CheckoutBreadcrumb />
@@ -63,7 +106,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias, storeId))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 

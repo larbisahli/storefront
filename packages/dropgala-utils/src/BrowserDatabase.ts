@@ -1,9 +1,11 @@
 // TODO: maybe consider moving to IndexedDB instead of localStorage
 
 import { localStorageKeyNames } from '@dropgala/types'
+import { daysToSeconds } from 'utils'
 
-export const ONE_MONTH_IN_SECONDS = 2592000
-export const THREE_DAYS_IN_SECONDS = 259200
+export const ONE_MONTH_IN_SECONDS = daysToSeconds(30)
+export const FIFTEEN_DAYS_IN_SECONDS = daysToSeconds(15)
+export const THREE_DAYS_IN_SECONDS = daysToSeconds(3)
 
 /**
  * Set of helpers related to Browser Database

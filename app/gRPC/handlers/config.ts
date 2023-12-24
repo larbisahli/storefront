@@ -2,15 +2,28 @@ import { setConfig, setLanguage } from '@dropgala/store'
 import { ConfigType, LanguageType } from '@dropgala/types/config.type'
 import { ConfigService } from '@gRPC/services'
 import LanguageService from '@gRPC/services/language.service'
+import { XSRFHandler } from '@middleware/utils'
+import { GetServerSidePropsContext } from 'next'
 
-export const fetchStoreConfig = async (alias: string, storeId?: string) => {
+export const fetchStoreConfig = async (
+  context: GetServerSidePropsContext,
+  alias: string,
+  storeId?: string
+) => {
   const storeConfig = new ConfigService()
   const { config = null, error: configError } =
     await storeConfig.getStoreConfig(alias, storeId)
   if (configError) throw { configError }
   if (!config) throw { message: 'Returned value from RPC is undefined' }
+
+  const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+
   return setConfig({
-    storeConfig: { theme: '@dropgala/luma', ...config } as unknown as ConfigType
+    storeConfig: {
+      theme: '@dropgala/luma',
+      csrf: { csrfToken, csrfError },
+      ...config
+    } as unknown as ConfigType
   })
 }
 

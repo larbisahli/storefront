@@ -6,6 +6,7 @@ import CouponIcon from '@dropgala/assets/icons/coupon-icon'
 import Scrollbar from '../common/Scrollbar'
 import Button from '../ui/Button'
 import Input from '../ui/Input1'
+import { useMutation, gql } from '@apollo/client'
 // import { ProductItemLoader } from '@components/ui/loaders/product-details-loaders';
 import { useMedia } from '../../hooks/useMedia'
 import cn from 'clsx'
@@ -25,6 +26,15 @@ import EditIcon from '@dropgala/assets/icons/edit'
 import Link from '../ui/Link'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
+export const CREATE_CATEGORY = gql`
+  mutation ApplyCoupon($code: String!, $cartId: String!, $storeId: String!) {
+    applyCoupon(code: $code, cartId: $cartId, storeId: $storeId) {
+      id
+      code
+    }
+  }
+`
+
 interface Props extends StoreProps {}
 
 const CheckoutItems = ({ useAppSelector }: Props) => {
@@ -32,14 +42,39 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
   const { locale = 'en-US' } = router
 
   const [open, setOpen] = useState(false)
+  const [couponCode, setCouponCode] = useState(null)
 
-  const { defaultCurrency, tax, language } = useAppSelector(selectConfig)
+  const { defaultCurrency, tax, language, csrf } = useAppSelector(selectConfig)
 
   const { __ } = useTranslation(language, 'common')
 
   const cart = useAppSelector(selectCart)
 
   const { items = [] } = cart
+
+  const [applyCoupon, { loading }] = useMutation(CREATE_CATEGORY, {
+    context: {
+      headers: {
+        'x-csrf-token': csrf?.csrfToken
+      }
+    },
+    onCompleted: (data: any) => {
+      console.log('=========>', { data })
+    }
+  })
+  const handleCoupon = () => {
+    console.log({ couponCode })
+    applyCoupon({
+      variables: {
+        code: couponCode,
+        cartId: 'CARD_ID',
+        storeId: '1234'
+      }
+    }).catch((err) => {
+      console.log({ err })
+      // setError(err);
+    })
+  }
 
   // In case the cart is empty
   useEffect(() => {
@@ -212,8 +247,14 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
             className="w-full mr-3"
             inputClassName="placeholder-gray-500 border border-solid border-gray-400"
             placeholder="Discount code"
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
           />
-          <Button className="bg-black text-white h-10 px-5 capitalize">
+          <Button
+            onClick={handleCoupon}
+            loading={loading}
+            className="bg-black text-white h-10 px-5 capitalize"
+          >
             {__('Apply')}
           </Button>
         </div>

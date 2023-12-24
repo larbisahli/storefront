@@ -26,6 +26,7 @@
       "@hooks": ["hooks/index"],
       "@assets": ["assets/index"],
       "@gRPC/*": ["gRPC/*"],
+      "@middleware/*": ["middleware/*"],
       "@gRPC": ["gRPC/index"]
     },
     "incremental": true

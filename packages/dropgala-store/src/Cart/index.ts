@@ -1,36 +1,15 @@
-// import { Request } from '@graphql/index';
-// import { PRODUCT_CART } from '@graphql/queries/product';
-import { ProductTypes, localStorageKeyNames } from '@dropgala/types/enums.type'
+import { ProductTypes } from '@dropgala/types/enums.type'
 import type { CartItemType, CartState } from '@dropgala/types/product.type'
-import BrowserDatabase, {
-  ONE_MONTH_IN_SECONDS
-} from '@dropgala/utils/BrowserDatabase'
 import { filter, isArray } from '@dropgala/utils/lodashFunctions'
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
-
 import type { AppState } from '../index'
-
-export const fetchProductInfo = createAsyncThunk(
-  'cart/fetchProductInfo',
-  async (id: string) => {
-    // const response = await Request(PRODUCT_CART, { id });
-    // return response?.productCart;
-    return { id, variationOptions: [] }
-  }
-)
+import { incrementItemThunk } from './thunks'
 
 const initialState: CartState = {
   items: [],
-  coupon: {}
-}
-
-const updateBrowserDatabase = (state: CartState) => {
-  BrowserDatabase.setItem(
-    state,
-    localStorageKeyNames.CART_TOTALS,
-    ONE_MONTH_IN_SECONDS
-  )
+  coupon: {},
+  status: 'pending'
 }
 
 export const cartSlice = createSlice({
@@ -52,7 +31,6 @@ export const cartSlice = createSlice({
         variations: variations ?? [],
         ...rest
       })
-      updateBrowserDatabase(state)
     },
     updateItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const updatedItem = action.payload
@@ -82,7 +60,6 @@ export const cartSlice = createSlice({
         }
         return item
       })
-      updateBrowserDatabase(state)
     },
     removeItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
@@ -90,7 +67,6 @@ export const cartSlice = createSlice({
         state.items,
         (item: CartItemType) => item.key !== key
       )
-      updateBrowserDatabase(state)
     },
     incrementItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
@@ -100,7 +76,6 @@ export const cartSlice = createSlice({
         }
         return item
       })
-      updateBrowserDatabase(state)
     },
     decrementItem: (state: CartState, action: PayloadAction<CartItemType>) => {
       const key = action.payload.key
@@ -118,7 +93,6 @@ export const cartSlice = createSlice({
           (item: CartItemType) => item.key !== key
         )
       }
-      updateBrowserDatabase(state)
     },
     setOrderQuantity: (
       state: CartState,
@@ -150,7 +124,6 @@ export const cartSlice = createSlice({
         }
         return item
       })
-      updateBrowserDatabase(state)
     },
     setOrderVariationOption: (
       state: CartState,
@@ -167,7 +140,6 @@ export const cartSlice = createSlice({
         }
         return item
       })
-      updateBrowserDatabase(state)
     },
     setCartInit: (
       state: CartState,
@@ -183,33 +155,40 @@ export const cartSlice = createSlice({
         state.items = []
       }
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(incrementItemThunk.pending, (state, action) => {
+        state.status = 'pending'
+      })
+      .addCase(incrementItemThunk.fulfilled, (state, action) => {
+        console.log('FULFILLED:>>>', { state, action })
+        state.status = 'idle'
+        return state
+        // state.items = state.items?.map((item) => {
+        //   if (item?.id === action.payload?.id) {
+        //     return {
+        //       ...item,
+        //       ...(action.payload ?? {}),
+        //       orderVariationOption: minPricedVariationOption(
+        //         action.payload?.variationOptions
+        //       )
+        //     }
+        //   }
+        //   return item
+        // })
+      })
+      .addCase(incrementItemThunk.rejected, (_, action) => {
+        // sentry({
+        //   message: 'action.payload rejected',
+        //   error: action?.error as Error
+        // });
+        console.log({
+          message: 'action.payload rejected',
+          error: action?.error as Error
+        })
+      })
   }
-  // extraReducers: (builder) => {
-  //   builder.addCase(fetchProductInfo.fulfilled, (state, action) => {
-  //     state.items = state.items?.map((item) => {
-  //       if (item?.id === action.payload?.id) {
-  //         return {
-  //           ...item,
-  //           ...(action.payload ?? {}),
-  //           orderVariationOption: minPricedVariationOption(
-  //             action.payload?.variationOptions
-  //           )
-  //         }
-  //       }
-  //       return item
-  //     })
-  //   })
-  //   builder.addCase(fetchProductInfo.rejected, (_, action) => {
-  //     // sentry({
-  //     //   message: 'action.payload rejected',
-  //     //   error: action?.error as Error
-  //     // });
-  //     console.log({
-  //       message: 'action.payload rejected',
-  //       error: action?.error as Error
-  //     })
-  //   })
-  // }
 })
 
 export const {

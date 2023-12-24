@@ -86,11 +86,10 @@ function AttributeDisplay({
       <div
         className={cn(
           'rounded border shadow-badge flex justify-center items-center font-medium',
-          'text-sm text-gray-700 transition duration-200 ease-in-out py-1 px-2 border-gray-300',
+          'text-sm text-gray-700 !w-5 !h-5 transition duration-200 ease-in-out py-1 px-2 border-gray-300',
           {
             '!rounded-full': isColor,
-            '!w-5': isColor,
-            '!h-5': isColor,
+            '!p-1 h-0': !isColor,
             'border-none': isOnClick
           }
         )}
