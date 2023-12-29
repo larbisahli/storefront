@@ -2,6 +2,7 @@ import '@styles/tailwind.css'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
+import { Toaster } from 'react-hot-toast'
 import { ApolloProvider } from '@apollo/client'
 import ErrorBoundary from '@components/common/ErrorBoundary'
 import { wrapper } from '@dropgala/store'
@@ -10,6 +11,7 @@ import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import InstallPrompt from '@components/InstallPrompt'
 import CookiePopup from '@components/CookiePopup'
+import LoadingBar from '@components/common/loading-bar'
 
 const Noop: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>{children}</>
@@ -23,6 +25,12 @@ const App = ({ Component, ...rest }: AppProps) => {
       <Provider store={store}>
         <ApolloProvider client={apolloClient}>
           <Layout {...props}>
+            <LoadingBar />
+            <Toaster
+              containerStyle={{
+                top: 160
+              }}
+            />
             <InstallPrompt />
             <CookiePopup />
             <Component {...props} />

@@ -100,6 +100,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
             <CartItem
               key={item.key}
               item={item}
+              status={cart.status}
               useAppSelector={useAppSelector}
               useAppDispatch={useAppDispatch}
               incrementItem={incrementItem}

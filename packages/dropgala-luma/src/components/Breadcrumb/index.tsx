@@ -12,10 +12,10 @@ interface Props {
 
 const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
   return (
-    <div className="items-center text-sm text-gray-700 mb-4 hidden lg:flex">
+    <div className="items-center text-xs text-gray-700 mb-4 hidden lg:flex">
       <Link href={ROUTES.HOME}>
         <div className="flex items-center hover:text-rose-500">
-          <div className="mr-1.5 text-skin-base text-15px">
+          <div className="mr-1.5 text-skin-base text-xs">
             <HomeOutline />
           </div>
           Home
@@ -27,7 +27,7 @@ const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
           return (
             <Fragment key={breadcrumb.categoryLevel}>
               <div className="text-skin-base text-opacity-40 mx-3">
-                <ChevronRight width={6} height={10} />
+                <ChevronRight width={10} height={10} />
               </div>
               <Link
                 href={{
@@ -35,7 +35,7 @@ const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
                   query: { slug: breadcrumb.categoryUrl }
                 }}
               >
-                <div className="flex items-center hover:text-rose-500">
+                <div className="flex items-center leading-none text-xs hover:text-rose-500">
                   {breadcrumb?.categoryName}
                 </div>
               </Link>
@@ -44,10 +44,10 @@ const Breadcrumb: React.FC<Props> = ({ name, breadcrumbs }) => {
         })}
       {name && (
         <>
-          <div className="text-skin-base text-opacity-40 text-15px mx-2">
-            <ChevronRight width={6} height={10} />
+          <div className="text-skin-base text-opacity-40 text-xs mx-2">
+            <ChevronRight width={10} height={10} />
           </div>
-          <div className="inline-flex items-center text-black line-clamp-1">
+          <div className="inline-flex items-center leading-none text-black line-clamp-1">
             {name}
           </div>
         </>

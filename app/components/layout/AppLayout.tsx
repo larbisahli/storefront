@@ -56,7 +56,7 @@ const AppLayout = ({ children, className }: Props) => {
         )}
       >
         <div className="flex flex-col flex-grow">
-          <div className="mt-[101px] lg:mt-[183px] flex-auto">
+          <div className="mt-[101px] lg:mt-[150px] flex-auto">
             <div className="z-40"></div>
             {children}
           </div>

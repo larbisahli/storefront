@@ -3,7 +3,7 @@ import { AttributeType, AttributeValueType } from './attribute.type'
 import { CategoryType } from './category.type'
 import { ImageType } from './common.type'
 import { Nullable, Scalars } from './custom.type'
-import { ProductTypes } from './enums.type'
+import { ProductTypes, ThunkStatus } from './enums.type'
 import { TagType } from './tag.type'
 
 export interface VariationOptionsType {
@@ -115,5 +115,5 @@ export type CartItemType = ProductType & {
 export interface CartState {
   items: CartItemType[]
   coupon: CouponType
-  status: 'idle' | 'pending' | 'succeeded' | 'failed'
+  status: ThunkStatus
 }

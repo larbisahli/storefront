@@ -48,6 +48,8 @@ export default function ProductPage({ pageProps }: PageProps) {
 
   const { host, product = {} } = pageProps
 
+  console.log({ product })
+
   const {
     productSeo,
     relatedProducts = [],
@@ -142,8 +144,8 @@ export default function ProductPage({ pageProps }: PageProps) {
       </Head>
       <div className="mb-44 max-w-[1300px] xl:max-w-[1500px] mx-auto">
         {/* PRODUCT DETAIL PAGE */}
-        <section className="mb-5 py-35px">
-          <div className="pt-6 lg:pt-7">
+        <section className="mb-5">
+          <div className="pt-2">
             <div className="mx-auto">
               <Breadcrumb name={product?.name!} breadcrumbs={breadcrumbs} />
             </div>

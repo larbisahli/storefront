@@ -6,7 +6,7 @@ import componentFactory from '@lib/componentFactory'
 
 interface Props {
   name?: string
-  breadcrumbs: CategoryType['categorySeo']['breadcrumbs']
+  breadcrumbs: CategoryType['breadcrumbs']
 }
 
 const Breadcrumb = ({ name, breadcrumbs }: Props) => {

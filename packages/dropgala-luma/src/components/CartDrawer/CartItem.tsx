@@ -1,4 +1,4 @@
-import { ProductTypes } from '@dropgala/types'
+import { ProductTypes, ThunkStatus } from '@dropgala/types'
 import type {
   CartItemType,
   VariationOptionsType
@@ -17,9 +17,11 @@ import {
   decrementItemThunk,
   incrementItemThunk
 } from '@dropgala/store/Cart/thunks'
+import Loader from '../ui/loader'
 
 interface CartItemProps extends StoreProps {
   item: CartItemType
+  status: ThunkStatus
   incrementItem: (item: CartItemType) => void
   decrementItem: (item: CartItemType) => void
   handleCloseCart: () => void
@@ -27,6 +29,7 @@ interface CartItemProps extends StoreProps {
 
 const CartItem: React.FC<CartItemProps> = ({
   item,
+  status,
   incrementItem,
   decrementItem,
   handleCloseCart,
@@ -112,7 +115,7 @@ const CartItem: React.FC<CartItemProps> = ({
     dispatch(
       incrementItemThunk({
         cartId: '123',
-        itemId: '123',
+        itemId: 1222,
         storeId: '1233',
         csrfToken: csrf?.csrfToken!
       })
@@ -123,7 +126,7 @@ const CartItem: React.FC<CartItemProps> = ({
     dispatch(
       decrementItemThunk({
         cartId: '123',
-        itemId: '123',
+        itemId: 123,
         storeId: '1233',
         csrfToken: csrf?.csrfToken!
       })
@@ -135,6 +138,11 @@ const CartItem: React.FC<CartItemProps> = ({
       className="w-full h-auto flex justify-start items-start bg-white py-6 p-3 lg:p-70 border-b
                     border-gray-200 relative last:border-b-0"
     >
+      {ThunkStatus.PENDING === status && (
+        <div className="absolute top-0 bottom-0 left-0 right-0 bg-black/10 z-40 flex justify-center items-center">
+          <Loader />
+        </div>
+      )}
       <Link
         href={{
           pathname: '/product/[slug]',

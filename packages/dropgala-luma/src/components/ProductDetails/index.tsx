@@ -7,7 +7,7 @@ import cn from 'clsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Navigation } from 'swiper/modules'
 
-import { ProductTypes } from '@dropgala/types'
+import { ProductTypes, ThunkStatus } from '@dropgala/types'
 import type { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import type { ImageType } from '@dropgala/types/common.type'
@@ -33,6 +33,8 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import useWindowSize from 'hooks/useWindowSize'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import StarIcon from '@dropgala/assets/icons/star'
+import { addItemThunk } from '@dropgala/store/Cart/thunks'
+import { notify } from '../ui/toast'
 
 interface Props extends StoreProps {
   product: ProductType
@@ -40,7 +42,9 @@ interface Props extends StoreProps {
 
 const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   const cart = useAppSelector(selectCart)
-  const { device, language } = useAppSelector(selectConfig)
+  const { device, language, csrf } = useAppSelector(selectConfig)
+
+  console.log({ cart })
 
   const { __ } = useTranslation(language, 'common')
 
@@ -116,6 +120,23 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
     const items = cartItems?.filter((item: ProductType) => item.id === id)
     const orderQuantity = selectedQuantity
 
+    dispatch(
+      addItemThunk({
+        cartId: '123',
+        itemId: 666,
+        storeId: '1233',
+        csrfToken: csrf?.csrfToken!
+      })
+    ).then((data) => {
+      console.log({ data })
+      if (data?.meta.requestStatus === ThunkStatus.FULFILLED) {
+        notify.success('Product was added to cart!')
+      }
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        notify.error('There was an error!')
+      }
+    })
+
     if (isConfigurable) {
       const variationOptionExist = items?.find((item) => {
         return (
@@ -163,7 +184,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
       }
     }
 
-    dispatch(toggleCart())
+    // dispatch(toggleCart())
     setSelectedQuantity(1)
   }
 
@@ -277,7 +298,10 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
           <div className="flex items-center w-full">
             <Button
               onClick={addToCart}
-              disabled={productQuantity === 0}
+              disabled={
+                productQuantity === 0 || ThunkStatus.PENDING === cart.status
+              }
+              loading={ThunkStatus.PENDING === cart.status}
               className={cn(
                 'bg-gray-900 hover:bg-gray-800 text-white rounded-sm font-semibold text-lg mr-2 flex-1 h-[50px]',
                 { '!bg-gray-700': productQuantity === 0 }

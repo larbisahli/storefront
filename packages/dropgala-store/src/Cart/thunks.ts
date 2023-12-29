@@ -16,7 +16,7 @@ export const incrementItemThunk = createAsyncThunk(
     csrfToken
   }: {
     cartId: string
-    itemId: string
+    itemId: number
     storeId: string
     csrfToken: string
   }) => {
@@ -49,7 +49,7 @@ export const decrementItemThunk = createAsyncThunk(
     csrfToken
   }: {
     cartId: string
-    itemId: string
+    itemId: number
     storeId: string
     csrfToken: string
   }) => {
@@ -73,8 +73,8 @@ export const decrementItemThunk = createAsyncThunk(
   }
 )
 
-export const AddItemThunk = createAsyncThunk(
-  'cart/decrementItem',
+export const addItemThunk = createAsyncThunk(
+  'cart/addItemThunk',
   async ({
     cartId,
     itemId,
@@ -82,7 +82,7 @@ export const AddItemThunk = createAsyncThunk(
     csrfToken
   }: {
     cartId: string
-    itemId: string
+    itemId: number
     storeId: string
     csrfToken: string
   }) => {
@@ -100,7 +100,7 @@ export const AddItemThunk = createAsyncThunk(
       },
       fetchPolicy: 'no-cache'
     })
-    console.log({ data })
+    console.log('AddItemThunk :>>', { data })
     const { cart, error } = data ?? {}
     return { cart, error }
   }

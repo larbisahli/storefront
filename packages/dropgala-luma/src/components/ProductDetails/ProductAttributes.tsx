@@ -9,7 +9,6 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { AttributeValueType } from '@dropgala/types/attribute.type'
 import { ConfigType } from '@dropgala/types/config.type'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
-import { AttributeTypeTypes } from '@dropgala/types'
 
 interface Props {
   className?: string
@@ -65,6 +64,7 @@ const ProductAttributes: React.FC<Props> = ({
           value: (v?.values?.filter((v) => options.includes(v?.id!)) ?? [])[0]
         }
       })
+      console.log({ results })
 
       setSelectedVariations(results)
     } catch (error) {

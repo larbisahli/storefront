@@ -1,15 +1,15 @@
-import { ProductTypes } from '@dropgala/types/enums.type'
+import { ProductTypes, ThunkStatus } from '@dropgala/types/enums.type'
 import type { CartItemType, CartState } from '@dropgala/types/product.type'
 import { filter, isArray } from '@dropgala/utils/lodashFunctions'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
 import type { AppState } from '../index'
-import { incrementItemThunk } from './thunks'
+import { addItemThunk, incrementItemThunk } from './thunks'
 
 const initialState: CartState = {
   items: [],
   coupon: {},
-  status: 'pending'
+  status: ThunkStatus.IDLE
 }
 
 export const cartSlice = createSlice({
@@ -158,12 +158,23 @@ export const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(addItemThunk.pending, (state, action) => {
+        state.status = ThunkStatus.PENDING
+      })
+      .addCase(addItemThunk.fulfilled, (state, action) => {
+        state.status = ThunkStatus.FULFILLED
+        console.log({ action })
+        return state
+      })
+      .addCase(addItemThunk.rejected, (state, action) => {
+        state.status = ThunkStatus.REJECTED
+      })
       .addCase(incrementItemThunk.pending, (state, action) => {
-        state.status = 'pending'
+        state.status = ThunkStatus.PENDING
       })
       .addCase(incrementItemThunk.fulfilled, (state, action) => {
         console.log('FULFILLED:>>>', { state, action })
-        state.status = 'idle'
+        state.status = ThunkStatus.FULFILLED
         return state
         // state.items = state.items?.map((item) => {
         //   if (item?.id === action.payload?.id) {
@@ -178,7 +189,8 @@ export const cartSlice = createSlice({
         //   return item
         // })
       })
-      .addCase(incrementItemThunk.rejected, (_, action) => {
+      .addCase(incrementItemThunk.rejected, (state, action) => {
+        state.status = ThunkStatus.REJECTED
         // sentry({
         //   message: 'action.payload rejected',
         //   error: action?.error as Error
