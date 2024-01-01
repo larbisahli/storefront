@@ -94,6 +94,13 @@ export enum CheckoutSteps {
   ORDER_COMPLETE = 'order_complete'
 }
 
+export enum CheckoutSteps_ {
+  INFORMATION = 'information',
+  SHIPPING = 'shipping',
+  PAYMENT = 'payment',
+  ORDER_COMPLETE = 'order_complete'
+}
+
 export enum ProductTypes {
   Simple = 'simple',
   Variable = 'variable'

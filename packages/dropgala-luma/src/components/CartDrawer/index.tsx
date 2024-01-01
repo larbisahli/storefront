@@ -6,16 +6,9 @@ import CartItem from './CartItem'
 import EmptyCart from './EmptyCart'
 import { CartItemType } from '@dropgala/types/product.type'
 import {
-  UseCartItemsTotalPrice,
-  UseCartItemsTotalPriceExclTax
-} from '../../hooks/useCartItemsTotalPrice'
-import { useCartItemsCount } from '../../hooks/useCartItemsCount'
-import {
   selectCart,
   StoreProps,
   toggleCart,
-  incrementItem as incrementCartItem,
-  decrementItem as decrementCartItem,
   selectConfig
 } from '@dropgala/store'
 import Link from '../ui/Link'
@@ -41,17 +34,14 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
 
   const { __ } = useTranslation(language, 'common')
 
-  const { items = [] } = cart
-
   const dispatch = useAppDispatch()
 
   const handleCloseCart = () => {
     dispatch(toggleCart())
   }
 
-  const itemsTotalPrice = UseCartItemsTotalPrice(cart)
-  const totalPriceExclTax = UseCartItemsTotalPriceExclTax(cart)
-  const itemsCount = useCartItemsCount(items)
+  const itemsTotalPrice = cart?.total?.totalPrice?.value
+  const totalPriceExclTax = cart?.total?.totalExclTax?.value
 
   const totalPrice = usePrice({
     amount: itemsTotalPrice,
@@ -72,15 +62,15 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
   })
 
   const incrementItem = (item: CartItemType) => {
-    dispatch(incrementCartItem(item))
+    // dispatch(incrementCartItem(item))
   }
 
   const decrementItem = (item: CartItemType) => {
-    dispatch(decrementCartItem(item))
+    // dispatch(decrementCartItem(item))
   }
 
   const renderContent = () => {
-    if (items?.length === 0) {
+    if (cart?.items?.length === 0) {
       return <EmptyCart language={language} />
     }
 
@@ -96,11 +86,11 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
         </div>
 
         <Scrollbar className="cart-scrollbar flex-grow">
-          {items?.map((item) => (
+          {cart?.items?.map((item) => (
             <CartItem
               key={item.key}
               item={item}
-              status={cart.status}
+              status={cart?.loadingStatus!}
               useAppSelector={useAppSelector}
               useAppDispatch={useAppDispatch}
               incrementItem={incrementItem}
@@ -159,7 +149,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
         </div>
 
         <div className="p-4 lg:p-7 !pt-0">
-          {itemsCount > 0 ? (
+          {cart?.totalQuantity > 0 ? (
             <div className="w-full mb-10 mt-20px flex justify-between">
               <Link
                 href={{
@@ -173,7 +163,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
                   disabled={false}
                   onClick={handleCloseCart}
                 >
-                  {__('View Cart (%s)', itemsCount)}
+                  {__('View Cart (%s)', cart?.totalQuantity)}
                 </Button>
               </Link>
               <Link

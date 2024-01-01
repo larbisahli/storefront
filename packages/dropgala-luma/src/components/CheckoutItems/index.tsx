@@ -17,11 +17,6 @@ import CheckoutItem from './CheckoutItem'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { StoreProps, selectCart, selectConfig } from '@dropgala/store'
-import {
-  UseCartItemsTotalPrice,
-  UseCartItemsTotalPriceExclTax
-} from '../../hooks/useCartItemsTotalPrice'
-import { useCartItemsCount } from '../../hooks/useCartItemsCount'
 import EditIcon from '@dropgala/assets/icons/edit'
 import Link from '../ui/Link'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
@@ -50,8 +45,6 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
 
   const cart = useAppSelector(selectCart)
 
-  const { items = [] } = cart
-
   const [applyCoupon, { loading }] = useMutation(CREATE_CATEGORY, {
     context: {
       headers: {
@@ -78,15 +71,14 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
 
   // In case the cart is empty
   useEffect(() => {
-    if (isEmpty(items)) {
+    if (isEmpty(cart?.items)) {
       router.push('/')
     }
-  }, [router, items])
+  }, [router, cart])
 
-  const itemsCount = useCartItemsCount(items)
-
-  const itemsTotalPrice = UseCartItemsTotalPrice(cart)
-  const totalPriceExclTax = UseCartItemsTotalPriceExclTax(cart)
+  const itemsCount = cart?.totalQuantity
+  const itemsTotalPrice = cart?.total?.totalPrice?.value
+  const totalPriceExclTax = cart?.total?.totalExclTax?.value
 
   const totalPrice = usePrice({
     amount: itemsTotalPrice,
@@ -229,7 +221,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
         </div>
         {/* Cart Items */}
         <Scrollbar className="cart-scrollbar overflow-x-hidden !max-h-[300px] flex-grow pr-2">
-          {items?.map((item) => (
+          {cart?.items?.map((item) => (
             <CheckoutItem
               item={item}
               key={item.key || item.id}
@@ -248,7 +240,9 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
             inputClassName="placeholder-gray-500 border border-solid border-gray-400"
             placeholder="Discount code"
             value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
+            onChange={(e: { target: { value: React.SetStateAction<null> } }) =>
+              setCouponCode(e.target.value)
+            }
           />
           <Button
             onClick={handleCoupon}

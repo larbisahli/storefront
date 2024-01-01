@@ -8,6 +8,7 @@ import { createWrapper } from 'next-redux-wrapper'
 
 import BannerReducer from './Banner'
 import CartReducer from './Cart'
+import CheckoutReducer from './Checkout'
 import ConfigReducer from './Config'
 import DrawerReducer from './Drawer'
 import MenuReducer from './Menu'
@@ -19,6 +20,7 @@ export function createStore() {
   return configureStore({
     reducer: {
       CartReducer,
+      CheckoutReducer,
       DrawerReducer,
       ConfigReducer,
       MenuReducer,

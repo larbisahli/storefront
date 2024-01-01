@@ -9,6 +9,7 @@ export interface ConfigType {
   storeNumber?: string
   alias?: string
   theme: StoreThemes
+  storeId?: string
   locales?: {
     id: number
     name: string

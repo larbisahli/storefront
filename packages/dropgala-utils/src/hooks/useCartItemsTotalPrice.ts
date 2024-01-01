@@ -1,11 +1,9 @@
 import { ProductTypes } from '@dropgala/types'
-import { CartState, ProductType } from '@dropgala/types/product.type'
-import { CouponType } from '@dropgala/types/coupon.type'
-import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import { CartType, ProductType } from '@dropgala/types/product.type'
 import { useMemo } from 'react'
 
-export const UseCartItemsTotalPrice = (cart: CartState) => {
-  const cartItemsTotalPrice = (items: ProductType[], coupon: CouponType) => {
+export const UseCartItemsTotalPrice = (cart: CartType) => {
+  const cartItemsTotalPrice = (items: ProductType[]) => {
     let total = items.reduce((total: number, product: ProductType) => {
       const isVariableType = product.type === ProductTypes.Variable
       const selectedPrice = isVariableType
@@ -14,21 +12,17 @@ export const UseCartItemsTotalPrice = (cart: CartState) => {
       return total + selectedPrice! * product.orderQuantity!
     }, 0)
 
-    const discount = !isEmpty(coupon)
-      ? (total * Number(coupon?.discountValue)) / 100
-      : 0
-
-    return total - discount
+    return total
   }
 
   const itemCount = useMemo(
-    () => Number(cartItemsTotalPrice(cart.items, cart.coupon).toFixed(2)),
+    () => Number(cartItemsTotalPrice(cart.items).toFixed(2)),
     [cart]
   )
   return itemCount
 }
 
-export const UseCartItemsTotalPriceExclTax = (cart: CartState) => {
+export const UseCartItemsTotalPriceExclTax = (cart: CartType) => {
   const cartItemsTotalPrice = (items: ProductType[]) => {
     let total = items.reduce((total: number, product: ProductType) => {
       const isVariableType = product.type === ProductTypes.Variable

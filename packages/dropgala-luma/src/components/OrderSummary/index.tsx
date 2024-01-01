@@ -2,17 +2,12 @@ import { useRouter } from 'next/router'
 import Button from '../ui/Button'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { CheckoutSteps } from '@dropgala/types'
-import {
-  UseCartItemsTotalPrice,
-  UseCartItemsTotalPriceExclTax
-} from '../../hooks/useCartItemsTotalPrice'
 import { FC } from 'react'
 import { StoreProps, selectCart, selectConfig } from '@dropgala/store'
 import Image from '../common/Image'
 import Link from '../ui/Link'
 import dynamic from 'next/dynamic'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
-import { useCartItemsCount } from 'hooks/useCartItemsCount'
 
 const LockIcon = dynamic(() => import('@dropgala/assets/icons/lock'), {
   loading: () => <></>,
@@ -63,8 +58,8 @@ const OrderSummary: FC<Props> = ({ useAppSelector }) => {
   const { __ } = useTranslation(language, 'common')
   const { locale = 'en-US' } = router
 
-  const itemsTotalPrice = UseCartItemsTotalPrice(cart)
-  const totalPriceExclTax = UseCartItemsTotalPriceExclTax(cart)
+  const itemsTotalPrice = cart?.total?.totalPrice?.value
+  const totalPriceExclTax = cart?.total?.totalExclTax?.value
 
   const totalPrice = usePrice({
     amount: itemsTotalPrice,

@@ -42,7 +42,7 @@ const MyAccountActions = ({ handleCart, itemsCount }: Props) => {
         <CartIcon width={22} height={22} />
         <div
           className={cn(
-            'absolute bg-red-700 rounded-full h-[19px] w-[19px] text-center text-white',
+            'absolute bg-black rounded-full h-[19px] w-[19px] text-center text-white',
             'top-[-10px] right-[-12px] font-semibold text-xs flex items-center justify-center'
           )}
         >

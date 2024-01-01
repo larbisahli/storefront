@@ -8,18 +8,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { Navigation } from 'swiper/modules'
 
 import { ProductTypes, ThunkStatus } from '@dropgala/types'
-import type { ProductType } from '@dropgala/types/product.type'
+import type { CartItemType, ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import type { ImageType } from '@dropgala/types/common.type'
 import { HeartEmpty } from '@dropgala/assets/icons/heart'
-import {
-  StoreProps,
-  addItem,
-  selectCart,
-  selectConfig,
-  setOrderQuantity,
-  toggleCart
-} from '@dropgala/store'
+import { StoreProps, selectCart, selectConfig } from '@dropgala/store'
 import type {
   AttributeType,
   AttributeValueType
@@ -33,8 +26,12 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import useWindowSize from 'hooks/useWindowSize'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import StarIcon from '@dropgala/assets/icons/star'
-import { addItemThunk } from '@dropgala/store/Cart/thunks'
+import { addItemThunk } from '@dropgala/store/Checkout/thunks'
 import { notify } from '../ui/toast'
+
+// class CheckoutService {
+//   AddItem
+// }
 
 interface Props extends StoreProps {
   product: ProductType
@@ -42,9 +39,10 @@ interface Props extends StoreProps {
 
 const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   const cart = useAppSelector(selectCart)
-  const { device, language, csrf } = useAppSelector(selectConfig)
+  const { device, language, csrf, storeId, locales, ...rest } =
+    useAppSelector(selectConfig)
 
-  console.log({ cart })
+  console.log({ cart, storeId, rest })
 
   const { __ } = useTranslation(language, 'common')
 
@@ -58,8 +56,6 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
 
   const [actualSlide, setActualSlide] = useState(0)
   const [productGallery, setProductGallery] = useState<ImageType[]>([])
-
-  const cartItems = cart.items
 
   const {
     id,
@@ -116,16 +112,18 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
 
   const isSoldOut = productQuantity === 0
 
-  function addToCart() {
-    const items = cartItems?.filter((item: ProductType) => item.id === id)
+  const AddItemCartService = ({ item }: { item: CartItemType }) => {
+    const storeLanguageId = locales?.find((locale) => locale.isDefault)?.id!
     const orderQuantity = selectedQuantity
 
     dispatch(
       addItemThunk({
-        cartId: '123',
-        itemId: 666,
-        storeId: '1233',
-        csrfToken: csrf?.csrfToken!
+        storeLanguageId,
+        itemId: id!,
+        storeId: storeId!,
+        orderQuantity,
+        csrfToken: csrf?.csrfToken!,
+        orderVariationOption: null
       })
     ).then((data) => {
       console.log({ data })
@@ -136,6 +134,11 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
         notify.error('There was an error!')
       }
     })
+  }
+
+  function addToCart() {
+    const items = cart?.items?.filter((item: CartItemType) => item.id === id)
+    const orderQuantity = selectedQuantity
 
     if (isConfigurable) {
       const variationOptionExist = items?.find((item) => {
@@ -147,40 +150,40 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
       })
 
       if (isEmpty(variationOptionExist)) {
-        dispatch(
-          addItem({
-            ...product,
+        AddItemCartService({
+          item: {
+            id: product?.id!,
             orderQuantity,
             orderVariationOption: selectedVariationOption
-          })
-        )
+          }
+        })
       } else {
         const key = variationOptionExist.key
-        dispatch(
-          setOrderQuantity({
-            key,
-            type,
-            orderQuantity
-          })
-        )
+        // dispatch(
+        //   setOrderQuantity({
+        //     key,
+        //     type,
+        //     orderQuantity
+        //   })
+        // )
       }
     } else {
       const item = items[0]
       if (isEmpty(item)) {
-        dispatch(
-          addItem({
-            ...product,
+        AddItemCartService({
+          item: {
+            id: product?.id!,
             orderQuantity
-          })
-        )
+          }
+        })
       } else {
-        dispatch(
-          setOrderQuantity({
-            id,
-            type,
-            orderQuantity
-          })
-        )
+        // dispatch(
+        //   setOrderQuantity({
+        //     id,
+        //     type,
+        //     orderQuantity
+        //   })
+        // )
       }
     }
 
@@ -299,9 +302,10 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
             <Button
               onClick={addToCart}
               disabled={
-                productQuantity === 0 || ThunkStatus.PENDING === cart.status
+                productQuantity === 0 ||
+                ThunkStatus.PENDING === cart.loadingStatus
               }
-              loading={ThunkStatus.PENDING === cart.status}
+              loading={ThunkStatus.PENDING === cart.loadingStatus}
               className={cn(
                 'bg-gray-900 hover:bg-gray-800 text-white rounded-sm font-semibold text-lg mr-2 flex-1 h-[50px]',
                 { '!bg-gray-700': productQuantity === 0 }

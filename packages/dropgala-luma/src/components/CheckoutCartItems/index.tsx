@@ -7,7 +7,7 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Button from '../ui/Button'
 import { FC, useMemo } from 'react'
 import CheckoutCartItem from './CheckoutCartItem'
-import { useCartItemsCount } from '../../hooks/useCartItemsCount'
+import { useCartItemsCount } from '@dropgala/utils/hooks/useCartItemsCount'
 
 interface Props extends StoreProps {}
 

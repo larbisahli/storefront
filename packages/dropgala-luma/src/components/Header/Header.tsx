@@ -18,7 +18,7 @@ import {
   toggleCart,
   toggleMenu
 } from '@dropgala/store'
-import { useCartItemsCount } from '../../hooks/useCartItemsCount'
+import { useCartItemsCount } from '@dropgala/utils/hooks/useCartItemsCount'
 import Image from '../common/Image'
 import Link from '../ui/Link'
 import { ConfigType } from '@dropgala/types/config.type'

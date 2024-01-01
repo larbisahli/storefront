@@ -18,6 +18,7 @@ import {
   incrementItemThunk
 } from '@dropgala/store/Cart/thunks'
 import Loader from '../ui/loader'
+import CloseIcon from '@dropgala/assets/icons/close'
 
 interface CartItemProps extends StoreProps {
   item: CartItemType
@@ -133,6 +134,8 @@ const CartItem: React.FC<CartItemProps> = ({
     )
   }
 
+  const handleDeleteItem = () => {}
+
   return (
     <div
       className="w-full h-auto flex justify-start items-start bg-white py-6 p-3 lg:p-70 border-b
@@ -164,17 +167,25 @@ const CartItem: React.FC<CartItemProps> = ({
         </div>
       </Link>
 
-      <div className="flex flex-col w-full px-15px">
-        <Link
-          href={{
-            pathname: '/product/[slug]',
-            query: { slug }
-          }}
-        >
-          <div className="line-clamp-2 text-sm lg:text-base leading-4 sm:leading-5 mb-1 text-gray-800">
-            <div onClick={handleCloseCart}>{name}</div>
+      <div className="flex flex-col w-full pl-15px">
+        <div className="flex justify-center items-center">
+          <Link
+            href={{
+              pathname: '/product/[slug]',
+              query: { slug }
+            }}
+          >
+            <div className="flex-1 line-clamp-2 text-sm lg:text-base leading-4 sm:leading-5 mb-1 text-gray-800">
+              <div onClick={handleCloseCart}>{name}</div>
+            </div>
+          </Link>
+          <div
+            onClick={handleDeleteItem}
+            className="px-3 text-black hover:text-red-600 flex-0 self-start cursor-pointer"
+          >
+            <CloseIcon width={12} height={18} />
           </div>
-        </Link>
+        </div>
 
         <div className="flex items-center text-13px mt-3px mb-3px">
           <div>
