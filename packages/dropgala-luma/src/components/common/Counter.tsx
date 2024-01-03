@@ -13,6 +13,7 @@ type CounterProps = {
   value: number
   size?: CounterSizes
   disabled?: boolean
+  MinusDisabled?: boolean
   onDecrement: () => void
   onIncrement: () => void
 }
@@ -24,7 +25,8 @@ const Counter: React.FC<CounterProps> = ({
   value,
   size = 'normal',
   className = 'flex',
-  disabled = false
+  disabled = false,
+  MinusDisabled = false
 }) => {
   const btnClassName = cn(
     'text-skin-base rounded-xs bg-gray-200 transition border border-solid',
@@ -36,7 +38,13 @@ const Counter: React.FC<CounterProps> = ({
 
   return (
     <div className={cn('group flex items-center justify-between', className)}>
-      <IconButton onClick={onDecrement} className={btnClassName}>
+      <IconButton
+        onClick={onDecrement}
+        className={cn(btnClassName, {
+          '!bg-gray-100 text-gray-500 border-dashed cursor-not-allowed':
+            MinusDisabled
+        })}
+      >
         {single ? <Minus /> : value > 1 ? <Minus /> : <Trash />}
       </IconButton>
 

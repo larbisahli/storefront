@@ -16,10 +16,11 @@ export interface VariationOptionsType {
   active: boolean
   thumbnail: ImageType[]
   options: number[]
-  price: PriceType
   quantity: Scalars['Int']
   sku: Scalars['String']
   key?: string
+  salePrice?: number
+  comparePrice?: number
 }
 
 export interface PriceType {
@@ -41,7 +42,7 @@ export interface PriceType {
   }
 }
 
-interface PriceRangeType {
+export interface PriceRangeType {
   maximumPrice: PriceType
   minimumPrice: PriceType
 }
@@ -51,8 +52,6 @@ export interface ProductType {
   slug?: Scalars['String']
   name?: Scalars['String']
   sku?: Nullable<Scalars['String']>
-  priceRange?: PriceRangeType
-  price?: PriceType
   quantity?: Scalars['Int']
   type?: ProductTypes
   inStock?: Scalars['Boolean']
@@ -77,6 +76,12 @@ export interface ProductType {
   orderVariationOption?: VariationOptionsType | undefined
   ratingSummary?: number
   reviewCount?: number
+  maxComparePrice?: number
+  minComparePrice?: number
+  maxSalePrice?: number
+  minSalePrice?: number
+  salePrice?: number
+  comparePrice?: number
 }
 
 export interface ProductSeoType {
@@ -93,12 +98,14 @@ export interface ProductRef {
   slug?: Scalars['String']
   name?: Scalars['String']
   sku?: Nullable<Scalars['String']>
-  salePrice?: Scalars['Float']
-  comparePrice?: Scalars['Float']
   buyingPrice?: Scalars['Float']
-  maxPrice?: Scalars['Float']
-  minPrice?: Scalars['Float']
   quantity?: Scalars['Int']
+  maxComparePrice?: number
+  minComparePrice?: number
+  maxPrice?: number
+  minPrice?: number
+  salePrice?: number
+  comparePrice?: number
 }
 
 export interface VariationsType extends AttributeType {

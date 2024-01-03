@@ -8,6 +8,7 @@ import { ProductCardLayout, ProductTypes } from '@dropgala/types'
 import Image from '../common/Image'
 import Link from '../ui/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
+import { usePriceRange } from '@dropgala/utils/hooks/usePriceRange'
 import StarIcon from '@dropgala/assets/icons/star'
 import { getIsRTL } from '@dropgala/utils/get-direction'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
@@ -38,7 +39,6 @@ const ProductCard: React.FC<ProductProps> = ({
     reviewCount,
     thumbnail,
     slug,
-    priceRange,
     type,
     inStock,
     disableOutOfStock
@@ -47,6 +47,11 @@ const ProductCard: React.FC<ProductProps> = ({
   const isSoldOut = !disableOutOfStock && !inStock
 
   const isConfigurable = type === ProductTypes.Variable
+
+  const priceRange = usePriceRange({
+    product,
+    taxRate: config?.tax?.rate
+  })
 
   const priceRangeMaxFinalPrice =
     priceRange?.maximumPrice?.finalPrice?.value ?? 0

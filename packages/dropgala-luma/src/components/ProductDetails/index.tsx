@@ -112,10 +112,12 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
 
   const isSoldOut = productQuantity === 0
 
-  const AddItemCartService = ({ item }: { item: CartItemType }) => {
-    const storeLanguageId = locales?.find((locale) => locale.isDefault)?.id!
+  function addToCart() {
     const orderQuantity = selectedQuantity
-
+    const storeLanguageId = locales?.find((locale) => locale.isDefault)?.id!
+    const orderVariationOption = isEmpty(selectedVariationOption)
+      ? null
+      : { id: selectedVariationOption?.id }
     dispatch(
       addItemThunk({
         storeLanguageId,
@@ -123,7 +125,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
         storeId: storeId!,
         orderQuantity,
         csrfToken: csrf?.csrfToken!,
-        orderVariationOption: null
+        orderVariationOption
       })
     ).then((data) => {
       console.log({ data })
@@ -131,64 +133,12 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
         notify.success('Product was added to cart!')
       }
       if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
-        notify.error('There was an error!')
+        // @ts-ignore
+        const message = data?.error?.message
+        notify.error(message ?? 'There was an error!')
       }
+      setSelectedQuantity(1)
     })
-  }
-
-  function addToCart() {
-    const items = cart?.items?.filter((item: CartItemType) => item.id === id)
-    const orderQuantity = selectedQuantity
-
-    if (isConfigurable) {
-      const variationOptionExist = items?.find((item) => {
-        return (
-          !!item?.orderVariationOption?.id &&
-          !!selectedVariationOption?.id &&
-          item?.orderVariationOption.id === selectedVariationOption?.id
-        )
-      })
-
-      if (isEmpty(variationOptionExist)) {
-        AddItemCartService({
-          item: {
-            id: product?.id!,
-            orderQuantity,
-            orderVariationOption: selectedVariationOption
-          }
-        })
-      } else {
-        const key = variationOptionExist.key
-        // dispatch(
-        //   setOrderQuantity({
-        //     key,
-        //     type,
-        //     orderQuantity
-        //   })
-        // )
-      }
-    } else {
-      const item = items[0]
-      if (isEmpty(item)) {
-        AddItemCartService({
-          item: {
-            id: product?.id!,
-            orderQuantity
-          }
-        })
-      } else {
-        // dispatch(
-        //   setOrderQuantity({
-        //     id,
-        //     type,
-        //     orderQuantity
-        //   })
-        // )
-      }
-    }
-
-    // dispatch(toggleCart())
-    setSelectedQuantity(1)
   }
 
   const renderGallery = () => {
@@ -285,6 +235,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
               setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
             }
             disabled={productQuantity - selectedQuantity <= 0}
+            MinusDisabled={selectedQuantity === 1}
           />
           <div className="pl-2">
             {productQuantity > 0 && productQuantity <= 5 ? (

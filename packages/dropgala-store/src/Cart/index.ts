@@ -10,7 +10,20 @@ const initialState: CartType = {
   items: [],
   totalQuantity: 0,
   loadingStatus: ThunkStatus.IDLE,
-  total: {}
+  total: {
+    totalPrice: {
+      currency: {
+        code: 'USD'
+      },
+      value: 0
+    },
+    totalExclTax: {
+      currency: {
+        code: 'USD'
+      },
+      value: 0
+    }
+  }
 }
 
 export const cartSlice = createSlice({

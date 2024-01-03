@@ -87,3 +87,16 @@ export const toTwoDecimalPlaces = (number: number) => {
 }
 
 export const daysToSeconds = (days: number) => 60 * 60 * (24 * days)
+
+export const roundTo3 = (v: number = 0) => Math.round(v * 1000) / 1000
+
+export const calcTaxRate = (price: number = 0, rate: number = 0) =>
+  roundTo3(Number(price) + Number(price) * (Number(rate) / 100))
+
+export const calcPercentage = (
+  salePrice: number = 0,
+  comparePrice: number = 0
+) =>
+  roundTo3(
+    ((Number(comparePrice) - Number(salePrice)) / Number(comparePrice)) * 100
+  )

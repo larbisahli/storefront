@@ -15,7 +15,7 @@ export const DECREMENT_ITEM = gql`
     }
   }
 `
-
+// cartChange
 export const ADD_ITEM = gql`
   mutation AddItem(
     $storeId: String!
@@ -86,6 +86,8 @@ export const ADD_ITEM = gql`
             placeholder
           }
           options
+          salePrice
+          comparePrice
           quantity
         }
       }

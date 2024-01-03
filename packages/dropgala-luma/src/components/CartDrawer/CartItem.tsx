@@ -168,20 +168,20 @@ const CartItem: React.FC<CartItemProps> = ({
       </Link>
 
       <div className="flex flex-col w-full pl-15px">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-between items-center">
           <Link
             href={{
               pathname: '/product/[slug]',
               query: { slug }
             }}
           >
-            <div className="flex-1 line-clamp-2 text-sm lg:text-base leading-4 sm:leading-5 mb-1 text-gray-800">
+            <div className="line-clamp-2 text-sm lg:text-base leading-4 sm:leading-5 mb-1 text-gray-800">
               <div onClick={handleCloseCart}>{name}</div>
             </div>
           </Link>
           <div
             onClick={handleDeleteItem}
-            className="px-3 text-black hover:text-red-600 flex-0 self-start cursor-pointer"
+            className="px-3 text-black hover:text-red-600 self-start cursor-pointer"
           >
             <CloseIcon width={12} height={18} />
           </div>
