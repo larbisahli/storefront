@@ -159,7 +159,7 @@ export default function ProductPage({ pageProps }: PageProps) {
         {metaRobots && <meta name="robots" content={metaRobots as string} />}
       </Head>
       <section className="mb-5 py-35px mx-0 lg:mx-2">
-        <div className="pt-6 lg:pt-7">
+        <div className="">
           <div className="mx-auto max-w-[1920px]">
             <Breadcrumb breadcrumbs={breadcrumbs} />
           </div>

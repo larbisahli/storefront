@@ -77,7 +77,7 @@ const TermsAndConditionsPage = ({ pageProps }: PageProps) => {
         ]}
       />
       <section className="mb-5">
-        <div className="pt-6 lg:pt-7">
+        <div className="">
           <Breadcrumb breadcrumbs={[]} name={page.name} />
         </div>
       </section>

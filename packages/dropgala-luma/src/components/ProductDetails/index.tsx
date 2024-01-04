@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Navigation } from 'swiper/modules'
 
 import { ProductTypes, ThunkStatus } from '@dropgala/types'
-import type { CartItemType, ProductType } from '@dropgala/types/product.type'
+import type { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import type { ImageType } from '@dropgala/types/common.type'
 import { HeartEmpty } from '@dropgala/assets/icons/heart'
@@ -26,7 +26,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import useWindowSize from 'hooks/useWindowSize'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import StarIcon from '@dropgala/assets/icons/star'
-import { addItemThunk } from '@dropgala/store/Checkout/thunks'
+import { cartChange } from '@dropgala/store/Cart/thunks'
 import { notify } from '../ui/toast'
 
 // class CheckoutService {
@@ -112,6 +112,12 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
 
   const isSoldOut = productQuantity === 0
 
+  useEffect(() => {
+    if (selectedQuantity > productQuantity) {
+      setSelectedQuantity(productQuantity)
+    }
+  }, [productQuantity])
+
   function addToCart() {
     const orderQuantity = selectedQuantity
     const storeLanguageId = locales?.find((locale) => locale.isDefault)?.id!
@@ -119,7 +125,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
       ? null
       : { id: selectedVariationOption?.id }
     dispatch(
-      addItemThunk({
+      cartChange({
         storeLanguageId,
         itemId: id!,
         storeId: storeId!,
@@ -370,9 +376,9 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
             <div className="h-[1px] w-full bg-gray-300"></div>
             <div className="flex justify-between items-center pt-4">
               <VariationPrice
-                price={price}
+                simplePrice={price}
+                type={type}
                 selectedVariationOption={selectedVariationOption}
-                isConfigurable={isConfigurable}
                 useAppSelector={useAppSelector}
                 useAppDispatch={useAppDispatch}
               />

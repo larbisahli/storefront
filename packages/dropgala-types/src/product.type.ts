@@ -23,7 +23,7 @@ export interface VariationOptionsType {
   comparePrice?: number
 }
 
-export interface PriceType {
+export interface StorePriceType {
   finalPrice: {
     currency: {
       code: string
@@ -43,8 +43,17 @@ export interface PriceType {
 }
 
 export interface PriceRangeType {
-  maximumPrice: PriceType
-  minimumPrice: PriceType
+  maximumPrice: StorePriceType
+  minimumPrice: StorePriceType
+}
+
+export interface PriceType {
+  maxComparePrice?: number
+  minComparePrice?: number
+  maxSalePrice?: number
+  minSalePrice?: number
+  salePrice?: number
+  comparePrice?: number
 }
 
 export interface ProductType {
@@ -76,12 +85,7 @@ export interface ProductType {
   orderVariationOption?: VariationOptionsType | undefined
   ratingSummary?: number
   reviewCount?: number
-  maxComparePrice?: number
-  minComparePrice?: number
-  maxSalePrice?: number
-  minSalePrice?: number
-  salePrice?: number
-  comparePrice?: number
+  price?: PriceType
 }
 
 export interface ProductSeoType {
@@ -100,12 +104,7 @@ export interface ProductRef {
   sku?: Nullable<Scalars['String']>
   buyingPrice?: Scalars['Float']
   quantity?: Scalars['Int']
-  maxComparePrice?: number
-  minComparePrice?: number
-  maxPrice?: number
-  minPrice?: number
-  salePrice?: number
-  comparePrice?: number
+  price?: PriceType
 }
 
 export interface VariationsType extends AttributeType {
@@ -128,7 +127,7 @@ export type CartItemType = ProductType & {
   sku?: string
   type?: string
   thumbnail?: ImageType
-  price?: string
+  price?: PriceType
   quantity?: string
   key?: Scalars['ID']
   orderQuantity: number
@@ -184,11 +183,9 @@ export interface CartType {
   totalQuantity: number
   total: {
     totalPrice: {
-      currency: { code: string }
       value: number
     }
     totalExclTax: {
-      currency: { code: string }
       value: number
     }
   }

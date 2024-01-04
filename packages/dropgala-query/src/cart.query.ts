@@ -16,15 +16,15 @@ export const DECREMENT_ITEM = gql`
   }
 `
 // cartChange
-export const ADD_ITEM = gql`
-  mutation AddItem(
+export const CART_CHANGE = gql`
+  mutation CartChange(
     $storeId: String!
     $storeLanguageId: Int!
     $itemId: Int!
     $orderQuantity: Int!
     $orderVariationOption: OrderVariationOptionInput
   ) {
-    addItem(
+    cartChange(
       storeId: $storeId
       storeLanguageId: $storeLanguageId
       itemId: $itemId
@@ -33,20 +33,6 @@ export const ADD_ITEM = gql`
     ) {
       id
       totalQuantity
-      total {
-        totalPrice {
-          currency {
-            code
-          }
-          value
-        }
-        totalExclTax {
-          currency {
-            code
-          }
-          value
-        }
-      }
       items {
         id
         key
@@ -59,22 +45,12 @@ export const ADD_ITEM = gql`
           placeholder
         }
         price {
-          finalPrice {
-            currency {
-              code
-            }
-            value
-          }
-          finalPriceExclTax {
-            currency {
-              code
-            }
-            value
-          }
-          discount {
-            amountOff
-            percentOff
-          }
+          salePrice
+          maxSalePrice
+          minSalePrice
+          comparePrice
+          maxComparePrice
+          minComparePrice
         }
         orderQuantity
         orderVariationOption {

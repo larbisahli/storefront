@@ -6,17 +6,19 @@ import { memo } from 'react'
 import { PriceType, VariationOptionsType } from '@dropgala/types/product.type'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { useProductPrice } from '@dropgala/utils/hooks/usePriceRange'
+import { ProductTypes } from '@dropgala/types'
 
 interface Props extends StoreProps {
   selectedVariationOption?: VariationOptionsType
-  price?: PriceType
-  isConfigurable: boolean
+  simplePrice?: PriceType
+  type?: ProductTypes
 }
 
 function VariationPrice({
   selectedVariationOption,
-  price,
-  isConfigurable,
+  simplePrice,
+  type,
   useAppSelector
 }: Props) {
   const router = useRouter()
@@ -24,38 +26,36 @@ function VariationPrice({
 
   const config = useAppSelector(selectConfig)
 
+  const { tax: { rate = 0 } = {} } = config
+
   const { __ } = useTranslation(config.language, 'common')
 
-  const selectedFinalPrice = isConfigurable
-    ? selectedVariationOption?.price?.finalPrice?.value
-    : price?.finalPrice?.value
+  const productPrice = useProductPrice({
+    selectedVariationOption,
+    simplePrice,
+    type,
+    taxRate: rate
+  })
 
-  const selectedDiscountAmountOff = isConfigurable
-    ? selectedVariationOption?.price?.discount?.amountOff
-    : price?.discount?.amountOff
-
-  const selectedFinalPriceExclTax = isConfigurable
-    ? selectedVariationOption?.price?.finalPriceExclTax?.value
-    : price?.finalPriceExclTax.value
-
-  const selectedDiscountPercentOff = isConfigurable
-    ? selectedVariationOption?.price?.discount?.percentOff
-    : price?.discount?.percentOff
+  const selectedFinalPrice = productPrice?.finalPrice?.value ?? 0
+  const selectedDiscountAmountOff = productPrice?.discount?.amountOff ?? 0
+  const selectedFinalPriceExclTax = productPrice?.finalPriceExclTax.value ?? 0
+  const selectedDiscountPercentOff = productPrice?.discount?.percentOff
 
   const productPriceValue = usePrice({
-    amount: selectedFinalPrice ?? 0,
+    amount: selectedFinalPrice,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })
 
   const discount = usePrice({
-    amount: selectedDiscountAmountOff ?? 0,
+    amount: selectedDiscountAmountOff,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })
 
   const finalPriceExclTax = usePrice({
-    amount: selectedFinalPriceExclTax ?? 0,
+    amount: selectedFinalPriceExclTax,
     locale: locale!,
     currencyCode: config?.defaultCurrency?.code
   })

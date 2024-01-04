@@ -19,6 +19,7 @@ import {
 } from '@dropgala/store/Cart/thunks'
 import Loader from '../ui/loader'
 import CloseIcon from '@dropgala/assets/icons/close'
+import { useProductPrice } from '@dropgala/utils/hooks/usePriceRange'
 
 interface CartItemProps extends StoreProps {
   item: CartItemType
@@ -38,7 +39,7 @@ const CartItem: React.FC<CartItemProps> = ({
   useAppDispatch
 }) => {
   const router = useRouter()
-  const { language, defaultCurrency, csrf } = useAppSelector(selectConfig)
+  const { language, defaultCurrency, csrf, tax } = useAppSelector(selectConfig)
   const dispatch = useAppDispatch()
 
   const { __ } = useTranslation(language, 'common')
@@ -58,21 +59,12 @@ const CartItem: React.FC<CartItemProps> = ({
 
   const isConfigurable = type === ProductTypes.Variable
 
-  const selectedSalePrice = isConfigurable
-    ? orderVariationOption?.price?.finalPrice?.value
-    : price?.finalPrice?.value
-
-  const selectedDiscountPrice = isConfigurable
-    ? orderVariationOption?.price?.discount?.amountOff
-    : price?.discount?.amountOff
-
-  const selectedDiscountPercent = isConfigurable
-    ? orderVariationOption?.price?.discount?.percentOff
-    : price?.discount?.percentOff
-
-  const finalPriceExclTaxValue = isConfigurable
-    ? orderVariationOption?.price?.finalPriceExclTax?.value
-    : price?.finalPriceExclTax?.value
+  const productPrice = useProductPrice({
+    selectedVariationOption: orderVariationOption,
+    simplePrice: price,
+    type,
+    taxRate: tax?.rate
+  })
 
   const productQuantity = isConfigurable
     ? orderVariationOption?.quantity
@@ -87,25 +79,26 @@ const CartItem: React.FC<CartItemProps> = ({
     : ({} as ImageType)
 
   const itemPrice = usePrice({
-    amount: selectedSalePrice ?? 0,
+    amount: productPrice?.finalPrice.value,
     locale,
     currencyCode: defaultCurrency?.code
   })
 
   const discountValue = usePrice({
-    amount: selectedDiscountPrice ?? 0,
+    amount: productPrice?.discount.amountOff,
     locale,
     currencyCode: defaultCurrency?.code
   })
 
   const ExclTaxFinalPrice = usePrice({
-    amount: (finalPriceExclTaxValue ?? 0) * (item.orderQuantity ?? 1),
+    amount:
+      (productPrice?.finalPriceExclTax.value ?? 0) * (item.orderQuantity ?? 1),
     locale: locale!,
     currencyCode: defaultCurrency?.code
   })
 
   const total = usePrice({
-    amount: (selectedSalePrice ?? 0) * (item.orderQuantity ?? 1),
+    amount: (productPrice?.finalPrice.value ?? 0) * (item.orderQuantity ?? 1),
     locale,
     currencyCode: defaultCurrency?.code
   })
@@ -194,15 +187,15 @@ const CartItem: React.FC<CartItemProps> = ({
             </span>
           </div>
 
-          {selectedDiscountPrice && (
+          {productPrice?.discount?.amountOff && (
             <div className="flex items-center">
               <div className="bg-gray-600 h-[17px] w-[1px] mx-1"></div>
               <del className="text-base text-gray-600 text-opacity-80">
                 {discountValue}
               </del>
-              {selectedDiscountPercent && (
+              {productPrice?.discount?.percentOff && (
                 <span className="mx-2 self-end pb-[2px] uppercase text-xs text-red-700 font-semibold">
-                  {`${Math.round(selectedDiscountPercent)}%`} off
+                  {`${Math.round(productPrice?.discount?.percentOff)}%`} off
                 </span>
               )}
             </div>

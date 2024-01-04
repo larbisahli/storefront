@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
-  ADD_ITEM,
+  CART_CHANGE,
   DECREMENT_ITEM,
   INCREMENT_ITEM
 } from '@dropgala/query/cart.query'
@@ -73,7 +73,7 @@ export const decrementItemThunk = createAsyncThunk(
   }
 )
 
-interface AddItemThunkProps {
+interface CartChangeThunkProps {
   itemId: number
   storeLanguageId: number
   orderQuantity: number
@@ -82,8 +82,8 @@ interface AddItemThunkProps {
   csrfToken: string
 }
 
-export const addItemThunk = createAsyncThunk(
-  'cart/addItemThunk',
+export const cartChange = createAsyncThunk(
+  'cart/cartChangeThunk',
   async ({
     itemId,
     storeLanguageId,
@@ -91,9 +91,9 @@ export const addItemThunk = createAsyncThunk(
     storeId,
     orderVariationOption,
     csrfToken
-  }: AddItemThunkProps) => {
+  }: CartChangeThunkProps) => {
     const { data } = await apolloClient.mutate<any>({
-      mutation: ADD_ITEM,
+      mutation: CART_CHANGE,
       variables: {
         itemId,
         storeLanguageId,
@@ -108,7 +108,7 @@ export const addItemThunk = createAsyncThunk(
       },
       fetchPolicy: 'no-cache'
     })
-    const { addItem, error } = data ?? {}
-    return { data: addItem, error }
+    const { cartChange, error } = data ?? {}
+    return { data: cartChange, error }
   }
 )

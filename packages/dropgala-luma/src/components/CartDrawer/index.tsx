@@ -16,6 +16,7 @@ import Scrollbar from '../common/Scrollbar'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import cn from 'clsx'
 import dynamic from 'next/dynamic'
+import { useCartTotal } from '@dropgala/utils/hooks/useCartTotal'
 
 const LockIcon = dynamic(() => import('@dropgala/assets/icons/lock'), {
   loading: () => <></>,
@@ -40,8 +41,10 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
     dispatch(toggleCart())
   }
 
-  const itemsTotalPrice = cart?.total?.totalPrice?.value
-  const totalPriceExclTax = cart?.total?.totalExclTax?.value
+  const cartTotal = useCartTotal({ cart, taxRate: tax?.rate })
+
+  const itemsTotalPrice = cartTotal?.totalPrice?.value
+  const totalPriceExclTax = cartTotal?.totalExclTax?.value
 
   const totalPrice = usePrice({
     amount: itemsTotalPrice,

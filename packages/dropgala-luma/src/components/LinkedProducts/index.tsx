@@ -14,6 +14,7 @@ interface Props {
   }) => JSX.Element
 }
 const RelatedProducts = ({ title, products = [], children }: Props) => {
+  console.log({ products })
   return (
     <div>
       <div className="text-xl font-semibold mb-8 px-2">{title}</div>

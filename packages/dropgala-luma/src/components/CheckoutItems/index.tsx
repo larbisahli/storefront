@@ -12,7 +12,7 @@ import { useMedia } from '../../hooks/useMedia'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-
+import { useCartTotal } from '@dropgala/utils/hooks/useCartTotal'
 import CheckoutItem from './CheckoutItem'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
@@ -76,9 +76,11 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
     }
   }, [router, cart])
 
+  const cartTotal = useCartTotal({ cart, taxRate: tax?.rate })
+
   const itemsCount = cart?.totalQuantity
-  const itemsTotalPrice = cart?.total?.totalPrice?.value
-  const totalPriceExclTax = cart?.total?.totalExclTax?.value
+  const itemsTotalPrice = cartTotal?.totalPrice?.value
+  const totalPriceExclTax = cartTotal?.totalExclTax?.value
 
   const totalPrice = usePrice({
     amount: itemsTotalPrice,

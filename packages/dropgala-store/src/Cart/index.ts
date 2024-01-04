@@ -1,9 +1,9 @@
-import { ThunkStatus } from '@dropgala/types/enums.type'
-import type { CartType } from '@dropgala/types/product.type'
+import { ProductTypes, ThunkStatus } from '@dropgala/types/enums.type'
+import type { CartItemType, CartType } from '@dropgala/types/product.type'
 import { isArray } from '@dropgala/utils/lodashFunctions'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { AppState } from '../index'
-import { addItemThunk, incrementItemThunk } from './thunks'
+import { cartChange, incrementItemThunk } from './thunks'
 
 const initialState: CartType = {
   id: null,
@@ -12,15 +12,9 @@ const initialState: CartType = {
   loadingStatus: ThunkStatus.IDLE,
   total: {
     totalPrice: {
-      currency: {
-        code: 'USD'
-      },
       value: 0
     },
     totalExclTax: {
-      currency: {
-        code: 'USD'
-      },
       value: 0
     }
   }
@@ -42,16 +36,15 @@ export const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addItemThunk.pending, (state, action) => {
+      .addCase(cartChange.pending, (state, action) => {
         state.loadingStatus = ThunkStatus.PENDING
       })
-      .addCase(addItemThunk.fulfilled, (state, action) => {
-        console.log('addItemThunk.fulfilled :>', { state })
+      .addCase(cartChange.fulfilled, (state, action) => {
         state = action.payload.data
         state.loadingStatus = ThunkStatus.FULFILLED
         return state
       })
-      .addCase(addItemThunk.rejected, (state, action) => {
+      .addCase(cartChange.rejected, (state, action) => {
         state.loadingStatus = ThunkStatus.REJECTED
       })
       .addCase(incrementItemThunk.pending, (state, action) => {
@@ -61,18 +54,6 @@ export const cartSlice = createSlice({
         console.log('FULFILLED:>>>', { state, action })
         state.loadingStatus = ThunkStatus.FULFILLED
         return state
-        // state.items = state.items?.map((item) => {
-        //   if (item?.id === action.payload?.id) {
-        //     return {
-        //       ...item,
-        //       ...(action.payload ?? {}),
-        //       orderVariationOption: minPricedVariationOption(
-        //         action.payload?.variationOptions
-        //       )
-        //     }
-        //   }
-        //   return item
-        // })
       })
       .addCase(incrementItemThunk.rejected, (state, action) => {
         state.loadingStatus = ThunkStatus.REJECTED

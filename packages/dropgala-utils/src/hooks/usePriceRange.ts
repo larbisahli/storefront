@@ -1,40 +1,44 @@
 import { ProductTypes } from '@dropgala/types'
-import { ProductType } from '@dropgala/types/product.type'
+import {
+  PriceType,
+  ProductType,
+  VariationOptionsType
+} from '@dropgala/types/product.type'
 import { useMemo } from 'react'
 import { calcPercentage, calcTaxRate } from 'utils'
 
 export const calcPriceRange = (product: ProductType, rate: number) => {
-  const isConfigurable = product?.type === ProductTypes.Variable
-
+  const { type, price } = product
+  const isConfigurable = type === ProductTypes.Variable
   if (isConfigurable) {
     return {
       maximumPrice: {
         finalPrice: {
-          value: calcTaxRate(product?.maxSalePrice, rate)
+          value: calcTaxRate(price?.maxSalePrice, rate)
         },
         finalPriceExclTax: {
-          value: product?.maxSalePrice
+          value: price?.maxSalePrice
         },
         discount: {
-          amountOff: calcTaxRate(product?.maxComparePrice, rate),
+          amountOff: calcTaxRate(price?.maxComparePrice, rate),
           percentOff: calcPercentage(
-            calcTaxRate(product?.maxSalePrice, rate),
-            calcTaxRate(product?.maxComparePrice, rate)
+            calcTaxRate(price?.maxSalePrice, rate),
+            calcTaxRate(price?.maxComparePrice, rate)
           )
         }
       },
       minimumPrice: {
         finalPrice: {
-          value: calcTaxRate(product?.minSalePrice, rate)
+          value: calcTaxRate(price?.minSalePrice, rate)
         },
         finalPriceExclTax: {
-          value: product?.minSalePrice
+          value: price?.minSalePrice
         },
         discount: {
-          amountOff: calcTaxRate(product?.minComparePrice, rate),
+          amountOff: calcTaxRate(price?.minComparePrice, rate),
           percentOff: calcPercentage(
-            calcTaxRate(product?.minSalePrice, rate),
-            calcTaxRate(product?.minComparePrice, rate)
+            calcTaxRate(price?.minSalePrice, rate),
+            calcTaxRate(price?.minComparePrice, rate)
           )
         }
       }
@@ -43,18 +47,36 @@ export const calcPriceRange = (product: ProductType, rate: number) => {
   return {
     maximumPrice: {
       finalPrice: {
-        value: calcTaxRate(product?.salePrice, rate)
+        value: calcTaxRate(price?.salePrice, rate)
       },
       finalPriceExclTax: {
-        value: product?.salePrice
+        value: price?.salePrice
       },
       discount: {
-        amountOff: calcTaxRate(product?.comparePrice, rate),
+        amountOff: calcTaxRate(price?.comparePrice, rate),
         percentOff: calcPercentage(
-          calcTaxRate(product?.salePrice, rate),
-          calcTaxRate(product?.comparePrice, rate)
+          calcTaxRate(price?.salePrice, rate),
+          calcTaxRate(price?.comparePrice, rate)
         )
       }
+    }
+  }
+}
+
+export const calcProductPrice = (price?: PriceType, rate?: number) => {
+  return {
+    finalPrice: {
+      value: calcTaxRate(price?.salePrice, rate)
+    },
+    finalPriceExclTax: {
+      value: price?.salePrice
+    },
+    discount: {
+      amountOff: calcTaxRate(price?.comparePrice, rate),
+      percentOff: calcPercentage(
+        calcTaxRate(price?.salePrice, rate),
+        calcTaxRate(price?.comparePrice, rate)
+      )
     }
   }
 }
@@ -69,5 +91,24 @@ export function usePriceRange({
   const priceRange = useMemo(() => {
     return calcPriceRange(product, taxRate)
   }, [product, taxRate])
+  return priceRange
+}
+
+export function useProductPrice({
+  selectedVariationOption,
+  simplePrice,
+  type,
+  taxRate = 0
+}: {
+  selectedVariationOption?: VariationOptionsType
+  simplePrice?: PriceType
+  type?: ProductTypes
+  taxRate?: number
+}) {
+  const priceRange = useMemo(() => {
+    const price =
+      type === ProductTypes.Variable ? selectedVariationOption : simplePrice
+    return calcProductPrice(price, taxRate)
+  }, [type, simplePrice, selectedVariationOption, taxRate])
   return priceRange
 }

@@ -10,6 +10,10 @@ interface Props {
 const TagLabel: React.FC<Props> = ({ className, data }) => {
   const { name } = data
 
+  if (!name) {
+    return null
+  }
+
   return (
     <div
       className={cn(
