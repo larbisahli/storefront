@@ -18,7 +18,6 @@ import {
   toggleCart,
   toggleMenu
 } from '@dropgala/store'
-import { useCartItemsCount } from '@dropgala/utils/hooks/useCartItemsCount'
 import Image from '../common/Image'
 import Link from '../ui/Link'
 import { ConfigType } from '@dropgala/types/config.type'
@@ -32,7 +31,7 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
   const { device, isMobileHeaderTransition } = storeConfig
   const { menu } = useAppSelector(selectMenu)
   const promoBanner = useAppSelector(selectPromoBanner)
-  const { items } = useAppSelector(selectCart)
+  const { item, totalQuantity } = useAppSelector(selectCart)
 
   const dispatch = useAppDispatch()
 
@@ -51,7 +50,7 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
     []
   )
 
-  const itemsCount = useCartItemsCount(items)
+  const itemsCount = totalQuantity
 
   const menuTimer = useRef<undefined | ReturnType<typeof setTimeout>>(undefined)
 

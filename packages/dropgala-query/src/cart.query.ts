@@ -1,21 +1,56 @@
 import { gql } from '@apollo/client'
 
-export const INCREMENT_ITEM = gql`
-  mutation IncrementItem($cartId: String!, $storeId: String!, $itemId: Int!) {
-    incrementItem(cartId: $cartId, itemId: $itemId, storeId: $storeId) {
+export const REMOVE_CART_ITEM = gql`
+  mutation RemoveCartItem(
+    $storeId: String!
+    $key: String!
+    $storeLanguageId: Int!
+  ) {
+    removeCartItem(
+      storeId: $storeId
+      key: $key
+      storeLanguageId: $storeLanguageId
+    ) {
       id
+      totalQuantity
+      items {
+        id
+        key
+        name
+        sku
+        slug
+        type
+        quantity
+        thumbnail {
+          image
+          placeholder
+        }
+        price {
+          salePrice
+          maxSalePrice
+          minSalePrice
+          comparePrice
+          maxComparePrice
+          minComparePrice
+        }
+        orderQuantity
+        orderVariationOption {
+          id
+          sku
+          title
+          thumbnail {
+            image
+            placeholder
+          }
+          options
+          salePrice
+          comparePrice
+          quantity
+        }
+      }
     }
   }
 `
-
-export const DECREMENT_ITEM = gql`
-  mutation DecrementItem($cartId: String!, $storeId: String!, $itemId: Int!) {
-    decrementItem(cartId: $cartId, itemId: $itemId, storeId: $storeId) {
-      id
-    }
-  }
-`
-// cartChange
 export const CART_CHANGE = gql`
   mutation CartChange(
     $storeId: String!
@@ -39,6 +74,7 @@ export const CART_CHANGE = gql`
         name
         sku
         type
+        slug
         quantity
         thumbnail {
           image

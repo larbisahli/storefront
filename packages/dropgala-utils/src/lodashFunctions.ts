@@ -5,5 +5,6 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
 import uniq from 'lodash/uniq'
+import uniqBy from 'lodash/uniqBy'
 
-export { uniq, clone, filter, isArray, isEmpty, isEqual, sortBy }
+export { uniq, clone, filter, isArray, isEmpty, isEqual, sortBy, uniqBy }

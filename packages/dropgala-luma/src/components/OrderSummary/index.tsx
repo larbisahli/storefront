@@ -8,6 +8,7 @@ import Image from '../common/Image'
 import Link from '../ui/Link'
 import dynamic from 'next/dynamic'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { useCartTotal } from '@dropgala/utils/hooks/useCartTotal'
 
 const LockIcon = dynamic(() => import('@dropgala/assets/icons/lock'), {
   loading: () => <></>,
@@ -58,8 +59,10 @@ const OrderSummary: FC<Props> = ({ useAppSelector }) => {
   const { __ } = useTranslation(language, 'common')
   const { locale = 'en-US' } = router
 
-  const itemsTotalPrice = cart?.total?.totalPrice?.value
-  const totalPriceExclTax = cart?.total?.totalExclTax?.value
+  const cartTotal = useCartTotal({ cart, taxRate: tax?.rate })
+
+  const itemsTotalPrice = cartTotal?.totalPrice?.value
+  const totalPriceExclTax = cartTotal?.totalExclTax?.value
 
   const totalPrice = usePrice({
     amount: itemsTotalPrice,

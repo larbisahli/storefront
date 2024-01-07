@@ -1,23 +1,20 @@
-import AttributeDisplay from '../common/AttributeDisplay'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
-import React, { FC, memo, useMemo, useState } from 'react'
+import React, { FC, memo, useEffect, useMemo, useState } from 'react'
 import Counter from '../common/Counter'
-import { ProductTypes } from '@dropgala/types'
-import {
-  StoreProps,
-  decrementItem,
-  incrementItem,
-  removeItem,
-  selectConfig
-} from '@dropgala/store'
+import { ProductTypes, ThunkStatus } from '@dropgala/types'
+import { StoreProps, selectCart, selectConfig } from '@dropgala/store'
 import { CartItemType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import CheckoutItemModal from './CheckoutItemModal'
 import Image from '../common/Image'
 import Link from '../ui/Link'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { useProductPrice } from '@dropgala/utils/hooks/usePriceRange'
+import { cartChange, removeCartItem } from '@dropgala/store/Cart/thunks'
+import { notify } from '../ui/toast'
+import Loader from '../ui/loader'
+import CloseIcon from '@dropgala/assets/icons/close'
 
 interface Props extends StoreProps {
   item: CartItemType
@@ -33,47 +30,43 @@ const CheckoutCartItem: FC<Props> = ({
   const router = useRouter()
   const { locale = 'en-US' } = router
 
+  const [currentLoadingItem, setCurrentLoadingItem] = useState<
+    string | undefined | null
+  >(null)
+
   const dispatch = useAppDispatch!()
 
-  const { defaultCurrency, language } = useAppSelector(selectConfig)
+  const { defaultCurrency, language, tax, locales, storeId, csrf } =
+    useAppSelector(selectConfig)
+  const cart = useAppSelector(selectCart)
 
   const { __ } = useTranslation(language, 'common')
 
-  let [isOpen, setIsOpen] = useState(false)
-
   const {
+    id,
+    key,
     name,
     thumbnail,
     slug,
     type,
     quantity,
     price,
-    variations,
-    orderVariationOption
+    orderVariationOption,
+    orderQuantity
   } = item
 
   const isConfigurable = type === ProductTypes.Variable
 
-  const selectedSalePrice =
-    (isConfigurable
-      ? orderVariationOption?.price?.finalPrice.value
-      : price?.finalPrice.value) ?? 0
+  const productPrice = useProductPrice({
+    selectedVariationOption: orderVariationOption,
+    simplePrice: price,
+    type,
+    taxRate: tax?.rate
+  })
 
-  const selectedComparePrice =
-    (isConfigurable
-      ? orderVariationOption?.price?.discount?.amountOff
-      : price?.discount?.amountOff) ?? 0
-
-  const productQuantity =
-    (isConfigurable ? orderVariationOption?.quantity : quantity) ?? 0
-
-  const finalPriceExclTaxValue = isConfigurable
-    ? orderVariationOption?.price?.finalPriceExclTax?.value
-    : price?.finalPriceExclTax?.value
-
-  const selectedDiscountPercent = isConfigurable
-    ? orderVariationOption?.price?.discount?.percentOff
-    : price?.discount?.percentOff
+  const productQuantity = isConfigurable
+    ? orderVariationOption?.quantity
+    : quantity
 
   const { image, placeholder } = !isEmpty(orderVariationOption?.thumbnail)
     ? orderVariationOption?.thumbnail[0] ?? { image: '', placeholder: '' }
@@ -82,38 +75,115 @@ const CheckoutCartItem: FC<Props> = ({
     : { image: '', placeholder: '' }
 
   const ItemPrice = usePrice({
-    amount: selectedSalePrice,
+    amount: productPrice?.finalPrice.value,
     locale: locale!,
     currencyCode: defaultCurrency?.code
   })
 
   const discount = usePrice({
-    amount: selectedComparePrice,
+    amount: productPrice.discount.amountOff,
     locale: locale!,
     currencyCode: defaultCurrency?.code
   })
 
   const total = usePrice({
-    amount: selectedSalePrice * item?.orderQuantity!,
+    amount: productPrice?.finalPrice.value * item?.orderQuantity!,
     locale: locale!,
     currencyCode: defaultCurrency?.code
   })
 
   const ExclTaxFinalPrice = usePrice({
-    amount: finalPriceExclTaxValue ?? 0,
+    amount: productPrice.finalPriceExclTax.value ?? 0,
     locale: locale!,
     currencyCode: defaultCurrency?.code
   })
 
-  const handleOpenAttribute = () => {
-    setIsOpen(true)
+  const storeLanguageId = useMemo(
+    () => locales?.find((locale) => locale.isDefault)?.id!,
+    [locales]
+  )
+
+  useEffect(() => {
+    if (
+      cart.loadingStatus === ThunkStatus.FULFILLED ||
+      cart.loadingStatus === ThunkStatus.REJECTED
+    ) {
+      setCurrentLoadingItem(null)
+    }
+  }, [cart.loadingStatus])
+
+  const handleIncrementItem = () => {
+    setCurrentLoadingItem(key)
+    dispatch(
+      cartChange({
+        storeLanguageId,
+        itemId: id!,
+        storeId: storeId!,
+        orderQuantity: 1,
+        csrfToken: csrf?.csrfToken!,
+        orderVariationOption: isEmpty(orderVariationOption)
+          ? null
+          : { id: orderVariationOption?.id }
+      })
+    ).then((data) => {
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        // @ts-ignore
+        const message = data?.error?.message
+        notify.error(message ?? 'There was an error!')
+      }
+    })
   }
+
+  const handleDecrementItem = () => {
+    setCurrentLoadingItem(key)
+    dispatch(
+      cartChange({
+        storeLanguageId,
+        itemId: id!,
+        storeId: storeId!,
+        orderQuantity: -1,
+        csrfToken: csrf?.csrfToken!,
+        orderVariationOption: isEmpty(orderVariationOption)
+          ? null
+          : { id: orderVariationOption?.id }
+      })
+    ).then((data) => {
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        // @ts-ignore
+        const message = data?.error?.message
+        notify.error(message ?? 'There was an error!')
+      }
+    })
+  }
+
+  const handleDeleteItem = () => {
+    setCurrentLoadingItem(key)
+    dispatch(
+      removeCartItem({
+        key: key!,
+        storeId: storeId!,
+        storeLanguageId,
+        csrfToken: csrf?.csrfToken!
+      })
+    ).then((data) => {
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        // @ts-ignore
+        const message = data?.error?.message
+        notify.error(message ?? 'There was an error!')
+      }
+    })
+  }
+
+  const loading =
+    ThunkStatus.PENDING === cart.loadingStatus && currentLoadingItem === key
 
   return (
     <div className="w-full h-auto flex justify-start items-start bg-white py-6 px-30px border-b border-gray-200 relative last:border-b-0">
-      <CheckoutItemModal
-        {...{ item, isOpen, setIsOpen, useAppDispatch, useAppSelector }}
-      />
+      {loading && (
+        <div className="absolute top-0 bottom-0 left-0 right-0 bg-black/10 z-40 flex justify-center items-center">
+          <Loader />
+        </div>
+      )}
       <Link
         href={{
           pathname: '/product/[slug]',
@@ -152,7 +222,7 @@ const CheckoutCartItem: FC<Props> = ({
           >
             <div
               className={cn(
-                'line-clamp-2 !text-[15px] hover:font-semibold sm:text-sm lg:text-[15px] leading-4 sm:leading-5 mb-1 text-gray-800',
+                'line-clamp-2 !text-[15px] sm:text-sm lg:text-[15px] font-medium leading-4 sm:leading-5 mb-1 text-gray-900',
                 {
                   'opacity-50 pointer-events-none': disabled
                 }
@@ -177,15 +247,15 @@ const CheckoutCartItem: FC<Props> = ({
                     {ItemPrice}
                   </span>
                 )}
-                {!!selectedComparePrice && (
+                {!!productPrice.discount.amountOff && (
                   <div className="flex items-center">
                     <div className="bg-gray-400 h-[10px] w-[1px] mx-1"></div>
                     <del className="text-[13px] text-gray-600 text-opacity-80">
                       {discount}
                     </del>
-                    {selectedDiscountPercent && (
+                    {productPrice.discount.percentOff && (
                       <span className="mx-2 self-end pb-[2px] uppercase text-xs text-red-700 font-semibold">
-                        {`${Math.round(selectedDiscountPercent)}%`} off
+                        {`${Math.round(productPrice.discount.percentOff)}%`} off
                       </span>
                     )}
                   </div>
@@ -197,55 +267,33 @@ const CheckoutCartItem: FC<Props> = ({
             </div>
           </div>
           {disabled && (
-            <div className="mt-3 text-skin-red text-xs">Reselect</div>
+            <div className="mt-3 text-skin-red text-xs">{__('Reselect')}</div>
           )}
-          <div className="flex items-center text-13px text-gray-500 mb-10px flex-wrap">
-            {variations?.map((variation) => {
-              return (
-                <div
-                  key={variation?.attribute?.id}
-                  className="pr-2 flex items-center my-1"
-                >
-                  <span className="text-gray-800">
-                    {variation?.attribute?.name}:
-                  </span>
-                  <AttributeDisplay
-                    isConfigurable={isConfigurable}
-                    orderVariationOption={orderVariationOption}
-                    variations={variations}
-                    variation={variation}
-                    onClick={handleOpenAttribute}
-                  />
-                </div>
-              )
-            })}
-          </div>
-          <div
-            className={cn('flex items-center justify-between', {
-              'opacity-50 pointer-events-none': disabled
-            })}
-          >
-            <Counter
-              value={item.orderQuantity!}
-              onIncrement={() => {
-                dispatch(incrementItem(item))
-              }}
-              onDecrement={() => {
-                dispatch(decrementItem(item))
-              }}
-              disabled={productQuantity - item.orderQuantity! <= 0}
-            />
-          </div>
-          {disabled && (
-            <button
-              onClick={() => {
-                dispatch(removeItem(item))
-              }}
-              className="mt-3 bg-gray-300 py-1 px-4 rounded-full text-black hover:font-semibold text-xs cursor-pointer pointer-events-auto opacity-none w-fit"
+          <div className="flex items-center mt-2">
+            <div
+              className={cn({
+                'opacity-50 pointer-events-none': disabled
+              })}
             >
-              Delete
+              <Counter
+                value={orderQuantity ?? 1}
+                onIncrement={handleIncrementItem}
+                onDecrement={handleDecrementItem}
+                disabled={(productQuantity ?? 0) - (orderQuantity ?? 0) <= 0}
+                MinusDisabled={orderQuantity === 1}
+              />
+            </div>
+            <button
+              onClick={handleDeleteItem}
+              className={cn(
+                'flex justify-center items-center mx-4 bg-gray-300 py-1 px-4 rounded-full text-black hover:text-red-600 text-xs cursor-pointer pointer-events-auto opacity-none w-fit',
+                { 'text-red-600 z-30': disabled }
+              )}
+            >
+              <CloseIcon width={8} height={8} />
+              <span className="pl-2">Delete</span>
             </button>
-          )}
+          </div>
         </div>
         <div
           className={cn('flex items-center', {

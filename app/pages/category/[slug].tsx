@@ -30,6 +30,9 @@ import {
 import { LanguageType } from '@dropgala/types/config.type'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import ProductNotFound from '@components/ProductNotFound'
+import Cookies from 'cookies'
+import { CookieNames } from '@dropgala/types/common.type'
+import { fetchClientCart } from '@gRPC/handlers/checkout'
 
 interface PageProps {
   pageProps: {
@@ -213,6 +216,7 @@ export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
     const {
       req,
+      res,
       locale,
       params,
       query: { page }
@@ -220,6 +224,9 @@ export const getServerSideProps: GetServerSideProps =
 
     const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
+
+    const cookies = new Cookies(req, res)
+    const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
     const storeId = undefined
 
     const slug = params?.slug as string
@@ -268,6 +275,19 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(
         await fetchStorePromoSlide(alias, storeLanguageId, storeId)
       )
+
+      // Client cart
+      if (cuid) {
+        const clientCartStore = await fetchClientCart({
+          alias,
+          storeLanguageId,
+          cuid,
+          storeId
+        })
+        if (clientCartStore) {
+          store.dispatch(clientCartStore)
+        }
+      }
 
       // Page data props
       const category = await fetchStoreCategory(

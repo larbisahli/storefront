@@ -25,6 +25,7 @@ export interface ProtoGrpcType {
     MenuResponse: MessageTypeDefinition
   }
   commons: {
+    Country: MessageTypeDefinition
     Currency: MessageTypeDefinition
     GoogleAnalytics: MessageTypeDefinition
     Icon: MessageTypeDefinition

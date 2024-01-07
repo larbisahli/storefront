@@ -1,7 +1,6 @@
 import { setConfig, setLanguage } from '@dropgala/store'
 import { ConfigType, LanguageType } from '@dropgala/types/config.type'
-import { ConfigService } from '@gRPC/services'
-import LanguageService from '@gRPC/services/language.service'
+import { ConfigService, LanguageService } from '@gRPC/services'
 import { XSRFHandler } from '@middleware/utils'
 import { GetServerSidePropsContext } from 'next'
 

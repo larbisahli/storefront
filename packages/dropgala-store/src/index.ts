@@ -1,5 +1,6 @@
 export * from './Banner'
 export * from './Cart'
+export * from './Checkout'
 export * from './Config'
 export * from './Drawer'
 export * from './Menu'

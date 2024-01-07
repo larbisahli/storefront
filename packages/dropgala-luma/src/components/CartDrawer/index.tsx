@@ -35,6 +35,8 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
 
   const { __ } = useTranslation(language, 'common')
 
+  console.log({ cart })
+
   const dispatch = useAppDispatch()
 
   const handleCloseCart = () => {
@@ -64,14 +66,6 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
     currencyCode: defaultCurrency?.code
   })
 
-  const incrementItem = (item: CartItemType) => {
-    // dispatch(incrementCartItem(item))
-  }
-
-  const decrementItem = (item: CartItemType) => {
-    // dispatch(decrementCartItem(item))
-  }
-
   const renderContent = () => {
     if (cart?.items?.length === 0) {
       return <EmptyCart language={language} />
@@ -96,8 +90,6 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
               status={cart?.loadingStatus!}
               useAppSelector={useAppSelector}
               useAppDispatch={useAppDispatch}
-              incrementItem={incrementItem}
-              decrementItem={decrementItem}
               handleCloseCart={handleCloseCart}
             />
           ))}

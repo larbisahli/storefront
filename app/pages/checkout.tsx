@@ -14,6 +14,9 @@ import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { XSRFHandler } from '@middleware/utils'
+import Cookies from 'cookies'
+import { CookieNames } from '@dropgala/types/common.type'
+import { fetchClientCart } from '@gRPC/handlers/checkout'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -95,9 +98,12 @@ CheckoutPage.Layout = CheckoutLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
-    const { req, locale } = context
+    const { req, res, locale } = context
     const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
+
+    const cookies = new Cookies(req, res)
+    const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
     const storeId = undefined
 
     try {
@@ -135,6 +141,19 @@ export const getServerSideProps: GetServerSideProps =
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
+
+      // Client cart
+      if (cuid) {
+        const clientCartStore = await fetchClientCart({
+          alias,
+          storeLanguageId,
+          cuid,
+          storeId
+        })
+        if (clientCartStore) {
+          store.dispatch(clientCartStore)
+        }
+      }
 
       return {
         props: {

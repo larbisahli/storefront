@@ -7,7 +7,6 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Button from '../ui/Button'
 import { FC, useMemo } from 'react'
 import CheckoutCartItem from './CheckoutCartItem'
-import { useCartItemsCount } from '@dropgala/utils/hooks/useCartItemsCount'
 
 interface Props extends StoreProps {}
 
@@ -16,7 +15,7 @@ const CheckoutCartItems: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
 
   const { items = [] } = cart
 
-  const itemsCount = useCartItemsCount(items)
+  const itemsCount = cart.totalQuantity
 
   const { cartItems, outOfStockItems } = useMemo(() => {
     const cartItems = items?.filter((item) => {

@@ -18,6 +18,9 @@ import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import Breadcrumb from '@components/Breadcrumb'
+import Cookies from 'cookies'
+import { CookieNames } from '@dropgala/types/common.type'
+import { fetchClientCart } from '@gRPC/handlers/checkout'
 
 interface PageProps {
   pageProps: {
@@ -92,9 +95,12 @@ PrivacyPage.Layout = AppLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
-    const { req, locale } = context
+    const { req, res, locale } = context
     const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
+
+    const cookies = new Cookies(req, res)
+    const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
     const storeId = undefined
 
     try {
@@ -136,6 +142,19 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(
         await fetchStorePromoSlide(alias, storeLanguageId, storeId)
       )
+
+      // Client cart
+      if (cuid) {
+        const clientCartStore = await fetchClientCart({
+          alias,
+          storeLanguageId,
+          cuid,
+          storeId
+        })
+        if (clientCartStore) {
+          store.dispatch(clientCartStore)
+        }
+      }
 
       // Page Query
       const page = await fetchStorePage(

@@ -40,12 +40,13 @@ const Counter: React.FC<CounterProps> = ({
     <div className={cn('group flex items-center justify-between', className)}>
       <IconButton
         onClick={onDecrement}
+        disabled={MinusDisabled}
         className={cn(btnClassName, {
           '!bg-gray-100 text-gray-500 border-dashed cursor-not-allowed':
             MinusDisabled
         })}
       >
-        {single ? <Minus /> : value > 1 ? <Minus /> : <Trash />}
+        <Minus />
       </IconButton>
 
       <span

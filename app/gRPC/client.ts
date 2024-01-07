@@ -35,6 +35,7 @@ export const {
   ProductServiceRoutes,
   ConfigServiceRoutes,
   LanguageServiceRoutes,
-  PageServiceRoutes
+  PageServiceRoutes,
+  CheckoutServiceRoutes
 } = (grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType)
   .ServiceRoutes

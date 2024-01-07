@@ -1,31 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import {
-  CART_CHANGE,
-  DECREMENT_ITEM,
-  INCREMENT_ITEM
-} from '@dropgala/query/cart.query'
+import { CART_CHANGE, REMOVE_CART_ITEM } from '@dropgala/query/cart.query'
 
 import apolloClient from 'apollo-client'
+import { CartType } from '@dropgala/types/product.type'
 
-export const incrementItemThunk = createAsyncThunk(
-  'cart/incrementItem',
-  async ({
-    cartId,
-    itemId,
-    storeId,
-    csrfToken
-  }: {
-    cartId: string
-    itemId: number
-    storeId: string
-    csrfToken: string
-  }) => {
+interface RemoveCartItemProps {
+  key: string
+  storeLanguageId: number
+  storeId: string
+  csrfToken: string
+}
+
+export const removeCartItem = createAsyncThunk(
+  'cart/removeCartItem',
+  async ({ storeLanguageId, key, storeId, csrfToken }: RemoveCartItemProps) => {
     const { data } = await apolloClient.mutate<any>({
-      mutation: INCREMENT_ITEM,
+      mutation: REMOVE_CART_ITEM,
       variables: {
-        cartId,
-        itemId,
-        storeId
+        key,
+        storeId,
+        storeLanguageId
       },
       context: {
         headers: {
@@ -34,42 +28,8 @@ export const incrementItemThunk = createAsyncThunk(
       },
       fetchPolicy: 'no-cache'
     })
-    console.log({ data })
-    const { incrementItem, error } = data ?? {}
-    return { data: incrementItem, error }
-  }
-)
-
-export const decrementItemThunk = createAsyncThunk(
-  'cart/decrementItem',
-  async ({
-    cartId,
-    itemId,
-    storeId,
-    csrfToken
-  }: {
-    cartId: string
-    itemId: number
-    storeId: string
-    csrfToken: string
-  }) => {
-    const { data } = await apolloClient.mutate<any>({
-      mutation: DECREMENT_ITEM,
-      variables: {
-        cartId,
-        itemId,
-        storeId
-      },
-      context: {
-        headers: {
-          'x-csrf-token': csrfToken
-        }
-      },
-      fetchPolicy: 'no-cache'
-    })
-    console.log({ data })
-    const { decrementItem, error } = data ?? {}
-    return { data: decrementItem, error }
+    const { removeCartItem, error } = data ?? {}
+    return { data: removeCartItem, error }
   }
 )
 
@@ -110,5 +70,12 @@ export const cartChange = createAsyncThunk(
     })
     const { cartChange, error } = data ?? {}
     return { data: cartChange, error }
+  }
+)
+
+export const getCartRPC = createAsyncThunk(
+  'cart/getCartRPC',
+  (cart: CartType, error: any) => {
+    return { data: cart, error }
   }
 )

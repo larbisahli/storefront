@@ -1,9 +1,9 @@
-import { ProductTypes, ThunkStatus } from '@dropgala/types/enums.type'
-import type { CartItemType, CartType } from '@dropgala/types/product.type'
-import { isArray } from '@dropgala/utils/lodashFunctions'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ThunkStatus } from '@dropgala/types/enums.type'
+import type { CartType } from '@dropgala/types/product.type'
+import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { AppState } from '../index'
-import { cartChange, incrementItemThunk } from './thunks'
+import { cartChange, removeCartItem } from './thunks'
+import { HYDRATE } from 'next-redux-wrapper'
 
 const initialState: CartType = {
   id: null,
@@ -24,38 +24,39 @@ export const cartSlice = createSlice({
   name: 'CartReducer',
   initialState,
   reducers: {
-    setCart: (state: CartType, action: PayloadAction<{ state: CartType }>) => {
-      state = action.payload.state
-      return state
-    },
-    rehydrate: (state: CartType, action: PayloadAction<CartType>) => {
-      if (isArray(action.payload)) {
-        state = action.payload
-      }
+    setCart: (state: CartType, action: PayloadAction<{ cart: CartType }>) => {
+      const cart = action.payload.cart
+      return { ...state, ...cart }
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(cartChange.pending, (state, action) => {
+      .addCase(HYDRATE, (state: CartType, action: AnyAction) => {
+        return {
+          ...state,
+          ...action.payload.CartReducer
+        }
+      })
+      .addCase(cartChange.pending, (state) => {
         state.loadingStatus = ThunkStatus.PENDING
       })
-      .addCase(cartChange.fulfilled, (state, action) => {
+      .addCase(cartChange.fulfilled, (state, action: AnyAction) => {
         state = action.payload.data
         state.loadingStatus = ThunkStatus.FULFILLED
         return state
       })
-      .addCase(cartChange.rejected, (state, action) => {
+      .addCase(cartChange.rejected, (state) => {
         state.loadingStatus = ThunkStatus.REJECTED
       })
-      .addCase(incrementItemThunk.pending, (state, action) => {
+      .addCase(removeCartItem.pending, (state) => {
         state.loadingStatus = ThunkStatus.PENDING
       })
-      .addCase(incrementItemThunk.fulfilled, (state, action) => {
-        console.log('FULFILLED:>>>', { state, action })
+      .addCase(removeCartItem.fulfilled, (state, action: AnyAction) => {
+        state = action.payload.data
         state.loadingStatus = ThunkStatus.FULFILLED
         return state
       })
-      .addCase(incrementItemThunk.rejected, (state, action) => {
+      .addCase(removeCartItem.rejected, (state, action) => {
         state.loadingStatus = ThunkStatus.REJECTED
         // sentry({
         //   message: 'action.payload rejected',
@@ -69,7 +70,7 @@ export const cartSlice = createSlice({
   }
 })
 
-export const { setCart, rehydrate } = cartSlice.actions
+export const { setCart } = cartSlice.actions
 
 export const selectCart = (state: AppState) => state.CartReducer
 export default cartSlice.reducer

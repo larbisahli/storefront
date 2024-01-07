@@ -9,7 +9,7 @@ import { Navigation } from 'swiper/modules'
 
 import { ProductTypes, ThunkStatus } from '@dropgala/types'
 import type { ProductType } from '@dropgala/types/product.type'
-import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import { isEmpty, uniqBy } from '@dropgala/utils/lodashFunctions'
 import type { ImageType } from '@dropgala/types/common.type'
 import { HeartEmpty } from '@dropgala/assets/icons/heart'
 import { StoreProps, selectCart, selectConfig } from '@dropgala/store'
@@ -42,8 +42,6 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   const { device, language, csrf, storeId, locales, ...rest } =
     useAppSelector(selectConfig)
 
-  console.log({ cart, storeId, rest })
-
   const { __ } = useTranslation(language, 'common')
 
   const dispatch = useAppDispatch()
@@ -56,6 +54,8 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
 
   const [actualSlide, setActualSlide] = useState(0)
   const [productGallery, setProductGallery] = useState<ImageType[]>([])
+
+  const slideTo = (index: number) => swiper && swiper.slideTo(index)
 
   const {
     id,
@@ -87,32 +87,41 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   }, [selectedVariations, variationOptions])
 
   useEffect(() => {
-    const { thumbnail = [] } = selectedVariationOption ?? {}
+    const imageId =
+      selectedVariationOption?.thumbnail &&
+      selectedVariationOption?.thumbnail[0]?.id
+    if (imageId) {
+      const imageIds = productGallery?.map((i) => i.id)
+      const index = imageIds?.indexOf(imageId)
 
-    if (
-      !isEmpty(thumbnail) &&
-      isEmpty(
-        productGallery?.find(
-          (img) => thumbnail.length > 0 && img.id !== thumbnail[0]?.id
-        )
-      )
-    ) {
-      setProductGallery((prev) => [...prev, ...thumbnail])
+      if (index >= 0) {
+        slideTo(index)
+      }
     }
-  }, [selectedVariationOption, gallery])
+  }, [selectedVariationOption])
 
   useEffect(() => {
-    setProductGallery(gallery)
+    setProductGallery((prev) => [...prev, ...gallery])
   }, [gallery])
 
+  useEffect(() => {
+    const optionsGallery = variationOptions
+      ?.map((option) => option?.thumbnail ?? [])
+      ?.flat()
+    setProductGallery((prev) => {
+      return uniqBy([...prev, ...(optionsGallery ?? [])], 'id')
+    })
+  }, [variationOptions])
+
   const productQuantity =
-    (isConfigurable ? selectedVariationOption?.quantity : quantity) ?? 0
+    (isConfigurable ? selectedVariationOption?.quantity : quantity) ?? 1
 
   const productSku = isConfigurable ? selectedVariationOption?.sku : sku
 
   const isSoldOut = productQuantity === 0
 
   useEffect(() => {
+    const qt = selectedVariationOption?.quantity ?? productQuantity
     if (selectedQuantity > productQuantity) {
       setSelectedQuantity(productQuantity)
     }
@@ -161,8 +170,6 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
         </div>
       )
     }
-
-    const slideTo = (index: number) => swiper && swiper.slideTo(index)
 
     const { width: windowWidth = 0 } = useWindowSize()
     const maxWidth = windowWidth > 600 ? '600px' : `${windowWidth}px`

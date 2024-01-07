@@ -5,55 +5,56 @@ import type {
 } from '@dropgala/types/product.type'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { useRouter } from 'next/router'
-import React, { memo, useMemo } from 'react'
-
+import React, { memo, useEffect, useMemo, useState } from 'react'
+import cn from 'clsx'
 import { AttributeDisplay, Counter, Image } from '../common'
 import type { ImageType } from '@dropgala/types/common.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Link from '../ui/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
-import {
-  decrementItemThunk,
-  incrementItemThunk
-} from '@dropgala/store/Cart/thunks'
+import { cartChange, removeCartItem } from '@dropgala/store/Cart/thunks'
 import Loader from '../ui/loader'
 import CloseIcon from '@dropgala/assets/icons/close'
 import { useProductPrice } from '@dropgala/utils/hooks/usePriceRange'
+import { notify } from '../ui/toast'
 
 interface CartItemProps extends StoreProps {
   item: CartItemType
   status: ThunkStatus
-  incrementItem: (item: CartItemType) => void
-  decrementItem: (item: CartItemType) => void
   handleCloseCart: () => void
 }
 
 const CartItem: React.FC<CartItemProps> = ({
   item,
   status,
-  incrementItem,
-  decrementItem,
   handleCloseCart,
   useAppSelector,
   useAppDispatch
 }) => {
   const router = useRouter()
-  const { language, defaultCurrency, csrf, tax } = useAppSelector(selectConfig)
+  const { language, locales, defaultCurrency, csrf, tax, storeId } =
+    useAppSelector(selectConfig)
   const dispatch = useAppDispatch()
 
   const { __ } = useTranslation(language, 'common')
 
+  const [currentLoadingItem, setCurrentLoadingItem] = useState<
+    string | undefined | null
+  >(null)
+
   const { locale = 'en-US' } = router
 
   const {
+    id,
+    key,
     name,
     thumbnail,
     slug,
     type,
     quantity,
     price,
-    variations,
+    orderQuantity,
     orderVariationOption = {} as VariationOptionsType
   } = item
 
@@ -91,50 +92,100 @@ const CartItem: React.FC<CartItemProps> = ({
   })
 
   const ExclTaxFinalPrice = usePrice({
-    amount:
-      (productPrice?.finalPriceExclTax.value ?? 0) * (item.orderQuantity ?? 1),
+    amount: (productPrice?.finalPriceExclTax.value ?? 0) * (orderQuantity ?? 1),
     locale: locale!,
     currencyCode: defaultCurrency?.code
   })
 
   const total = usePrice({
-    amount: (productPrice?.finalPrice.value ?? 0) * (item.orderQuantity ?? 1),
+    amount: (productPrice?.finalPrice.value ?? 0) * (orderQuantity ?? 1),
     locale,
     currencyCode: defaultCurrency?.code
   })
 
   const { image = '', placeholder = '' } = imageThumbnail
 
+  const storeLanguageId = useMemo(
+    () => locales?.find((locale) => locale.isDefault)?.id!,
+    [locales]
+  )
+
+  useEffect(() => {
+    if (status === ThunkStatus.FULFILLED || status === ThunkStatus.REJECTED) {
+      setCurrentLoadingItem(null)
+    }
+  }, [status])
+
   const handleIncrementItem = () => {
+    setCurrentLoadingItem(key)
     dispatch(
-      incrementItemThunk({
-        cartId: '123',
-        itemId: 1222,
-        storeId: '1233',
-        csrfToken: csrf?.csrfToken!
+      cartChange({
+        storeLanguageId,
+        itemId: id!,
+        storeId: storeId!,
+        orderQuantity: 1,
+        csrfToken: csrf?.csrfToken!,
+        orderVariationOption: isEmpty(orderVariationOption)
+          ? null
+          : { id: orderVariationOption?.id }
       })
-    )
+    ).then((data) => {
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        // @ts-ignore
+        const message = data?.error?.message
+        notify.error(message ?? 'There was an error!')
+      }
+    })
   }
 
   const handleDecrementItem = () => {
+    setCurrentLoadingItem(key)
     dispatch(
-      decrementItemThunk({
-        cartId: '123',
-        itemId: 123,
-        storeId: '1233',
-        csrfToken: csrf?.csrfToken!
+      cartChange({
+        storeLanguageId,
+        itemId: id!,
+        storeId: storeId!,
+        orderQuantity: -1,
+        csrfToken: csrf?.csrfToken!,
+        orderVariationOption: isEmpty(orderVariationOption)
+          ? null
+          : { id: orderVariationOption?.id }
       })
-    )
+    ).then((data) => {
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        // @ts-ignore
+        const message = data?.error?.message
+        notify.error(message ?? 'There was an error!')
+      }
+    })
   }
 
-  const handleDeleteItem = () => {}
+  const handleDeleteItem = () => {
+    setCurrentLoadingItem(key)
+    dispatch(
+      removeCartItem({
+        key: key!,
+        storeId: storeId!,
+        storeLanguageId,
+        csrfToken: csrf?.csrfToken!
+      })
+    ).then((data) => {
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        // @ts-ignore
+        const message = data?.error?.message
+        notify.error(message ?? 'There was an error!')
+      }
+    })
+  }
+
+  const loading = ThunkStatus.PENDING === status && currentLoadingItem === key
 
   return (
     <div
       className="w-full h-auto flex justify-start items-start bg-white py-6 p-3 lg:p-70 border-b
                     border-gray-200 relative last:border-b-0"
     >
-      {ThunkStatus.PENDING === status && (
+      {loading && (
         <div className="absolute top-0 bottom-0 left-0 right-0 bg-black/10 z-40 flex justify-center items-center">
           <Loader />
         </div>
@@ -142,7 +193,7 @@ const CartItem: React.FC<CartItemProps> = ({
       <Link
         href={{
           pathname: '/product/[slug]',
-          query: { slug: item?.productSeo?.slug ?? '' }
+          query: { slug }
         }}
       >
         <div
@@ -202,34 +253,25 @@ const CartItem: React.FC<CartItemProps> = ({
           )}
         </div>
 
-        <div className="flex items-center text-13px text-gray-700 mb-10px flex-wrap">
-          {variations?.map((variation) => {
-            return (
-              <div
-                key={variation?.attribute?.id}
-                className="pr-2 flex items-center my-1"
-              >
-                <span className="text-gray-700">
-                  {variation?.attribute?.name}:
-                </span>
-                <AttributeDisplay
-                  {...{
-                    isConfigurable,
-                    orderVariationOption,
-                    variations,
-                    variation
-                  }}
-                />
-              </div>
-            )
-          })}
-        </div>
+        {!isEmpty(orderVariationOption) && (
+          <div className="flex items-center text-13px text-gray-700 mb-1 flex-wrap">
+            <div
+              className={cn(
+                'rounded border shadow-badge flex justify-center items-center font-medium',
+                'text-sm text-gray-800 transition duration-200 ease-in-out py-[2px] px-2 border-gray-300'
+              )}
+            >
+              {orderVariationOption?.title}
+            </div>
+          </div>
+        )}
         <div className="flex items-center justify-between">
           <Counter
-            value={item.orderQuantity ?? 1}
+            value={orderQuantity ?? 1}
             onIncrement={handleIncrementItem}
             onDecrement={handleDecrementItem}
-            disabled={(productQuantity ?? 0) - (item.orderQuantity ?? 0) <= 0}
+            disabled={(productQuantity ?? 0) - (orderQuantity ?? 0) <= 0}
+            MinusDisabled={orderQuantity === 1}
           />
           <div className="flex flex-col items-end">
             <span className="font-semibold text-lg text-gray-900 flex-shrink-0">

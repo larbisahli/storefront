@@ -1,9 +1,8 @@
 import { ThunkStatus } from '@dropgala/types/enums.type'
 import type { CheckoutState } from '@dropgala/types/product.type'
-import { isArray } from '@dropgala/utils/lodashFunctions'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { AppState } from '../index'
-import { incrementItemThunk } from './thunks'
+import { HYDRATE } from 'next-redux-wrapper'
 
 const initialState: CheckoutState = {
   cartId: null,
@@ -26,35 +25,36 @@ export const checkoutSlice = createSlice({
   name: 'CheckoutReducer',
   initialState,
   reducers: {
-    setCheckoutInit: (
+    setCheckout: (
       state: CheckoutState,
-      action: PayloadAction<{ state: CheckoutState }>
+      action: PayloadAction<{ checkout: CheckoutState }>
     ) => {
-      state = action.payload.state
+      state = action.payload.checkout
       return state
-    },
-    rehydrate: (state: CheckoutState, action: PayloadAction<CheckoutState>) => {
-      if (isArray(action.payload)) {
-        state = action.payload
-      }
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(incrementItemThunk.rejected, (state, action) => {
-      state.loadingStatus = ThunkStatus.REJECTED
-      // sentry({
-      //   message: 'action.payload rejected',
-      //   error: action?.error as Error
-      // });
-      console.log({
-        message: 'action.payload rejected',
-        error: action?.error as Error
-      })
+    builder.addCase(HYDRATE, (state: CheckoutState, action: AnyAction) => {
+      return {
+        ...state,
+        ...action.payload.CheckoutReducer
+      }
     })
+    // .addCase(incrementItemThunk.rejected, (state, action) => {
+    //   state.loadingStatus = ThunkStatus.REJECTED
+    //   // sentry({
+    //   //   message: 'action.payload rejected',
+    //   //   error: action?.error as Error
+    //   // });
+    //   console.log({
+    //     message: 'action.payload rejected',
+    //     error: action?.error as Error
+    //   })
+    // })
   }
 })
 
-export const { setCheckoutInit, rehydrate } = checkoutSlice.actions
+export const { setCheckout } = checkoutSlice.actions
 
 export const selectCheckout = (state: AppState) => state.CheckoutReducer
 
