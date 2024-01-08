@@ -17,6 +17,7 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import { useCartTotal } from '@dropgala/utils/hooks/useCartTotal'
+import { CheckoutSteps } from '@dropgala/types'
 
 const LockIcon = dynamic(() => import('@dropgala/assets/icons/lock'), {
   loading: () => <></>,
@@ -163,7 +164,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
               </Link>
               <Link
                 href={{
-                  pathname: '/checkout'
+                  pathname: `/checkout/${CheckoutSteps.INFORMATION}`
                 }}
                 passHref
                 className="ml-3 flex-1"

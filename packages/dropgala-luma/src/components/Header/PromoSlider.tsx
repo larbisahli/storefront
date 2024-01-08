@@ -1,5 +1,4 @@
 import { PromoBannerType } from '@dropgala/types/slider.type'
-import cn from 'clsx'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
 import { clone, isEmpty } from '@dropgala/utils/lodashFunctions'

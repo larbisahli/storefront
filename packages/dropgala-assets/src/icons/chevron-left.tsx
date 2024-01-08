@@ -1,8 +1,4 @@
-const ChevronLeft = ({
-  color = 'currentColor',
-  width = '8.5px',
-  height = '14px'
-}) => {
+const ChevronLeft = ({ color = 'currentColor', width = 8, height = 14 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

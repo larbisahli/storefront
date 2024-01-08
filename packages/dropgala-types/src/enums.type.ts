@@ -13,6 +13,7 @@ export enum ComponentNames {
   LINKED_PRODUCTS = 'LinkedProducts',
   BREADCRUMB = 'Breadcrumb',
   CHECKOUT_BREADCRUMB = 'CheckoutBreadcrumb',
+  CHECKOUT_FOOTER = 'CheckoutFooter',
   CHECKOUT_INFORMATION = 'CheckoutInformation',
   CHECKOUT_ITEMS = 'CheckoutItems',
   CHECKOUT_SHIPPING = 'CheckoutShipping',
@@ -88,13 +89,6 @@ export enum CartActions {
 }
 
 export enum CheckoutSteps {
-  CONTACT_INFORMATION = 'contact_information',
-  SHIPPING_METHOD = 'shipping_method',
-  PAYMENT_METHOD = 'payment_method',
-  ORDER_COMPLETE = 'order_complete'
-}
-
-export enum CheckoutSteps_ {
   INFORMATION = 'information',
   SHIPPING = 'shipping',
   PAYMENT = 'payment',

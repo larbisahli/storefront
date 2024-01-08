@@ -214,6 +214,15 @@ const CheckoutPayment = {
     }
   )
 }
+const CheckoutFooter = {
+  '@dropgala/luma': dynamic(
+    () => import('@dropgala/luma/components/CheckoutFooter'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
 const InstallPrompt = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/InstallPrompt'),
@@ -256,6 +265,7 @@ components.set(ComponentNames.PRODUCT_CARD, ProductCard)
 components.set(ComponentNames.PRODUCT_DETAILS, ProductDetails)
 components.set(ComponentNames.LINKED_PRODUCTS, LinkedProducts)
 components.set(ComponentNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb)
+components.set(ComponentNames.CHECKOUT_FOOTER, CheckoutFooter)
 components.set(ComponentNames.CHECKOUT_HEADER, CheckoutHeader)
 components.set(ComponentNames.BREADCRUMB, Breadcrumb)
 components.set(ComponentNames.CHECKOUT_CART_ITEMS, CheckoutCartItems)

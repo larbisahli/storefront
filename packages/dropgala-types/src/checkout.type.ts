@@ -1,3 +1,5 @@
+import { Nullable } from 'custom.type'
+
 export interface PaymentIntentType {
   paymentIntent: string | null
   clientSecret: string | null
@@ -14,25 +16,22 @@ export interface StripeOptionsType {
 export type CountryType = {
   name: string
   iso2: string
-  region: string
-  subregion: string
-  phone_code: string
-  currency: string
+  region?: string
+  subregion?: string
+  phone_code?: string
+  currency?: string
 }
 
 export type CheckoutFormValues = {
-  firstName: string
-  lastName: string
-  email: string
-  address1: string
-  address2?: string
+  fullName: Nullable<string>
+  email: Nullable<string>
+  address: Nullable<string>
   country: CountryType
-  subscribe: boolean
-  city: string
-  state: string
-  zipCode: string
-  orderShipping?: { id: string }
-  paymentMethod?: { id: string }
+  marketingOptIn?: boolean
+  city: Nullable<string>
+  state?: Nullable<string>
+  zip?: Nullable<string>
+  phone?: Nullable<string>
 }
 
 export interface OrderType {

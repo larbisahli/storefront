@@ -24,6 +24,7 @@ interface Props {
   disabled?: boolean
   onClick?: React.MouseEventHandler<HTMLButtonElement>
   className?: string
+  disabledClass?: string
 }
 
 type NativeAttrs = Omit<React.ButtonHTMLAttributes<any>, keyof Props>
@@ -38,6 +39,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   type = 'button',
   children,
   disabled = false,
+  disabledClass = 'text-gray-500 bg-gray-300 cursor-not-allowed hover:bg-gray-300',
   onClick,
   ...props
 }) => {
@@ -55,8 +57,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
         ButtonSize[size],
         className,
         {
-          'text-gray-500 bg-gray-300 cursor-not-allowed hover:bg-gray-300':
-            disabled,
+          disabledClass: disabled,
           [ButtonVariant[variant]]: !disabled
         }
       )}

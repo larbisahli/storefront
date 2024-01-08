@@ -60,13 +60,15 @@
     "@apollo/client": "^3.7.11",
     "@stripe/react-stripe-js": "^2.4.0",
     "@stripe/stripe-js": "^2.2.1",
+    "@hookform/resolvers": "^3.1.1",
     "react-hot-toast": "^2.4.1",
     "clsx": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.1",
     "react-redux": "^8.0.5",
-    "swiper": "^11.0.5"
+    "swiper": "^11.0.5",
+    "yup": "^1.2.0"
   },
   "dependencies": {
     "@swc/helpers": "^0.4.12",
@@ -79,6 +81,8 @@
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.31",
     "@types/react-redux": "^7.1.25",
+    "@hookform/resolvers": "^3.1.1",
+    "yup": "^1.2.0",
     "clsx": "^1.1.1",
     "eslint": "^8.16.0",
     "eslint-config-dropgala": "workspace:*",

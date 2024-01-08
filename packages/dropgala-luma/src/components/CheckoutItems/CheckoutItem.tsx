@@ -1,18 +1,12 @@
-import { AttributeTypeTypes, ProductTypes } from '@dropgala/types'
-import CouponIcon from '@dropgala/assets/icons/coupon-icon'
 import ImageComponent from '../common/Image'
-import {
-  ProductType,
-  VariationOptionsType,
-  VariationsType
-} from '@dropgala/types/product.type'
+import { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { useRouter } from 'next/router'
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { memo } from 'react'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { StoreProps, selectConfig } from '@dropgala/store'
-import cn from 'clsx'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { useProductPrice } from '@dropgala/utils/hooks/usePriceRange'
 
 type CheckoutItemProps = {
   item: ProductType
@@ -26,7 +20,7 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
   const router = useRouter()
   const { locale = 'en-US' } = router
 
-  const { defaultCurrency, language } = useAppSelector(selectConfig)
+  const { defaultCurrency, language, tax } = useAppSelector(selectConfig)
 
   const { __ } = useTranslation(language, 'common')
 
@@ -35,106 +29,35 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
     type,
     thumbnail,
     price,
-    variations,
-    variationOptions,
     orderVariationOption,
     orderQuantity = 0
   } = item
 
-  const [selectedVariations, setSelectedVariations] = useState<
-    VariationsType[]
-  >([])
-
-  const isConfigurable = type === ProductTypes.Variable
-
-  // const selectedVariationOption = useMemo(() => {
-  //   const selectedAttributesOption = selectedVariations?.map(
-  //     (selectedVariation) => {
-  //       return selectedVariation?.value?.id;
-  //     }
-  //   );
-
-  //   return variationOptions?.find((vop) => {
-  //     return isEqual(sortBy(vop?.options), sortBy(selectedAttributesOption));
-  //   });
-  // }, [selectedVariations, variationOptions]);
-
-  const selectedSalePrice =
-    (isConfigurable
-      ? orderVariationOption?.price?.finalPrice?.value
-      : price?.finalPrice.value) ?? 0
-
-  const selectedDiscountPrice = isConfigurable
-    ? orderVariationOption?.price?.discount?.amountOff
-    : price?.discount?.amountOff
-
-  const selectedDiscountPercent = isConfigurable
-    ? orderVariationOption?.price?.discount?.percentOff
-    : price?.discount?.percentOff
-
-  const finalPriceExclTaxValue = isConfigurable
-    ? orderVariationOption?.price?.finalPriceExclTax?.value
-    : price?.finalPriceExclTax?.value
+  const productPrice = useProductPrice({
+    selectedVariationOption: orderVariationOption,
+    simplePrice: price,
+    type,
+    taxRate: tax?.rate
+  })
 
   const discountValue = usePrice({
-    amount: selectedDiscountPrice ?? 0,
+    amount: productPrice.discount.amountOff ?? 0,
     locale,
     currencyCode: defaultCurrency?.code
   })
 
   const total = usePrice({
-    amount: selectedSalePrice * orderQuantity,
+    amount: productPrice?.finalPrice?.value * orderQuantity,
     locale,
     currencyCode: defaultCurrency?.code
   })
 
   const ExclTaxFinalPrice = usePrice({
-    amount: (finalPriceExclTaxValue ?? 0) * (item.orderQuantity ?? 1),
+    amount:
+      (productPrice?.finalPriceExclTax.value ?? 0) * (item.orderQuantity ?? 1),
     locale: locale!,
     currencyCode: defaultCurrency?.code
   })
-  useEffect(() => {
-    console.log('---------------------Y------------------------ :>> ')
-    try {
-      let selectedVariationOptions = {} as VariationOptionsType | undefined
-
-      if (isEmpty(variationOptions)) return
-
-      if (isEmpty(orderVariationOption)) {
-        // get variation_options minimum sale_price
-        selectedVariationOptions = variationOptions?.reduce((acc, loc) =>
-          acc?.price?.finalPrice?.value < loc?.price?.finalPrice?.value
-            ? acc
-            : loc
-        )
-      } else {
-        selectedVariationOptions = orderVariationOption
-      }
-
-      if (isEmpty(selectedVariationOptions)) return
-
-      // map default
-      const results = variations?.map((v) => {
-        const options = selectedVariationOptions?.options
-        return {
-          attribute: v?.attribute,
-          value: (v?.values?.filter((v) => options?.includes(v?.id!)) ?? [])[0]
-        }
-      })
-
-      results && setSelectedVariations(results)
-    } catch (error) {
-      // sentry({
-      //   message: 'ProductAttributes variation_options defaults',
-      //   error
-      // });
-    }
-  }, [
-    orderVariationOption,
-    setSelectedVariations,
-    variationOptions,
-    variations
-  ])
 
   const { image, placeholder } = !isEmpty(orderVariationOption?.thumbnail)
     ? orderVariationOption?.thumbnail[0] ?? { image: '', placeholder: '' }
@@ -177,15 +100,15 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
               <span className="inline-block text-[16px] text-gray-900 font-semibold">
                 {total}
               </span>
-              {selectedDiscountPrice && (
+              {productPrice.discount.amountOff && (
                 <div className="flex items-center">
                   <div className="bg-gray-600 h-[17px] w-[1px] mx-1"></div>
                   <del className="text-base text-gray-700 text-opacity-80">
                     {discountValue}
                   </del>
-                  {selectedDiscountPercent && (
+                  {productPrice.discount.percentOff && (
                     <span className="mx-2 self-end pb-[2px] uppercase text-xs text-red-700 font-semibold">
-                      {`${Math.round(selectedDiscountPercent)}%`} off
+                      {`${Math.round(productPrice.discount.percentOff)}%`} off
                     </span>
                   )}
                 </div>
@@ -196,100 +119,14 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
             </span>
           </div>
         </div>
-        <div className="flex items-center text-13px text-gray-500 mb-5px">
-          {/* ------ */}
-          <div className="flex-1 pr-2 text-gray-500">
-            <div className="flex items-center text-13px mb-4px flex-wrap">
-              {variations?.map((variation, idx) => {
-                return (
-                  <div
-                    key={variation?.attribute?.id}
-                    className="flex items-center"
-                  >
-                    <OrderVariations
-                      isConfigurable={isConfigurable}
-                      variation={variation}
-                      selectedVariations={selectedVariations}
-                    />
-                    {variations?.length != idx + 1 && (
-                      <span className="h-3 bg-gray-500 w-[1px] mx-1"></span>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
+        {!isEmpty(orderVariationOption) && (
+          <div className="flex items-center text-13px mb-5px">
+            <span className="border border-gray-400 px-2 py-0 rounded text-gray-900 ">
+              {orderVariationOption?.title}
+            </span>
           </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-interface OrderVariationsProps {
-  isConfigurable: boolean
-  variation: VariationsType
-  selectedVariations: VariationsType[]
-}
-
-const OrderVariations = ({
-  isConfigurable,
-  variation,
-  selectedVariations
-}: OrderVariationsProps) => {
-  const { attribute, values } = variation
-  const selectedVariation = useMemo(
-    () => selectedVariations?.find((sv) => sv?.attribute?.id === attribute?.id),
-    [selectedVariations, attribute]
-  )
-  const value = selectedVariation?.value?.value
-  const name = selectedVariation?.value?.name
-  const isColor =
-    selectedVariation?.attribute?.type === AttributeTypeTypes.COLOR
-  const simpleProductIsColor = attribute?.type === AttributeTypeTypes.COLOR
-  const simpleProductValue = values ? values[0]?.value : ''
-  const simpleProductName = values ? values[0]?.name : ''
-
-  if (!value && !simpleProductValue) return null
-
-  if (isConfigurable) {
-    return (
-      <div
-        className={cn(
-          'rounded border shadow-badge flex justify-center items-center font-medium',
-          'text-sm text-gray-700 transition duration-200 ease-in-out py-1',
-          {
-            '!rounded-full': isColor,
-            '!w-5': isColor,
-            '!h-5': isColor
-          }
         )}
-        style={{
-          background: isColor ? value : ''
-        }}
-        title={name}
-      >
-        <span>{isColor ? '' : value}</span>
       </div>
-    )
-  }
-
-  return (
-    <div
-      className={cn(
-        'rounded border shadow-badge flex justify-center items-center font-medium',
-        'text-sm text-gray-700 transition duration-200 ease-in-out py-1',
-        {
-          '!rounded-full': simpleProductIsColor,
-          '!w-5': simpleProductIsColor,
-          '!h-5': simpleProductIsColor
-        }
-      )}
-      style={{
-        background: simpleProductIsColor ? simpleProductValue : ''
-      }}
-      title={simpleProductName}
-    >
-      <span>{simpleProductIsColor ? '' : simpleProductValue}</span>
     </div>
   )
 }

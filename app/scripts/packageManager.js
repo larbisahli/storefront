@@ -245,6 +245,14 @@ const CheckoutPayment = {${themePaths?.map(
       'ProductCardPlaceholder'
     )}`
 )}}
+const CheckoutFooter = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'CheckoutFooter',
+      'ProductCardPlaceholder'
+    )}`
+)}}
 const InstallPrompt = {${themePaths?.map(
   (themePath) =>
     `'${[themePath]}': ${dynamicImport(
@@ -281,6 +289,7 @@ components.set(ComponentNames.PRODUCT_CARD, ProductCard);
 components.set(ComponentNames.PRODUCT_DETAILS, ProductDetails);
 components.set(ComponentNames.LINKED_PRODUCTS, LinkedProducts);
 components.set(ComponentNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb);
+components.set(ComponentNames.CHECKOUT_FOOTER, CheckoutFooter);
 components.set(ComponentNames.CHECKOUT_HEADER, CheckoutHeader);
 components.set(ComponentNames.BREADCRUMB, Breadcrumb);
 components.set(ComponentNames.CHECKOUT_CART_ITEMS, CheckoutCartItems);
