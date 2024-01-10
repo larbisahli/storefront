@@ -1,9 +1,9 @@
 import { ThunkStatus } from '@dropgala/types/enums.type'
-import type { CartType } from '@dropgala/types/product.type'
 import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { AppState } from '../index'
 import { cartChange, removeCartItem } from './thunks'
 import { HYDRATE } from 'next-redux-wrapper'
+import { CartType } from '@dropgala/types'
 
 const initialState: CartType = {
   id: null,

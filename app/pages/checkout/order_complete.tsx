@@ -22,7 +22,7 @@ interface Props {
   host: { host: string; subdomain: string }
 }
 
-export default function CheckoutPage({ host }: Props) {
+export default function CheckoutOrderCompletePage({ host }: Props) {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'common')
   console.log({ storeConfig })
@@ -94,7 +94,7 @@ export default function CheckoutPage({ host }: Props) {
   )
 }
 
-CheckoutPage.Layout = CheckoutLayout
+CheckoutOrderCompletePage.Layout = CheckoutLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {

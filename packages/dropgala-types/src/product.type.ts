@@ -2,11 +2,8 @@ import { AttributeType, AttributeValueType } from './attribute.type'
 import { CategoryType } from './category.type'
 import { ImageType } from './common.type'
 import { Nullable, Scalars } from './custom.type'
-import { ProductTypes, ThunkStatus } from './enums.type'
+import { ProductTypes } from './enums.type'
 import { TagType } from './tag.type'
-import { ShippingAddress } from 'address.type'
-import { ShippingType } from 'shipping.type'
-import { PaymentConfiguration } from 'payment.type'
 
 export interface VariationOptionsType {
   id: number
@@ -110,101 +107,4 @@ export interface ProductRef {
 export interface VariationsType extends AttributeType {
   attribute: AttributeType
   value?: Nullable<AttributeValueType>
-}
-
-export interface Price {
-  finalPrice: FinalPrice
-  finalPriceExclTax: FinalPrice
-  discount: {
-    amountOff: number
-    percentOff: number
-  }
-}
-
-export type CartItemType = ProductType & {
-  id: number
-  name?: string
-  sku?: string
-  type?: string
-  thumbnail?: ImageType
-  price?: PriceType
-  quantity?: string
-  key?: Scalars['ID']
-  orderQuantity: number
-  orderVariationOption?: VariationOptionsType | undefined
-}
-
-export interface FinalPrice {
-  currency: { code: string }
-  value: number
-}
-
-export interface Discount {
-  label: string
-  amount: FinalPrice
-}
-
-export interface Summary {
-  grandTotal: FinalPrice
-  subtotalIncludingTax: FinalPrice
-  subtotalExcludingTax: FinalPrice
-  subtotalWithDiscountExcludingTax: FinalPrice
-  totalShippingCost: FinalPrice
-  discount: Discount
-}
-
-export interface Metadata {
-  ip: string
-  geo: {
-    city: string
-    region: string
-    latlong: string
-  }
-}
-
-export interface StepsConfig {
-  availableSteps: string[]
-  currentStep: string
-}
-
-export interface AppliedCoupon {
-  code: string
-}
-
-export interface Tax {
-  label: string
-  percent: number
-  amount: FinalPrice
-}
-
-export interface CartType {
-  id?: string | null
-  items: CartItemType[]
-  totalQuantity: number
-  total: {
-    totalPrice: {
-      value: number
-    }
-    totalExclTax: {
-      value: number
-    }
-  }
-  loadingStatus: ThunkStatus
-}
-
-export interface CheckoutState {
-  cartId: string | null
-  email?: Nullable<string>
-  shippingAddress?: Nullable<ShippingAddress>
-  shipments?: Nullable<ShippingType>
-  paymentConfiguration?: Nullable<PaymentConfiguration>
-  summary?: Nullable<Summary>
-  metadata?: Nullable<Metadata>
-  stepsConfig?: Nullable<StepsConfig>
-  status?: string
-  appliedCoupon?: Nullable<AppliedCoupon>
-  tax?: Nullable<Tax>
-  loadingStatus?: ThunkStatus
-  createdAt?: Scalars['Date']
-  updatedAt?: Scalars['Date']
 }

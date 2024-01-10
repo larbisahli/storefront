@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { CART_CHANGE, REMOVE_CART_ITEM } from '@dropgala/query/cart.query'
 
 import apolloClient from 'apollo-client'
-import { CartType } from '@dropgala/types/product.type'
+import { CartType } from '@dropgala/types'
 
 interface RemoveCartItemProps {
   key: string

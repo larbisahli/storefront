@@ -164,7 +164,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
               </Link>
               <Link
                 href={{
-                  pathname: `/checkout/${CheckoutSteps.INFORMATION}`
+                  pathname: '/checkout'
                 }}
                 passHref
                 className="ml-3 flex-1"

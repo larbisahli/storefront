@@ -40,12 +40,6 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
     taxRate: tax?.rate
   })
 
-  const discountValue = usePrice({
-    amount: productPrice.discount.amountOff ?? 0,
-    locale,
-    currencyCode: defaultCurrency?.code
-  })
-
   const total = usePrice({
     amount: productPrice?.finalPrice?.value * orderQuantity,
     locale,
@@ -66,8 +60,8 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
     : { image: '', placeholder: '' }
 
   return (
-    <div className="w-full h-auto flex justify-start items-start mt-5 relative last:border-b-0">
-      <div className="relative flex w-75px h-75px rounded flex-shrink-0">
+    <div className="w-full h-auto flex justify-start last:border-none items-start relative mt-3 pb-4 last:border-b-0 border-b border-solid border-gray-400">
+      <div className="relative flex w-[75px] h-[75px] rounded flex-shrink-0">
         <div
           className="absolute text-xs bg-black rounded-full z-10
           text-white h-5 w-5 flex items-center font-semibold justify-center right-[-5px] top-[-5px] shadow-card"
@@ -85,8 +79,7 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
           />
         </div>
       </div>
-
-      <div className="flex flex-col justify-center pl-15px">
+      <div className="flex flex-col justify-center pl-15px w-full">
         <div className="flex flex-col w-full">
           <div className="flex items-start flex-col">
             <div
@@ -95,37 +88,29 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
             >
               {name}
             </div>
-            {/* ---- price area ---- */}
-            <div className="flex items-end justify-end flex-shrink-0">
-              <span className="inline-block text-[16px] text-gray-900 font-semibold">
-                {total}
-              </span>
-              {productPrice.discount.amountOff && (
-                <div className="flex items-center">
-                  <div className="bg-gray-600 h-[17px] w-[1px] mx-1"></div>
-                  <del className="text-base text-gray-700 text-opacity-80">
-                    {discountValue}
-                  </del>
-                  {productPrice.discount.percentOff && (
-                    <span className="mx-2 self-end pb-[2px] uppercase text-xs text-red-700 font-semibold">
-                      {`${Math.round(productPrice.discount.percentOff)}%`} off
-                    </span>
-                  )}
+            <div className="flex w-full items-center justify-center">
+              {/* Option title */}
+              {!isEmpty(orderVariationOption) && (
+                <div className="flex items-center text-13px flex-0">
+                  <span className="border border-gray-400 px-2 py-0 rounded text-gray-900 ">
+                    {orderVariationOption?.title}
+                  </span>
                 </div>
               )}
+              {/* ---- price area ---- */}
+              <div className="flex flex-col flex-1 items-end px-5">
+                <div className="flex items-end justify-end flex-shrink-0">
+                  <span className="inline-block text-[16px] text-gray-900 font-semibold">
+                    {total}
+                  </span>
+                </div>
+                <span className="text-gray-800 text-xs font-medium">
+                  {__('Excl. tax: %s', ExclTaxFinalPrice)}
+                </span>
+              </div>
             </div>
-            <span className="text-gray-800 text-xs font-medium">
-              {__('Excl. tax: %s', ExclTaxFinalPrice)}
-            </span>
           </div>
         </div>
-        {!isEmpty(orderVariationOption) && (
-          <div className="flex items-center text-13px mb-5px">
-            <span className="border border-gray-400 px-2 py-0 rounded text-gray-900 ">
-              {orderVariationOption?.title}
-            </span>
-          </div>
-        )}
       </div>
     </div>
   )

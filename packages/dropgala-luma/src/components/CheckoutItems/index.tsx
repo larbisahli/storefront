@@ -112,7 +112,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
 
   const renderSubTotal = () => {
     return (
-      <div className="mt-3 flex items-center justify-between">
+      <div className="mt-3 flex items-center justify-between mb-3">
         <span className="text-gray-900 text-sm">
           {__('Subtotal')} &nbsp;
           <span className="font-normal text-gray-700 text-13px">
@@ -135,7 +135,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
     return (
       <div className="mt-3 flex items-center justify-between">
         <span className="text-gray-900 text-sm">
-          {__('Tax total (%s)', `${tax?.rate}%`)}
+          {__('Tax (%s)', `${tax?.rate}%`)}
         </span>
         <span className="text-sm font-semibold text-base text-gray-900">
           {totalTax}
@@ -168,6 +168,74 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
           <div className="text-right w-full text-gray-800 text-xs font-medium">
             {__('Excl. tax: %s', totalExclTax)}
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  const renderShipment = () => {
+    const shippingPrice = 0
+    return (
+      <div className="flex items-center justify-between">
+        <span className="text-gray-900 text-sm">
+          {__('Shipping (%s)', 'DHL')}
+        </span>
+        <div className="flex items-end flex-col">
+          {shippingPrice ? (
+            <>
+              <span className="text-black font-bold text-lg">
+                {shippingPrice}
+              </span>
+              <div className="text-right w-full text-gray-800 text-xs font-medium">
+                {__('Excl. tax: %s', shippingPrice)}
+              </div>
+            </>
+          ) : (
+            <span className="font-thin text-black text-sm">
+              {__('Calculated at next step')}
+            </span>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  const renderCoupon = () => {
+    return (
+      <div>
+        <div className="font-medium">{__('Have a discount code?')}</div>
+        <div className="flex items-center">
+          <Input
+            className="w-full mr-3"
+            inputClassName="placeholder-gray-500 border border-solid border-gray-400"
+            placeholder="Discount code"
+            value={couponCode}
+            onChange={(e: { target: { value: React.SetStateAction<null> } }) =>
+              setCouponCode(e.target.value)
+            }
+          />
+          <Button
+            onClick={handleCoupon}
+            loading={loading}
+            className="bg-black text-white h-10 px-5 capitalize"
+          >
+            {__('Apply')}
+          </Button>
+        </div>
+        {/* COUPON */}
+        <div
+          style={{ color: '#6d6c6c' }}
+          className="flex items-center bg-gray-400 w-fit px-2 py-1 my-3 shadow-card"
+        >
+          <div>
+            <CouponIcon width={14} height={14} />
+          </div>
+          <div className="p-1 lg:max-w-[200px] overflow-hidden text-skin-base">
+            {'VT_XYRXSQIZQ'}
+          </div>
+          <button className="m-1">
+            <CloseIcon width={10} height={10} />
+          </button>
         </div>
       </div>
     )
@@ -221,8 +289,8 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
             </Link>
           </div>
         </div>
-        {/* Cart Items */}
-        <Scrollbar className="cart-scrollbar overflow-x-hidden !max-h-[300px] flex-grow pr-2">
+        <div className="relative">
+          {/* Cart Items */}
           {cart?.items?.map((item) => (
             <CheckoutItem
               item={item}
@@ -230,62 +298,17 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
               useAppSelector={useAppSelector}
             />
           ))}
-        </Scrollbar>
-        <div
-          style={{ background: 'rgba(0,0,0,0.05)' }}
-          className="split-line-thin my-20px"
-        ></div>
-        {/* Input */}
-        <div className="flex items-center">
-          <Input
-            className="w-full mr-3"
-            inputClassName="placeholder-gray-500 border border-solid border-gray-400"
-            placeholder="Discount code"
-            value={couponCode}
-            onChange={(e: { target: { value: React.SetStateAction<null> } }) =>
-              setCouponCode(e.target.value)
-            }
-          />
-          <Button
-            onClick={handleCoupon}
-            loading={loading}
-            className="bg-black text-white h-10 px-5 capitalize"
-          >
-            {__('Apply')}
-          </Button>
         </div>
-        {/* COUPON */}
-        <div
-          style={{ color: '#6d6c6c' }}
-          className="flex items-center bg-gray-400 w-fit px-2 py-1 my-3 shadow-card"
-        >
-          <div>
-            <CouponIcon width={14} height={14} />
-          </div>
-          <div className="p-1 lg:max-w-[200px] overflow-hidden text-skin-base">
-            {'VT_XYRXSQIZQ'}
-          </div>
-          <button className="m-1">
-            <CloseIcon width={10} height={10} />
-          </button>
-        </div>
-        <div
-          style={{ background: 'rgba(0,0,0,0.05)' }}
-          className="split-line-thin my-20px"
-        ></div>
+        <div className="h-[1px] w-full bg-gray-400 my-5"></div>
+        {renderCoupon()}
+        <div className="h-[1px] w-full bg-gray-400 my-5"></div>
         <div>
-          <div className="flex items-center justify-between">
-            <span className="text-gray-900 text-sm">{__('Shipping')}</span>
-            <span className="text-12px text-gray-800">
-              {__('Calculated at next step')}
-            </span>
-          </div>
-          <div className="h-[1px] w-full bg-gray-400 my-10px"></div>
           {renderSubTotal()}
+          {renderShipment()}
           {renderDiscount()}
           {renderTaxTotal()}
         </div>
-        <div className="h-[1px] w-full bg-gray-400 my-20px"></div>
+        <div className="h-[1px] w-full bg-gray-400 my-5"></div>
         {renderTotal()}
       </div>
     </div>

@@ -14,7 +14,7 @@ import { mediaURL } from '@dropgala/utils/utils'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchClientCart } from '@gRPC/handlers/checkout'
+import { fetchClientCart, fetchClientCheckout } from '@gRPC/handlers/checkout'
 import CheckoutPayment from '@components/CheckoutPayment'
 import CheckoutFooter from '@components/CheckoutFooter'
 
@@ -22,7 +22,7 @@ interface Props {
   host: { host: string; subdomain: string }
 }
 
-export default function CheckoutPage({ host }: Props) {
+export default function CheckoutPaymentPage({ host }: Props) {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'common')
   console.log({ storeConfig })
@@ -82,7 +82,7 @@ export default function CheckoutPage({ host }: Props) {
           {/* Checkout Payment */}
           <div className="flex-1">
             <div className="px-5 py-3 mt-10 sm:mt-0 flex justify-center h-full items-start">
-              <div className="max-w-[550px] w-full h-full">
+              <div className="max-w-[650px] w-full h-full">
                 <div className="mt-5 md:mt-0 h-full">
                   <CheckoutPayment />
                 </div>
@@ -105,7 +105,7 @@ export default function CheckoutPage({ host }: Props) {
   )
 }
 
-CheckoutPage.Layout = CheckoutLayout
+CheckoutPaymentPage.Layout = CheckoutLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
@@ -153,16 +153,27 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
 
-      // Client cart
+      // Client cart and Checkout
       if (cuid) {
-        const clientCartStore = await fetchClientCart({
+        const clientCart = await fetchClientCart({
           alias,
           storeLanguageId,
           cuid,
           storeId
         })
-        if (clientCartStore) {
-          store.dispatch(clientCartStore)
+        const clientCheckout = await fetchClientCheckout(context, cuid)
+        if (clientCart) {
+          store.dispatch(clientCart)
+        }
+        if (clientCheckout) {
+          store.dispatch(clientCheckout)
+        }
+      } else {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false
+          }
         }
       }
 

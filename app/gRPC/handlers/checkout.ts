@@ -1,6 +1,8 @@
 import { setCart, setCheckout } from '@dropgala/store'
 import { CartType, CheckoutState } from '@dropgala/types/product.type'
 import { CheckoutService } from '@gRPC/services'
+import { GetServerSidePropsContext } from 'next'
+import requestIp from 'request-ip'
 
 const checkoutService = new CheckoutService()
 
@@ -29,13 +31,23 @@ export const fetchClientCart = async ({
   })
 }
 
-export const fetchClientCheckout = async (cuid: string | null | undefined) => {
+export const fetchClientCheckout = async (
+  context: GetServerSidePropsContext,
+  cuid: string
+) => {
   if (!cuid) return null
   const { checkout = null, error: checkoutError } =
     await checkoutService.getStoreCheckout(cuid)
   if (checkoutError) throw { checkoutError }
   if (!checkout) return null
+
+  const { req } = context
+  const clientIp = requestIp.getClientIp(req)
+
   return setCheckout({
-    checkout: checkout as unknown as CheckoutState
+    checkout: {
+      ...((checkout ?? {}) as unknown as CheckoutState),
+      metadata: { ip: clientIp }
+    }
   })
 }

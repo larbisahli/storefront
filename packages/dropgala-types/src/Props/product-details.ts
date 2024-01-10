@@ -1,4 +1,5 @@
-import { CartItemType, ProductType } from 'product.type'
+import { CartItemType } from 'checkout.type'
+import { ProductType } from 'product.type'
 
 export interface ProductDetailsProps {
   product: ProductType

@@ -1,34 +1,37 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { CART_CHANGE } from '@dropgala/query/cart.query'
-
+import { UPDATE_CHECKOUT_INFORMATION } from '@dropgala/query/checkout.query'
 import apolloClient from 'apollo-client'
-interface CartChangeThunkProps {
-  itemId: number
-  storeLanguageId: number
-  orderQuantity: number
-  storeId: string
-  orderVariationOption: { id: number } | null
+import { ShippingAddress } from '@dropgala/types'
+interface updateCheckoutThunkProps extends ShippingAddress {
   csrfToken: string
 }
 
-export const cartChange = createAsyncThunk(
-  'cart/cartChangeThunk',
+export const updateCheckoutInformation = createAsyncThunk(
+  'cart/updateCheckoutInformationThunk',
   async ({
-    itemId,
-    storeLanguageId,
-    orderQuantity,
-    storeId,
-    orderVariationOption,
+    city,
+    marketingOptIn,
+    zip,
+    state,
+    address,
+    email,
+    country,
+    phone,
+    fullName,
     csrfToken
-  }: CartChangeThunkProps) => {
+  }: updateCheckoutThunkProps) => {
     const { data } = await apolloClient.mutate<any>({
-      mutation: CART_CHANGE,
+      mutation: UPDATE_CHECKOUT_INFORMATION,
       variables: {
-        itemId,
-        storeLanguageId,
-        orderVariationOption,
-        orderQuantity,
-        storeId
+        city,
+        marketingOptIn,
+        zip,
+        state,
+        address,
+        email,
+        country,
+        phone,
+        fullName
       },
       context: {
         headers: {
@@ -37,7 +40,7 @@ export const cartChange = createAsyncThunk(
       },
       fetchPolicy: 'no-cache'
     })
-    const { cartChange, error } = data ?? {}
-    return { data: cartChange, error }
+    const { updateCheckoutInformation, error } = data ?? {}
+    return { data: updateCheckoutInformation, error }
   }
 )

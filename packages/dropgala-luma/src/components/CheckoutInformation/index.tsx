@@ -1,56 +1,38 @@
-import { CheckoutFormValues, CheckoutSteps } from '@dropgala/types'
+import { CheckoutFormValues, CheckoutSteps, ThunkStatus } from '@dropgala/types'
 import Checkbox from '../ui/checkbox'
-import Input from '../ui/Input1'
+import Input from '../ui/Input'
 import Label from '../ui/label'
 import SelectInput from '../ui/selectInput'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import Link from '../ui/Link'
 import Button from '../ui/Button'
 import Loader from '../ui/loader'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { checkoutValidationSchema } from './checkout-validation-schema'
-import { StoreProps, selectConfig } from '@dropgala/store'
+import { StoreProps, selectCheckout, selectConfig } from '@dropgala/store'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import ChevronLeft from '@dropgala/assets/icons/chevron-left'
 import ChevronRight from '@dropgala/assets/icons/chevron-right'
-import { useMutation } from '@apollo/client'
-
-const defaultValues = {
-  fullName: null,
-  email: null,
-  address: null,
-  country: { name: 'Morocco', iso2: 'ma' },
-  marketingOptIn: false,
-  city: null,
-  state: null,
-  zip: null,
-  phone: null
-}
+import { updateCheckoutInformation } from '@dropgala/store/Checkout/thunks'
+import { notify } from '../ui/toast'
 
 interface Props extends StoreProps {}
 
-const CheckoutInformation = ({ useAppSelector }: Props) => {
+const CheckoutInformation = ({ useAppSelector, useAppDispatch }: Props) => {
   const router = useRouter()
 
-  const { language } = useAppSelector(selectConfig)
+  const { language, csrf } = useAppSelector(selectConfig)
+  const checkout = useAppSelector(selectCheckout)
+  const dispatch = useAppDispatch()
+
   const { __ } = useTranslation(language, 'common')
 
-  const [error, setError] = useState()
+  const defaultValues = checkout.shippingAddress
+  const isLoading = checkout.loadingStatus === ThunkStatus.PENDING
 
-  // const [CreateOrder, { loading }] = useMutation(CREATE_ORDER, {
-  //   context: {
-  //     headers: {
-  //       'x-csrf-token': 'csrfToken'
-  //     }
-  //   },
-  //   onCompleted: (data: { forgetPassword: { success: boolean } }) => {
-  //     if (data?.forgetPassword?.success) {
-  //       // reset()
-  //     }
-  //   }
-  // })
+  const [error, setError] = useState()
 
   const {
     register,
@@ -76,28 +58,31 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
   console.log('errors =====>', errors)
 
   const onSubmit = async (values: CheckoutFormValues) => {
-    // Create an order
-    const variables = {
-      ...values,
-      country: {
-        iso2: values.country.iso2,
-        name: values.country.name,
-        region: values.country.region,
-        subregion: values.country.subregion,
-        phoneCode: values.country.phone_code,
-        currency: values.country.currency
+    dispatch(
+      updateCheckoutInformation({
+        ...values,
+        csrfToken: csrf?.csrfToken!,
+        country: {
+          iso2: values.country.iso2,
+          name: values.country.name,
+          region: values.country.region,
+          subregion: values.country.subregion,
+          phoneCode: values.country.phoneCode,
+          currency: values.country.currency
+        }
+      })
+    ).then((data) => {
+      console.log('updateCheckoutInformation ===>', { data })
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        // @ts-ignore
+        const message = data?.error?.message
+        console.log({ message })
+        notify.error(message ?? 'There was an error!')
+        return
       }
-    }
-    console.log('onSubmit values :>> ', { values, variables })
-
-    router.push(`/checkout/${CheckoutSteps.SHIPPING}`)
-
-    // CreateOrder({ variables }).catch((err) => {
-    //   setError(err)
-    // })
+      router.push(`/checkout/${CheckoutSteps.SHIPPING}`)
+    })
   }
-
-  const isLoading = false
 
   return (
     <form
@@ -119,6 +104,7 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
             <div className="mb-4">
               <Input
                 isRequiredLabel
+                placeholder={__('Email')}
                 label={__('Email')}
                 {...register('email')}
                 type="email"
@@ -138,6 +124,7 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
               <div className="w-full">
                 <Input
                   isRequiredLabel
+                  placeholder={__('Full name')}
                   label={__('Full name')}
                   {...register('fullName')}
                   variant="outline"
@@ -166,6 +153,7 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
             <div className="col-span-6">
               <Input
                 isRequiredLabel
+                placeholder=""
                 label={__('Address')}
                 {...register('address')}
                 error={errors.address?.message!}
@@ -176,6 +164,7 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
             <div className="flex items-center flex-wrap">
               <div className="sm:flex-1 flex-0 mb-6 sm:mb-0 sm:w-fit w-full">
                 <Input
+                  placeholder=""
                   isRequiredLabel
                   label={__('City')}
                   {...register('city')}
@@ -186,6 +175,7 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
 
               <div className="sm:flex-1 flex-0 mb-6 sm:mb-0 mx-0 sm:mx-2 sm:w-fit w-full">
                 <Input
+                  placeholder=""
                   label={__('State / Province')}
                   {...register('state')}
                   error={errors.state?.message!}
@@ -195,6 +185,7 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
 
               <div className="sm:flex-1 flex-0 sm:w-fit w-full">
                 <Input
+                  placeholder=""
                   label={__('ZIP / Postal code')}
                   {...register('zip')}
                   error={errors.zip?.message}
@@ -204,6 +195,7 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
             </div>
             <div className="mt-5">
               <Input
+                placeholder=""
                 label={__('Phone')}
                 {...register('phone')}
                 error={errors.phone?.message!}
@@ -229,7 +221,7 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
         </Link>
         <Button
           type="submit"
-          className="bg-black text-white font-semibold place-content-end capitalize text-lg w-[280px]"
+          className="bg-black text-white font-semibold place-content-end capitalize text-lg min-w-[280px]"
           disabledClass="pointer-events-none"
           loading={isLoading}
           disabled={isLoading}
@@ -244,4 +236,4 @@ const CheckoutInformation = ({ useAppSelector }: Props) => {
   )
 }
 
-export default CheckoutInformation
+export default memo(CheckoutInformation)
