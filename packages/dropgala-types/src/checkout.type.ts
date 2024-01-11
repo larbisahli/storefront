@@ -1,7 +1,7 @@
-import { ShippingAddress } from 'address.type'
 import { ImageType } from 'common.type'
 import { Nullable, Scalars } from 'custom.type'
 import { ThunkStatus } from 'enums.type'
+import { ShippingAddress } from 'generated/checkout/ShippingAddress'
 import { PaymentConfiguration } from 'payment.type'
 import { PriceType, ProductType, VariationOptionsType } from 'product.type'
 import { ShippingType } from 'shipping.type'

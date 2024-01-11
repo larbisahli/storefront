@@ -155,8 +155,6 @@
 .radio_input[type='radio']:not(:checked) + label {
   position: relative;
   cursor: pointer;
-  line-height: 18px;
-  @apply mt-2;
 }
 
 .radio_input[type='radio']:not(:checked) + label .label-bg {

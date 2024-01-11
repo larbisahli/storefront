@@ -17,15 +17,20 @@ import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCart, fetchClientCheckout } from '@gRPC/handlers/checkout'
 import CheckoutFooter from '@components/CheckoutFooter'
 import CheckoutShipping from '@components/CheckoutShipping'
+import { fetchAvailableShippings } from '@gRPC/handlers/shipping'
+import { Shipping } from '@dropgala/types/generated/shipping/Shipping'
 
 interface Props {
-  host: { host: string; subdomain: string }
+  pageProps: {
+    host: { host: string; subdomain: string }
+    shippings: Shipping[]
+  }
 }
 
-export default function CheckoutShippingPage({ host }: Props) {
+export default function CheckoutShippingPage({ pageProps }: Props) {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'common')
-  console.log({ storeConfig })
+  const { host, shippings = [] } = pageProps
   return (
     <>
       <NextSeo
@@ -84,7 +89,7 @@ export default function CheckoutShippingPage({ host }: Props) {
             <div className="px-5 py-3 mt-10 sm:mt-0 flex justify-center h-full items-start">
               <div className="max-w-[650px] w-full h-full">
                 <div className="mt-5 md:mt-0 h-full">
-                  <CheckoutShipping />
+                  <CheckoutShipping shippings={shippings} />
                 </div>
               </div>
             </div>
@@ -177,9 +182,12 @@ export const getServerSideProps: GetServerSideProps =
         }
       }
 
+      const shippings = await fetchAvailableShippings({ alias, storeId })
+
       return {
         props: {
-          host: { host, alias }
+          host: { host, alias },
+          shippings
         }
       }
     } catch (error) {

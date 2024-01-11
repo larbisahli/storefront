@@ -26,7 +26,7 @@ const Radio = React.forwardRef<HTMLInputElement, Props>(
             className={cn('radio_input', inputClassName)}
             {...rest}
           />
-          <label htmlFor={id} className="w-full">
+          <label htmlFor={id} className={cn('w-full', className)}>
             {label && label()}
           </label>
         </div>

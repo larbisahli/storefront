@@ -2,7 +2,7 @@ import * as grpc from '@grpc/grpc-js'
 import * as protoLoader from '@grpc/proto-loader'
 import path from 'path'
 
-import { ProtoGrpcType } from '@gRPC/generated/serviceRoutes'
+import { ProtoGrpcType } from '@dropgala/types/generated/serviceRoutes'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -36,6 +36,7 @@ export const {
   ConfigServiceRoutes,
   LanguageServiceRoutes,
   PageServiceRoutes,
-  CheckoutServiceRoutes
+  CheckoutServiceRoutes,
+  ShippingServiceRoutes
 } = (grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType)
   .ServiceRoutes

@@ -213,11 +213,15 @@ importers:
 
   packages/dropgala-types:
     specifiers:
+      '@grpc/grpc-js': ^1.8.14
+      '@grpc/proto-loader': ^0.7.6
       eslint: ^8.16.0
       eslint-config-dropgala: workspace:*
       tsup: ^5.12.8
       typescript: ^4.5.5
     devDependencies:
+      '@grpc/grpc-js': 1.8.14
+      '@grpc/proto-loader': 0.7.6
       eslint: 8.36.0
       eslint-config-dropgala: link:../eslint-config-dropgala
       tsup: 5.12.9_typescript@4.9.5
@@ -259,7 +263,7 @@ importers:
       typescript: ^4.8.4
     devDependencies:
       eslint: 8.36.0
-      eslint-config-next: 14.0.5-canary.42_vgl77cfdswitgr47lm5swmv43m
+      eslint-config-next: 14.0.5-canary.49_vgl77cfdswitgr47lm5swmv43m
       eslint-config-prettier: 8.7.0_eslint@8.36.0
       eslint-config-turbo: 1.11.3_eslint@8.36.0
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.36.0
@@ -2226,7 +2230,6 @@ packages:
     dependencies:
       '@grpc/proto-loader': 0.7.6
       '@types/node': 18.15.11
-    dev: false
 
   /@grpc/proto-loader/0.7.6:
     resolution: {integrity: sha512-QyAXR8Hyh7uMDmveWxDSUcJr9NAWaZ2I6IXgAYvQmfflwouTM+rArE2eEaCtLlRqO81j7pRLCt81IefUei6Zbw==}
@@ -2344,8 +2347,8 @@ packages:
   /@next/env/13.2.4:
     resolution: {integrity: sha512-+Mq3TtpkeeKFZanPturjcXt+KHfKYnLlX6jMLyCrmpq6OOs4i1GqBOAauSkii9QeKCMTYzGppar21JU57b/GEA==}
 
-  /@next/eslint-plugin-next/14.0.5-canary.42:
-    resolution: {integrity: sha512-3eLPl08Wk6Bvpd0XDwUgo+VMJnV3FH7CEF99leLcQhTww3jPFtFmw2fCy4Fkyy+nQBfSdCjVbdzjGXjGSsgEcg==}
+  /@next/eslint-plugin-next/14.0.5-canary.49:
+    resolution: {integrity: sha512-Im54H2S5D+Ql9BmqyKXeExtxdUydWGHArbLtGy7I8R8dYFEUmqceK3QPa6uwmQBWlkta/i9fueWPfsuLswKhqQ==}
     dependencies:
       glob: 7.1.7
     dev: true
@@ -4440,8 +4443,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /eslint-config-next/14.0.5-canary.42_vgl77cfdswitgr47lm5swmv43m:
-    resolution: {integrity: sha512-10ycJ1/dfeLcEpU20HH46kolxOo7QT3f6FTNAwjc1qqB0zG8S3MS4ol+2+T3hpXEgMg49I0kSDSnC2dIHrM9Lg==}
+  /eslint-config-next/14.0.5-canary.49_vgl77cfdswitgr47lm5swmv43m:
+    resolution: {integrity: sha512-+6r68co6PUwkOAqVi0HU01aPccrvqmZHLLN3MHFewz7hNHcsDlFYgQBETJSPHzIsb+1akXbGWaei/FmiUfbvzA==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -4449,7 +4452,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 14.0.5-canary.42
+      '@next/eslint-plugin-next': 14.0.5-canary.49
       '@rushstack/eslint-patch': 1.5.1
       '@typescript-eslint/parser': 5.55.0_vgl77cfdswitgr47lm5swmv43m
       eslint: 8.36.0

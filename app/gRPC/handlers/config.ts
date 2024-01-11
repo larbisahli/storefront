@@ -34,7 +34,6 @@ export const fetchStoreLanguage = async (
   const storeLanguage = new LanguageService()
   const { language = null, error: languageError } =
     await storeLanguage.getStoreLanguage(id, alias, storeId)
-  console.log('language :>>>', { language })
   if (languageError) throw { languageError }
   if (!language) throw { message: 'Returned value from RPC is undefined' }
   return setLanguage({

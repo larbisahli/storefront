@@ -1,5 +1,4 @@
-import { ProductTypes } from '@dropgala/types'
-import { CartItemType, CartType } from '@dropgala/types/product.type'
+import { CartItemType, CartType, ProductTypes } from '@dropgala/types'
 import { useMemo } from 'react'
 import { calcTaxRate } from 'utils'
 
