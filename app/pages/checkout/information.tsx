@@ -15,7 +15,7 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import Cookies from 'cookies'
 
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchClientCart, fetchClientCheckout } from '@gRPC/handlers/checkout'
+import { fetchClientCheckout } from '@gRPC/handlers/checkout'
 import CheckoutInformation from '@components/CheckoutInformation'
 import CheckoutFooter from '@components/CheckoutFooter'
 
@@ -156,16 +156,7 @@ export const getServerSideProps: GetServerSideProps =
 
       // Client cart and Checkout
       if (cuid) {
-        const clientCart = await fetchClientCart({
-          alias,
-          storeLanguageId,
-          cuid,
-          storeId
-        })
-        const clientCheckout = await fetchClientCheckout(context, cuid)
-        if (clientCart) {
-          store.dispatch(clientCart)
-        }
+        const clientCheckout = await fetchClientCheckout(context, alias, storeLanguageId, cuid)
         if (clientCheckout) {
           store.dispatch(clientCheckout)
         }

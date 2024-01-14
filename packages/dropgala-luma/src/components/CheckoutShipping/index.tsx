@@ -10,56 +10,53 @@ import Button from '../ui/Button'
 import ChevronRight from '@dropgala/assets/icons/chevron-right'
 import Loader from '../ui/loader'
 import ShippingOption from './shippingOption'
-import { CheckoutSteps } from '@dropgala/types'
+import { CheckoutSteps, ThunkStatus } from '@dropgala/types'
 import type { Shipping } from '@dropgala/types/generated/shipping/Shipping'
-import { useMutation } from '@apollo/client'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import ShippingAddress from './shippingAddress'
+import { notify } from '../ui/toast'
+import { updateCheckoutShipping } from '@dropgala/store/Checkout/thunks'
 
 interface Props extends StoreProps {
   shippings: Shipping[]
 }
 
-const CheckoutShipping = ({ useAppSelector, shippings }: Props) => {
+const CheckoutShipping = ({ useAppSelector, useAppDispatch, shippings }: Props) => {
   const router = useRouter()
 
-  const { language } = useAppSelector(selectConfig)
+  const { language, csrf } = useAppSelector(selectConfig)
   const checkout = useAppSelector(selectCheckout)
+  const dispatch = useAppDispatch()
 
   const { __ } = useTranslation(language, 'common')
 
   const [selectedOption, setSelectedOption] = useState('')
-
   const [error, setError] = useState()
 
-  // const [CreateOrder, { loading }] = useMutation(CREATE_ORDER, {
-  //   context: {
-  //     headers: {
-  //       'x-csrf-token': 'csrfToken'
-  //     }
-  //   },
-  //   onCompleted: (data: { forgetPassword: { success: boolean } }) => {
-  //     if (data?.forgetPassword?.success) {
-  //       // reset()
-  //     }
-  //   }
-  // })
+  const isLoading = checkout.loadingStatus === ThunkStatus.PENDING
 
   const onSubmit = async () => {
     if (isEmpty(selectedOption)) {
+      notify.warn('Please select a shipping method!')
       return
     }
 
-    console.log('onSubmit values :>> ', { selectedOption })
-
-    router.push(`/checkout/${CheckoutSteps.PAYMENT}`)
-
-    // CreateOrder({ variables }).catch((err) => {
-    //   setError(err)
-    // })
+    dispatch(
+      updateCheckoutShipping({
+        id: Number(selectedOption),
+        csrfToken: csrf?.csrfToken!
+      })
+    ).then((data) => {
+      if (data?.meta.requestStatus === ThunkStatus.REJECTED) {
+        // @ts-ignore
+        const message = data?.error?.message
+        console.log({ message })
+        notify.error(message ?? 'There was an error!')
+        return
+      }
+      router.push(`/checkout/${CheckoutSteps.PAYMENT}`)
+    })
   }
-
-  const isLoading = false
 
   const handleOptionChange = (
     changeEvent: React.ChangeEvent<HTMLInputElement>

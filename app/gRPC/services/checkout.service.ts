@@ -29,9 +29,9 @@ export default class CheckoutService extends CheckoutServiceRoutes {
       .catch((error) => ({ error, cart: null }))
   }
 
-  public async getStoreCheckout(cuid: string) {
+  public async getStoreCheckout(alias: string, cuid: string, storeLanguageId: number) {
     const clientCheckout = promisify(this.getClientCheckout).bind(this)
-    return await clientCheckout({ cuid })
+    return await clientCheckout({ alias, cuid, storeLanguageId })
       .then((data) => {
         return { checkout: data?.checkout, error: null }
       })

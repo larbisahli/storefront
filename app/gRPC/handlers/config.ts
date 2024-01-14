@@ -19,7 +19,6 @@ export const fetchStoreConfig = async (
 
   return setConfig({
     storeConfig: {
-      theme: '@dropgala/luma',
       csrf: { csrfToken, csrfError },
       ...config
     } as unknown as ConfigType

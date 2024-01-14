@@ -91,7 +91,7 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
     <Fragment>
       <header
         className={cn(
-          'text-gray-700 max-h-[150px] overflow-hidden body-font fixed w-full z-20 bg-white border-b border-gray-300'
+          'text-gray-700 overflow-hidden body-font fixed w-full z-20 bg-white border-b border-gray-300'
         )}
       >
         {/* DemoNotice */}

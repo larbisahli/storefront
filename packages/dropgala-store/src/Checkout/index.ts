@@ -3,14 +3,15 @@ import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { AppState } from '../index'
 import { HYDRATE } from 'next-redux-wrapper'
 import { CheckoutState } from '@dropgala/types'
-import { updateCheckoutInformation } from './thunks'
+import { updateCheckoutInformation, updateCheckoutShipping } from './thunks'
 
 const initialState: CheckoutState = {
   cartId: null,
   loadingStatus: ThunkStatus.IDLE,
   email: null,
   shippingAddress: null,
-  shipments: null,
+  shipment: null,
+  cart: [],
   paymentConfiguration: null,
   summary: null,
   metadata: null,
@@ -54,6 +55,20 @@ export const checkoutSlice = createSlice({
         }
       )
       .addCase(updateCheckoutInformation.rejected, (state) => {
+        state.loadingStatus = ThunkStatus.REJECTED
+      })
+      .addCase(updateCheckoutShipping.pending, (state) => {
+        state.loadingStatus = ThunkStatus.PENDING
+      })
+      .addCase(
+        updateCheckoutShipping.fulfilled,
+        (state, action: AnyAction) => {
+          state = action.payload.data
+          state.loadingStatus = ThunkStatus.FULFILLED
+          return state
+        }
+      )
+      .addCase(updateCheckoutShipping.rejected, (state) => {
         state.loadingStatus = ThunkStatus.REJECTED
       })
   }

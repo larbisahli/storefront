@@ -20,17 +20,38 @@ const Header = {
   '@dropgala/luma': dynamic(() => import('@dropgala/luma/components/Header'), {
     loading: () => <HeaderPlaceholder />,
     ssr: true
-  })
+  }),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/Header'),
+    {
+      loading: () => <HeaderPlaceholder />,
+      ssr: true
+    }
+  )
 }
 const Footer = {
   '@dropgala/luma': dynamic(() => import('@dropgala/luma/components/Footer'), {
     loading: () => <FooterPlaceholder />,
     ssr: true
-  })
+  }),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/Footer'),
+    {
+      loading: () => <FooterPlaceholder />,
+      ssr: true
+    }
+  )
 }
 const MenuDrawer = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/MenuDrawer'),
+    {
+      loading: () => <MenuDrawerPlaceholder />,
+      ssr: false
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/MenuDrawer'),
     {
       loading: () => <MenuDrawerPlaceholder />,
       ssr: false
@@ -44,11 +65,25 @@ const CartDrawer = {
       loading: () => <CartDrawerPlaceholder />,
       ssr: false
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CartDrawer'),
+    {
+      loading: () => <CartDrawerPlaceholder />,
+      ssr: false
+    }
   )
 }
 const HeroBanner = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/HeroBanner'),
+    {
+      loading: () => <HeroBannerPlaceholder />,
+      ssr: false
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/HeroBanner'),
     {
       loading: () => <HeroBannerPlaceholder />,
       ssr: false
@@ -62,11 +97,25 @@ const HomepageCategories = {
       loading: () => <HeroBannerPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/HomepageCategories'),
+    {
+      loading: () => <HeroBannerPlaceholder />,
+      ssr: true
+    }
   )
 }
 const ProductCard = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/ProductCard'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/ProductCard'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -80,11 +129,25 @@ const ProductDetails = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/ProductDetails'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 const LinkedProducts = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/LinkedProducts'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: false
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/LinkedProducts'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: false
@@ -98,11 +161,25 @@ const Breadcrumb = {
       loading: () => <BreadcrumbPlaceholder />,
       ssr: false
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/Breadcrumb'),
+    {
+      loading: () => <BreadcrumbPlaceholder />,
+      ssr: false
+    }
   )
 }
 const CheckoutBreadcrumb = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/CheckoutBreadcrumb'),
+    {
+      loading: () => <BreadcrumbPlaceholder />,
+      ssr: false
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CheckoutBreadcrumb'),
     {
       loading: () => <BreadcrumbPlaceholder />,
       ssr: false
@@ -116,11 +193,25 @@ const CheckoutHeader = {
       loading: () => <ProductCardPlaceholder />,
       ssr: false
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CheckoutHeader'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: false
+    }
   )
 }
 const CheckoutCartItems = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/CheckoutCartItems'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CheckoutCartItems'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -134,11 +225,25 @@ const OrderSummary = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/OrderSummary'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 const CategoryDetails = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/CategoryDetails'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CategoryDetails'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -152,11 +257,25 @@ const CategoryList = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CategoryList'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 const Pagination = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/Pagination'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/Pagination'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -170,17 +289,38 @@ const Miscellaneous = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/Miscellaneous'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 const PageCms = {
   '@dropgala/luma': dynamic(() => import('@dropgala/luma/components/PageCms'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  })
+  }),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/PageCms'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
 }
 const CheckoutInformation = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/CheckoutInformation'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CheckoutInformation'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -194,11 +334,25 @@ const CheckoutItems = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CheckoutItems'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 const CheckoutShipping = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/CheckoutShipping'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CheckoutShipping'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -212,11 +366,25 @@ const CheckoutPayment = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CheckoutPayment'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 const CheckoutFooter = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/CheckoutFooter'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CheckoutFooter'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -230,6 +398,13 @@ const InstallPrompt = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/InstallPrompt'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 const ProductNotFound = {
@@ -239,11 +414,25 @@ const ProductNotFound = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/ProductNotFound'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 const CookiePopup = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/CookiePopup'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/CookiePopup'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true

@@ -32,13 +32,13 @@ export enum ComponentNames {
 }
 
 export enum StoreThemes {
-  LUMA = '@dropgala/luma'
-  // HEIM = '@dropgala/heim'
+  LUMA = '@dropgala/luma',
+  SATOSHI = '@dropgala/satoshi'
 }
 
 export enum StoreThemesName {
   LUMA = 'luma',
-  HEIM = 'heim'
+  SATOSHI = 'satoshi'
 }
 
 export enum SortOrder {
