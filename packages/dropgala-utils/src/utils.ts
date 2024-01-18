@@ -40,7 +40,9 @@ Number.prototype.toCommas = function () {
   }
 }
 
-export const mediaURL = 'https://api.dropgala.com/media'
+export const mediaURL = PRODUCTION_ENV
+  ? 'https://api.dropgala.com/media'
+  : 'http://127.0.0.1:5000/media'
 
 export const apiURL = PRODUCTION_ENV
   ? 'https://api.dropgala.com'

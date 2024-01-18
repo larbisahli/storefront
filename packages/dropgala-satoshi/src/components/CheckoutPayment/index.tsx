@@ -104,49 +104,55 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
       <div>
         <div>
           <div className="flex items-center">
-          <input
-            id='terms'
-            name={'terms'}
-            type="checkbox"
-            className={`checkbox`}
-          />
-          <label htmlFor={'terms'} className="text-gray-900 text-base text-sm hover:text-blue-500">
-            {__('Agree to Terms & Conditions')}
-            <Link href='/terms-and-conditions' target="_blank" className='mx-1 font-semibold text-blue-600'>
-            - {__('read more')}
-            </Link>
-          </label>
-        </div>
+            <input
+              id="terms"
+              name={'terms'}
+              type="checkbox"
+              className={`checkbox`}
+            />
+            <label
+              htmlFor={'terms'}
+              className="text-gray-900 text-base text-sm hover:text-blue-500"
+            >
+              {__('Agree to Terms & Conditions')}
+              <Link
+                href="/terms-and-conditions"
+                target="_blank"
+                className="mx-1 font-semibold text-blue-600"
+              >
+                - {__('read more')}
+              </Link>
+            </label>
+          </div>
         </div>
         <div className="my-5 flex items-center justify-between flex-0">
-        <Link
-          href={{
-            pathname: `/checkout/${CheckoutSteps.SHIPPING}`
-          }}
-        >
-          <div className="text-gray-700 hover:text-gray-900 flex items-center">
-            <div className="mr-2">
-              <ChevronLeft width={12} height={12} />
+          <Link
+            href={{
+              pathname: `/checkout/${CheckoutSteps.SHIPPING}`
+            }}
+          >
+            <div className="text-gray-700 hover:text-gray-900 flex items-center">
+              <div className="mr-2">
+                <ChevronLeft width={12} height={12} />
+              </div>
+              <div>{__('Return to Shipping')}</div>
             </div>
-            <div>{__('Return to Shipping')}</div>
-          </div>
-        </Link>
-        <Button
-          type="submit"
-          className="bg-black text-white font-semibold place-content-end capitalize text-lg w-[280px]"
-          disabledClass="pointer-events-none"
-          loading={isLoading}
-          disabled={isLoading}
-          onClick={onSubmit}
-        >
-          <div>{__('Complete order')}</div>
-          <div className="ml-2">
-            <ChevronRight width={12} height={12} />
-          </div>
-        </Button>
+          </Link>
+          <Button
+            type="submit"
+            className="bg-black text-white font-semibold place-content-end capitalize text-lg w-[280px]"
+            disabledClass="pointer-events-none"
+            loading={isLoading}
+            disabled={isLoading}
+            onClick={onSubmit}
+          >
+            <div>{__('Complete order')}</div>
+            <div className="ml-2">
+              <ChevronRight width={12} height={12} />
+            </div>
+          </Button>
+        </div>
       </div>
-      </div>
-
     </div>
   )
 }

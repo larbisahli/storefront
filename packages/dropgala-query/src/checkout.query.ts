@@ -62,12 +62,8 @@ export const UPDATE_CHECKOUT_INFORMATION = gql`
 `
 
 export const UPDATE_CHECKOUT_SHIPPING = gql`
-  mutation UpdateCheckoutShipping(
-    $id: Int!
-  ) {
-    updateCheckoutShipping(
-      id: $id
-    ) {
+  mutation UpdateCheckoutShipping($id: Int!) {
+    updateCheckoutShipping(id: $id) {
       cartId
       storeId
       email
@@ -107,12 +103,8 @@ export const UPDATE_CHECKOUT_SHIPPING = gql`
 `
 
 export const CREATE_ORDER = gql`
-  mutation  CreateOrder (
-    $paymentId: String!
-  ) {
-    createOrder(
-      paymentId: $paymentId
-    ) {
+  mutation CreateOrder($paymentId: String!) {
+    createOrder(paymentId: $paymentId) {
       success
       ref
     }

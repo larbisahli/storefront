@@ -42,7 +42,7 @@ export function createStore() {
 const store = createStore()
 
 export const wrapper: ReturnType<typeof createWrapper> =
-  createWrapper<AppStore>(createStore, { debug: true })
+  createWrapper<AppStore>(createStore, { debug: false })
 
 // **** Types ****
 export type AppStore = ReturnType<typeof createStore>

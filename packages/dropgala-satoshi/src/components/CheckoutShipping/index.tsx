@@ -21,7 +21,11 @@ interface Props extends StoreProps {
   shippings: Shipping[]
 }
 
-const CheckoutShipping = ({ useAppSelector, useAppDispatch, shippings }: Props) => {
+const CheckoutShipping = ({
+  useAppSelector,
+  useAppDispatch,
+  shippings
+}: Props) => {
   const router = useRouter()
 
   const { language, csrf } = useAppSelector(selectConfig)

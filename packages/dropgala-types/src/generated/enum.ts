@@ -1,10 +1,12 @@
-import type * as grpc from '@grpc/grpc-js';
-import type { EnumTypeDefinition } from '@grpc/proto-loader';
+import type * as grpc from '@grpc/grpc-js'
+import type { EnumTypeDefinition } from '@grpc/proto-loader'
 
-
-type SubtypeConstructor<Constructor extends new (...args: any) => any, Subtype> = {
-  new(...args: ConstructorParameters<Constructor>): Subtype;
-};
+type SubtypeConstructor<
+  Constructor extends new (...args: any) => any,
+  Subtype
+> = {
+  new (...args: ConstructorParameters<Constructor>): Subtype
+}
 
 export interface ProtoGrpcType {
   enum: {
@@ -13,4 +15,3 @@ export interface ProtoGrpcType {
     productTypeEnum: EnumTypeDefinition
   }
 }
-

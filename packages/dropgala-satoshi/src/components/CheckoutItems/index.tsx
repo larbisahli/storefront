@@ -16,7 +16,12 @@ import { useCartTotal } from '@dropgala/utils/hooks/useCartTotal'
 import CheckoutItem from './CheckoutItem'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
-import { StoreProps, selectCart, selectCheckout, selectConfig } from '@dropgala/store'
+import {
+  StoreProps,
+  selectCart,
+  selectCheckout,
+  selectConfig
+} from '@dropgala/store'
 import EditIcon from '@dropgala/assets/icons/edit'
 import Link from '../ui/Link'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
@@ -30,7 +35,7 @@ export const CREATE_CATEGORY = gql`
   }
 `
 
-interface Props extends StoreProps { }
+interface Props extends StoreProps {}
 
 const CheckoutItems = ({ useAppSelector }: Props) => {
   const router = useRouter()
@@ -44,7 +49,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
   const { defaultCurrency, tax, language, csrf } = useAppSelector(selectConfig)
 
   const { __ } = useTranslation(language, 'common')
-  console.log({ checkout, })
+  console.log({ checkout })
 
   const [applyCoupon, { loading }] = useMutation(CREATE_CATEGORY, {
     context: {
@@ -73,14 +78,6 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
   const shipment = checkout?.shipment
   const summary = checkout?.summary
   const cart = checkout?.cart
-
-  // In case the cart is empty
-  useEffect(() => {
-    if (isEmpty(cart?.items)) {
-      router.push('/')
-    }
-  }, [router, cart])
-
   const itemsCount = cart?.totalQuantity
 
   const grandInclTotal = usePrice({
@@ -298,7 +295,9 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
             )}
           </div>
           <div className="flex items-end flex-col">
-            <span className="text-black font-bold text-lg">{grandInclTotal}</span>
+            <span className="text-black font-bold text-lg">
+              {grandInclTotal}
+            </span>
             <div className="text-right w-full text-gray-800 text-xs font-medium">
               {__('Excl. tax: %s', grandExclTotal)}
             </div>

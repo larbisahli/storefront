@@ -22,7 +22,7 @@ import Image from '../common/Image'
 import Link from '../ui/Link'
 import { ConfigType } from '@dropgala/types/config.type'
 
-interface Props extends StoreProps { }
+interface Props extends StoreProps {}
 
 const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
   // const { t } = useTranslation()
@@ -130,7 +130,7 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
           <div className="hidden lg:flex items-center justify-center">
             {menu?.map(({ id, name, urlKey }) => {
               return (
-                <div className='relative py-2 bg-red-500'>
+                <div className="relative py-2 bg-red-500">
                   <Link
                     key={id}
                     href={{
@@ -149,7 +149,6 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
                     selectedFirstLevelCategory={selectedFirstLevelCategory}
                   />
                 </div>
-
               )
             })}
           </div>

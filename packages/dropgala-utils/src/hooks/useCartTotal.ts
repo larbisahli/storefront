@@ -1,8 +1,17 @@
-import { CartItemType, CartType, ProductTypes, ShippingType } from '@dropgala/types'
+import {
+  CartItemType,
+  CartType,
+  ProductTypes,
+  ShippingType
+} from '@dropgala/types'
 import { useMemo } from 'react'
 import { calcTaxRate } from 'utils'
 
-const getCartItemsTotalPrice = (items: CartItemType[], rate: number, shippingPrice?: number) => {
+const getCartItemsTotalPrice = (
+  items: CartItemType[],
+  rate: number,
+  shippingPrice?: number
+) => {
   let total = items!.reduce((total: number, item: CartItemType) => {
     const isVariableType = item!.type === ProductTypes.Variable
     const selectedPrice = isVariableType
@@ -10,10 +19,13 @@ const getCartItemsTotalPrice = (items: CartItemType[], rate: number, shippingPri
       : calcTaxRate(item?.price?.salePrice, rate)
     return total + (Number(selectedPrice) ?? 0) * item.orderQuantity!
   }, 0)
-  return total + (shippingPrice??0)
+  return total + (shippingPrice ?? 0)
 }
 
-const getCartItemsTotalPriceExclTax = (items: CartItemType[], shippingPrice?: number) => {
+const getCartItemsTotalPriceExclTax = (
+  items: CartItemType[],
+  shippingPrice?: number
+) => {
   let total = items!.reduce((total: number, item: CartItemType) => {
     const isVariableType = item!.type === ProductTypes.Variable
     const selectedTaxPrice = isVariableType
@@ -21,7 +33,7 @@ const getCartItemsTotalPriceExclTax = (items: CartItemType[], shippingPrice?: nu
       : item.price?.salePrice
     return total + (Number(selectedTaxPrice) ?? 0) * item.orderQuantity!
   }, 0)
-  return total + (shippingPrice??0)
+  return total + (shippingPrice ?? 0)
 }
 
 export function useCartTotal({
@@ -31,7 +43,7 @@ export function useCartTotal({
 }: {
   cart: CartType
   taxRate?: number
-  shipment?:ShippingType
+  shipment?: ShippingType
 }) {
   const priceRange = useMemo(() => {
     return {

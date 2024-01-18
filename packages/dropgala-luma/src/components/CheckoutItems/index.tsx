@@ -1,86 +1,40 @@
 import ArrowDownIcon from '@dropgala/assets/icons/arrow-down'
 import ArrowUpIcon from '@dropgala/assets/icons/arrow-up'
 import CardIcon from '@dropgala/assets/icons/card'
-import CloseIcon from '@dropgala/assets/icons/close'
-import CouponIcon from '@dropgala/assets/icons/coupon-icon'
-import Scrollbar from '../common/Scrollbar'
-import Button from '../ui/Button'
-import Input from '../ui/Input1'
-import { useMutation, gql } from '@apollo/client'
 // import { ProductItemLoader } from '@components/ui/loaders/product-details-loaders';
 import { useMedia } from '../../hooks/useMedia'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { useCartTotal } from '@dropgala/utils/hooks/useCartTotal'
 import CheckoutItem from './CheckoutItem'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
-import { StoreProps, selectCart, selectCheckout, selectConfig } from '@dropgala/store'
+import { StoreProps, selectCheckout, selectConfig } from '@dropgala/store'
 import EditIcon from '@dropgala/assets/icons/edit'
 import Link from '../ui/Link'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { CouponDiscountType } from '@dropgala/types'
 
-export const CREATE_CATEGORY = gql`
-  mutation ApplyCoupon($code: String!, $cartId: String!, $storeId: String!) {
-    applyCoupon(code: $code, cartId: $cartId, storeId: $storeId) {
-      id
-      code
-    }
-  }
-`
+interface Props extends StoreProps {}
 
-interface Props extends StoreProps { }
-
-const CheckoutItems = ({ useAppSelector }: Props) => {
+const CheckoutItems = ({ useAppSelector, useAppDispatch }: Props) => {
   const router = useRouter()
   const { locale = 'en-US' } = router
 
+  const { defaultCurrency, tax, language, csrf, storeId } =
+    useAppSelector(selectConfig)
   const checkout = useAppSelector(selectCheckout)
 
   const [open, setOpen] = useState(false)
-  const [couponCode, setCouponCode] = useState(null)
-
-  const { defaultCurrency, tax, language, csrf } = useAppSelector(selectConfig)
 
   const { __ } = useTranslation(language, 'common')
-  console.log({ checkout, })
 
-  const [applyCoupon, { loading }] = useMutation(CREATE_CATEGORY, {
-    context: {
-      headers: {
-        'x-csrf-token': csrf?.csrfToken
-      }
-    },
-    onCompleted: (data: any) => {
-      console.log('=========>', { data })
-    }
-  })
-  const handleCoupon = () => {
-    console.log({ couponCode })
-    applyCoupon({
-      variables: {
-        code: couponCode,
-        cartId: 'CARD_ID',
-        storeId: '1234'
-      }
-    }).catch((err) => {
-      console.log({ err })
-      // setError(err);
-    })
-  }
+  console.log({ checkout })
 
   const shipment = checkout?.shipment
+  const appliedCoupon = checkout?.appliedCoupon
   const summary = checkout?.summary
   const cart = checkout?.cart
-
-  // In case the cart is empty
-  useEffect(() => {
-    if (isEmpty(cart?.items)) {
-      router.push('/')
-    }
-  }, [router, cart])
-
   const itemsCount = cart?.totalQuantity
 
   const grandInclTotal = usePrice({
@@ -103,13 +57,8 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
     locale,
     currencyCode: defaultCurrency?.code
   })
-  const subtotalWithDiscountInclTax = usePrice({
-    amount: summary?.subtotalWithDiscountInclTax?.value,
-    locale,
-    currencyCode: defaultCurrency?.code
-  })
-  const subtotalWithDiscountExclTax = usePrice({
-    amount: summary?.subtotalWithDiscountExclTax?.value,
+  const subtotalWithDiscount = usePrice({
+    amount: summary?.subtotalWithDiscount?.value,
     locale,
     currencyCode: defaultCurrency?.code
   })
@@ -150,9 +99,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
           </span>
         </span>
         <div className="flex flex-col items-end">
-          <span className="font-semibold text-base text-gray-900">
-            {subtotalInclTax}
-          </span>
+          <span className="text-base text-gray-900">{subtotalInclTax}</span>
           <div className="text-right w-full text-gray-900 text-xs font-medium">
             {__('Excl. tax: %s', subtotalExclTax)}
           </div>
@@ -167,27 +114,36 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
         <span className="text-gray-900 text-sm">
           {__('Tax (%s)', `${tax?.rate}%`)}
         </span>
-        <span className="text-sm font-semibold text-base text-gray-900">
-          {totalTax}
-        </span>
+        <span className="text-sm text-base text-black">{totalTax}</span>
       </div>
     )
   }
 
   const renderDiscount = () => {
-    if (summary?.subtotalWithDiscountInclTax?.value === 0) return null
+    if (!appliedCoupon?.code) return null
+    if (appliedCoupon?.discountType === CouponDiscountType.FreeShipping) {
+      return (
+        <div className="mt-3 flex items-center justify-between">
+          <span className="text-gray-900 text-sm">{__('Discount')}</span>
+          <div className="flex flex-col items-end">
+            <span className="text-sm text-base text-gray-900">
+              {__('FREE SHIPPING')}
+            </span>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="mt-3 flex items-center justify-between">
         <span className="text-gray-900 text-sm">
-          {__('Discount (%s)', '-5%')}
+          {appliedCoupon?.discountType === CouponDiscountType.Percentage
+            ? __('Discount (%s)', `${appliedCoupon.discountValue}%`)
+            : __('Discount')}
         </span>
         <div className="flex flex-col items-end">
-          <span className="font-semibold text-base text-gray-900">
-            {subtotalWithDiscountInclTax}
+          <span className="text-sm text-base text-black">
+            {`-${subtotalWithDiscount}`}
           </span>
-          <div className="text-right w-full text-gray-900 text-xs font-medium">
-            {__('Excl. tax: %s', subtotalWithDiscountExclTax)}
-          </div>
         </div>
       </div>
     )
@@ -200,7 +156,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
           {__('Order total')}
         </span>
         <div className="flex items-end flex-col">
-          <span className="text-black font-bold text-lg">{grandInclTotal}</span>
+          <span className="text-black font-bold text-xl">{grandInclTotal}</span>
           <div className="text-right w-full text-gray-800 text-xs font-medium">
             {__('Excl. tax: %s', grandExclTotal)}
           </div>
@@ -211,6 +167,23 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
 
   const renderShipment = () => {
     const name = shipment?.name
+
+    if (appliedCoupon?.discountType === CouponDiscountType.FreeShipping) {
+      return (
+        <div className="flex justify-between">
+          <span className="text-gray-900 text-sm">
+            {__('Shipping (%s)', name)}
+          </span>
+          <div className="flex flex-col items-end">
+            <span className="text-sm text-gray-900">
+              {appliedCoupon?.discountType === CouponDiscountType.FreeShipping
+                ? __('FREE SHIPPING')
+                : `-${subtotalWithDiscount}`}
+            </span>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="flex justify-between">
         <span className="text-gray-900 text-sm">
@@ -219,7 +192,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
         <div className="flex items-end flex-col">
           {summary?.totalShippingInclCost?.value ? (
             <>
-              <span className="text-black font-bold text-lg">
+              <span className="text-black text-base">
                 {totalShippingInclCost}
               </span>
               <div className="text-right w-full text-gray-800 text-xs font-medium">
@@ -231,47 +204,6 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
               {__('Calculated at next step')}
             </span>
           )}
-        </div>
-      </div>
-    )
-  }
-
-  const renderCoupon = () => {
-    return (
-      <div>
-        <div className="font-medium">{__('Have a discount code?')}</div>
-        <div className="flex items-center">
-          <Input
-            className="w-full mr-3"
-            inputClassName="placeholder-gray-500 border border-solid border-gray-400"
-            placeholder="Discount code"
-            value={couponCode}
-            onChange={(e: { target: { value: React.SetStateAction<null> } }) =>
-              setCouponCode(e.target.value)
-            }
-          />
-          <Button
-            onClick={handleCoupon}
-            loading={loading}
-            className="bg-black text-white h-10 px-5 capitalize"
-          >
-            {__('Apply')}
-          </Button>
-        </div>
-        {/* COUPON */}
-        <div
-          style={{ color: '#6d6c6c' }}
-          className="flex items-center bg-gray-400 w-fit px-2 py-1 my-3 shadow-card"
-        >
-          <div>
-            <CouponIcon width={14} height={14} />
-          </div>
-          <div className="p-1 lg:max-w-[200px] overflow-hidden text-skin-base">
-            {'VT_XYRXSQIZQ'}
-          </div>
-          <button className="m-1">
-            <CloseIcon width={10} height={10} />
-          </button>
         </div>
       </div>
     )
@@ -298,7 +230,9 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
             )}
           </div>
           <div className="flex items-end flex-col">
-            <span className="text-black font-bold text-lg">{grandInclTotal}</span>
+            <span className="text-black font-bold text-lg">
+              {grandInclTotal}
+            </span>
             <div className="text-right w-full text-gray-800 text-xs font-medium">
               {__('Excl. tax: %s', grandExclTotal)}
             </div>
@@ -338,9 +272,7 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
             />
           ))}
         </div>
-        <div className="h-[1px] w-full bg-gray-400 my-5"></div>
-        {renderCoupon()}
-        <div className="h-[1px] w-full bg-gray-400 my-5"></div>
+        <div className="h-[1px] w-full bg-gray-400 mb-5"></div>
         <div>
           {renderSubTotal()}
           {renderShipment()}

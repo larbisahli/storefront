@@ -1,14 +1,13 @@
 // Original file: app/proto/category.proto
 
-
 export interface Breadcrumbs {
-  'categoryLevel'?: (number);
-  'categoryName'?: (string);
-  'categoryUrl'?: (string);
+  categoryLevel?: number
+  categoryName?: string
+  categoryUrl?: string
 }
 
 export interface Breadcrumbs__Output {
-  'categoryLevel': (number);
-  'categoryName': (string);
-  'categoryUrl': (string);
+  categoryLevel: number
+  categoryName: string
+  categoryUrl: string
 }

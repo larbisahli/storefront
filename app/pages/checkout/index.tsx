@@ -18,7 +18,7 @@ CheckoutPage.Layout = CheckoutLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
-    const { req, res, locale} = context
+    const { req, res, locale } = context
     const { host, alias = '' } = getHost(req)
 
     const cookies = new Cookies(req, res)
@@ -29,7 +29,6 @@ export const getServerSideProps: GetServerSideProps =
       if (!alias) {
         throw { error: { message: 'alias not specified' } }
       }
-
 
       // Check if store has locales
       store.dispatch(await fetchStoreConfig(context, alias, storeId))
@@ -59,9 +58,14 @@ export const getServerSideProps: GetServerSideProps =
 
       // Client cart
       if (cuid) {
-        const clientCheckout = await fetchClientCheckout(context, alias, storeLanguageId, cuid)
+        const clientCheckout = await fetchClientCheckout(
+          context,
+          alias,
+          storeLanguageId,
+          cuid
+        )
         const checkout = clientCheckout?.payload.checkout
-        if(checkout?.stepsConfig?.currentStep){
+        if (checkout?.stepsConfig?.currentStep) {
           return {
             redirect: {
               permanent: false,

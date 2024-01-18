@@ -1,9 +1,10 @@
-import { ThunkStatus } from '@dropgala/types/enums.type'
+import { CouponDiscountType, ThunkStatus } from '@dropgala/types/enums.type'
 import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { AppState } from '../index'
 import { HYDRATE } from 'next-redux-wrapper'
-import { CheckoutState } from '@dropgala/types'
+import { CheckoutState, CouponType } from '@dropgala/types'
 import { updateCheckoutInformation, updateCheckoutShipping } from './thunks'
+import { roundTo3 } from '@dropgala/utils/utils'
 
 const initialState: CheckoutState = {
   cartId: null,
@@ -49,9 +50,11 @@ export const checkoutSlice = createSlice({
       .addCase(
         updateCheckoutInformation.fulfilled,
         (state, action: AnyAction) => {
-          state = action.payload.data
-          state.loadingStatus = ThunkStatus.FULFILLED
-          return state
+          return {
+            ...state,
+            ...(action.payload.data ?? {}),
+            loadingStatus: ThunkStatus.FULFILLED
+          }
         }
       )
       .addCase(updateCheckoutInformation.rejected, (state) => {
@@ -60,14 +63,13 @@ export const checkoutSlice = createSlice({
       .addCase(updateCheckoutShipping.pending, (state) => {
         state.loadingStatus = ThunkStatus.PENDING
       })
-      .addCase(
-        updateCheckoutShipping.fulfilled,
-        (state, action: AnyAction) => {
-          state = action.payload.data
-          state.loadingStatus = ThunkStatus.FULFILLED
-          return state
+      .addCase(updateCheckoutShipping.fulfilled, (state, action: AnyAction) => {
+        return {
+          ...state,
+          ...(action.payload.data ?? {}),
+          loadingStatus: ThunkStatus.FULFILLED
         }
-      )
+      })
       .addCase(updateCheckoutShipping.rejected, (state) => {
         state.loadingStatus = ThunkStatus.REJECTED
       })

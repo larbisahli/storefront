@@ -155,11 +155,17 @@ export const getServerSideProps: GetServerSideProps =
 
       // Client cart and Checkout
       if (cuid) {
-        const clientCheckout = await fetchClientCheckout(context, alias, storeLanguageId, cuid)
+        const clientCheckout = await fetchClientCheckout(
+          context,
+          alias,
+          storeLanguageId,
+          cuid
+        )
         if (clientCheckout) {
           store.dispatch(clientCheckout)
         }
       } else {
+        console.log('======================>')
         return {
           redirect: {
             destination: '/',
