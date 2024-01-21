@@ -375,6 +375,22 @@ const CheckoutPayment = {
     }
   )
 }
+const ConfirmationSummary = {
+  '@dropgala/luma': dynamic(
+    () => import('@dropgala/luma/components/ConfirmationSummary'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  '@dropgala/satoshi': dynamic(
+    () => import('@dropgala/satoshi/components/ConfirmationSummary'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
 const CheckoutFooter = {
   '@dropgala/luma': dynamic(
     () => import('@dropgala/luma/components/CheckoutFooter'),
@@ -465,6 +481,7 @@ components.set(ComponentNames.PAGINATION, Pagination)
 components.set(ComponentNames.MISCELLANEOUS, Miscellaneous)
 components.set(ComponentNames.PAGE_CMS, PageCms)
 components.set(ComponentNames.CHECKOUT_INFORMATION, CheckoutInformation)
+components.set(ComponentNames.CONFIRMATION_SUMMARY, ConfirmationSummary)
 components.set(ComponentNames.CHECKOUT_ITEMS, CheckoutItems)
 components.set(ComponentNames.CHECKOUT_SHIPPING, CheckoutShipping)
 components.set(ComponentNames.CHECKOUT_PAYMENT, CheckoutPayment)

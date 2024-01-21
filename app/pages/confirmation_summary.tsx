@@ -1,10 +1,12 @@
 import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
-import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
-import CheckoutLayout from '@components/layout/CheckoutLayout'
-import { fetchStoreConfig, fetchStoreLanguage } from '@gRPC/handlers'
-import CheckoutItems from '@components/CheckoutItems'
+import {
+  fetchStoreConfig,
+  fetchStoreLanguage,
+  fetchStoreMenu,
+  fetchStorePromoSlide
+} from '@gRPC/handlers'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import getMobileDetect from '@dropgala/utils/isMobile'
@@ -12,19 +14,19 @@ import { useAppSelector } from '@hooks/useStore'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
-import { XSRFHandler } from '@middleware/utils'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
+import AppLayout from '@components/layout/AppLayout'
+import ConfirmationSummary from '@components/ConfirmationSummary'
 
 interface Props {
   host: { host: string; subdomain: string }
 }
 
-export default function CheckoutOrderCompletePage({ host }: Props) {
+export default function ConfirmationSummaryPage({ host }: Props) {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'common')
-  console.log({ storeConfig })
   return (
     <>
       <NextSeo
@@ -72,28 +74,15 @@ export default function CheckoutOrderCompletePage({ host }: Props) {
         ]}
       />
       <div className="mb-44 mx-2">
-        <section className="w-full flex justify-center my-30px">
-          <CheckoutBreadcrumb />
-        </section>
-        <section className="flex w-full lg:flex-row flex-col-reverse border border-gray-300 rounded-md">
-          {/* Checkout Form */}
-          <div className="flex-1">
-            <CheckoutForm />
-          </div>
-          {/* Checkout items */}
-          <div
-            style={{ background: 'rgba(0,0,0,0.05)' }}
-            className="lg:w-[40%] xl:w-[45%] w-full"
-          >
-            <CheckoutItems />
-          </div>
+        <section className="w-full">
+          <ConfirmationSummary />
         </section>
       </div>
     </>
   )
 }
 
-CheckoutOrderCompletePage.Layout = CheckoutLayout
+ConfirmationSummaryPage.Layout = AppLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
@@ -140,6 +129,10 @@ export const getServerSideProps: GetServerSideProps =
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
+      store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(
+        await fetchStorePromoSlide(alias, storeLanguageId, storeId)
+      )
 
       // Client cart
       if (cuid) {

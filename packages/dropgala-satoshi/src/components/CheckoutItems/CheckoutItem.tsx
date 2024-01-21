@@ -98,7 +98,7 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
                 </div>
               )}
               {/* ---- price area ---- */}
-              <div className="flex flex-col flex-1 items-end px-5">
+              <div className="flex flex-col flex-1 items-end">
                 <div className="flex items-end justify-end flex-shrink-0">
                   <span className="inline-block text-[16px] text-gray-900 font-semibold">
                     {total}

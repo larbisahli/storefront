@@ -57,7 +57,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
         ButtonSize[size],
         className,
         {
-          disabledClass: disabled,
+          [disabledClass]: disabled,
           [ButtonVariant[variant]]: !disabled
         }
       )}

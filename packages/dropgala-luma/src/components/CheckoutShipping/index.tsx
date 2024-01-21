@@ -3,7 +3,7 @@ import Scrollbar from '../common/Scrollbar'
 import Radio from '../ui/radio'
 import { StoreProps, selectCheckout, selectConfig } from '@dropgala/store'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import ChevronLeft from '@dropgala/assets/icons/chevron-left'
 import Link from '../ui/Link'
 import Button from '../ui/Button'
@@ -32,15 +32,17 @@ const CheckoutShipping = ({
   const checkout = useAppSelector(selectCheckout)
   const dispatch = useAppDispatch()
 
+  const shipment = checkout?.shipment
+
   const { __ } = useTranslation(language, 'common')
 
-  const [selectedOption, setSelectedOption] = useState('')
+  const [selectedOption, setSelectedOption] = useState(shipment?.id ?? '')
   const [error, setError] = useState()
 
   const isLoading = checkout.loadingStatus === ThunkStatus.PENDING
 
   const onSubmit = async () => {
-    if (isEmpty(selectedOption)) {
+    if (!selectedOption) {
       notify.warn('Please select a shipping method!')
       return
     }
@@ -95,7 +97,7 @@ const CheckoutShipping = ({
                 key={id}
                 name={id}
                 value={id}
-                checked={selectedOption === id}
+                checked={selectedOption?.toString() === id}
                 onChange={handleOptionChange}
                 label={() => (
                   <ShippingOption
@@ -141,4 +143,4 @@ const CheckoutShipping = ({
   )
 }
 
-export default CheckoutShipping
+export default memo(CheckoutShipping)

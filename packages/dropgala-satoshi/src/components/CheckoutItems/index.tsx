@@ -110,13 +110,13 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
     locale,
     currencyCode: defaultCurrency?.code
   })
-  const totalShippingInclCost = usePrice({
-    amount: summary?.totalShippingInclCost?.value,
+  const totalShippingInclTax = usePrice({
+    amount: summary?.totalShippingInclTax?.value,
     locale,
     currencyCode: defaultCurrency?.code
   })
-  const totalShippingExclCost = usePrice({
-    amount: summary?.totalShippingExclCost?.value,
+  const totalShippingExclTax = usePrice({
+    amount: summary?.totalShippingExclTax?.value,
     locale,
     currencyCode: defaultCurrency?.code
   })
@@ -214,13 +214,13 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
           {__('Shipping (%s)', name)}
         </span>
         <div className="flex items-end flex-col">
-          {summary?.totalShippingInclCost?.value ? (
+          {summary?.totalShippingInclTax?.value ? (
             <>
               <span className="text-black font-bold text-lg">
-                {totalShippingInclCost}
+                {totalShippingInclTax}
               </span>
               <div className="text-right w-full text-gray-800 text-xs font-medium">
-                {__('Excl. tax: %s', totalShippingExclCost)}
+                {__('Excl. tax: %s', totalShippingExclTax)}
               </div>
             </>
           ) : (

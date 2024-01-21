@@ -5,7 +5,7 @@ import CardIcon from '@dropgala/assets/icons/card'
 import { useMedia } from '../../hooks/useMedia'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import CheckoutItem from './CheckoutItem'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
@@ -62,13 +62,13 @@ const CheckoutItems = ({ useAppSelector, useAppDispatch }: Props) => {
     locale,
     currencyCode: defaultCurrency?.code
   })
-  const totalShippingInclCost = usePrice({
-    amount: summary?.totalShippingInclCost?.value,
+  const totalShippingInclTax = usePrice({
+    amount: summary?.totalShippingInclTax?.value,
     locale,
     currencyCode: defaultCurrency?.code
   })
-  const totalShippingExclCost = usePrice({
-    amount: summary?.totalShippingExclCost?.value,
+  const totalShippingExclTax = usePrice({
+    amount: summary?.totalShippingExclTax?.value,
     locale,
     currencyCode: defaultCurrency?.code
   })
@@ -167,8 +167,12 @@ const CheckoutItems = ({ useAppSelector, useAppDispatch }: Props) => {
 
   const renderShipment = () => {
     const name = shipment?.name
+    console.log({ appliedCoupon })
 
-    if (appliedCoupon?.discountType === CouponDiscountType.FreeShipping) {
+    if (
+      appliedCoupon?.discountType === CouponDiscountType.FreeShipping ||
+      shipment?.freeShipping
+    ) {
       return (
         <div className="flex justify-between">
           <span className="text-gray-900 text-sm">
@@ -176,7 +180,8 @@ const CheckoutItems = ({ useAppSelector, useAppDispatch }: Props) => {
           </span>
           <div className="flex flex-col items-end">
             <span className="text-sm text-gray-900">
-              {appliedCoupon?.discountType === CouponDiscountType.FreeShipping
+              {appliedCoupon?.discountType ===
+                CouponDiscountType.FreeShipping || shipment?.freeShipping
                 ? __('FREE SHIPPING')
                 : `-${subtotalWithDiscount}`}
             </span>
@@ -187,16 +192,16 @@ const CheckoutItems = ({ useAppSelector, useAppDispatch }: Props) => {
     return (
       <div className="flex justify-between">
         <span className="text-gray-900 text-sm">
-          {__('Shipping (%s)', name)}
+          {name ? __('Shipping (%s)', name) : __('Shipping')}
         </span>
         <div className="flex items-end flex-col">
-          {summary?.totalShippingInclCost?.value ? (
+          {summary?.totalShippingInclTax?.value ? (
             <>
               <span className="text-black text-base">
-                {totalShippingInclCost}
+                {totalShippingInclTax}
               </span>
               <div className="text-right w-full text-gray-800 text-xs font-medium">
-                {__('Excl. tax: %s', totalShippingExclCost)}
+                {__('Excl. tax: %s', totalShippingExclTax)}
               </div>
             </>
           ) : (
@@ -273,17 +278,17 @@ const CheckoutItems = ({ useAppSelector, useAppDispatch }: Props) => {
           ))}
         </div>
         <div className="h-[1px] w-full bg-gray-400 mb-5"></div>
-        <div>
+        <div className="px-3">
           {renderSubTotal()}
           {renderShipment()}
           {renderDiscount()}
           {renderTaxTotal()}
         </div>
         <div className="h-[1px] w-full bg-gray-400 my-5"></div>
-        {renderTotal()}
+        <div className="px-3">{renderTotal()}</div>
       </div>
     </div>
   )
 }
 
-export default CheckoutItems
+export default memo(CheckoutItems)

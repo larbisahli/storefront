@@ -245,6 +245,14 @@ const CheckoutPayment = {${themePaths?.map(
       'ProductCardPlaceholder'
     )}`
 )}}
+const ConfirmationSummary = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'ConfirmationSummary',
+      'ProductCardPlaceholder'
+    )}`
+)}}
 const CheckoutFooter = {${themePaths?.map(
   (themePath) =>
     `'${[themePath]}': ${dynamicImport(
@@ -300,12 +308,14 @@ components.set(ComponentNames.PAGINATION, Pagination);
 components.set(ComponentNames.MISCELLANEOUS, Miscellaneous);
 components.set(ComponentNames.PAGE_CMS, PageCms);
 components.set(ComponentNames.CHECKOUT_INFORMATION, CheckoutInformation);
+components.set(ComponentNames.CONFIRMATION_SUMMARY, ConfirmationSummary)
 components.set(ComponentNames.CHECKOUT_ITEMS, CheckoutItems);
 components.set(ComponentNames.CHECKOUT_SHIPPING, CheckoutShipping);
 components.set(ComponentNames.CHECKOUT_PAYMENT, CheckoutPayment);
 components.set(ComponentNames.INSTALL_PROMPT, InstallPrompt);
 components.set(ComponentNames.PRODUCT_NOT_FOUND, ProductNotFound);
 components.set(ComponentNames.COOKIE_POPUP, CookiePopup);
+
 
 export default function componentFactory<Props>(
   storeTheme: StoreThemes,

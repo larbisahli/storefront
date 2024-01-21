@@ -59,7 +59,7 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
 
     console.log('onSubmit values :>> ', { selectedOption })
 
-    router.push(`/checkout/${CheckoutSteps.ORDER_COMPLETE}`)
+    router.push(`/checkout/${CheckoutSteps.CONFIRMATION_SUMMARY}`)
 
     // CreateOrder({ variables }).catch((err) => {
     //   setError(err)

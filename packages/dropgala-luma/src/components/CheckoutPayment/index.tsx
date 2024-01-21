@@ -1,4 +1,4 @@
-import { CheckoutFormValues, CheckoutSteps } from '@dropgala/types'
+import { CheckoutSteps } from '@dropgala/types'
 import Scrollbar from '../common/Scrollbar'
 import Radio from '../ui/radio'
 import CODPaymentOption from './CODPaymentOption'
@@ -8,12 +8,14 @@ import Button from '../ui/Button'
 import ChevronRight from '@dropgala/assets/icons/chevron-right'
 import Link from '../ui/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { useRouter } from 'next/router'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import ShippingAddress from './shippingAddress'
 // import { PaymentElement } from '@stripe/react-stripe-js'
+import { useMutation } from '@apollo/client'
+import { CREATE_ORDER } from '@dropgala/query/checkout.query'
 
 const paymentMethods = [
   // {
@@ -24,11 +26,8 @@ const paymentMethods = [
   // },
   {
     name: 'Cash On Delivery',
-    component: (selectedPaymentMethod: CheckoutFormValues['paymentMethod']) => (
-      <CODPaymentOption
-        selectedPaymentMethod={selectedPaymentMethod}
-        id="COD"
-      />
+    component: (selectedOption: string) => (
+      <CODPaymentOption selectedOption={selectedOption} id="COD" />
     ),
     id: 'COD'
   }
@@ -45,25 +44,41 @@ interface Props extends StoreProps {}
 const CheckoutPayment = ({ useAppSelector }: Props) => {
   const router = useRouter()
 
-  const { language } = useAppSelector(selectConfig)
+  const { language, csrf } = useAppSelector(selectConfig)
   const { __ } = useTranslation(language, 'common')
 
   const [selectedOption, setSelectedOption] = useState('')
+  const [tncChecked, setTncChecked] = useState(false)
 
   const [error, setError] = useState()
+
+  const [createOrder, { loading }] = useMutation(CREATE_ORDER, {
+    context: {
+      headers: {
+        'x-csrf-token': csrf?.csrfToken
+      }
+    },
+    onCompleted: (data: { createOrder: { ref: string; success: boolean } }) => {
+      const order = data.createOrder
+      console.log({ order })
+      if (isEmpty(order)) {
+        return
+      }
+      router.push({
+        pathname: `/${CheckoutSteps.CONFIRMATION_SUMMARY}`,
+        query: { ref: order?.ref, status: order?.success }
+      })
+    }
+  })
 
   const onSubmit = async () => {
     if (isEmpty(selectedOption)) {
       return
     }
 
-    console.log('onSubmit values :>> ', { selectedOption })
-
-    router.push(`/checkout/${CheckoutSteps.ORDER_COMPLETE}`)
-
-    // CreateOrder({ variables }).catch((err) => {
-    //   setError(err)
-    // })
+    createOrder({ variables: { paymentId: selectedOption } }).catch((err) => {
+      setError(err)
+    })
   }
 
   const handleOptionChange = (
@@ -72,8 +87,11 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
     setSelectedOption(changeEvent.target.value)
   }
 
-  const selectedPaymentMethod = '' //watch('paymentMethod')
   const isLoading = false
+
+  const handleTNC = (changeEvent: any) => {
+    setTncChecked(changeEvent?.target.checked)
+  }
 
   return (
     <div className="mb-10 pt-4 relative flex flex-col h-full">
@@ -90,10 +108,12 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
           {__('Payment methods')}
         </h1>
         <Scrollbar className="cart-scrollbar flex-grow">
-          {paymentMethods.map(({ name, id, component }) => (
+          {paymentMethods.map(({ id, component }) => (
             <Radio
-              label={() => component(selectedPaymentMethod)}
+              name={id}
+              label={() => component(selectedOption)}
               inputClassName="absolute right-0 top-0 m-2 z-10"
+              onChange={handleOptionChange}
               id={id}
               key={id}
               value={id}
@@ -109,6 +129,8 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
               name={'terms'}
               type="checkbox"
               className={`checkbox`}
+              checked={tncChecked}
+              onClick={handleTNC}
             />
             <label
               htmlFor={'terms'}
@@ -141,9 +163,9 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
           <Button
             type="submit"
             className="bg-black text-white font-semibold place-content-end capitalize text-lg w-[280px]"
-            disabledClass="pointer-events-none"
-            loading={isLoading}
-            disabled={isLoading}
+            disabledClass="pointer-events-none !bg-gray-700 !text-gray-500"
+            loading={loading}
+            disabled={loading || !tncChecked}
             onClick={onSubmit}
           >
             <div>{__('Complete order')}</div>
@@ -157,4 +179,4 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
   )
 }
 
-export default CheckoutPayment
+export default memo(CheckoutPayment)

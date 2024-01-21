@@ -20,7 +20,7 @@ export enum ComponentNames {
   CHECKOUT_PAYMENT = 'CheckoutPayment',
   CHECKOUT_HEADER = 'CheckoutHeader',
   CHECKOUT_CART_ITEMS = 'CheckoutCartItems',
-  CHECKOUT_FORM = 'CheckoutForm',
+  CONFIRMATION_SUMMARY = 'ConfirmationSummary',
   ORDER_SUMMARY = 'OrderSummary',
   CATEGORY_DETAILS = 'CategoryDetails',
   PAGINATION = 'Pagination',
@@ -92,7 +92,7 @@ export enum CheckoutSteps {
   INFORMATION = 'information',
   SHIPPING = 'shipping',
   PAYMENT = 'payment',
-  ORDER_COMPLETE = 'order_complete'
+  CONFIRMATION_SUMMARY = 'confirmation_summary'
 }
 
 export enum ProductTypes {

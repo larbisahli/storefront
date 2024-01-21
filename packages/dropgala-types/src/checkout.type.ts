@@ -66,8 +66,8 @@ export interface Summary {
   subtotalExclTax: FinalPrice
   subtotalWithDiscountInclTax: FinalPrice
   subtotalWithDiscountExclTax: FinalPrice
-  totalShippingCost: FinalPrice
-  totalShippingExclCost: FinalPrice
+  totalShippingInclTax: FinalPrice
+  totalShippingExclTax: FinalPrice
 }
 
 export interface Metadata {

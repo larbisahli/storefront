@@ -60,7 +60,7 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
     : { image: '', placeholder: '' }
 
   return (
-    <div className="w-full h-auto flex justify-start last:border-none items-start relative mt-3 pb-4 last:border-b-0 border-b border-solid border-gray-400">
+    <div className="w-full h-auto flex justify-start last:border-none items-start relative mt-3 pb-4 last:border-b-0 border-b border-solid border-gray-400 px-3">
       <div className="relative flex w-[75px] h-[75px] rounded flex-shrink-0">
         <div
           className="absolute text-xs bg-black rounded-full z-10
@@ -98,7 +98,7 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
                 </div>
               )}
               {/* ---- price area ---- */}
-              <div className="flex flex-col flex-1 items-end px-5">
+              <div className="flex flex-col flex-1 items-end">
                 <div className="flex items-end justify-end flex-shrink-0">
                   <span className="inline-block text-[16px] text-gray-900 font-semibold">
                     {total}
