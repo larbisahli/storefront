@@ -6,12 +6,14 @@ import {
 import apolloClient from 'apollo-client'
 import { ShippingAddress } from '@dropgala/types'
 interface updateCheckoutThunkProps extends ShippingAddress {
+  storeId: string
   csrfToken: string
 }
 
 export const updateCheckoutInformation = createAsyncThunk(
   'cart/updateCheckoutInformationThunk',
   async ({
+    storeId,
     city,
     marketingOptIn,
     zip,
@@ -26,6 +28,7 @@ export const updateCheckoutInformation = createAsyncThunk(
     const { data } = await apolloClient.mutate<any>({
       mutation: UPDATE_CHECKOUT_INFORMATION,
       variables: {
+        storeId,
         city,
         marketingOptIn,
         zip,

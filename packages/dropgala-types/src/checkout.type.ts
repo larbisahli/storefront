@@ -51,7 +51,7 @@ export type CartItemType = ProductType & {
 }
 
 export interface FinalPrice {
-  currency: { code: string }
+  currency?: { code: string }
   value: number
 }
 
@@ -61,11 +61,11 @@ export interface Discount {
 }
 
 export interface Summary {
-  grandTotal: FinalPrice
+  grandInclTotal: FinalPrice
+  grandExclTotal: FinalPrice
   subtotalInclTax: FinalPrice
   subtotalExclTax: FinalPrice
-  subtotalWithDiscountInclTax: FinalPrice
-  subtotalWithDiscountExclTax: FinalPrice
+  subtotalWithDiscount: FinalPrice
   totalShippingInclTax: FinalPrice
   totalShippingExclTax: FinalPrice
 }

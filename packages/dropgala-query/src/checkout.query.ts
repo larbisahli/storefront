@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 
 export const UPDATE_CHECKOUT_INFORMATION = gql`
   mutation UpdateCheckoutInformation(
+    $storeId: String!
     $city: String
     $marketingOptIn: Boolean
     $zip: String
@@ -13,6 +14,7 @@ export const UPDATE_CHECKOUT_INFORMATION = gql`
     $fullName: String
   ) {
     updateCheckoutInformation(
+      storeId: $storeId
       city: $city
       marketingOptIn: $marketingOptIn
       zip: $zip
@@ -103,8 +105,14 @@ export const UPDATE_CHECKOUT_SHIPPING = gql`
 `
 
 export const CREATE_ORDER = gql`
-  mutation CreateOrder($paymentId: String!) {
-    createOrder(paymentId: $paymentId) {
+  mutation CreateOrder(
+    $storeId: String!
+    $paymentId: String!
+    ) {
+    createOrder(
+      storeId: $storeId,
+      paymentId: $paymentId
+      ) {
       success
       ref
     }

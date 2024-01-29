@@ -44,7 +44,7 @@ interface Props extends StoreProps {}
 const CheckoutPayment = ({ useAppSelector }: Props) => {
   const router = useRouter()
 
-  const { language, csrf } = useAppSelector(selectConfig)
+  const { language, csrf, storeId } = useAppSelector(selectConfig)
   const { __ } = useTranslation(language, 'common')
 
   const [selectedOption, setSelectedOption] = useState('')
@@ -76,7 +76,12 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
       return
     }
 
-    createOrder({ variables: { paymentId: selectedOption } }).catch((err) => {
+    createOrder({
+      variables: {
+        storeId,
+        paymentId: selectedOption
+      }
+    }).catch((err) => {
       setError(err)
     })
   }

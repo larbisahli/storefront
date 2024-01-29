@@ -23,7 +23,7 @@ interface Props extends StoreProps {}
 const CheckoutInformation = ({ useAppSelector, useAppDispatch }: Props) => {
   const router = useRouter()
 
-  const { language, csrf } = useAppSelector(selectConfig)
+  const { language, csrf, storeId } = useAppSelector(selectConfig)
   const checkout = useAppSelector(selectCheckout)
   const dispatch = useAppDispatch()
 
@@ -61,6 +61,7 @@ const CheckoutInformation = ({ useAppSelector, useAppDispatch }: Props) => {
     dispatch(
       updateCheckoutInformation({
         ...values,
+        storeId: storeId!,
         csrfToken: csrf?.csrfToken!,
         country: {
           iso2: values.country.iso2,
