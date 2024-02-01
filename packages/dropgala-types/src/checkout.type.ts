@@ -61,11 +61,11 @@ export interface Discount {
 }
 
 export interface Summary {
-  grandInclTotal: FinalPrice
-  grandExclTotal: FinalPrice
+  grandTotalInclTax: FinalPrice
+  grandTotalExclTax: FinalPrice
   subtotalInclTax: FinalPrice
   subtotalExclTax: FinalPrice
-  subtotalWithDiscount: FinalPrice
+  totalDiscount: FinalPrice
   totalShippingInclTax: FinalPrice
   totalShippingExclTax: FinalPrice
 }

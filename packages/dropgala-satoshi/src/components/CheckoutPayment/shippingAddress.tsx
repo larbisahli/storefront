@@ -88,7 +88,9 @@ const ShippingAddress = ({ useAppSelector }: Props) => {
             </span>
             <div className="flex-1 w-full flex justify-end">
               <span className="w-[250px] text-sm">
-                {shippingAddress?.state}
+                {isEmpty(shippingAddress?.state)
+                  ? 'N/A'
+                  : shippingAddress?.state}
               </span>
             </div>
           </div>
@@ -97,7 +99,9 @@ const ShippingAddress = ({ useAppSelector }: Props) => {
               {__('Zip/Postal Code')}
             </span>
             <div className="flex-1 w-full flex justify-end">
-              <span className="w-[250px] text-sm">{shippingAddress?.zip}</span>
+              <span className="w-[250px] text-sm">
+                {isEmpty(shippingAddress?.zip) ? 'N/A' : shippingAddress?.zip}
+              </span>
             </div>
           </div>
         </div>

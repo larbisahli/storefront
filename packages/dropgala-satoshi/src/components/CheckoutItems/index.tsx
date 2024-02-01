@@ -80,13 +80,13 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
   const cart = checkout?.cart
   const itemsCount = cart?.totalQuantity
 
-  const grandInclTotal = usePrice({
-    amount: summary?.grandInclTotal?.value,
+  const grandTotalInclTax = usePrice({
+    amount: summary?.grandTotalInclTax?.value,
     locale,
     currencyCode: defaultCurrency?.code
   })
-  const grandExclTotal = usePrice({
-    amount: summary?.grandExclTotal?.value,
+  const grandTotalExclTax = usePrice({
+    amount: summary?.grandTotalExclTax?.value,
     locale,
     currencyCode: defaultCurrency?.code
   })
@@ -197,9 +197,11 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
           {__('Order total')}
         </span>
         <div className="flex items-end flex-col">
-          <span className="text-black font-bold text-lg">{grandInclTotal}</span>
+          <span className="text-black font-bold text-lg">
+            {grandTotalInclTax}
+          </span>
           <div className="text-right w-full text-gray-800 text-xs font-medium">
-            {__('Excl. tax: %s', grandExclTotal)}
+            {__('Excl. tax: %s', grandTotalExclTax)}
           </div>
         </div>
       </div>
@@ -296,10 +298,10 @@ const CheckoutItems = ({ useAppSelector }: Props) => {
           </div>
           <div className="flex items-end flex-col">
             <span className="text-black font-bold text-lg">
-              {grandInclTotal}
+              {grandTotalInclTax}
             </span>
             <div className="text-right w-full text-gray-800 text-xs font-medium">
-              {__('Excl. tax: %s', grandExclTotal)}
+              {__('Excl. tax: %s', grandTotalExclTax)}
             </div>
           </div>
         </button>

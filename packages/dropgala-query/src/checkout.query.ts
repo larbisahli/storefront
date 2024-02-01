@@ -105,14 +105,8 @@ export const UPDATE_CHECKOUT_SHIPPING = gql`
 `
 
 export const CREATE_ORDER = gql`
-  mutation CreateOrder(
-    $storeId: String!
-    $paymentId: String!
-    ) {
-    createOrder(
-      storeId: $storeId,
-      paymentId: $paymentId
-      ) {
+  mutation CreateOrder($storeId: String!, $paymentId: String!) {
+    createOrder(storeId: $storeId, paymentId: $paymentId) {
       success
       ref
     }

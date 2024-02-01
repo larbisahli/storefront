@@ -81,12 +81,3 @@ export const { setCheckout } = checkoutSlice.actions
 export const selectCheckout = (state: AppState) => state.CheckoutReducer
 
 export default checkoutSlice.reducer
-
-// message Summary {
-//   FinalPrice grandTotal = 1;
-//   FinalPrice subtotalIncludingTax = 2;
-//   FinalPrice subtotalExcludingTax = 3;
-//   FinalPrice subtotalWithDiscountExcludingTax = 4;
-//   FinalPrice totalShippingCost = 5;
-//   Discount discount = 6;
-// }
