@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const CheckoutInformation = () => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.CHECKOUT_INFORMATION, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.CHECKOUT_INFORMATION, { data })
 }
 
 export default CheckoutInformation

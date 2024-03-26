@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const Pagination = () => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.PAGINATION, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.PAGINATION, { data })
 }
 
 export default Pagination

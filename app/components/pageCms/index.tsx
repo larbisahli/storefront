@@ -9,9 +9,11 @@ interface Props {
 }
 
 const PageCms = ({ page }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.PAGE_CMS, {
-    page
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.PAGE_CMS, {
+    page,
+    data
   })
 }
 

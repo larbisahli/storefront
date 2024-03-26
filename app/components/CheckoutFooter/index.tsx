@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const CheckoutFooter = () => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.CHECKOUT_FOOTER, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-footer']
+  return componentFactory(ComponentNames.CHECKOUT_FOOTER, { data })
 }
 
 export default CheckoutFooter

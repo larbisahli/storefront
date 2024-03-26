@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const CheckoutBreadcrumb = () => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.CHECKOUT_BREADCRUMB, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.CHECKOUT_BREADCRUMB, { data })
 }
 
 export default CheckoutBreadcrumb

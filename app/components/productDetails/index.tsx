@@ -9,9 +9,11 @@ interface Props {
 }
 
 const ProductDetails = ({ product }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.PRODUCT_DETAILS, {
-    product
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.PRODUCT_DETAILS, {
+    product,
+    data
   })
 }
 

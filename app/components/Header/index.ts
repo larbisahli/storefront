@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const Header = () => {
-  const storeConfig = useAppSelector(selectConfig)
-  return componentFactory(storeConfig.theme, ComponentNames.HEADER, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-header']
+  return componentFactory(ComponentNames.HEADER, { data })
 }
 
 export default Header

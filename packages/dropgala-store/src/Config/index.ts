@@ -1,17 +1,18 @@
-import { StoreThemes } from '@dropgala/types/enums.type'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { ConfigType, LanguageType } from '@dropgala/types/config.type'
 import { HYDRATE } from 'next-redux-wrapper'
 
 import { AppState } from '../store'
+import { jssState } from './jss'
+import { GalaCoreComponentType } from '@dropgala/types'
 
 export interface StoreConfigState extends ConfigType {
-  theme: StoreThemes
+  jssState: any
   csrf?: { csrfToken?: string; csrfError?: string }
 }
 
 const initialState: StoreConfigState = {
-  theme: StoreThemes.LUMA,
+  jssState,
   isMobileHeaderTransition: true,
   device: {
     userAgent: null,

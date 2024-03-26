@@ -5,9 +5,11 @@ import componentFactory from '@lib/componentFactory'
 import { Shipping } from '@dropgala/types/generated/shipping/Shipping'
 
 const CheckoutShipping = ({ shippings }: { shippings: Shipping[] }) => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.CHECKOUT_SHIPPING, {
-    shippings
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.CHECKOUT_SHIPPING, {
+    shippings,
+    data
   })
 }
 

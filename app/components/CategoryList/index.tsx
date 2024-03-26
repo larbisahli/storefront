@@ -13,9 +13,12 @@ interface Props {
 }
 
 const CategoryList = ({ categories }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.CATEGORIES_LIST, {
-    categories
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+
+  return componentFactory(ComponentNames.CATEGORIES_LIST, {
+    categories,
+    data
   })
 }
 

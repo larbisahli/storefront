@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const ProductNotFound = () => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.PRODUCT_NOT_FOUND, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.PRODUCT_NOT_FOUND, { data })
 }
 
 export default ProductNotFound

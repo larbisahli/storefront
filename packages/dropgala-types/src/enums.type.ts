@@ -2,6 +2,7 @@
 
 export enum ComponentNames {
   HEADER = 'Header',
+  PROMO_SLIDER = 'PromoSlider',
   FOOTER = 'Footer',
   HERO_BANNER = 'HeroBanner',
   CART_DRAWER = 'CartDrawer',
@@ -31,14 +32,8 @@ export enum ComponentNames {
   COOKIE_POPUP = 'CookiePopup'
 }
 
-export enum StoreThemes {
-  LUMA = '@dropgala/luma',
-  SATOSHI = '@dropgala/satoshi'
-}
-
-export enum StoreThemesName {
-  LUMA = 'luma',
-  SATOSHI = 'satoshi'
+export enum BreadcrumbComponents {
+  BREADCRUMB = 'Breadcrumb'
 }
 
 export enum SortOrder {

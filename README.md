@@ -270,3 +270,5 @@ If you like Certbot, please consider supporting our work by:
 - Donating to EFF: https://eff.org/donate-le
 
 https://flowbite.com/docs/forms/floating-label/
+
+// Each component has a size of 1.1KB

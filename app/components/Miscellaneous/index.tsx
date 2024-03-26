@@ -9,10 +9,12 @@ interface Props {
 }
 
 const Miscellaneous = ({ layout, setLayout }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.MISCELLANEOUS, {
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.MISCELLANEOUS, {
     layout,
-    setLayout
+    setLayout,
+    data
   })
 }
 

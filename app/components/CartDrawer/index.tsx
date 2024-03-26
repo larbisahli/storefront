@@ -9,7 +9,8 @@ import React from 'react'
 
 const CartDrawer = () => {
   const { isOpen, isCart } = useAppSelector(selectDrawer)
-  const { theme } = useAppSelector(selectConfig)
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
 
   const dispatch = useAppDispatch()
 
@@ -28,7 +29,7 @@ const CartDrawer = () => {
             <CloseIcon width="16px" height="16px" />
           </button>
         </div>
-        {componentFactory(theme, ComponentNames.CART_DRAWER, {})}
+        {componentFactory(ComponentNames.CART_DRAWER, { data })}
       </div>
     </React.Fragment>
   )

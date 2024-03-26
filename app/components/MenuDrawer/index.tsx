@@ -14,8 +14,9 @@ import React from 'react'
 
 const MenuDrawer = () => {
   const { isOpen, isMenu } = useAppSelector(selectDrawer)
-  const { theme } = useAppSelector(selectConfig)
+  const { jssState } = useAppSelector(selectConfig)
   const { menu } = useAppSelector(selectMenu)
+  const data = jssState['galaCore']['route']['jss-main']
 
   const dispatch = useAppDispatch()
 
@@ -34,7 +35,7 @@ const MenuDrawer = () => {
             <CloseIcon width="16px" height="16px" />
           </button>
         </div>
-        {componentFactory(theme, ComponentNames.MENU_DRAWER, { menu })}
+        {componentFactory(ComponentNames.MENU_DRAWER, { menu, data })}
       </div>
     </React.Fragment>
   )

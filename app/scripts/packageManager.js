@@ -16,7 +16,7 @@ const prettierConfig = {
 }
 
 // Configuration
-const outputFile = 'app/lib/componentFactory.tsx'
+const outputFile = 'app/lib/generated.tsx'
 
 const themePaths = Object.values(enums.StoreThemes)
 
@@ -285,6 +285,14 @@ const CookiePopup = {${themePaths?.map(
       'ProductCardPlaceholder'
     )}`
 )}}
+const PromoSlider = {${themePaths?.map(
+  (themePath) =>
+    `'${[themePath]}': ${dynamicImport(
+      themePath,
+      'PromoSlider',
+      'ProductCardPlaceholder'
+    )}`
+)}}
 
 const components = new Map<ComponentNames, {[key in StoreThemes]: React.ComponentType<any>}>();
 components.set(ComponentNames.HEADER, Header);
@@ -315,7 +323,7 @@ components.set(ComponentNames.CHECKOUT_PAYMENT, CheckoutPayment);
 components.set(ComponentNames.INSTALL_PROMPT, InstallPrompt);
 components.set(ComponentNames.PRODUCT_NOT_FOUND, ProductNotFound);
 components.set(ComponentNames.COOKIE_POPUP, CookiePopup);
-
+components.set(ComponentNames.PROMO_SLIDER, PromoSlider);
 
 export default function componentFactory<Props>(
   storeTheme: StoreThemes,

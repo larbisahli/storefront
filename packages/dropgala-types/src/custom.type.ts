@@ -18,3 +18,11 @@ export declare type Scalars = {
   /** A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sO`, e.g. `2020-04-20T13:53:12+02:00`. */
   DateTimeTz: string | number | Date
 }
+
+export interface GalaCoreComponentType {
+  componentName: Scalars['String']
+  params: any
+  fields: any
+}
+
+export interface JSSStateType {}

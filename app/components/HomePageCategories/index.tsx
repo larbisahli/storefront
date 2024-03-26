@@ -4,10 +4,12 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const HomePageCategories = () => {
-  const { theme } = useAppSelector(selectConfig)
   const { homePageCategories } = useAppSelector(selectMenu)
-  return componentFactory(theme, ComponentNames.HOMEPAGE_CATEGORIES, {
-    categories: homePageCategories
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.HOMEPAGE_CATEGORIES, {
+    categories: homePageCategories,
+    data
   })
 }
 

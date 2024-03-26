@@ -10,10 +10,12 @@ interface Props {
 }
 
 const Breadcrumb = ({ name, breadcrumbs }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.BREADCRUMB, {
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.BREADCRUMB, {
     name,
-    breadcrumbs
+    breadcrumbs,
+    data
   })
 }
 

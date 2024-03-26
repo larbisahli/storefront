@@ -15,11 +15,13 @@ const ProductCard = ({
   className,
   layout = ProductCardLayout.Grid
 }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.PRODUCT_CARD, {
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.PRODUCT_CARD, {
     product,
     className,
-    layout
+    layout,
+    data
   })
 }
 

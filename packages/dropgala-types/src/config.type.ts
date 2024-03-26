@@ -1,4 +1,3 @@
-import { StoreThemes } from 'enums.type'
 import { ImageType } from './common.type'
 
 export interface ConfigType {
@@ -7,8 +6,8 @@ export interface ConfigType {
   storeName?: string
   storeEmail?: string
   storeNumber?: string
+  jssState: any
   alias?: string
-  theme: StoreThemes
   storeId?: string
   locales?: {
     id: number

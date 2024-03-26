@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const OrderSummary = () => {
-  const storeConfig = useAppSelector(selectConfig)
-  return componentFactory(storeConfig.theme, ComponentNames.ORDER_SUMMARY, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.ORDER_SUMMARY, { data })
 }
 
 export default OrderSummary

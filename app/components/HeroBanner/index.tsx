@@ -9,10 +9,12 @@ interface Props {
 }
 
 const HeroBanner = ({ heroSlider }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
-  return componentFactory(theme, ComponentNames.HERO_BANNER, {
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
+  return componentFactory(ComponentNames.HERO_BANNER, {
     infiniteLoop: true,
-    items: heroSlider
+    items: heroSlider,
+    data
   })
 }
 

@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const Footer = () => {
-  const storeConfig = useAppSelector(selectConfig)
-  return componentFactory(storeConfig.theme, ComponentNames.FOOTER, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-footer']
+  return componentFactory(ComponentNames.FOOTER, { data })
 }
 
 export default Footer

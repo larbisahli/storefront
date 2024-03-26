@@ -19,16 +19,17 @@ interface ProductCardProps {
   layout?: ProductCardLayout
 }
 const LinkedProducts = ({ title, products = [] }: Props) => {
-  const { theme } = useAppSelector(selectConfig)
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-main']
   if (isEmpty(products)) {
     return null
   }
   return componentFactory(
-    theme,
     ComponentNames.LINKED_PRODUCTS,
     {
       title,
-      products
+      products,
+      data
     },
     (props: ProductCardProps) => <ProductCard {...props} />
   )

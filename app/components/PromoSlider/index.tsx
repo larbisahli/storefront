@@ -5,16 +5,18 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  category: CategoryType
+  name?: string
+  breadcrumbs: CategoryType['breadcrumbs']
 }
 
-const CategoryDetails = ({ category }: Props) => {
+const PromoSlider = ({ name, breadcrumbs }: Props) => {
   const { jssState } = useAppSelector(selectConfig)
   const data = jssState['galaCore']['route']['jss-main']
-  return componentFactory(ComponentNames.CATEGORY_DETAILS, {
-    category,
+  return componentFactory(ComponentNames.BREADCRUMB, {
+    name,
+    breadcrumbs,
     data
   })
 }
 
-export default CategoryDetails
+export default PromoSlider

@@ -4,8 +4,9 @@ import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
 const CheckoutHeader = () => {
-  const storeConfig = useAppSelector(selectConfig)
-  return componentFactory(storeConfig.theme, ComponentNames.CHECKOUT_HEADER, {})
+  const { jssState } = useAppSelector(selectConfig)
+  const data = jssState['galaCore']['route']['jss-header']
+  return componentFactory(ComponentNames.CHECKOUT_HEADER, { data })
 }
 
 export default CheckoutHeader
