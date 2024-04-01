@@ -15,56 +15,81 @@ export const jssState = {
       layoutId: 'ec8aa46e-4876-4a43-b945-ea51bdaaab07',
       'jss-footer': {
         componentName: 'Footer',
-        dataSource:
-          '/sitecore/content/YasConnect/FWAD/Site Components/Common/Footer/Final Footer',
         params: {},
         fields: { data: {} }
       },
       'jss-header': {
         componentName: 'Header',
-        dataSource:
-          '/sitecore/content/YasConnect/FWAD/Site Components/Common/Footer/Final Footer',
         params: {},
         fields: { data: {} }
       },
       'jss-main': [
         {
-          componentId: 'e6d2bdb9-2514-4168-8181-20e4f329616d',
-          componentName: 'Breadcrumb',
-          source: '@dropgala/ui/Breadcrumb/groupA/BreadcrumbA1',
+          componentId: 'e6d2bdb9-2514-4168-8181-20e4f32e616d',
+          componentName: 'HeroBanner',
+          position: 0,
+          params: {},
+          fields: {
+            data: {
+              items: [
+                {
+                  thumbnail: [
+                    {
+                      id: 1,
+                      image: 'mystore/images/2024/3/slider-xbox.png',
+                      placeholder:
+                        'mystore/images/2024/3/slider-xbox_placeholder.png',
+                      width: 0,
+                      height: 0
+                    }
+                  ],
+                  id: 1,
+                  destinationUrl: '',
+                  title: 'Xbox Series X & S',
+                  description: 'Xbox Series X & S',
+                  published: false,
+                  btnLabel: 'Explore more',
+                  styles: {
+                    align: '',
+                    textColor: '#000',
+                    btnBgc: '#dcdbdb',
+                    btnTextColor: '#222121'
+                  },
+                  position: 0
+                }
+              ],
+              carousel: {
+                dots: true,
+                arrows: true,
+                autoplay: true,
+                rtl: false,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                centerMode: false,
+                infiniteScroll: false,
+                fade: false,
+                pauseOnHover: false,
+                autoplaySpeed: 5000
+              }
+            }
+          }
+        },
+        {
+          componentId: 'e6d2b1b9-2514-4168-8181-20e4f32961sd',
+          componentName: 'HomePageCategories',
+          position: 1,
           params: {},
           fields: {
             data: {}
           }
         },
         {
-          componentId: 'e6d2b1b9-2514-4168-8181-20e4f329616d',
-          componentName: 'HeroComponent',
-          dataSource:
-            '/sitecore/content/YasConnect/FWAD/Site Components/Common/Footer/Final Footer',
-          params: {},
-          fields: {
-            carousel: {
-              dots: true,
-              arrows: true,
-              autoplay: true,
-              rtl: false,
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              centerMode: false,
-              infiniteScroll: false,
-              fade: false,
-              pauseOnHover: false,
-              autoplaySpeed: 5000
-            }
-          }
-        },
-        {
+          componentId: 'e6d2bdb9-2514-4168-8181-20e4f3v9616d',
           componentName: 'MyCartB2C',
-          dataSource:
-            '/sitecore/content/YasConnect/FWAD/Site Components/Common/Footer/Final Footer',
-          params: {},
-          fields: { data: {} }
+          position: 2,
+          css: {},
+          props: {},
+          children: []
         }
       ]
     }

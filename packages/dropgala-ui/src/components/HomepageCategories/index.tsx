@@ -4,7 +4,7 @@ import React, { memo } from 'react'
 
 import CategoryCard from './CategoryCard'
 import MobileCategoryCard from './MobileCategoryCard'
-import { StoreProps, selectConfig } from '@dropgala/store'
+import { StoreProps, selectConfig, selectMenu } from '@dropgala/store'
 
 interface Props {
   useAppSelector: StoreProps['useAppSelector']
@@ -12,24 +12,17 @@ interface Props {
   className?: string
 }
 
-const HomePageCategories: React.FC<Props> = ({
-  useAppSelector,
-  categories = [],
-  className = ''
-}) => {
+const HomePageCategories: React.FC<Props> = ({ useAppSelector }) => {
   const { device } = useAppSelector(selectConfig)
-
+  const { homePageCategories: categories } = useAppSelector(selectMenu)
   const renderCategoryCard = (category: CategoryType) => {
     if (device.isMobile) {
       return <MobileCategoryCard key={category.id} category={category} />
     }
     return <CategoryCard key={category.id} category={category} />
   }
-
   return (
-    <div
-      className={cn('max-w-screen-xl xxl:max-w-screen-xxl mx-auto', className)}
-    >
+    <div className={cn('max-w-screen-xl xxl:max-w-screen-xxl mx-auto')}>
       <div
         className={cn(
           device.isMobile && 'flex items-center flex-col flex-wrap',

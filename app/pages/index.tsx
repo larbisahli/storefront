@@ -6,8 +6,6 @@ import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
 import ProductCard from '@components/productCard'
-import HeroBanner from '@components/HeroBanner'
-import HomePageCategories from '@components/HomePageCategories'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import AppLayout from '@components/layout/AppLayout'
 import { NextSeo } from 'next-seo'
@@ -28,6 +26,10 @@ import ProductNotFound from '@components/ProductNotFound'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
+import { cloneDeep } from '@apollo/client/utilities'
+import { GalaCoreComponentType, ProductCardLayout } from '@dropgala/types'
+import componentFactory from '@lib/componentFactory'
+import { HeroBanner } from '@components'
 
 interface PageProps {
   pageProps: {
@@ -39,10 +41,20 @@ interface PageProps {
 }
 
 const HomePage = ({ pageProps }: PageProps) => {
-  const storeConfig = useAppSelector(selectConfig)
-  const { __ } = useTranslation(storeConfig?.language, 'exception')
-  const { host, heroSlider = [], popularProducts } = pageProps
-  console.log({ storeConfig, popularProducts })
+  const { jssState, language, ...storeConfig } = useAppSelector(selectConfig)
+  const config = useAppSelector(selectConfig)
+  console.log({ config })
+  const { __ } = useTranslation(language, 'exception')
+  const { host, popularProducts } = pageProps
+  const data = jssState['galaCore']['route']['jss-main']
+
+  const getSortedItems = () => {
+    return cloneDeep(data)?.sort(
+      (a: { position: number }, b: { position: number }) =>
+        a.position - b.position
+    )
+  }
+
   return (
     <>
       <NextSeo
@@ -90,14 +102,13 @@ const HomePage = ({ pageProps }: PageProps) => {
         ]}
       />
       <div className="mb-44">
-        {/* HERO SECTION */}
-        <section className="mx-0 lg:mx-2">
-          <HeroBanner heroSlider={heroSlider} />
-        </section>
-        {/* CATEGORY SECTION */}
-        <section className="mt-16 mx-0 lg:mx-2">
-          {<HomePageCategories />}
-        </section>
+        {getSortedItems()?.map((component: GalaCoreComponentType) => {
+          return (
+            <section key={component?.componentId}>
+              {componentFactory(component?.componentName, component)}
+            </section>
+          )
+        })}
         {/* BESTSELLERS SECTION */}
         <section className="mt-8 mx-2">
           <div className="text-2xl lg:text-3xl text-center lg:text-left font-semibold">
@@ -109,7 +120,11 @@ const HomePage = ({ pageProps }: PageProps) => {
                             xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-4 2xl:gap-5"
             >
               {popularProducts.map((product) => (
-                <ProductCard product={product} key={product.id} />
+                <ProductCard
+                  product={product}
+                  key={product.id}
+                  layout={ProductCardLayout.Grid}
+                />
               ))}
             </div>
           ) : (

@@ -1,4 +1,4 @@
-import { SortOrder } from './enums.type'
+import { ComponentNames, SortOrder } from './enums.type'
 
 export declare type Nullable<T> = T | null
 
@@ -20,7 +20,8 @@ export declare type Scalars = {
 }
 
 export interface GalaCoreComponentType {
-  componentName: Scalars['String']
+  componentId: Scalars['String']
+  componentName: ComponentNames
   params: any
   fields: any
 }

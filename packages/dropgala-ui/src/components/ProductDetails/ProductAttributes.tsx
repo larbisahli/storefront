@@ -9,6 +9,7 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { AttributeValueType } from '@dropgala/types/attribute.type'
 import { ConfigType } from '@dropgala/types/config.type'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { AttributeTypeTypes } from '@dropgala/types'
 
 interface Props {
   className?: string
@@ -122,23 +123,25 @@ const ProductAttributes: React.FC<Props> = ({
     )
   }
 
+  const isColor = attribute?.type === AttributeTypeTypes.COLOR
   return (
-    <div className={cn(className)}>
-      <div className="text-14px font-normal mb-2 capitalize">
-        <span className="text-skin-base font-medium">{attribute?.name}</span>
-      </div>
-      <ul className="flex flex-wrap">
-        {values?.map((value) => (
-          <AttributeValueLabel
-            key={value?.id}
-            value={value!}
-            type={attribute?.type}
-            selectedAttributeValueId={selectedVariation?.value?.id!}
-            handleSelectedAttributeValue={handleSelectedAttributeValue}
-          />
-        ))}
-      </ul>
-    </div>
+    <table className="w-full">
+      <tbody>
+        <tr className="">
+          <td className="w-[23%]">
+            <span className="font-semibold">{attribute?.name}</span>
+          </td>
+          <td className="">
+            {isColor && (
+              <span className="">{values ? values[0]?.name : ''}</span>
+            )}
+            {!isColor && (
+              <span className="">{values ? values[0]?.value : ''}</span>
+            )}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   )
 }
 

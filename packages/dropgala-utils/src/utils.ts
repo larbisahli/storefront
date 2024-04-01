@@ -42,11 +42,11 @@ Number.prototype.toCommas = function () {
 
 export const mediaURL = PRODUCTION_ENV
   ? 'https://api.dropgala.com/media'
-  : 'http://127.0.0.1:5000/media'
+  : 'http://127.0.0.1:5002/media'
 
 export const apiURL = PRODUCTION_ENV
   ? 'https://api.dropgala.com'
-  : 'http://127.0.0.1:5000'
+  : 'http://127.0.0.1:5002'
 
 // eslint-disable-next-line no-unused-vars
 export function noop(_: any) {}

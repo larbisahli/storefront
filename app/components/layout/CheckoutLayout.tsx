@@ -1,13 +1,7 @@
 import CheckoutHeader from '@components/CheckoutHeader'
 import cn from 'clsx'
 import { Mulish } from 'next/font/google'
-import React, { useEffect } from 'react'
-import BrowserDatabase from '@dropgala/utils/BrowserDatabase'
-import { localStorageKeyNames } from '@dropgala/types'
-import { CartState } from '@dropgala/types/product.type'
-import { useAppDispatch, useAppSelector } from '@hooks/useStore'
-import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import { selectCart, setCartInit } from '@dropgala/store'
+import React from 'react'
 
 interface Props {
   children: React.ReactNode
@@ -22,16 +16,6 @@ const inter = Mulish({
 })
 
 const CheckoutLayout = ({ children, className }: Props) => {
-  const cartState = useAppSelector(selectCart)
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    const data = BrowserDatabase.getItem<CartState>(
-      localStorageKeyNames.CART_TOTALS
-    )
-    if (data && isEmpty(cartState?.items)) {
-      dispatch(setCartInit({ state: data }))
-    }
-  }, [])
   return (
     <div
       className={cn(

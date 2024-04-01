@@ -420,10 +420,10 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
             })}
           </div>
           {renderProductActions()}
-          {/* Tags */}
-          {renderTags()}
           {/* Description */}
           <ProductDescription description={description ?? ''} />
+          {/* Tags */}
+          {renderTags()}
         </div>
       </div>
     </div>

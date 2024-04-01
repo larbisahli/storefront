@@ -5,13 +5,6 @@ import cn from 'clsx'
 import { Lato, Mulish, Merriweather, Roboto } from 'next/font/google'
 import React from 'react'
 import Footer from '@components/Footer'
-import { useEffect } from 'react'
-import BrowserDatabase from '@dropgala/utils/BrowserDatabase'
-import { localStorageKeyNames } from '@dropgala/types'
-import { CartState } from '@dropgala/types/product.type'
-import { useAppDispatch, useAppSelector } from '@hooks/useStore'
-import { selectCart, setCartInit } from '@dropgala/store'
-import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
 interface Props {
   children: React.ReactNode
@@ -27,16 +20,6 @@ const inter = Lato({
 })
 
 const AppLayout = ({ children, className }: Props) => {
-  const cartState = useAppSelector(selectCart)
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    const data = BrowserDatabase.getItem<CartState>(
-      localStorageKeyNames.CART_TOTALS
-    )
-    if (data && isEmpty(cartState?.items)) {
-      dispatch(setCartInit({ state: data }))
-    }
-  }, [])
   return (
     <div className="relative">
       <style jsx global>{`
@@ -45,8 +28,8 @@ const AppLayout = ({ children, className }: Props) => {
         }
       `}</style>
       <Header />
-      <CartDrawer />
-      <MenuDrawer />
+      {/* <CartDrawer />
+      <MenuDrawer /> */}
       <main
         className={cn(
           'h-[450px]',

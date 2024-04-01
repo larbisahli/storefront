@@ -7,21 +7,19 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 import { StoreProps, selectConfig } from '@dropgala/store'
 
 interface Props {
-  items?: HeroBannerType[]
-  className?: string
-  contentClassName?: string
   useAppSelector: StoreProps['useAppSelector']
+  fields: {
+    data: {
+      items: HeroBannerType[]
+    }
+  }
 }
 
-const HeroSliderBlock: React.FC<Props> = ({
-  items = [],
-  className = 'mb-7',
-  contentClassName = 'py-24',
-  useAppSelector
-}) => {
+const HeroSliderBlock: React.FC<Props> = ({ useAppSelector, fields }) => {
   const { device } = useAppSelector(selectConfig)
+  const items = fields?.data?.items
   return (
-    <div className={cn(className)}>
+    <div className={cn('mx-0 lg:mx-2 mb-7')}>
       <Swiper
         className="max-h-[350px] lg:max-h-[500px]"
         centeredSlides={true}
@@ -34,14 +32,14 @@ const HeroSliderBlock: React.FC<Props> = ({
           clickable: true
         }}
         modules={[Autoplay, Pagination, Navigation]}
-        thumbsContainerClass="bg-blue-400"
-        slideThumbActiveClass="bg-red-400"
+        // thumbsContainerClass="bg-blue-400"
+        // slideThumbActiveClass="bg-red-400"
       >
         {items?.map((banner: any) => (
           <SwiperSlide key={`hero-banner--key${banner.id}`}>
             <HeroBannerCard
               banner={banner}
-              className={contentClassName}
+              className={'py-24'}
               device={device}
             />
           </SwiperSlide>

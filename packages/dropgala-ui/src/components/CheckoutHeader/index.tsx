@@ -1,3 +1,6 @@
+/**
+ * componentName: Header
+ */
 import { StoreProps, selectConfig } from '@dropgala/store'
 import ArrowRightFilled from '@dropgala/assets/icons/filed-right-arrow'
 import SecureLock from '@dropgala/assets/icons/secure-lock'
@@ -34,8 +37,8 @@ function CheckoutHeader({ useAppSelector }: Props) {
                       isCustomUrl
                       src={storeLogo}
                       objectFit="cover"
-                      height={device?.isDesktop ? 45 : 30}
-                      width={device?.isDesktop ? 45 : 30}
+                      height={device?.isDesktop ? 50 : 30}
+                      width={device?.isDesktop ? 50 : 30}
                       alt="logo"
                     />
                   </Link>
