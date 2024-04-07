@@ -1,6 +1,6 @@
 import ChevronRight from '@dropgala/assets/icons/chevron-right'
 import cn from 'clsx'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 import { CheckoutSteps } from '@dropgala/types'

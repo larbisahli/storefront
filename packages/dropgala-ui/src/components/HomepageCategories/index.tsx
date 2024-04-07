@@ -22,7 +22,9 @@ const HomePageCategories: React.FC<Props> = ({ useAppSelector }) => {
     return <CategoryCard key={category.id} category={category} />
   }
   return (
-    <div className={cn('max-w-screen-xl xxl:max-w-screen-xxl mx-auto')}>
+    <section
+      className={cn('max-w-screen-xl xxl:max-w-screen-xxl mx-auto mt-8')}
+    >
       <div
         className={cn(
           device.isMobile && 'flex items-center flex-col flex-wrap',
@@ -33,7 +35,7 @@ const HomePageCategories: React.FC<Props> = ({ useAppSelector }) => {
           return renderCategoryCard(category)
         })}
       </div>
-    </div>
+    </section>
   )
 }
 

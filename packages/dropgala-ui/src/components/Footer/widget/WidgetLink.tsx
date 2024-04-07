@@ -1,6 +1,6 @@
 import { ConfigType } from '@dropgala/types/config.type'
 import Heading from '../../ui/Heading'
-import Link from '../../ui/Link'
+import Link from '../../common/Link'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 
 interface Props {

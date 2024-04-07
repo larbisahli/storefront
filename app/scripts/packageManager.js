@@ -48,7 +48,7 @@ import {
   MenuDrawerPlaceholder,
   ProductCardPlaceholder
 } from '@components/placeholders'
-import { ComponentNames, StoreThemes } from '@dropgala/types/enums.type'
+import { ModuleNames, StoreThemes } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -294,40 +294,40 @@ const PromoSlider = {${themePaths?.map(
     )}`
 )}}
 
-const components = new Map<ComponentNames, {[key in StoreThemes]: React.ComponentType<any>}>();
-components.set(ComponentNames.HEADER, Header);
-components.set(ComponentNames.FOOTER, Footer);
-components.set(ComponentNames.MENU_DRAWER, MenuDrawer);
-components.set(ComponentNames.CART_DRAWER, CartDrawer);
-components.set(ComponentNames.HERO_BANNER, HeroBanner);
-components.set(ComponentNames.HOMEPAGE_CATEGORIES, HomepageCategories);
-components.set(ComponentNames.PRODUCT_CARD, ProductCard);
-components.set(ComponentNames.PRODUCT_DETAILS, ProductDetails);
-components.set(ComponentNames.LINKED_PRODUCTS, LinkedProducts);
-components.set(ComponentNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb);
-components.set(ComponentNames.CHECKOUT_FOOTER, CheckoutFooter);
-components.set(ComponentNames.CHECKOUT_HEADER, CheckoutHeader);
-components.set(ComponentNames.BREADCRUMB, Breadcrumb);
-components.set(ComponentNames.CHECKOUT_CART_ITEMS, CheckoutCartItems);
-components.set(ComponentNames.ORDER_SUMMARY, OrderSummary);
-components.set(ComponentNames.CATEGORY_DETAILS, CategoryDetails);
-components.set(ComponentNames.CATEGORIES_LIST, CategoryList);
-components.set(ComponentNames.PAGINATION, Pagination);
-components.set(ComponentNames.MISCELLANEOUS, Miscellaneous);
-components.set(ComponentNames.PAGE_CMS, PageCms);
-components.set(ComponentNames.CHECKOUT_INFORMATION, CheckoutInformation);
-components.set(ComponentNames.CONFIRMATION_SUMMARY, ConfirmationSummary)
-components.set(ComponentNames.CHECKOUT_ITEMS, CheckoutItems);
-components.set(ComponentNames.CHECKOUT_SHIPPING, CheckoutShipping);
-components.set(ComponentNames.CHECKOUT_PAYMENT, CheckoutPayment);
-components.set(ComponentNames.INSTALL_PROMPT, InstallPrompt);
-components.set(ComponentNames.PRODUCT_NOT_FOUND, ProductNotFound);
-components.set(ComponentNames.COOKIE_POPUP, CookiePopup);
-components.set(ComponentNames.PROMO_SLIDER, PromoSlider);
+const components = new Map<ModuleNames, {[key in StoreThemes]: React.ComponentType<any>}>();
+components.set(ModuleNames.HEADER, Header);
+components.set(ModuleNames.FOOTER, Footer);
+components.set(ModuleNames.MENU_DRAWER, MenuDrawer);
+components.set(ModuleNames.CART_DRAWER, CartDrawer);
+components.set(ModuleNames.HERO_BANNER, HeroBanner);
+components.set(ModuleNames.HOMEPAGE_CATEGORIES, HomepageCategories);
+components.set(ModuleNames.PRODUCT_CARD, ProductCard);
+components.set(ModuleNames.PRODUCT_DETAILS, ProductDetails);
+components.set(ModuleNames.LINKED_PRODUCTS, LinkedProducts);
+components.set(ModuleNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb);
+components.set(ModuleNames.CHECKOUT_FOOTER, CheckoutFooter);
+components.set(ModuleNames.CHECKOUT_HEADER, CheckoutHeader);
+components.set(ModuleNames.BREADCRUMB, Breadcrumb);
+components.set(ModuleNames.CHECKOUT_CART_ITEMS, CheckoutCartItems);
+components.set(ModuleNames.ORDER_SUMMARY, OrderSummary);
+components.set(ModuleNames.CATEGORY_DETAILS, CategoryDetails);
+components.set(ModuleNames.CATEGORIES_LIST, CategoryList);
+components.set(ModuleNames.PAGINATION, Pagination);
+components.set(ModuleNames.MISCELLANEOUS, Miscellaneous);
+components.set(ModuleNames.PAGE_CMS, PageCms);
+components.set(ModuleNames.CHECKOUT_INFORMATION, CheckoutInformation);
+components.set(ModuleNames.CONFIRMATION_SUMMARY, ConfirmationSummary)
+components.set(ModuleNames.CHECKOUT_ITEMS, CheckoutItems);
+components.set(ModuleNames.CHECKOUT_SHIPPING, CheckoutShipping);
+components.set(ModuleNames.CHECKOUT_PAYMENT, CheckoutPayment);
+components.set(ModuleNames.INSTALL_PROMPT, InstallPrompt);
+components.set(ModuleNames.PRODUCT_NOT_FOUND, ProductNotFound);
+components.set(ModuleNames.COOKIE_POPUP, CookiePopup);
+components.set(ModuleNames.PROMO_SLIDER, PromoSlider);
 
 export default function componentFactory<Props>(
   storeTheme: StoreThemes,
-  componentName: ComponentNames,
+  componentName: ModuleNames,
   props: Props,
   children?:(
     props: any

@@ -1,7 +1,7 @@
-import { ComponentNames } from '@dropgala/types/enums.type'
+import { ModuleNames } from '@dropgala/types/enums.type'
 import componentFactory from '@lib/componentFactory'
 
 const CheckoutItems = (props: any) =>
-  componentFactory(ComponentNames.CHECKOUT_ITEMS, { ...props })
+  componentFactory(null, ModuleNames.CHECKOUT_ITEMS, { ...props })
 
 export default CheckoutItems

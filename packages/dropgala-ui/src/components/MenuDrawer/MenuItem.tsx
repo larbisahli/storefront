@@ -8,7 +8,7 @@ import React, { useState } from 'react'
 
 import PlusIcon from '@dropgala/assets/icons/plus-icon'
 import { StoreProps, toggleMenu } from '@dropgala/store'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 
 type MenuType = CategoryType | CategoryRefLevel2 | CategoryRefLevel3
 

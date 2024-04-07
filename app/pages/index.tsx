@@ -5,7 +5,6 @@ import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
-import ProductCard from '@components/productCard'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import AppLayout from '@components/layout/AppLayout'
 import { NextSeo } from 'next-seo'
@@ -19,17 +18,12 @@ import {
   fetchStorePopularProducts,
   fetchStorePromoSlide
 } from '@gRPC/handlers'
-import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { LanguageType } from '@dropgala/types/config.type'
-import ProductNotFound from '@components/ProductNotFound'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
-import { cloneDeep } from '@apollo/client/utilities'
-import { GalaCoreComponentType, ProductCardLayout } from '@dropgala/types'
-import componentFactory from '@lib/componentFactory'
-import { HeroBanner } from '@components'
+import React from 'react'
 
 interface PageProps {
   pageProps: {
@@ -41,100 +35,55 @@ interface PageProps {
 }
 
 const HomePage = ({ pageProps }: PageProps) => {
-  const { jssState, language, ...storeConfig } = useAppSelector(selectConfig)
-  const config = useAppSelector(selectConfig)
-  console.log({ config })
-  const { __ } = useTranslation(language, 'exception')
   const { host, popularProducts } = pageProps
-  const data = jssState['galaCore']['route']['jss-main']
-
-  const getSortedItems = () => {
-    return cloneDeep(data)?.sort(
-      (a: { position: number }, b: { position: number }) =>
-        a.position - b.position
-    )
-  }
-
+  const config = useAppSelector(selectConfig)
+  const { jssState, language, ...storeConfig } = useAppSelector(selectConfig)
+  console.log({ config })
   return (
-    <>
-      <NextSeo
-        title={storeConfig?.storeName}
-        description={storeConfig?.seo?.metaDescription}
-        canonical={`https://${host?.host}`}
-        openGraph={{
-          url: `https://${host?.host}`,
-          title: storeConfig?.seo?.metaTitle,
-          description: storeConfig?.seo?.metaDescription,
-          images: [
-            {
-              url: !!storeConfig?.seo?.ogImage?.length
-                ? `${mediaURL}/${storeConfig?.seo?.ogImage[0].image}`
-                : '',
-              width: 800,
-              height: 600,
-              alt: 'Og Image Alt',
-              type: 'image/png'
-            }
-          ],
-          siteName: storeConfig?.storeName
-        }}
-        twitter={{
-          handle: storeConfig?.seo?.twitterHandle,
-          site: '@site',
-          cardType: 'summary_large_image'
-        }}
-        additionalLinkTags={[
+    <NextSeo
+      title={storeConfig?.storeName}
+      description={storeConfig?.seo?.metaDescription}
+      canonical={`https://${host?.host}`}
+      openGraph={{
+        url: `https://${host?.host}`,
+        title: storeConfig?.seo?.metaTitle,
+        description: storeConfig?.seo?.metaDescription,
+        images: [
           {
-            rel: 'apple-touch-icon',
-            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_ios_180x180.png`,
-            sizes: '180x180'
-          },
-          {
-            rel: 'icon',
-            type: 'image/png',
-            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_android_36x36.png`,
-            sizes: '36x36'
-          },
-          {
-            rel: 'manifest',
-            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
+            url: !!storeConfig?.seo?.ogImage?.length
+              ? `${mediaURL}/${storeConfig?.seo?.ogImage[0].image}`
+              : '',
+            width: 800,
+            height: 600,
+            alt: 'Og Image Alt',
+            type: 'image/png'
           }
-        ]}
-      />
-      <div className="mb-44">
-        {getSortedItems()?.map((component: GalaCoreComponentType) => {
-          return (
-            <section key={component?.componentId}>
-              {componentFactory(component?.componentName, component)}
-            </section>
-          )
-        })}
-        {/* BESTSELLERS SECTION */}
-        <section className="mt-8 mx-2">
-          <div className="text-2xl lg:text-3xl text-center lg:text-left font-semibold">
-            {__('Best Sellers')}
-          </div>
-          {!isEmpty(popularProducts) ? (
-            <div
-              className="grid grid-cols-1 my-10 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-
-                            xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-4 2xl:gap-5"
-            >
-              {popularProducts.map((product) => (
-                <ProductCard
-                  product={product}
-                  key={product.id}
-                  layout={ProductCardLayout.Grid}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="w-full flex flex-col items-center pt-10px md:pt-40px lg:pt-20px pb-40px">
-              <ProductNotFound />
-            </div>
-          )}
-        </section>
-      </div>
-    </>
+        ],
+        siteName: storeConfig?.storeName
+      }}
+      twitter={{
+        handle: storeConfig?.seo?.twitterHandle,
+        site: '@site',
+        cardType: 'summary_large_image'
+      }}
+      additionalLinkTags={[
+        {
+          rel: 'apple-touch-icon',
+          href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_ios_180x180.png`,
+          sizes: '180x180'
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_android_36x36.png`,
+          sizes: '36x36'
+        },
+        {
+          rel: 'manifest',
+          href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
+        }
+      ]}
+    />
   )
 }
 

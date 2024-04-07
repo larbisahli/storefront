@@ -3,7 +3,8 @@ import type { ConfigType, LanguageType } from '@dropgala/types/config.type'
 import { HYDRATE } from 'next-redux-wrapper'
 
 import { AppState } from '../store'
-import { jssState } from './jss'
+// import { jssState } from './jss'
+import { jssState } from './jss-policy'
 import { GalaCoreComponentType } from '@dropgala/types'
 
 export interface StoreConfigState extends ConfigType {

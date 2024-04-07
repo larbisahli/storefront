@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 
-export enum ComponentNames {
+export enum ModuleNames {
   HEADER = 'Header',
   PROMO_SLIDER = 'PromoSlider',
   FOOTER = 'Footer',
   HERO_BANNER = 'HeroBanner',
   CART_DRAWER = 'CartDrawer',
   MENU_DRAWER = 'MenuDrawer',
-  HOMEPAGE_CATEGORIES = 'HomePageCategories',
+  HOMEPAGE_CATEGORIES = 'HomepageCategories',
   CATEGORIES_LIST = 'CategoryList',
   PRODUCT_CARD = 'ProductCard',
   PRODUCT_DETAILS = 'ProductDetails',
@@ -29,11 +29,25 @@ export enum ComponentNames {
   PAGE_CMS = 'PageCms',
   INSTALL_PROMPT = 'InstallPrompt',
   PRODUCT_NOT_FOUND = 'ProductNotFound',
-  COOKIE_POPUP = 'CookiePopup'
+  PRODUCT_LIST_WIDGET = 'ProductListWidget',
+  COOKIE_POPUP = 'CookiePopup',
+  PROMO_BANNER = 'PromoBanner'
 }
 
 export enum BreadcrumbComponents {
   BREADCRUMB = 'Breadcrumb'
+}
+
+export enum ProductListWidgetComponents {
+  PRODUCT_LIST_WIDGET = 'ProductListWidget'
+}
+
+export enum ProductCardComponents {
+  PRODUCT_CARD = 'ProductCard'
+}
+
+export enum ProductNotFoundComponents {
+  PRODUCT_NOT_FOUND = 'ProductNotFound'
 }
 
 export enum SortOrder {

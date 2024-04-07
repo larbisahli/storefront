@@ -11,7 +11,7 @@ import {
   selectConfig,
   selectDrawer
 } from '@dropgala/store'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 import Scrollbar from '../common/Scrollbar'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import cn from 'clsx'

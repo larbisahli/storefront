@@ -1,6 +1,6 @@
 import { CategoryType } from '@dropgala/types/category.type'
 import { useMemo } from 'react'
-import Link from '../ui/Link'
+import Link from '../../common/Link'
 
 interface Props {
   menu: CategoryType[]

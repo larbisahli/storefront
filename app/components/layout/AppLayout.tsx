@@ -5,6 +5,10 @@ import cn from 'clsx'
 import { Lato, Mulish, Merriweather, Roboto } from 'next/font/google'
 import React from 'react'
 import Footer from '@components/Footer'
+import CustomProfiler from '@components/CustomProfiler'
+import { resolvePath } from '@dropgala/utils/helpers'
+import { useAppSelector } from '@hooks/useStore'
+import { selectConfig } from '@dropgala/store'
 
 interface Props {
   children: React.ReactNode
@@ -20,6 +24,11 @@ const inter = Lato({
 })
 
 const AppLayout = ({ children, className }: Props) => {
+  const { jssState } = useAppSelector(selectConfig)
+  const headerData = resolvePath(jssState, 'galaCore.route.jss-header', {})
+  const footerData = resolvePath(jssState, 'galaCore.route.jss-footer', {})
+  const mainData = resolvePath(jssState, 'galaCore.route.jss-main', {})
+  console.log('AppLayout >>', { children })
   return (
     <div className="relative">
       <style jsx global>{`
@@ -27,9 +36,9 @@ const AppLayout = ({ children, className }: Props) => {
           font-family: ${inter.style.fontFamily};
         }
       `}</style>
-      <Header />
-      {/* <CartDrawer />
-      <MenuDrawer /> */}
+      <CustomProfiler data={[headerData]} />
+      <CartDrawer />
+      <MenuDrawer />
       <main
         className={cn(
           'h-[450px]',
@@ -40,12 +49,14 @@ const AppLayout = ({ children, className }: Props) => {
       >
         <div className="flex flex-col flex-grow">
           <div className="mt-[101px] lg:mt-[150px] flex-auto">
-            <div className="z-40"></div>
+            <div className="mb-44">
+              <CustomProfiler data={mainData} popularProducts={[]} />
+            </div>
             {children}
           </div>
         </div>
       </main>
-      <Footer />
+      <CustomProfiler data={[footerData]} />
     </div>
   )
 }

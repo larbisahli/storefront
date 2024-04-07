@@ -13,7 +13,7 @@ import {
 } from '@gRPC/handlers'
 import { fetchStorePage } from '@gRPC/handlers/page'
 import { PageType } from '@dropgala/types/page.type'
-import PageCms from '@components/pageCms'
+import PageCms from '@components/PageCms'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import getMobileDetect from '@dropgala/utils/isMobile'
@@ -79,14 +79,6 @@ const PrivacyPage = ({ pageProps }: PageProps) => {
           }
         ]}
       />
-      <section className="mb-5">
-        <div className="">
-          <Breadcrumb breadcrumbs={[]} name={page.name} />
-        </div>
-      </section>
-      <section className="mb-44">
-        <PageCms page={page} />
-      </section>
     </>
   )
 }

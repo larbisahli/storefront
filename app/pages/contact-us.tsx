@@ -13,7 +13,7 @@ import {
 } from '@gRPC/handlers'
 import { fetchStorePage } from '@gRPC/handlers/page'
 import { PageType } from '@dropgala/types/page.type'
-import PageCms from '@components/pageCms'
+import PageCms from '@components/PageCms'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { LanguageType } from '@dropgala/types/config.type'

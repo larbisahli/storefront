@@ -1,7 +1,7 @@
-import { ComponentNames } from '@dropgala/types'
+import { ModuleNames } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 const CheckoutBreadcrumb = (props: any) =>
-  componentFactory(ComponentNames.CHECKOUT_BREADCRUMB, { ...props })
+  componentFactory(null, ModuleNames.CHECKOUT_BREADCRUMB, { ...props })
 
 export default CheckoutBreadcrumb

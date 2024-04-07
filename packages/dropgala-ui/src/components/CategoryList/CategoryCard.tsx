@@ -1,7 +1,7 @@
 import { CategoryType } from '@dropgala/types/category.type'
 import React, { memo } from 'react'
 import Image from '../common/Image'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 
 interface Props {
   category: CategoryType

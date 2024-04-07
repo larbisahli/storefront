@@ -2,7 +2,7 @@ import { StoreProps, selectCheckout, selectConfig } from '@dropgala/store'
 import { CheckoutSteps } from '@dropgala/types'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 
 interface Props {
   useAppSelector: StoreProps['useAppSelector']

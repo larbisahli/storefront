@@ -3,7 +3,7 @@ import cn from 'clsx'
 import type { FC } from 'react'
 import { memo } from 'react'
 import Image from '../common/Image'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 import { ConfigType } from '@dropgala/types/config.type'
 import useWindowSize from 'hooks/useWindowSize'
 

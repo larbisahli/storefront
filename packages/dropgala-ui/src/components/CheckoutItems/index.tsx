@@ -11,7 +11,7 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { StoreProps, selectCheckout, selectConfig } from '@dropgala/store'
 import EditIcon from '@dropgala/assets/icons/edit'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { CouponDiscountType } from '@dropgala/types'
 

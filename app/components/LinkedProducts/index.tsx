@@ -1,5 +1,5 @@
-import ProductCard from '@components/productCard'
-import { ComponentNames, ProductCardLayout } from '@dropgala/types'
+import ProductCard from '@components/ProductCard'
+import { ModuleNames, ProductCardLayout } from '@dropgala/types'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import type { ProductRef, ProductType } from '@dropgala/types/product.type'
 import componentFactory from '@lib/componentFactory'
@@ -21,7 +21,8 @@ const LinkedProducts = (props: any) => {
     return null
   }
   return componentFactory(
-    ComponentNames.LINKED_PRODUCTS,
+    null,
+    ModuleNames.LINKED_PRODUCTS,
     { ...props },
     (props: ProductCardProps) => <ProductCard {...props} />
   )

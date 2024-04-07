@@ -6,7 +6,7 @@ import React, { memo } from 'react'
 import { HeartEmpty } from '@dropgala/assets/icons/heart'
 import { ProductCardLayout, ProductTypes } from '@dropgala/types'
 import Image from '../common/Image'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import { usePriceRange } from '@dropgala/utils/hooks/usePriceRange'
 import StarIcon from '@dropgala/assets/icons/star'
@@ -28,10 +28,9 @@ const ProductCard: React.FC<ProductProps> = ({
   useAppSelector
 }) => {
   const config = useAppSelector(selectConfig)
-
   const { __ } = useTranslation(config.language, 'common')
-
   const { locale = 'en-US' } = useRouter()
+  layout = layout ?? ProductCardLayout.Grid
 
   const {
     name,

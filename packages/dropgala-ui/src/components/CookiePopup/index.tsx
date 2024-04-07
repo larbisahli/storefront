@@ -3,7 +3,7 @@ import BrowserDatabase, {
   ONE_MONTH_IN_SECONDS
 } from '@dropgala/utils/BrowserDatabase'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 import { useEffect, useState } from 'react'
 import cn from 'clsx'
 import { localStorageKeyNames } from '@dropgala/types'

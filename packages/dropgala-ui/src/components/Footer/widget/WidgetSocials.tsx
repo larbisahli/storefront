@@ -1,7 +1,7 @@
 import { ConfigType } from '@dropgala/types/config.type'
 import { mediaURL } from '@dropgala/utils/utils'
 import Image from '../../common/Image'
-import Link from '../../ui/Link'
+import Link from '../../common/Link'
 
 interface Props {
   className?: string

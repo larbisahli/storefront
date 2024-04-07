@@ -13,7 +13,7 @@ import {
 } from '@gRPC/handlers'
 import { fetchStorePage } from '@gRPC/handlers/page'
 import { PageType } from '@dropgala/types/page.type'
-import PageCms from '@components/pageCms'
+import PageCms from '@components/PageCms'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { LanguageType } from '@dropgala/types/config.type'
@@ -32,7 +32,6 @@ interface PageProps {
 const ReturnPolicyPage = ({ pageProps }: PageProps) => {
   const storeConfig = useAppSelector(selectConfig)
   const { host, page } = pageProps
-
   return (
     <>
       <NextSeo
@@ -79,14 +78,6 @@ const ReturnPolicyPage = ({ pageProps }: PageProps) => {
           }
         ]}
       />
-      <section className="mb-5">
-        <div className="">
-          <Breadcrumb breadcrumbs={[]} name={page.name} />
-        </div>
-      </section>
-      <section className="mb-44">
-        <PageCms page={page} />
-      </section>
     </>
   )
 }

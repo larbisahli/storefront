@@ -1,13 +1,12 @@
-import { ComponentNames } from '@dropgala/types'
-import type { CategoryType } from '@dropgala/types/category.type'
+import { ModuleNames } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  name?: string
-  breadcrumbs: CategoryType['breadcrumbs']
+  componentName: string
+  [key: string]: any
 }
 
-const Breadcrumb = (props: Props) =>
-  componentFactory(ComponentNames.BREADCRUMB, { ...props })
+const Breadcrumb = ({ componentName, ...props }: Props) =>
+  componentFactory(componentName, ModuleNames.BREADCRUMB, { ...props })
 
 export default Breadcrumb

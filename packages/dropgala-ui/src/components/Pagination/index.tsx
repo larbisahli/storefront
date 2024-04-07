@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 
 const Pagination: React.FC<{}> = () => {
   const router = useRouter()

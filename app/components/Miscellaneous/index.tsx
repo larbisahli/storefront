@@ -1,4 +1,4 @@
-import { ComponentNames, ProductCardLayout } from '@dropgala/types'
+import { ModuleNames, ProductCardLayout } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
@@ -7,6 +7,6 @@ interface Props {
 }
 
 const Miscellaneous = (props: any) =>
-  componentFactory(ComponentNames.MISCELLANEOUS, { ...props })
+  componentFactory(null, ModuleNames.MISCELLANEOUS, { ...props })
 
 export default Miscellaneous

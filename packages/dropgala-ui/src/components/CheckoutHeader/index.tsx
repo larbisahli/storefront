@@ -7,7 +7,7 @@ import SecureLock from '@dropgala/assets/icons/secure-lock'
 import { mediaURL } from '@dropgala/utils/utils'
 import cn from 'clsx'
 import Image from '../common/Image'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 
 interface Props extends StoreProps {}
 

@@ -1,7 +1,7 @@
 /**
  * **** Generated file, Do Not Edit ****
  */
-import { ComponentNames } from '@dropgala/types/enums.type'
+import { ModuleNames } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
 import { useAppDispatch, useAppSelector } from '@hooks/useStore'
@@ -15,247 +15,339 @@ import {
   ProductCardPlaceholder
 } from '@dropgala/placeholder'
 import { bytesToSize } from 'utils'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
-const Header = dynamic(() => import('@dropgala/ui/components/Header'), {
-  loading: () => <HeaderPlaceholder />,
-  ssr: true
-})
-
-const Footer = dynamic(() => import('@dropgala/ui/components/Footer'), {
-  loading: () => <FooterPlaceholder />,
-  ssr: true
-})
-
-const MenuDrawer = dynamic(() => import('@dropgala/ui/components/MenuDrawer'), {
-  loading: () => <MenuDrawerPlaceholder />,
-  ssr: false
-})
-
-const CartDrawer = dynamic(() => import('@dropgala/ui/components/CartDrawer'), {
-  loading: () => <CartDrawerPlaceholder />,
-  ssr: false
-})
-
-const HeroBanner = dynamic(() => import('@dropgala/ui/components/HeroBanner'), {
-  loading: () => <HeroBannerPlaceholder />,
-  ssr: false
-})
-
-const HomepageCategories = dynamic(
-  () => import('@dropgala/ui/components/HomepageCategories'),
-  {
-    loading: () => <HeroBannerPlaceholder />,
+const Header = {
+  /* __DEFAULT__ */
+  Header: dynamic(() => import('@dropgala/ui/components/Header'), {
+    loading: () => <HeaderPlaceholder />,
     ssr: true
-  }
-)
+  })
+}
 
-const ProductCard = dynamic(
-  () => import('@dropgala/ui/components/ProductCard'),
-  {
-    loading: () => <ProductCardPlaceholder />,
+const Footer = {
+  /* __DEFAULT__ */
+  Footer: dynamic(() => import('@dropgala/ui/components/Footer'), {
+    loading: () => <FooterPlaceholder />,
     ssr: true
-  }
-)
+  })
+}
 
-const ProductDetails = dynamic(
-  () => import('@dropgala/ui/components/ProductDetails'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
-
-const LinkedProducts = dynamic(
-  () => import('@dropgala/ui/components/LinkedProducts'),
-  {
-    loading: () => <ProductCardPlaceholder />,
+const MenuDrawer = {
+  /* __DEFAULT__ */
+  MenuDrawer: dynamic(() => import('@dropgala/ui/components/MenuDrawer'), {
+    loading: () => <MenuDrawerPlaceholder />,
     ssr: false
-  }
-)
+  })
+}
 
-const Breadcrumb = dynamic(() => import('@dropgala/ui/components/Breadcrumb'), {
-  loading: () => <BreadcrumbPlaceholder />,
-  ssr: false
-})
+const CartDrawer = {
+  /* __DEFAULT__ */
+  CartDrawer: dynamic(() => import('@dropgala/ui/components/CartDrawer'), {
+    loading: () => <CartDrawerPlaceholder />,
+    ssr: false
+  })
+}
 
-const CheckoutBreadcrumb = dynamic(
-  () => import('@dropgala/ui/components/CheckoutBreadcrumb'),
-  {
+const HeroBanner = {
+  /* __DEFAULT__ */
+  HeroBanner: dynamic(() => import('@dropgala/ui/components/HeroBanner'), {
+    loading: () => <HeroBannerPlaceholder />,
+    ssr: false
+  })
+}
+
+const HomepageCategories = {
+  /* __DEFAULT__ */
+  HomepageCategories: dynamic(
+    () => import('@dropgala/ui/components/HomePageCategories'),
+    {
+      loading: () => <HeroBannerPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const ProductCard = {
+  /* __DEFAULT__ */
+  ProductCard: dynamic(() => import('@dropgala/ui/components/ProductCard'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
+const ProductDetails = {
+  /* __DEFAULT__ */
+  ProductDetails: dynamic(
+    () => import('@dropgala/ui/components/ProductDetails'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const LinkedProducts = {
+  /* __DEFAULT__ */
+  LinkedProducts: dynamic(
+    () => import('@dropgala/ui/components/LinkedProducts'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: false
+    }
+  )
+}
+const Breadcrumb = {
+  /* __DEFAULT__ */
+  Breadcrumb: dynamic(() => import('@dropgala/ui/components/Breadcrumb'), {
     loading: () => <BreadcrumbPlaceholder />,
     ssr: false
-  }
-)
-
-const CheckoutHeader = dynamic(
-  () => import('@dropgala/ui/components/CheckoutHeader'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: false
-  }
-)
-
-const CheckoutCartItems = dynamic(
-  () => import('@dropgala/ui/components/CheckoutCartItems'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
-
-const OrderSummary = dynamic(
-  () => import('@dropgala/ui/components/OrderSummary'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
-
-const CategoryDetails = dynamic(
-  () => import('@dropgala/ui/components/CategoryDetails'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
-
-const CategoryList = dynamic(
-  () => import('@dropgala/ui/components/CategoryList'),
-  {
+  })
+}
+const CheckoutBreadcrumb = {
+  /* __DEFAULT__ */
+  CheckoutBreadcrumb: dynamic(
+    () => import('@dropgala/ui/components/CheckoutBreadcrumb'),
+    {
+      loading: () => <BreadcrumbPlaceholder />,
+      ssr: false
+    }
+  )
+}
+const CheckoutHeader = {
+  /* __DEFAULT__ */
+  CheckoutHeader: dynamic(
+    () => import('@dropgala/ui/components/CheckoutHeader'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: false
+    }
+  )
+}
+const CheckoutCartItems = {
+  /* __DEFAULT__ */
+  CheckoutCartItems: dynamic(
+    () => import('@dropgala/ui/components/CheckoutCartItems'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const OrderSummary = {
+  /* __DEFAULT__ */
+  OrderSummary: dynamic(() => import('@dropgala/ui/components/OrderSummary'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  }
-)
-
-const Pagination = dynamic(() => import('@dropgala/ui/components/Pagination'), {
-  loading: () => <ProductCardPlaceholder />,
-  ssr: true
-})
-
-const Miscellaneous = dynamic(
-  () => import('@dropgala/ui/components/Miscellaneous'),
-  {
+  })
+}
+const CategoryDetails = {
+  /* __DEFAULT__ */
+  CategoryDetails: dynamic(
+    () => import('@dropgala/ui/components/CategoryDetails'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const CategoryList = {
+  /* __DEFAULT__ */
+  CategoryList: dynamic(() => import('@dropgala/ui/components/CategoryList'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  }
-)
-
-const PageCms = dynamic(() => import('@dropgala/ui/components/PageCms'), {
-  loading: () => <ProductCardPlaceholder />,
-  ssr: true
-})
-
-const CheckoutInformation = dynamic(
-  () => import('@dropgala/ui/components/CheckoutInformation'),
-  {
+  })
+}
+const Pagination = {
+  /* __DEFAULT__ */
+  Pagination: dynamic(() => import('@dropgala/ui/components/Pagination'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  }
-)
-
-const CheckoutItems = dynamic(
-  () => import('@dropgala/ui/components/CheckoutItems'),
-  {
+  })
+}
+const Miscellaneous = {
+  /* __DEFAULT__ */
+  Miscellaneous: dynamic(
+    () => import('@dropgala/ui/components/Miscellaneous'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const PageCms = {
+  /* __DEFAULT__ */
+  PageCms: dynamic(() => import('@dropgala/ui/components/PageCms'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  }
-)
-
-const CheckoutShipping = dynamic(
-  () => import('@dropgala/ui/components/CheckoutShipping'),
-  {
+  })
+}
+const CheckoutInformation = {
+  /* __DEFAULT__ */
+  CheckoutInformation: dynamic(
+    () => import('@dropgala/ui/components/CheckoutInformation'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const CheckoutItems = {
+  /* __DEFAULT__ */
+  CheckoutItems: dynamic(
+    () => import('@dropgala/ui/components/CheckoutItems'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const CheckoutShipping = {
+  /* __DEFAULT__ */
+  CheckoutShipping: dynamic(
+    () => import('@dropgala/ui/components/CheckoutShipping'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const CheckoutPayment = {
+  /* __DEFAULT__ */
+  CheckoutPayment: dynamic(
+    () => import('@dropgala/ui/components/CheckoutPayment'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const ConfirmationSummary = {
+  /* __DEFAULT__ */
+  ConfirmationSummary: dynamic(
+    () => import('@dropgala/ui/components/ConfirmationSummary'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const CheckoutFooter = {
+  /* __DEFAULT__ */
+  CheckoutFooter: dynamic(
+    () => import('@dropgala/ui/components/CheckoutFooter'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const InstallPrompt = {
+  /* __DEFAULT__ */
+  InstallPrompt: dynamic(
+    () => import('@dropgala/ui/components/InstallPrompt'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const ProductNotFound = {
+  /* __DEFAULT__ */
+  ProductNotFound: dynamic(
+    () => import('@dropgala/ui/components/ProductNotFound'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const ProductListWidget = {
+  /* __DEFAULT__ */
+  ProductListWidget: dynamic(
+    () => import('@dropgala/ui/components/ProductListWidget'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const CookiePopup = {
+  /* __DEFAULT__ */
+  CookiePopup: dynamic(() => import('@dropgala/ui/components/CookiePopup'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  }
-)
-
-const CheckoutPayment = dynamic(
-  () => import('@dropgala/ui/components/CheckoutPayment'),
-  {
+  })
+}
+const PromoBanner = {
+  /* __DEFAULT__ */
+  PromoBanner: dynamic(() => import('@dropgala/ui/components/PromoBanner'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  }
-)
+  }),
+  PromoBannerVertical: dynamic(
+    () => import('@dropgala/ui/components/PromoBanner/PromoBannerVertical'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
 
-const ConfirmationSummary = dynamic(
-  () => import('@dropgala/ui/components/ConfirmationSummary'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
+const modules = new Map<
+  ModuleNames,
+  { [key: string]: React.ComponentType<any> }
+>()
+modules.set(ModuleNames.HEADER, Header)
+modules.set(ModuleNames.FOOTER, Footer)
+modules.set(ModuleNames.MENU_DRAWER, MenuDrawer)
+modules.set(ModuleNames.CART_DRAWER, CartDrawer)
+modules.set(ModuleNames.HERO_BANNER, HeroBanner)
+modules.set(ModuleNames.HOMEPAGE_CATEGORIES, HomepageCategories)
+modules.set(ModuleNames.PRODUCT_CARD, ProductCard)
+modules.set(ModuleNames.PRODUCT_DETAILS, ProductDetails)
+modules.set(ModuleNames.LINKED_PRODUCTS, LinkedProducts)
+modules.set(ModuleNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb)
+modules.set(ModuleNames.CHECKOUT_FOOTER, CheckoutFooter)
+modules.set(ModuleNames.CHECKOUT_HEADER, CheckoutHeader)
+modules.set(ModuleNames.BREADCRUMB, Breadcrumb)
+modules.set(ModuleNames.CHECKOUT_CART_ITEMS, CheckoutCartItems)
+modules.set(ModuleNames.ORDER_SUMMARY, OrderSummary)
+modules.set(ModuleNames.CATEGORY_DETAILS, CategoryDetails)
+modules.set(ModuleNames.CATEGORIES_LIST, CategoryList)
+modules.set(ModuleNames.PAGINATION, Pagination)
+modules.set(ModuleNames.MISCELLANEOUS, Miscellaneous)
+modules.set(ModuleNames.PAGE_CMS, PageCms)
+modules.set(ModuleNames.CHECKOUT_INFORMATION, CheckoutInformation)
+modules.set(ModuleNames.CONFIRMATION_SUMMARY, ConfirmationSummary)
+modules.set(ModuleNames.CHECKOUT_ITEMS, CheckoutItems)
+modules.set(ModuleNames.CHECKOUT_SHIPPING, CheckoutShipping)
+modules.set(ModuleNames.CHECKOUT_PAYMENT, CheckoutPayment)
+modules.set(ModuleNames.INSTALL_PROMPT, InstallPrompt)
+modules.set(ModuleNames.PRODUCT_NOT_FOUND, ProductNotFound)
+modules.set(ModuleNames.PRODUCT_LIST_WIDGET, ProductListWidget)
+modules.set(ModuleNames.COOKIE_POPUP, CookiePopup)
+modules.set(ModuleNames.PROMO_BANNER, PromoBanner)
 
-const CheckoutFooter = dynamic(
-  () => import('@dropgala/ui/components/CheckoutFooter'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
+console.log('Factory module storage =', bytesToSize(modules))
 
-const InstallPrompt = dynamic(
-  () => import('@dropgala/ui/components/InstallPrompt'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
-const ProductNotFound = dynamic(
-  () => import('@dropgala/ui/components/ProductNotFound'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
+interface Props {
+  children?: React.ReactNode | React.ReactNode[] | Element | null
+  [key: string]: any
+}
 
-const CookiePopup = dynamic(
-  () => import('@dropgala/ui/components/CookiePopup'),
-  {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }
-)
-
-const components = new Map<ComponentNames, React.ComponentType<any>>()
-components.set(ComponentNames.HEADER, Header)
-components.set(ComponentNames.FOOTER, Footer)
-components.set(ComponentNames.MENU_DRAWER, MenuDrawer)
-components.set(ComponentNames.CART_DRAWER, CartDrawer)
-components.set(ComponentNames.HERO_BANNER, HeroBanner)
-components.set(ComponentNames.HOMEPAGE_CATEGORIES, HomepageCategories)
-components.set(ComponentNames.PRODUCT_CARD, ProductCard)
-components.set(ComponentNames.PRODUCT_DETAILS, ProductDetails)
-components.set(ComponentNames.LINKED_PRODUCTS, LinkedProducts)
-components.set(ComponentNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb)
-components.set(ComponentNames.CHECKOUT_FOOTER, CheckoutFooter)
-components.set(ComponentNames.CHECKOUT_HEADER, CheckoutHeader)
-components.set(ComponentNames.BREADCRUMB, Breadcrumb)
-components.set(ComponentNames.CHECKOUT_CART_ITEMS, CheckoutCartItems)
-components.set(ComponentNames.ORDER_SUMMARY, OrderSummary)
-components.set(ComponentNames.CATEGORY_DETAILS, CategoryDetails)
-components.set(ComponentNames.CATEGORIES_LIST, CategoryList)
-components.set(ComponentNames.PAGINATION, Pagination)
-components.set(ComponentNames.MISCELLANEOUS, Miscellaneous)
-components.set(ComponentNames.PAGE_CMS, PageCms)
-components.set(ComponentNames.CHECKOUT_INFORMATION, CheckoutInformation)
-components.set(ComponentNames.CONFIRMATION_SUMMARY, ConfirmationSummary)
-components.set(ComponentNames.CHECKOUT_ITEMS, CheckoutItems)
-components.set(ComponentNames.CHECKOUT_SHIPPING, CheckoutShipping)
-components.set(ComponentNames.CHECKOUT_PAYMENT, CheckoutPayment)
-components.set(ComponentNames.INSTALL_PROMPT, InstallPrompt)
-components.set(ComponentNames.PRODUCT_NOT_FOUND, ProductNotFound)
-components.set(ComponentNames.COOKIE_POPUP, CookiePopup)
-
-console.log('components >>>', bytesToSize(components))
-console.log('ProductDetails >>>', bytesToSize(ProductDetails))
-
-export default function componentFactory<Props>(
-  componentName: ComponentNames,
-  props: Props,
-  children?: (
-    props: any
-  ) => React.ReactNode | React.ReactNode[] | Element | null
+export default function componentFactory(
+  componentName: string | null,
+  moduleName: ModuleNames,
+  props: Props
 ): ReactElement<Props> | null {
-  const Component = components.get(componentName)
+  const components = modules.get(moduleName)
+  if (isEmpty(components)) {
+    console.warn(
+      'Module ' +
+        moduleName +
+        ' cannot be found in componentFactory and skipped from render.'
+    )
+    return null
+  }
+  const Component = components[componentName ?? moduleName]
   if (!Component) {
     console.warn(
       'Component ' +
@@ -272,7 +364,7 @@ export default function componentFactory<Props>(
         ...props
       }}
     >
-      {children ?? null}
+      {props?.children ?? null}
     </Component>
   )
 }

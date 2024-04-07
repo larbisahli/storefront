@@ -3,7 +3,7 @@ import type {
   CategoryRefLevel3,
   CategoryType
 } from '@dropgala/types/category.type'
-import { ComponentNames } from '@dropgala/types/enums.type'
+import { ModuleNames } from '@dropgala/types/enums.type'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
@@ -11,6 +11,6 @@ interface Props {
 }
 
 const CategoryList = (props: Props) =>
-  componentFactory(ComponentNames.CATEGORIES_LIST, { ...props })
+  componentFactory(null, ModuleNames.CATEGORIES_LIST, { ...props })
 
 export default CategoryList

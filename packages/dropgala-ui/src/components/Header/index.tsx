@@ -1,36 +1,71 @@
 import cn from 'clsx'
-import { FC, Fragment, useCallback, useRef, useState } from 'react'
-
-import MyAccountActions from './AccountActions'
-import InfoSection from './InfoSection'
-import MenuDropDownComponent from './MenuDropDownComponent'
-import MobileHeader from './MobileHeader'
-import PromoSlider from './PromoSlider'
-import SearchSection from './SearchSection'
+import React, {
+  FC,
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
   StoreProps,
   selectCart,
   selectConfig,
   selectMenu,
-  selectPromoBanner,
   setDefaultCurrency,
   toggleCart,
   toggleMenu
 } from '@dropgala/store'
 import Image from '../common/Image'
-import Link from '../ui/Link'
+import Link from '../common/Link'
 import { ConfigType } from '@dropgala/types/config.type'
+import dynamic from 'next/dynamic'
+import { getComponentFromChildren } from '@dropgala/utils/helpers'
+import { ModuleNames } from '@dropgala/types'
 
-interface Props extends StoreProps {}
+const MyAccountActions = dynamic(() => import('./Header/AccountActions'), {
+  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  ssr: false
+})
 
-const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
+const InfoSection = dynamic(() => import('./Header/InfoSection'), {
+  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  ssr: false
+})
+
+const MenuDropDownComponent = dynamic(
+  () => import('./Header/MenuDropDownComponent'),
+  {
+    loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+    ssr: false
+  }
+)
+
+const MobileHeader = dynamic(() => import('./Header/MobileHeader'), {
+  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  ssr: false
+})
+
+const SearchSection = dynamic(() => import('./Header/SearchSection'), {
+  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  ssr: false
+})
+
+interface Props extends StoreProps {
+  children: JSX.Element[]
+}
+
+export const Wrapper = ({ children }: { children: JSX.Element }) => {
+  return children
+}
+
+const Header: FC<Props> = ({ useAppSelector, useAppDispatch, children }) => {
   // const { t } = useTranslation()
 
   const storeConfig = useAppSelector(selectConfig)
   const { device, isMobileHeaderTransition } = storeConfig
   const { menu } = useAppSelector(selectMenu)
-  const promoBanner = useAppSelector(selectPromoBanner)
   const { item, totalQuantity } = useAppSelector(selectCart)
 
   const dispatch = useAppDispatch()
@@ -87,6 +122,15 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
     ? `${mediaURL}/${storeConfig?.logo[0].image}`
     : '/assets/images/default_logo.webp'
 
+  const renderPromoBanner = () => {
+    const PromoBanner = getComponentFromChildren(
+      children,
+      ModuleNames.PROMO_BANNER
+    )
+    if (!PromoBanner) return null
+    return PromoBanner
+  }
+
   return (
     <Fragment>
       <header
@@ -94,8 +138,8 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch }) => {
           'text-gray-700 overflow-hidden body-font fixed w-full z-20 bg-white border-b border-gray-300'
         )}
       >
-        {/* DemoNotice */}
-        <PromoSlider promoBanner={promoBanner} />
+        {/* PromoBanner */}
+        {renderPromoBanner()}
         {/* Navigation */}
         <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto ">
           {/* Info section */}

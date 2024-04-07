@@ -1,19 +1,22 @@
 import { ConfigType } from '@dropgala/types/config.type'
-import useOnClickOutside from '../../hooks/useOnClickOutside'
-import { memo, useMemo, useRef, useState } from 'react'
+import useOnClickOutside from '../../../hooks/useOnClickOutside'
+import { memo, useRef, useState } from 'react'
 import ArrowDownIcon from '@dropgala/assets/icons/arrow-down'
 import ArrowUpIcon from '@dropgala/assets/icons/arrow-up'
 import cn from 'clsx'
-import { useRouter } from 'next/router'
 
 interface Props {
   storeConfig: ConfigType
+  handleDefaultCurrency: (
+    defaultCurrency: ConfigType['defaultCurrency']
+  ) => void
 }
 
-const LanguageSwitcherList = ({ storeConfig }: Props) => {
-  const { locales, defaultCurrency } = storeConfig
-
-  const { asPath, locale, push, events, reload } = useRouter()
+const CurrencySwitcherList = ({
+  storeConfig,
+  handleDefaultCurrency
+}: Props) => {
+  const { currencies, defaultCurrency } = storeConfig
 
   const ref = useRef(null)
 
@@ -25,18 +28,13 @@ const LanguageSwitcherList = ({ storeConfig }: Props) => {
 
   useOnClickOutside(ref, handleClickOutside)
 
-  const currentLocale = useMemo(
-    () => locales?.find((l) => l.localeId === locale),
-    [locale, locales]
-  )
-
   return (
-    <div ref={ref} className="relative pl-3">
+    <div ref={ref} className={'relative'}>
       <button
         onClick={() => setOpen((prev) => !prev)}
         className="text-sm font-manrope flex justify-center items-center"
       >
-        <div>{currentLocale?.name}</div>
+        <div>{defaultCurrency?.code}</div>
         <div className={cn('p-1', open && 'block', !open && 'hidden')}>
           <ArrowUpIcon width={16} height={16} />
         </div>
@@ -46,23 +44,17 @@ const LanguageSwitcherList = ({ storeConfig }: Props) => {
       </button>
 
       {open && (
-        <div className="bg-white shadow text-center absolute border border-solid border-gray-300 z-50 -right-0">
-          {locales?.map(({ name, localeId }) => (
+        <div className="bg-white shadow absolute border border-solid border-gray-300 z-50 -right-0">
+          {currencies?.map((currency) => (
             <div
-              key={localeId}
+              key={currency?.code}
               onClick={() => {
                 setOpen(false)
-                push(asPath, asPath, {
-                  locale: localeId ?? false,
-                  shallow: true
-                })
-                events.on('routeChangeComplete', () => {
-                  reload()
-                })
+                handleDefaultCurrency(currency)
               }}
               className="text-sm py-2 font-manrope px-3 border-b hover:bg-gray-200 cursor-pointer"
             >
-              {name}
+              {currency?.code}
             </div>
           ))}
         </div>
@@ -71,4 +63,4 @@ const LanguageSwitcherList = ({ storeConfig }: Props) => {
   )
 }
 
-export default memo(LanguageSwitcherList)
+export default memo(CurrencySwitcherList)
