@@ -4,6 +4,7 @@
 
 /* Imports */
 @import './custom.css';
+@import './builder.css';
 
 body.loading * {
   transition: none !important;

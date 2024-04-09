@@ -22,6 +22,7 @@ const inter = Lato({
   variable: '--font-inter',
   display: 'swap'
 })
+// https://nextjs.org/docs/pages/building-your-application/optimizing/fonts#with-tailwind-css
 
 const AppLayout = ({ children, className }: Props) => {
   const { jssState } = useAppSelector(selectConfig)
@@ -30,9 +31,12 @@ const AppLayout = ({ children, className }: Props) => {
   const mainData = resolvePath(jssState, 'galaCore.route.jss-main', {})
   console.log('AppLayout >>', { children })
   return (
-    <div className="relative">
+    <div className="relative bg-white">
       <style jsx global>{`
         html {
+          font-family: ${inter.style.fontFamily};
+        }
+        heading-font {
           font-family: ${inter.style.fontFamily};
         }
       `}</style>

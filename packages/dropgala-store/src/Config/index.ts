@@ -4,7 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 
 import { AppState } from '../store'
 // import { jssState } from './jss'
-import { jssState } from './jss-policy'
+import { jssState } from './jss'
 import { GalaCoreComponentType } from '@dropgala/types'
 
 export interface StoreConfigState extends ConfigType {
