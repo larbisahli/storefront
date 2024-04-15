@@ -13,7 +13,6 @@
   "dependencies": {
     "@apollo/client": "^3.7.11",
     "@dropgala/assets": "workspace:*",
-    "@dropgala/placeholder": "workspace:*",
     "@dropgala/query": "workspace:*",
     "@dropgala/store": "workspace:*",
     "@dropgala/types": "workspace:*",

@@ -12,6 +12,11 @@ import CheckoutReducer from './Checkout'
 import ConfigReducer from './Config'
 import DrawerReducer from './Drawer'
 import MenuReducer from './Menu'
+import CategoryReducer from './Category'
+import BreadcrumbsReducer from './Breadcrumbs'
+import OfflineReducer from './Offline'
+import ProductReducer from './Product'
+import CollectionsReducer from './Collections'
 import { TypedUseSelectorHook } from '@dropgala/types'
 
 const PRODUCTION_ENV = process.env.NODE_ENV === 'production'
@@ -24,16 +29,16 @@ export function createStore() {
       DrawerReducer,
       ConfigReducer,
       MenuReducer,
-      BannerReducer
-      // ProductListReducer,
-      // ProductListInfoReducer,
+      BannerReducer,
+      CategoryReducer,
+      BreadcrumbsReducer,
+      OfflineReducer,
+      ProductReducer,
+      CollectionsReducer
       // WishlistReducer,
       // MyAccountReducer,
       // NavigationReducer,
-      // OfflineReducer,
       // PopupReducer,
-      // CheckoutReducer,
-      // ContactFormReducer,
     },
     devTools: !PRODUCTION_ENV
   })
@@ -63,6 +68,7 @@ export type AnyActionType = AnyAction
 export type StoreProps = {
   useAppDispatch: () => AppDispatch
   useAppSelector: TypedUseSelectorHook<AppState>
+  fields: any
 }
 
 export default store

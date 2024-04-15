@@ -1,13 +1,16 @@
 import React from 'react'
-import { CategoryType } from '@dropgala/types/category.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Image from '../common/Image'
+import { StoreProps } from '@dropgala/store'
+import { selectCategory } from '@dropgala/store/Category'
 
-interface Props {
-  category: CategoryType
-}
+const CategoryDetails: React.FC<StoreProps> = ({ useAppSelector }) => {
+  const category = useAppSelector(selectCategory)
+  console.log(
+    isEmpty(category),
+    useAppSelector((state) => state)
+  )
 
-const CategoryDetails: React.FC<Props> = ({ category }) => {
   const renderCategoryName = () => {
     return (
       <div
@@ -45,6 +48,10 @@ const CategoryDetails: React.FC<Props> = ({ category }) => {
         />
       </div>
     )
+  }
+
+  if (isEmpty(category)) {
+    return null
   }
 
   return (

@@ -1,10 +1,14 @@
-import { CategoryType } from '@dropgala/types/category.type'
+import {
+  CategoryRefLevel2,
+  CategoryRefLevel3,
+  CategoryType
+} from '@dropgala/types/category.type'
 import React, { memo } from 'react'
 import Image from '../common/Image'
 import Link from '../common/Link'
 
 interface Props {
-  category: CategoryType
+  category: CategoryType | CategoryRefLevel2 | CategoryRefLevel3
 }
 
 const CategoryCard: React.FC<Props> = ({ category }: Props) => {

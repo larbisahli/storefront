@@ -31,7 +31,8 @@ export enum ModuleNames {
   PRODUCT_NOT_FOUND = 'ProductNotFound',
   PRODUCT_LIST_WIDGET = 'ProductListWidget',
   COOKIE_POPUP = 'CookiePopup',
-  PROMO_BANNER = 'PromoBanner'
+  PROMO_BANNER = 'PromoBanner',
+  OFFLINE_NOTICE = 'OfflineNotice'
 }
 
 export enum BreadcrumbComponents {

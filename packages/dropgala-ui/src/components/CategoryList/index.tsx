@@ -1,21 +1,16 @@
-import type { CategoryType } from '@dropgala/types/category.type'
 import cn from 'clsx'
 import React from 'react'
 
 import CategoryCard from './CategoryCard'
+import { StoreProps } from '@dropgala/store'
+import { selectCategory } from '@dropgala/store/Category'
 
-interface Props {
-  categories: CategoryType[]
-  className?: string
-}
-
-const CategoryList: React.FC<Props> = ({ categories = [], className = '' }) => {
+const CategoryList: React.FC<StoreProps> = ({ useAppSelector }) => {
+  const { children } = useAppSelector(selectCategory)
   return (
-    <div
-      className={cn('max-w-screen-xl xxl:max-w-screen-xxl mx-auto', className)}
-    >
+    <div className={cn('max-w-screen-xl xxl:max-w-screen-xxl mx-auto')}>
       <div className="flex items-center lg:flex-row flex-col flex-wrap">
-        {categories?.map((category) => {
+        {children?.map((category) => {
           return <CategoryCard key={category.id} category={category} />
         })}
       </div>

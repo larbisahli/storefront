@@ -13,7 +13,7 @@ import {
   HeroBannerPlaceholder,
   MenuDrawerPlaceholder,
   ProductCardPlaceholder
-} from '@dropgala/placeholder'
+} from '@dropgala/assets/placeholders'
 import { bytesToSize } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
@@ -23,6 +23,7 @@ const Header = {
     loading: () => <HeaderPlaceholder />,
     ssr: true
   })
+  // HeaderComponent1
 }
 
 const Footer = {
@@ -276,6 +277,16 @@ const CookiePopup = {
     ssr: true
   })
 }
+const OfflineNotice = {
+  /* __DEFAULT__ */
+  OfflineNotice: dynamic(
+    () => import('@dropgala/ui/components/OfflineNotice'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
 const PromoBanner = {
   /* __DEFAULT__ */
   PromoBanner: dynamic(() => import('@dropgala/ui/components/PromoBanner'), {
@@ -325,6 +336,7 @@ modules.set(ModuleNames.PRODUCT_NOT_FOUND, ProductNotFound)
 modules.set(ModuleNames.PRODUCT_LIST_WIDGET, ProductListWidget)
 modules.set(ModuleNames.COOKIE_POPUP, CookiePopup)
 modules.set(ModuleNames.PROMO_BANNER, PromoBanner)
+modules.set(ModuleNames.OFFLINE_NOTICE, OfflineNotice)
 
 console.log('Factory module storage =', bytesToSize(modules))
 

@@ -29,10 +29,12 @@ import {
 } from '@gRPC/handlers'
 import { LanguageType } from '@dropgala/types/config.type'
 import getMobileDetect from '@dropgala/utils/isMobile'
-import ProductNotFound from '@components/ProductNotFound'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
+import { setCollection } from '@dropgala/store/Collections'
+import { selectCategory, setCategory } from '@dropgala/store/Category'
+import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
 
 interface PageProps {
   pageProps: {
@@ -54,11 +56,15 @@ export default function ProductPage({ pageProps }: PageProps) {
 
   const currentPage = page as string
 
-  const { host, category, products = [] } = pageProps
+  const category = useAppSelector(selectCategory)
 
-  const [layout, setLayout] = useState<ProductCardLayout>(
-    ProductCardLayout.Grid
+  console.log(
+    '____:',
+    useAppSelector((state) => state)
   )
+
+  const { host, products = [] } = pageProps
+
   const [categoryProducts, setCategoryProducts] = useState<{
     [key: string]: ProductType[]
   }>({})
@@ -103,14 +109,9 @@ export default function ProductPage({ pageProps }: PageProps) {
     )
   }, [categoryProducts])
 
-  const {
-    metaTitle,
-    metaImage,
-    breadcrumbs,
-    metaRobots,
-    metaDescription,
-    urlKey
-  } = category
+  const { metaTitle, metaImage, metaRobots, metaDescription, urlKey } = category
+
+  console.log('_______', { category })
 
   return (
     <>
@@ -161,29 +162,24 @@ export default function ProductPage({ pageProps }: PageProps) {
       <Head>
         {metaRobots && <meta name="robots" content={metaRobots as string} />}
       </Head>
-      <section className="mb-5 py-35px mx-0 lg:mx-2">
+      {/* <section className="mb-5 py-35px mx-0 lg:mx-2">
         <div className="">
           <div className="mx-auto max-w-[1920px]">
             <Breadcrumb breadcrumbs={breadcrumbs} />
           </div>
         </div>
-        <div className="">
+      </section> */}
+      {/* <div className="">
           {!isEmpty(category) && <CategoryDetails category={category} />}
-        </div>
-      </section>
-      {!isEmpty(category?.children) && metaTitle && (
-        <div className="text-sm lg:text-lg mx-2 text-gray-950 font-medium my-5">
-          {metaTitle}
-        </div>
-      )}
-      <section className="mx-2">
+        </div> */}
+      {/* <section className="mx-2">
         {<CategoryList categories={category?.children ?? []} />}
-      </section>
-      <section className="mx-2 my-10 ">
+      </section> */}
+      {/* <section className="mx-2 my-10 ">
         <Miscellaneous layout={layout} setLayout={setLayout} />
-      </section>
+      </section> */}
       {/* CATEGORY PRODUCTS SECTION */}
-      <section className="mb-44 mt-20 mx-2">
+      {/* <section className="mb-44 mt-20 mx-2">
         {!isEmpty(categoryProducts) ? (
           <div
             className={cn('grid grid-cols-1 my-10 gap-3 md:gap-4 2xl:gap-5', {
@@ -205,7 +201,7 @@ export default function ProductPage({ pageProps }: PageProps) {
             <Pagination />
           </div>
         )}
-      </section>
+      </section> */}
     </>
   )
 }
@@ -304,10 +300,20 @@ export const getServerSideProps: GetServerSideProps =
         storeId
       )
 
+      store.dispatch(
+        setCollection({
+          collection: { id: 'categoryProducts', items: products }
+        })
+      )
+      console.log({ category })
+      store.dispatch(setCategory({ category }))
+      store.dispatch(
+        setBreadcrumb({ name: null, breadcrumbs: category?.breadcrumbs ?? [] })
+      )
+
       return {
         props: {
           host: { host, alias },
-          category,
           products
         }
       }

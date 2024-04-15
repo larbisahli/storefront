@@ -9,9 +9,8 @@ import { wrapper } from '@dropgala/store'
 import apolloClient from '@lib/apollo-client'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
-import InstallPrompt from '@components/InstallPrompt'
-import CookiePopup from '@components/CookiePopup'
 import LoadingBar from '@components/common/loading-bar'
+import OfflineNotice from '@components/OfflineNotice'
 
 const Noop: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>{children}</>
@@ -26,13 +25,12 @@ const App = ({ Component, ...rest }: AppProps) => {
         <ApolloProvider client={apolloClient}>
           <Layout {...props}>
             <LoadingBar />
+            <OfflineNotice />
             <Toaster
               containerStyle={{
                 top: 160
               }}
             />
-            <InstallPrompt />
-            <CookiePopup />
             <Component {...props} />
           </Layout>
         </ApolloProvider>

@@ -1,3 +1,4 @@
+import { ProductType } from '@dropgala/types/product.type'
 import { ProductService } from '@gRPC/services'
 
 const productService = new ProductService()
@@ -10,7 +11,7 @@ export const fetchStorePopularProducts = async (
   const { products: popularProducts = [], error: popularProductError } =
     await productService.getPopular(alias, storeLanguageId, storeId)
   if (popularProductError) throw { popularProductError }
-  return popularProducts
+  return popularProducts as unknown as ProductType[]
 }
 
 export const fetchStoreProduct = async (
@@ -45,5 +46,5 @@ export const fetchStoreCategoryProducts = async (
       storeId
     )
   if (categoryProductsError) throw { categoryProductsError }
-  return products
+  return products as unknown as ProductType[]
 }

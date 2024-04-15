@@ -29,7 +29,6 @@ const AppLayout = ({ children, className }: Props) => {
   const headerData = resolvePath(jssState, 'galaCore.route.jss-header', {})
   const footerData = resolvePath(jssState, 'galaCore.route.jss-footer', {})
   const mainData = resolvePath(jssState, 'galaCore.route.jss-main', {})
-  console.log('AppLayout >>', { children })
   return (
     <div className="relative bg-white">
       <style jsx global>{`
@@ -54,7 +53,7 @@ const AppLayout = ({ children, className }: Props) => {
         <div className="flex flex-col flex-grow">
           <div className="mt-[101px] lg:mt-[150px] flex-auto">
             <div className="mb-44">
-              <CustomProfiler data={mainData} popularProducts={[]} />
+              <CustomProfiler data={mainData} />
             </div>
             {children}
           </div>

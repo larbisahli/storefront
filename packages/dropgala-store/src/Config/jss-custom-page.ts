@@ -10,7 +10,8 @@ export const jssState = {
       settings: {}
     },
     route: {
-      templateName: 'return-policy',
+      templateName: 'My template',
+      layoutName: 'return-policy',
       templateId: 'facb0218-06ea-465c-bc70-168e88c0457b',
       layoutId: 'ec8aa46e-4876-4a43-b945-ea51bdaaab07',
       'jss-footer': {

@@ -1,12 +1,12 @@
 import { ModuleNames } from '@dropgala/types'
-import type { CategoryType } from '@dropgala/types/category.type'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  category: CategoryType
+  componentName: string
+  [key: string]: any
 }
 
-const CategoryDetails = (props: any) =>
-  componentFactory(null, ModuleNames.CATEGORY_DETAILS, { ...props })
+const CategoryDetails = ({ componentName, ...props }: Props) =>
+  componentFactory(componentName, ModuleNames.CATEGORY_DETAILS, { ...props })
 
 export default CategoryDetails

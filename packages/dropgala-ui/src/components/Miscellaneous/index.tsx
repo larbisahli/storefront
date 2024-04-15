@@ -8,6 +8,7 @@ interface Props {
   layout: ProductCardLayout
   setLayout: React.Dispatch<React.SetStateAction<ProductCardLayout>>
 }
+
 const Miscellaneous: React.FC<Props> = ({ layout, setLayout }) => {
   return (
     <div className="items-center text-sm text-gray-600 mb-4 flex justify-end">

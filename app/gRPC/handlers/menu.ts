@@ -45,5 +45,5 @@ export const fetchStoreCategory = async (
       storeId
     )
   if (categoryError) throw { categoryError }
-  return category
+  return category as unknown as CategoryType
 }

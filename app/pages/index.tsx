@@ -24,6 +24,7 @@ import { fetchClientCart } from '@gRPC/handlers/checkout'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import React from 'react'
+import { setCollection } from '@dropgala/store/Collections'
 
 interface PageProps {
   pageProps: {
@@ -35,7 +36,7 @@ interface PageProps {
 }
 
 const HomePage = ({ pageProps }: PageProps) => {
-  const { host, popularProducts } = pageProps
+  const { host } = pageProps
   const config = useAppSelector(selectConfig)
   const { jssState, language, ...storeConfig } = useAppSelector(selectConfig)
   console.log({ config })
@@ -162,11 +163,18 @@ export const getServerSideProps: GetServerSideProps =
         storeLanguageId,
         storeId
       )
+      store.dispatch(
+        setCollection({
+          collection: {
+            id: 'e6d2b1b9-2514-4168-8181-20e4f32961sd',
+            items: popularProducts
+          }
+        })
+      )
       return {
         props: {
           host: { host, alias },
-          heroSlider,
-          popularProducts
+          heroSlider
         }
       }
     } catch (error) {

@@ -10,11 +10,13 @@ export interface CategorySeo {
   metaRobots?: { value: Scalars['String'] } | string | undefined
   breadcrumbsPriority: number
   metaImage: ImageType[]
-  breadcrumbs: {
-    categoryLevel: number
-    categoryName: string
-    categoryUrl: string
-  }[]
+  breadcrumbs: BreadcrumbType[]
+}
+
+export interface BreadcrumbType {
+  categoryLevel: number
+  categoryName: string
+  categoryUrl: string
 }
 
 export interface CategoryType extends CategorySeo {

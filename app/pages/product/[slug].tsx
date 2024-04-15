@@ -9,13 +9,10 @@ import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { useEffect, useMemo } from 'react'
 import { getHost } from 'utils'
-import ProductDetails from '@components/ProductDetails'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import Breadcrumb from '@components/Breadcrumb'
 import AppLayout from '@components/layout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
-import LinkedProducts from '@components/LinkedProducts'
 import Head from 'next/head'
 import {
   fetchStoreConfig,
@@ -145,30 +142,6 @@ export default function ProductPage({ pageProps }: PageProps) {
       <Head>
         <meta name="keywords" content={productSeo?.metaKeywords} />
       </Head>
-      <div className="mb-44 max-w-[1300px] xl:max-w-[1500px] mx-auto">
-        {/* PRODUCT DETAIL PAGE */}
-        <section className="mb-5">
-          <div className="pt-2">
-            <div className="mx-auto">
-              <Breadcrumb name={product?.name!} breadcrumbs={breadcrumbs} />
-            </div>
-          </div>
-          <div className="">
-            {!isEmpty(product) && <ProductDetails product={product} />}
-          </div>
-        </section>
-        <section className="mt-20">
-          {/* Related products */}
-          <LinkedProducts title="Related Products" products={relatedProducts} />
-        </section>
-        <section className="mt-20">
-          {/* Upsells */}
-          <LinkedProducts
-            title="We found other products you might like!"
-            products={upsellProducts}
-          />
-        </section>
-      </div>
     </>
   )
 }

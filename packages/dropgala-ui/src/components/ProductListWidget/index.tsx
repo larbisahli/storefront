@@ -3,8 +3,9 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import { getComponentFromChildren } from '@dropgala/utils/helpers'
+import { getComponentFromChildren, resolvePath } from '@dropgala/utils/helpers'
 import { ModuleNames } from '@dropgala/types'
+import { selectCollection } from '@dropgala/store/Collections'
 
 interface Props extends StoreProps {
   popularProducts: ProductType[]
@@ -13,11 +14,17 @@ interface Props extends StoreProps {
 
 const ProductListWidget: React.FC<Props> = ({
   useAppSelector,
-  popularProducts,
-  children
+  children,
+  fields
 }) => {
+  const data = resolvePath(fields, 'data', {})
+
   const { language } = useAppSelector(selectConfig)
   const { __ } = useTranslation(language, 'exception')
+
+  const products = useAppSelector((state) =>
+    selectCollection(state, data?.collectionId)
+  )
 
   const renderProductNotFound = () => {
     const ProductNotFound = getComponentFromChildren(
@@ -37,7 +44,16 @@ const ProductListWidget: React.FC<Props> = ({
     return React.cloneElement(ProductCard, { product })
   }
 
-  if (isEmpty(popularProducts)) {
+  const renderPagination = () => {
+    const Pagination = getComponentFromChildren(
+      children,
+      ModuleNames.PAGINATION
+    )
+    if (!Pagination) return null
+    return Pagination
+  }
+
+  if (isEmpty(products)) {
     return (
       <div
         className="w-full flex flex-col items-center
@@ -48,19 +64,21 @@ const ProductListWidget: React.FC<Props> = ({
     )
   }
 
+  const isProductLimitReached = false
+
   return (
     <section className="mt-8">
-      <div className="text-2xl lg:text-3xl text-center lg:text-left font-semibold">
-        {__('Best Sellers')}
-      </div>
+      <h3 className="text-2xl font-semibold">{data?.name}</h3>
       <div
-        className="grid grid-cols-1 my-10 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-
-          xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-4 2xl:gap-5"
+        className="grid grid-cols-1 my-10 xs:grid-cols-2
+        sm:grid-cols-3 lg:grid-cols-xl:grid-cols-5
+        2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-4 2xl:gap-5"
       >
-        {popularProducts.map((product) => (
-          <>{renderProductCard(product)}</>
-        ))}
+        {products?.map((products) => renderProductCard(products))}
       </div>
+      {!isProductLimitReached && (
+        <div className="mt-5">{renderPagination()}</div>
+      )}
     </section>
   )
 }

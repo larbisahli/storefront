@@ -61,8 +61,6 @@ export const Wrapper = ({ children }: { children: JSX.Element }) => {
 }
 
 const Header: FC<Props> = ({ useAppSelector, useAppDispatch, children }) => {
-  // const { t } = useTranslation()
-
   const storeConfig = useAppSelector(selectConfig)
   const { device, isMobileHeaderTransition } = storeConfig
   const { menu } = useAppSelector(selectMenu)

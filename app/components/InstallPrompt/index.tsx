@@ -1,7 +1,12 @@
 import { ModuleNames } from '@dropgala/types/enums.type'
 import componentFactory from '@lib/componentFactory'
 
-const InstallPrompt = (props: any) =>
-  componentFactory(null, ModuleNames.INSTALL_PROMPT, { ...props })
+interface Props {
+  componentName: string
+  [key: string]: any
+}
+
+const InstallPrompt = ({ componentName, ...props }: Props) =>
+  componentFactory(componentName, ModuleNames.INSTALL_PROMPT, { ...props })
 
 export default InstallPrompt

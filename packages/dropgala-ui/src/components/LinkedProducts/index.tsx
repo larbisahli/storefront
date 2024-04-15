@@ -1,4 +1,5 @@
 import { ProductRef, ProductType } from '@dropgala/types/product.type'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -13,10 +14,13 @@ interface Props {
     className?: string
   }) => JSX.Element
 }
-const RelatedProducts = ({ title, products = [], children }: Props) => {
-  console.log({ products })
+const LinkedProducts = ({ title, products = [], children }: Props) => {
+  if (isEmpty(products)) {
+    return null
+  }
+
   return (
-    <div>
+    <section className="mt-20">
       <div className="text-xl font-semibold mb-8 px-2">{title}</div>
       {
         <Swiper
@@ -53,8 +57,8 @@ const RelatedProducts = ({ title, products = [], children }: Props) => {
           })}
         </Swiper>
       }
-    </div>
+    </section>
   )
 }
 
-export default RelatedProducts
+export default LinkedProducts
