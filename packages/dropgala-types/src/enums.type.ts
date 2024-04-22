@@ -127,3 +127,7 @@ export enum ThunkStatus {
   FULFILLED = 'fulfilled',
   REJECTED = 'rejected'
 }
+
+export enum StoreBuilder {
+  GALA_CMS_BUILDER = 'gala-cms-builder'
+}

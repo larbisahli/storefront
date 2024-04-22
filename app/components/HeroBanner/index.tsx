@@ -1,7 +1,12 @@
 import { ModuleNames } from '@dropgala/types/enums.type'
 import componentFactory from '@lib/componentFactory'
 
-const HeroBanner = (props: any) =>
-  componentFactory(null, ModuleNames.HERO_BANNER, { ...props })
+interface Props {
+  componentName: string
+  [key: string]: any
+}
+
+const HeroBanner = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.HERO_BANNER, props)
 
 export default HeroBanner

@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const InstallPrompt = ({ componentName, ...props }: Props) =>
-  componentFactory(componentName, ModuleNames.INSTALL_PROMPT, { ...props })
+const InstallPrompt = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.INSTALL_PROMPT, props)
 
 export default InstallPrompt

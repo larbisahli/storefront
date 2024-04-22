@@ -1,7 +1,12 @@
 import { ModuleNames } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
-const CheckoutHeader = (props: any) =>
-  componentFactory(null, ModuleNames.CHECKOUT_HEADER, { ...props })
+interface Props {
+  componentName: string
+  [key: string]: any
+}
+
+const CheckoutHeader = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.CHECKOUT_HEADER, props)
 
 export default CheckoutHeader

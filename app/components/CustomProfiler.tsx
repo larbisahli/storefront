@@ -17,6 +17,7 @@ const CustomProfiler = ({ data, ...props }: any) => {
       components as { [key: string]: (props: any) => JSX.Element }
     )[component?.moduleName]
     if (!Component) return null
+    console.log({ component })
     return (
       <Component key={component?.componentId} {...{ ...component, ...props }}>
         {!isEmpty(children) &&

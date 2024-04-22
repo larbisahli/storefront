@@ -1,19 +1,18 @@
 import React from 'react'
-import { StoreProps } from '@dropgala/store'
-import { ProductType } from '@dropgala/types/product.type'
 import { ModuleNames } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
-interface Props extends StoreProps {
+interface Props {
   componentName: string
-  popularProducts: ProductType[]
-  children: JSX.Element
+  [key: string]: any
 }
 
-const ProductListWidget: React.FC<Props> = ({ componentName, ...props }) => {
-  return componentFactory(componentName, ModuleNames.PRODUCT_LIST_WIDGET, {
-    ...props
-  })
+const ProductListWidget: React.FC<Props> = (props) => {
+  return componentFactory(
+    props?.componentName,
+    ModuleNames.PRODUCT_LIST_WIDGET,
+    props
+  )
 }
 
 export default ProductListWidget

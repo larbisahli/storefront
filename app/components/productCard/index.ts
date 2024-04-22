@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const ProductCard = ({ componentName, ...props }: Props) =>
-  componentFactory(componentName, ModuleNames.PRODUCT_CARD, { ...props })
+const ProductCard = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.PRODUCT_CARD, props)
 
 export default ProductCard

@@ -8,10 +8,10 @@ interface Props {
   [key: string]: any
 }
 
-const PromoBanner = ({ componentName, ...props }: Props) => {
+const PromoBanner = (props: Props) => {
   const data = resolvePath(props, 'fields.data', {})
   if (isEmpty(data?.items)) return null
-  return componentFactory(componentName, ModuleNames.PROMO_BANNER, { ...props })
+  return componentFactory(props?.componentName, ModuleNames.PROMO_BANNER, props)
 }
 
 export default PromoBanner

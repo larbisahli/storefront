@@ -23,6 +23,7 @@ import { ConfigType } from '@dropgala/types/config.type'
 import dynamic from 'next/dynamic'
 import { getComponentFromChildren } from '@dropgala/utils/helpers'
 import { ModuleNames } from '@dropgala/types'
+import BuilderPlaceholder from '../common/builderPlaceholder'
 
 const MyAccountActions = dynamic(() => import('./Header/AccountActions'), {
   loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
@@ -60,7 +61,12 @@ export const Wrapper = ({ children }: { children: JSX.Element }) => {
   return children
 }
 
-const Header: FC<Props> = ({ useAppSelector, useAppDispatch, children }) => {
+const Header: FC<Props> = ({
+  useAppSelector,
+  useAppDispatch,
+  children,
+  ...props
+}) => {
   const storeConfig = useAppSelector(selectConfig)
   const { device, isMobileHeaderTransition } = storeConfig
   const { menu } = useAppSelector(selectMenu)
@@ -139,7 +145,8 @@ const Header: FC<Props> = ({ useAppSelector, useAppDispatch, children }) => {
         {/* PromoBanner */}
         {renderPromoBanner()}
         {/* Navigation */}
-        <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto ">
+        <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto relative group">
+          <BuilderPlaceholder {...props} editTitle="Edit header" />
           {/* Info section */}
           <InfoSection
             storeConfig={storeConfig}

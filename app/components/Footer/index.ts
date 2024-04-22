@@ -1,13 +1,13 @@
-import { selectConfig } from '@dropgala/store'
 import { ModuleNames } from '@dropgala/types'
-import { resolvePath } from '@dropgala/utils/helpers'
-import { useAppSelector } from '@hooks/useStore'
 import componentFactory from '@lib/componentFactory'
 
-const Footer = (props: any) => {
-  const { jssState } = useAppSelector(selectConfig)
-  const data = resolvePath(jssState, 'galaCore.route.jss-footer', {})
-  return componentFactory(null, ModuleNames.FOOTER, { ...props, ...data })
+interface Props {
+  componentName: string
+  [key: string]: any
+}
+
+const Footer = (props: Props) => {
+  return componentFactory(props?.componentName, ModuleNames.FOOTER, props)
 }
 
 export default Footer

@@ -68,6 +68,9 @@ export type AnyActionType = AnyAction
 export type StoreProps = {
   useAppDispatch: () => AppDispatch
   useAppSelector: TypedUseSelectorHook<AppState>
+  moduleName: string
+  componentId: string
+  componentName: string
   fields: any
 }
 

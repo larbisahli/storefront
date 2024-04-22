@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const ProductDetails = ({ componentName, ...props }: Props) =>
-  componentFactory(componentName, ModuleNames.PRODUCT_DETAILS, props)
+const ProductDetails = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.PRODUCT_DETAILS, props)
 
 export default ProductDetails

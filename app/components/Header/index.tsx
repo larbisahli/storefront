@@ -6,8 +6,8 @@ interface Props {
   [key: string]: any
 }
 
-const Header = ({ componentName, ...props }: Props) => {
-  return componentFactory(componentName, ModuleNames.HEADER, { ...props })
+const Header = (props: Props) => {
+  return componentFactory(props?.componentName, ModuleNames.HEADER, props)
 }
 
 export default Header

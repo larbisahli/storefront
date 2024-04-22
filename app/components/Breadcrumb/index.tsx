@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const Breadcrumb = ({ componentName, ...props }: Props) =>
-  componentFactory(componentName, ModuleNames.BREADCRUMB, { ...props })
+const Breadcrumb = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.BREADCRUMB, props)
 
 export default Breadcrumb

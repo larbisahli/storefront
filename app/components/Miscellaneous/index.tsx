@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const Miscellaneous = ({ componentName, ...props }: Props) =>
-  componentFactory(componentName, ModuleNames.MISCELLANEOUS, { ...props })
+const Miscellaneous = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.MISCELLANEOUS, props)
 
 export default Miscellaneous

@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const OfflineNotice = ({ ...props }: Props) =>
-  componentFactory('OfflineNotice', ModuleNames.OFFLINE_NOTICE, { ...props })
+const OfflineNotice = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.OFFLINE_NOTICE, props)
 
 export default OfflineNotice

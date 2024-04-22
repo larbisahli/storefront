@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const LinkedProducts = ({ componentName, ...props }: Props) =>
-  componentFactory(componentName, ModuleNames.LINKED_PRODUCTS, { ...props })
+const LinkedProducts = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.LINKED_PRODUCTS, props)
 
 export default LinkedProducts

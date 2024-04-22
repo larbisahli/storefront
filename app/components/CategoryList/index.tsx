@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const CategoryList = ({ componentName, ...props }: Props) =>
-  componentFactory(componentName, ModuleNames.CATEGORIES_LIST, { ...props })
+const CategoryList = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.CATEGORIES_LIST, props)
 
 export default CategoryList

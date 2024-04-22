@@ -210,7 +210,7 @@ const CheckoutInformation = ({ useAppSelector, useAppDispatch }: Props) => {
       <div className="my-5 flex items-center justify-between">
         <Link
           href={{
-            pathname: '/checkout'
+            pathname: '/cart'
           }}
         >
           <div className="text-gray-700 hover:text-gray-900 flex items-center">

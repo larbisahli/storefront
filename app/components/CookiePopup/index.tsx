@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const CookiePopup = ({ componentName, ...props }: Props) =>
-  componentFactory(componentName, ModuleNames.COOKIE_POPUP, { ...props })
+const CookiePopup = (props: Props) =>
+  componentFactory(props?.componentName, ModuleNames.COOKIE_POPUP, props)
 
 export default CookiePopup

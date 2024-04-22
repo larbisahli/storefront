@@ -1,11 +1,11 @@
 import type { HeroBannerType } from '@dropgala/types/slider.type'
-import cn from 'clsx'
 import React, { memo, useState } from 'react'
 import HeroBannerCard from './hero-banner-card'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import dynamic from 'next/dynamic'
 import { resolvePath } from '@dropgala/utils/helpers'
+import BuilderPlaceholder from '../common/builderPlaceholder'
 
 const SwiperComponent = dynamic(() => import('../common/Swiper'), {
   loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
@@ -20,11 +20,16 @@ interface Props {
   }
 }
 
-const HeroSliderBlock: React.FC<Props> = ({ useAppSelector, fields }) => {
+const HeroSliderBlock: React.FC<Props> = ({
+  useAppSelector,
+  fields,
+  ...props
+}) => {
   const { device } = useAppSelector(selectConfig)
   const items = resolvePath(fields, 'data.items', {})
   return (
-    <section className={'mx-0 lg:mx-2 mb-7 mt-12'}>
+    <section className="relative mx-0 lg:mx-2 mb-7 mt-12 group">
+      <BuilderPlaceholder {...props} editTitle="Edit hero banner" />
       <SwiperComponent
         className="max-h-[350px] lg:max-h-[500px]"
         centeredSlides={true}
