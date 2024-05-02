@@ -12,7 +12,7 @@ export default class LanguageService extends LanguageServiceRoutes {
 
   public async getStoreLanguage(id: number, alias: string, storeId?: string) {
     const language = promisify(this.getLanguage).bind(this)
-    return await language({ id, alias, storeId })
+    return await language({ id, alias, suid: storeId })
       .then((data) => ({ language: data?.language, error: null }))
       .catch((error) => ({ error, language: null }))
   }

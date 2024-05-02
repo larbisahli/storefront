@@ -31,12 +31,12 @@ const packageDefinition = protoLoader.loadSync(
 
 export const {
   CategoryServiceRoutes,
-  SliderServiceRoutes,
   ProductServiceRoutes,
   ConfigServiceRoutes,
   LanguageServiceRoutes,
   PageServiceRoutes,
   CheckoutServiceRoutes,
-  ShippingServiceRoutes
+  ShippingServiceRoutes,
+  LayoutServiceRoutes
 } = (grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType)
   .ServiceRoutes

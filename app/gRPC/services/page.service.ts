@@ -13,7 +13,7 @@ export default class PageService extends PageServiceRoutes {
     storeId?: string
   ) {
     const page = promisify(this.getPage).bind(this)
-    return await page({ alias, storeLanguageId, slug, storeId })
+    return await page({ alias, storeLanguageId, slug, suid: storeId })
       .then((data) => ({ page: data?.page, error: null }))
       .catch((error) => ({ error, page: null }))
   }

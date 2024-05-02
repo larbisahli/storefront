@@ -13,23 +13,28 @@ const SwiperComponent = dynamic(() => import('../common/Swiper'), {
 })
 interface Props {
   useAppSelector: StoreProps['useAppSelector']
-  fields: {
-    data: {
-      items: HeroBannerType[]
-    }
+  data: {
+    items: HeroBannerType[]
   }
 }
 
 const HeroSliderBlock: React.FC<Props> = ({
   useAppSelector,
-  fields,
+  data,
   ...props
 }) => {
   const { device } = useAppSelector(selectConfig)
-  const items = resolvePath(fields, 'data.items', {})
+  const items = resolvePath(data, 'items', {})
   return (
     <section className="relative mx-0 lg:mx-2 mb-7 mt-12 group">
-      <BuilderPlaceholder {...props} editTitle="Edit hero banner" />
+      <BuilderPlaceholder
+        {...props}
+        isAddAfter
+        isAddBefore
+        isDuplicate
+        isEdit
+        isRemove
+      />
       <SwiperComponent
         className="max-h-[350px] lg:max-h-[500px]"
         centeredSlides={true}

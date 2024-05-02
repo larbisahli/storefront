@@ -15,11 +15,11 @@ const DynamicContent = dynamic(() => import('../common/DynamicContent'), {
 })
 
 interface Props extends StoreProps {
-  fields: any
+  data: any
 }
 
-const PromoBannerVertical = ({ fields }: Props) => {
-  const { delaySpeed, direction, items, backgroundColor } = fields?.data ?? {}
+const PromoBannerVertical = ({ data }: Props) => {
+  const { delaySpeed, direction, items, backgroundColor } = data ?? {}
 
   const slides = useMemo(
     () => clone(items)?.sort((a, b) => a.position - b.position),

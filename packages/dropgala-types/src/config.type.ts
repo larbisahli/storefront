@@ -1,3 +1,4 @@
+import { StoreLayoutType } from 'cms.type'
 import { ImageType } from './common.type'
 
 export interface ConfigType {
@@ -6,7 +7,7 @@ export interface ConfigType {
   storeName?: string
   storeEmail?: string
   storeNumber?: string
-  jssState: any
+  layout: StoreLayoutType | null
   alias?: string
   storeId?: string
   locales?: {

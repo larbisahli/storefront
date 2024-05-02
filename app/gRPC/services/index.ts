@@ -1,7 +1,7 @@
 export { default as CategoryService } from './category.service'
 export { default as ConfigService } from './config.service'
 export { default as ProductService } from './product.service'
-export { default as SlideService } from './slide.service'
 export { default as PageService } from './page.service'
 export { default as CheckoutService } from './checkout.service'
 export { default as LanguageService } from './language.service'
+export { default as LayoutCallService } from './layout.service'

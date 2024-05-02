@@ -3,7 +3,7 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import { getComponentFromChildren, resolvePath } from '@dropgala/utils/helpers'
+import { getComponentFromChildren } from '@dropgala/utils/helpers'
 import { ModuleNames } from '@dropgala/types'
 import { selectCollection } from '@dropgala/store/Collections'
 
@@ -15,10 +15,8 @@ interface Props extends StoreProps {
 const ProductListWidget: React.FC<Props> = ({
   useAppSelector,
   children,
-  fields
+  data
 }) => {
-  const data = resolvePath(fields, 'data', {})
-
   const { language } = useAppSelector(selectConfig)
   const { __ } = useTranslation(language, 'exception')
 

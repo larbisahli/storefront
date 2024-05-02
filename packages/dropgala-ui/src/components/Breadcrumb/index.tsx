@@ -8,7 +8,7 @@ import { StoreProps } from '@dropgala/store'
 import { cloneDeep } from '@dropgala/utils/lodashFunctions'
 
 interface Props extends StoreProps {
-  fields: any
+  data: any
 }
 
 const Breadcrumb: React.FC<Props> = ({ useAppSelector }) => {

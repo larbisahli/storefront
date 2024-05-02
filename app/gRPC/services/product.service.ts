@@ -16,7 +16,7 @@ export default class ProductService extends ProductServiceRoutes {
     storeId?: string
   ) {
     const popularProducts = promisify(this.getPopularProducts).bind(this)
-    return await popularProducts({ alias, storeLanguageId, storeId })
+    return await popularProducts({ alias, storeLanguageId, suid: storeId })
       .then((data) => ({ products: data?.products ?? [], error: null }))
       .catch((error) => ({ error, products: null }))
   }
@@ -34,7 +34,7 @@ export default class ProductService extends ProductServiceRoutes {
       page,
       alias,
       storeLanguageId,
-      storeId
+      suid: storeId
     })
       .then((data) => ({ products: data?.products, error: null }))
       .catch((error) => ({ error, products: null }))
@@ -47,7 +47,7 @@ export default class ProductService extends ProductServiceRoutes {
     storeId?: string
   ) {
     const product = promisify(this.getProduct).bind(this)
-    return await product({ slug, alias, storeLanguageId, storeId })
+    return await product({ slug, alias, storeLanguageId, suid: storeId })
       .then((data) => ({ product: data?.product, error: null }))
       .catch((error) => ({ error, product: null }))
   }

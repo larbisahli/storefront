@@ -71,7 +71,7 @@ export type StoreProps = {
   moduleName: string
   componentId: string
   componentName: string
-  fields: any
+  data: any
 }
 
 export default store

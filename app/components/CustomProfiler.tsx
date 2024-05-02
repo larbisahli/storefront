@@ -1,17 +1,19 @@
 import { memo, useMemo } from 'react'
 import * as components from '.'
-import { GalaCoreComponentType } from '@dropgala/types'
 import { cloneDeep, isEmpty } from '@dropgala/utils/lodashFunctions'
 import { resolvePath } from '@dropgala/utils/helpers'
+import { StoreLayoutComponentType } from '@dropgala/types'
 
-const CustomProfiler = ({ data, ...props }: any) => {
+const CustomProfiler = ({ data = [], ...props }: any) => {
   const sortedComponents = useMemo(() => {
-    return cloneDeep(data)?.sort(
-      (a: { position: number }, b: { position: number }) =>
-        a.position - b.position
-    )
+    return isEmpty(data)
+      ? []
+      : cloneDeep(data)?.sort(
+          (a: { position: number }, b: { position: number }) =>
+            a.position - b.position
+        )
   }, [data])
-  return sortedComponents?.map((component: GalaCoreComponentType) => {
+  return sortedComponents?.map((component: StoreLayoutComponentType) => {
     const children = resolvePath(component, 'children', null) as any[]
     const Component = (
       components as { [key: string]: (props: any) => JSX.Element }

@@ -7,10 +7,9 @@ import Link from '../common/Link'
 import { useEffect, useState } from 'react'
 import cn from 'clsx'
 import { localStorageKeyNames } from '@dropgala/types'
-import { resolvePath } from '@dropgala/utils/helpers'
 
-const CookiePopup = ({ useAppSelector, fields }: StoreProps) => {
-  const { cookieLink = '', cookieText = '' } = resolvePath(fields, 'data', {})
+const CookiePopup = ({ useAppSelector, data }: StoreProps) => {
+  const { cookieLink = '', cookieText = '' } = data
   const { language, alias, device } = useAppSelector(selectConfig)
 
   const { __ } = useTranslation(language, 'common')

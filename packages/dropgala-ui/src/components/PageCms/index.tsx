@@ -1,13 +1,11 @@
 import ReactHtmlParser from 'html-react-parser'
-import { PageType } from '@dropgala/types/page.type'
-import { resolvePath } from '@dropgala/utils/helpers'
 
 interface Props {
-  page: PageType
+  data: any
 }
 
-export default function PageCms(props: Props) {
-  const page = resolvePath(props, 'fields.data', {})
+export default function PageCms({ data }: Props) {
+  const page = data
   const { name, content } = page ?? {}
   return (
     <section className="w-full">

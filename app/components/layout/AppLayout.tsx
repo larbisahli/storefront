@@ -1,14 +1,13 @@
-import Header from '@components/Header'
 import CartDrawer from '@components/CartDrawer'
 import MenuDrawer from '@components/MenuDrawer'
 import cn from 'clsx'
 import { Lato, Mulish, Merriweather, Roboto } from 'next/font/google'
 import React from 'react'
-import Footer from '@components/Footer'
 import CustomProfiler from '@components/CustomProfiler'
 import { resolvePath } from '@dropgala/utils/helpers'
 import { useAppSelector } from '@hooks/useStore'
 import { selectConfig } from '@dropgala/store'
+import { PageLayoutBlocks } from '@dropgala/types'
 
 interface Props {
   children: React.ReactNode
@@ -25,10 +24,11 @@ const inter = Lato({
 // https://nextjs.org/docs/pages/building-your-application/optimizing/fonts#with-tailwind-css
 
 const AppLayout = ({ children, className }: Props) => {
-  const { jssState } = useAppSelector(selectConfig)
-  const headerData = resolvePath(jssState, 'galaCore.route.jss-header', {})
-  const footerData = resolvePath(jssState, 'galaCore.route.jss-footer', {})
-  const mainData = resolvePath(jssState, 'galaCore.route.jss-main', {})
+  const { layout } = useAppSelector(selectConfig)
+  const headerData = resolvePath(layout, PageLayoutBlocks.Header, {})
+  const footerData = resolvePath(layout, PageLayoutBlocks.Footer, {})
+  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
+  console.log({ layout })
   return (
     <div className="relative bg-white">
       <style jsx global>{`
@@ -40,8 +40,8 @@ const AppLayout = ({ children, className }: Props) => {
         }
       `}</style>
       <CustomProfiler data={[headerData]} />
-      <CartDrawer />
-      <MenuDrawer />
+      <CartDrawer componentName="CartDrawer" />
+      <MenuDrawer componentName="MenuDrawer" />
       <main
         className={cn(
           'h-[450px]',

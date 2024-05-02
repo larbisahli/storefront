@@ -3,17 +3,14 @@ import type { ConfigType, LanguageType } from '@dropgala/types/config.type'
 import { HYDRATE } from 'next-redux-wrapper'
 
 import { AppState } from '../store'
-// import { jssState } from './jss'
-import { jssState } from './jss-home-page'
-import { GalaCoreComponentType } from '@dropgala/types'
+import { StoreLayoutType } from '@dropgala/types'
 
 export interface StoreConfigState extends ConfigType {
-  jssState: any
   csrf?: { csrfToken?: string; csrfError?: string }
 }
 
 const initialState: StoreConfigState = {
-  jssState,
+  layout: null,
   isMobileHeaderTransition: true,
   device: {
     userAgent: null,
@@ -38,6 +35,16 @@ export const storeConfig = createSlice({
       return {
         ...state,
         ...storeConfig
+      }
+    },
+    setStoreLayout: (
+      state: StoreConfigState,
+      action: PayloadAction<{ layout: StoreLayoutType }>
+    ) => {
+      const layout = action.payload.layout
+      return {
+        ...state,
+        layout
       }
     },
     setLanguage: (
@@ -81,6 +88,7 @@ export const storeConfig = createSlice({
 
 export const {
   setConfig,
+  setStoreLayout,
   setLanguage,
   setDefaultCurrency,
   setConfigDevice,

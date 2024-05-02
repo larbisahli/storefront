@@ -9,7 +9,7 @@ interface Props {
 }
 
 const PromoBanner = (props: Props) => {
-  const data = resolvePath(props, 'fields.data', {})
+  const data = resolvePath(props, 'data', {})
   if (isEmpty(data?.items)) return null
   return componentFactory(props?.componentName, ModuleNames.PROMO_BANNER, props)
 }

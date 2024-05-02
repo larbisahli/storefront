@@ -1,12 +1,10 @@
 import { ModuleNames } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
-interface Props {
-  componentName: string
-  [key: string]: any
-}
-
-const OfflineNotice = (props: Props) =>
-  componentFactory(props?.componentName, ModuleNames.OFFLINE_NOTICE, props)
+const OfflineNotice = (props: any) =>
+  componentFactory(props?.componentName, ModuleNames.OFFLINE_NOTICE, {
+    ...props,
+    componentName: 'OfflineNotice'
+  })
 
 export default OfflineNotice

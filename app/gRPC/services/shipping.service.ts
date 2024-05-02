@@ -12,7 +12,7 @@ export default class ShippingService extends ShippingServiceRoutes {
 
   public async getStoreShippings(alias: string, storeId?: string) {
     const homePageCategories = promisify(this.getAvailableShippings).bind(this)
-    return await homePageCategories({ alias, storeId })
+    return await homePageCategories({ alias, suid: storeId })
       .then((data) => ({ shippings: data?.shippings ?? [], error: null }))
       .catch((error) => ({ error, shippings: [] }))
   }

@@ -32,7 +32,8 @@ export enum ModuleNames {
   PRODUCT_LIST_WIDGET = 'ProductListWidget',
   COOKIE_POPUP = 'CookiePopup',
   PROMO_BANNER = 'PromoBanner',
-  OFFLINE_NOTICE = 'OfflineNotice'
+  OFFLINE_NOTICE = 'OfflineNotice',
+  SUBSCRIPTION = 'Subscription'
 }
 
 export enum BreadcrumbComponents {
@@ -130,4 +131,10 @@ export enum ThunkStatus {
 
 export enum StoreBuilder {
   GALA_CMS_BUILDER = 'gala-cms-builder'
+}
+
+export enum PageLayoutBlocks {
+  Header = 'jssHeader',
+  Main = 'jssMain',
+  Footer = 'jssFooter'
 }

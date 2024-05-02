@@ -22,7 +22,7 @@ export default class CheckoutService extends CheckoutServiceRoutes {
     storeId?: string
   }) {
     const clientCart = promisify(this.getClientCart).bind(this)
-    return await clientCart({ alias, storeLanguageId, cuid, storeId })
+    return await clientCart({ alias, storeLanguageId, cuid, suid: storeId })
       .then((data) => {
         return { cart: data?.cart, error: null }
       })

@@ -139,14 +139,14 @@ const Header: FC<Props> = ({
     <Fragment>
       <header
         className={cn(
-          'text-gray-700 overflow-hidden body-font fixed w-full z-20 bg-white border-b border-gray-300'
+          'text-gray-700 body-font fixed w-full z-20 bg-white border-b border-gray-300'
         )}
       >
         {/* PromoBanner */}
         {renderPromoBanner()}
         {/* Navigation */}
         <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto relative group">
-          <BuilderPlaceholder {...props} editTitle="Edit header" />
+          <BuilderPlaceholder {...props} isEdit isRemove />
           {/* Info section */}
           <InfoSection
             storeConfig={storeConfig}

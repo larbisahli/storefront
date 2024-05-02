@@ -16,7 +16,7 @@ export default class CategoryService extends CategoryServiceRoutes {
     storeId?: string
   ) {
     const menu = promisify(this.getMenu).bind(this)
-    return await menu({ alias, storeLanguageId, storeId })
+    return await menu({ alias, storeLanguageId, suid: storeId })
       .then((data) => ({ menu: data?.menu ?? [], error: null }))
       .catch((error) => ({ error, menu: null }))
   }
@@ -27,7 +27,7 @@ export default class CategoryService extends CategoryServiceRoutes {
     storeId?: string
   ) {
     const homePageCategories = promisify(this.getHomePageCategories).bind(this)
-    return await homePageCategories({ alias, storeLanguageId, storeId })
+    return await homePageCategories({ alias, storeLanguageId, suid: storeId })
       .then((data) => ({ categories: data?.categories ?? [], error: null }))
       .catch((error) => ({ error, categories: null }))
   }
@@ -39,7 +39,7 @@ export default class CategoryService extends CategoryServiceRoutes {
     storeId?: string
   ) {
     const category = promisify(this.getCategory).bind(this)
-    return await category({ urlKey, alias, storeLanguageId, storeId })
+    return await category({ urlKey, alias, storeLanguageId, suid: storeId })
       .then((data) => ({ category: data?.category, error: null }))
       .catch((error) => ({ error, category: null }))
   }

@@ -12,7 +12,7 @@ export default class ConfigService extends ConfigServiceRoutes {
 
   public async getStoreConfig(alias: string, storeId?: string) {
     const config = promisify(this.getConfig).bind(this)
-    return await config({ alias, storeId })
+    return await config({ alias, suid: storeId })
       .then((data) => ({ config: data?.config, error: null }))
       .catch((error) => ({ error, config: null }))
   }

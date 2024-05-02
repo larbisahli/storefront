@@ -17,13 +17,11 @@ const DynamicContent = dynamic(() => import('../common/DynamicContent'), {
 })
 
 interface Props extends StoreProps {
-  fields: any
+  data: any
 }
 
-const PromoBanner = ({ fields, ...props }: Props) => {
-  const { delaySpeed, direction, items, backgroundColor } = fields?.data ?? {}
-
-  console.log('', { props, fields })
+const PromoBanner = ({ data, ...props }: Props) => {
+  const { delaySpeed, direction, items, backgroundColor } = data ?? {}
 
   const slides = useMemo(
     () => clone(items)?.sort((a, b) => a.position - b.position),
@@ -35,7 +33,7 @@ const PromoBanner = ({ fields, ...props }: Props) => {
       style={{ backgroundColor: backgroundColor }}
       className="relative h-[40px] w-screen text-white text-center font-medium group"
     >
-      <BuilderPlaceholder {...props} editTitle="Edit promo banner" />
+      <BuilderPlaceholder {...props} isEdit isRemove isEditRemoveBottom />
       <SwiperComponent
         dir={direction?.toLocaleLowerCase()}
         loop

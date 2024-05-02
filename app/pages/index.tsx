@@ -10,13 +10,12 @@ import AppLayout from '@components/layout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
+  fetchPageLayout,
   fetchStoreConfig,
-  fetchStoreHeroSlides,
   fetchStoreHomePageCategories,
   fetchStoreLanguage,
   fetchStoreMenu,
-  fetchStorePopularProducts,
-  fetchStorePromoSlide
+  fetchStorePopularProducts
 } from '@gRPC/handlers'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { LanguageType } from '@dropgala/types/config.type'
@@ -38,7 +37,7 @@ interface PageProps {
 const HomePage = ({ pageProps }: PageProps) => {
   const { host } = pageProps
   const config = useAppSelector(selectConfig)
-  const { jssState, language, ...storeConfig } = useAppSelector(selectConfig)
+  const { layout, language, ...storeConfig } = useAppSelector(selectConfig)
   console.log({ config })
   return (
     <NextSeo
@@ -133,6 +132,7 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
 
       // Redux Store
+      // NOTE: use promise.all
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
       store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
@@ -140,7 +140,7 @@ export const getServerSideProps: GetServerSideProps =
         await fetchStoreHomePageCategories(alias, storeLanguageId, storeId)
       )
       store.dispatch(
-        await fetchStorePromoSlide(alias, storeLanguageId, storeId)
+        await fetchPageLayout(alias, storeLanguageId, 'homePage', storeId)
       )
 
       // Client cart
@@ -157,7 +157,6 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Page data props
-      const heroSlider = await fetchStoreHeroSlides(alias, storeLanguageId)
       const popularProducts = await fetchStorePopularProducts(
         alias,
         storeLanguageId,
@@ -173,8 +172,7 @@ export const getServerSideProps: GetServerSideProps =
       )
       return {
         props: {
-          host: { host, alias },
-          heroSlider
+          host: { host, alias }
         }
       }
     } catch (error) {

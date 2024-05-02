@@ -301,6 +301,13 @@ const PromoBanner = {
     }
   )
 }
+const Subscription = {
+  /* __DEFAULT__ */
+  Subscription: dynamic(() => import('@dropgala/ui/components/Subscription'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
 
 const modules = new Map<
   ModuleNames,
@@ -337,8 +344,7 @@ modules.set(ModuleNames.PRODUCT_LIST_WIDGET, ProductListWidget)
 modules.set(ModuleNames.COOKIE_POPUP, CookiePopup)
 modules.set(ModuleNames.PROMO_BANNER, PromoBanner)
 modules.set(ModuleNames.OFFLINE_NOTICE, OfflineNotice)
-
-console.log('Factory module storage =', bytesToSize(modules))
+modules.set(ModuleNames.SUBSCRIPTION, Subscription)
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[] | Element | null
@@ -380,3 +386,10 @@ export default function componentFactory(
     </Component>
   )
 }
+
+console.table({
+  'Factory modules storage': bytesToSize(modules),
+  'Factory modules count': Array.from(modules.keys())
+    .map((module) => Object.keys(modules.get(module)!).length)
+    .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+})

@@ -9,6 +9,7 @@ export declare type Scalars = {
   Int: number
   Float: number
   SortOrder: SortOrder.Asc | SortOrder.Desc
+  JSON: { [key: string]: string | number | boolean }
   /** A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`. */
   DateTime: string | number | Date
   Mixed: string | number | Date
@@ -18,14 +19,3 @@ export declare type Scalars = {
   /** A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sO`, e.g. `2020-04-20T13:53:12+02:00`. */
   DateTimeTz: string | number | Date
 }
-
-export interface GalaCoreComponentType {
-  componentId: Scalars['String']
-  componentName: string
-  moduleName: ModuleNames
-  params: any
-  fields: any
-  children: GalaCoreComponentType[]
-}
-
-export interface JSSStateType {}

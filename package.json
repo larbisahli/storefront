@@ -18,7 +18,7 @@
     "version-packages": "changeset version",
     "release": "turbo run build --filter=app... && changeset publish",
     "generate-packages": "node app/scripts/packageManager.js",
-    "generate-proto-types": "npx rimraf packages/dropgala-types/src/generated && $(npm bin)/proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=packages/dropgala-types/src/generated app/proto/*.proto"
+    "generate-proto-types": "npx rimraf packages/dropgala-types/src/generated && ./node_modules/.bin/proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=packages/dropgala-types/src/generated app/proto/*.proto"
   },
   "devDependencies": {
     "@changesets/cli": "^2.23.0",

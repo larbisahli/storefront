@@ -4,8 +4,7 @@ import { getHost } from 'utils'
 import {
   fetchStoreConfig,
   fetchStoreLanguage,
-  fetchStoreMenu,
-  fetchStorePromoSlide
+  fetchStoreMenu
 } from '@gRPC/handlers'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -130,9 +129,6 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
       store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-      store.dispatch(
-        await fetchStorePromoSlide(alias, storeLanguageId, storeId)
-      )
 
       // Client cart
       if (cuid) {

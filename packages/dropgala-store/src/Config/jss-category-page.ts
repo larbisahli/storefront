@@ -1,4 +1,4 @@
-export const jssState = {
+export const layout = {
   galaCore: {
     context: {
       host: {
@@ -18,35 +18,33 @@ export const jssState = {
         componentId: '36d2b1b9-2514-4168-8181-20e4f32961sd',
         componentName: 'Footer',
         moduleName: 'Footer',
-        fields: { data: {} }
+        data: {}
       },
       'jss-header': {
         componentId: '36d2b1b9-2514-4168-8181-20e4f32961sd',
         componentName: 'Header',
         moduleName: 'Header',
-        fields: { data: {} },
+        data: {},
         children: [
           {
             componentId: '36d2b1b9-2514-4168-8181-20e4f32961sd',
             componentName: 'PromoBanner',
             moduleName: 'PromoBanner',
-            fields: {
-              data: {
-                delaySpeed: '5000',
-                backgroundColor: '#ea580c',
-                direction: 'LTR',
-                items: [
-                  {
-                    position: 0,
-                    content: '<h3>Demo store managed by dropgala</h3>'
-                  },
-                  {
-                    position: 1,
-                    content:
-                      '<p><strong>Special offer: </strong><span style="font-size: 14px;font-family: sans-serif;">free delivery, pay on delivery, faster and order now </span><span style="color: rgb(31,41,55);font-size: 14px;font-family: Inter, Mulish, sans-serif, "Open Sans", system-ui;">🔥🔥🔥</span></p>'
-                  }
-                ]
-              }
+            data: {
+              delaySpeed: '5000',
+              backgroundColor: '#ea580c',
+              direction: 'LTR',
+              items: [
+                {
+                  position: 0,
+                  content: '<h3>Demo store managed by dropgala</h3>'
+                },
+                {
+                  position: 1,
+                  content:
+                    '<p><strong>Special offer: </strong><span style="font-size: 14px;font-family: sans-serif;">free delivery, pay on delivery, faster and order now </span><span style="color: rgb(31,41,55);font-size: 14px;font-family: Inter, Mulish, sans-serif, "Open Sans", system-ui;">🔥🔥🔥</span></p>'
+                }
+              ]
             }
           }
         ]
@@ -57,12 +55,10 @@ export const jssState = {
           componentName: 'CookiePopup',
           moduleName: 'CookiePopup',
           position: 0,
-          fields: {
-            data: {
-              cookieLink: '/cookie-policy',
-              cookieText:
-                'This site uses cookies to provide and improve your shopping experience. If you want to benefit from this improved service, please opt-in.'
-            }
+          data: {
+            cookieLink: '/cookie-policy',
+            cookieText:
+              'This site uses cookies to provide and improve your shopping experience. If you want to benefit from this improved service, please opt-in.'
           }
         },
         {
@@ -70,46 +66,36 @@ export const jssState = {
           componentName: 'InstallPrompt',
           moduleName: 'InstallPrompt',
           position: 0,
-          fields: {
-            data: {}
-          }
+          data: {}
         },
         {
           componentId: 'e6d2b1b9-2514-4168-8181-20e4f32961sd',
           componentName: 'Breadcrumb',
           moduleName: 'Breadcrumb',
           position: 0,
-          fields: {
-            data: {}
-          }
+          data: {}
         },
         {
           componentId: 'e6d2b1b9-2514-4168-8181-20e4f32961sd',
           componentName: 'CategoryDetails',
           moduleName: 'CategoryDetails',
           position: 1,
-          fields: {
-            data: {}
-          }
+          data: {}
         },
         {
           componentId: 'e6d2b1b9-2514-4168-8181-20e4f32961sd',
           componentName: 'CategoryList',
           moduleName: 'CategoryList',
           position: 2,
-          fields: {
-            data: {}
-          }
+          data: {}
         },
         {
           componentId: 'e6d2b1b9-251f-4168-8181-20e4f32961sd',
           componentName: 'ProductListWidget',
           moduleName: 'ProductListWidget',
           position: 3,
-          fields: {
-            data: {
-              collectionId: 'categoryProducts'
-            }
+          data: {
+            collectionId: 'categoryProducts'
           },
           children: [
             {
@@ -118,27 +104,21 @@ export const jssState = {
               componentName: 'ProductNotFound',
               moduleName: 'ProductNotFound',
               position: 0,
-              fields: {
-                data: {}
-              }
+              data: {}
             },
             {
               componentId: '96d2b1b9-2514-4168-8181-20e4f32961sd',
               componentName: 'ProductCard',
               moduleName: 'ProductCard',
               position: 1,
-              fields: {
-                data: {}
-              }
+              data: {}
             },
             {
               componentId: '96d2b1b9-2514-4168-8181-20e4f32961sd',
               componentName: 'Pagination',
               moduleName: 'Pagination',
               position: 2,
-              fields: {
-                data: {}
-              }
+              data: {}
             }
           ]
         }

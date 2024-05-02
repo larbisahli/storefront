@@ -102,3 +102,31 @@ export const calcPercentage = (
   roundTo3(
     ((Number(comparePrice) - Number(salePrice)) / Number(comparePrice)) * 100
   )
+
+export function serializeNestedBuffers(obj: any) {
+  // Clone the object to avoid modifying the original
+  const newObj = { ...obj }
+  // Recursive function to traverse nested objects
+  function traverse(obj: any) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const value = obj[key]
+        if (value instanceof Buffer) {
+          // Check for empty buffer
+          if (value.length) {
+            // Convert the buffer to a base64 string
+            obj[key] = JSON.parse(value as unknown as string)
+          } else {
+            obj[key] = {}
+          }
+        } else if (typeof value === 'object') {
+          // Recursively traverse nested objects
+          traverse(value)
+        }
+      }
+    }
+  }
+  // Start traversal from the top-level object
+  traverse(newObj)
+  return newObj
+}
