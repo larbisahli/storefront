@@ -4,7 +4,7 @@ import { StoreProps, selectConfig } from '@dropgala/store'
 import { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { getComponentFromChildren } from '@dropgala/utils/helpers'
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import { selectCollection } from '@dropgala/store/Collections'
 
 interface Props extends StoreProps {
@@ -12,11 +12,7 @@ interface Props extends StoreProps {
   children: JSX.Element[]
 }
 
-const ProductListWidget: React.FC<Props> = ({
-  useAppSelector,
-  children,
-  data
-}) => {
+const ProductList: React.FC<Props> = ({ useAppSelector, children, data }) => {
   const { language } = useAppSelector(selectConfig)
   const { __ } = useTranslation(language, 'exception')
 
@@ -27,7 +23,7 @@ const ProductListWidget: React.FC<Props> = ({
   const renderProductNotFound = () => {
     const ProductNotFound = getComponentFromChildren(
       children,
-      ModuleNames.PRODUCT_NOT_FOUND
+      ModuleGroup.PRODUCT_NOT_FOUND
     )
     if (!ProductNotFound) return null
     return ProductNotFound
@@ -36,7 +32,7 @@ const ProductListWidget: React.FC<Props> = ({
   const renderProductCard = (product: ProductType) => {
     const ProductCard = getComponentFromChildren(
       children,
-      ModuleNames.PRODUCT_CARD
+      ModuleGroup.PRODUCT_CARD
     )
     if (!ProductCard) return null
     return React.cloneElement(ProductCard, { product })
@@ -45,7 +41,7 @@ const ProductListWidget: React.FC<Props> = ({
   const renderPagination = () => {
     const Pagination = getComponentFromChildren(
       children,
-      ModuleNames.PAGINATION
+      ModuleGroup.PAGINATION
     )
     if (!Pagination) return null
     return Pagination
@@ -81,4 +77,4 @@ const ProductListWidget: React.FC<Props> = ({
   )
 }
 
-export default ProductListWidget
+export default ProductList

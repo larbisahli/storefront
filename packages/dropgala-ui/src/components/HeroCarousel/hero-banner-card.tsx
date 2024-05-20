@@ -6,6 +6,7 @@ import Image from '../common/Image'
 import Link from '../common/Link'
 import { ConfigType } from '@dropgala/types/config.type'
 import useWindowSize from 'hooks/useWindowSize'
+import { getThumbnail } from '@dropgala/utils/helpers'
 
 interface BannerProps {
   banner: HeroBannerType
@@ -27,7 +28,7 @@ const HeroBannerCard: FC<BannerProps> = ({
     styles
   } = banner!
 
-  const { image, placeholder } = thumbnail[0] ?? {}
+  const { image, placeholder } = getThumbnail(thumbnail)
   const { width } = useWindowSize()
 
   return (

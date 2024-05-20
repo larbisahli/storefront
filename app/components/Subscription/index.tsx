@@ -1,12 +1,12 @@
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const Subscription = (props: Props) =>
-  componentFactory(props?.componentName, ModuleNames.SUBSCRIPTION, props)
+  componentFactory(props?.moduleName, ModuleGroup.SUBSCRIPTION, props)
 
 export default Subscription

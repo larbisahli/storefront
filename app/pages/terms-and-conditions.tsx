@@ -2,7 +2,7 @@ import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
-import AppLayout from '@components/layout/AppLayout'
+import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import {

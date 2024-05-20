@@ -12,6 +12,7 @@ import { usePriceRange } from '@dropgala/utils/hooks/usePriceRange'
 import StarIcon from '@dropgala/assets/icons/star'
 import { getIsRTL } from '@dropgala/utils/get-direction'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import { getThumbnail } from '@dropgala/utils/helpers'
 
 interface ProductProps extends StoreProps {
   product: ProductType
@@ -93,7 +94,7 @@ const ProductCard: React.FC<ProductProps> = ({
     currencyCode: config?.defaultCurrency?.code
   })
 
-  const { image = '', placeholder = '' } = (thumbnail && thumbnail[0]) ?? {}
+  const { image, placeholder } = getThumbnail(thumbnail)
 
   const renderProductRating = () => {
     if (ratingSummary && reviewCount) {

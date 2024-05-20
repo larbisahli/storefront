@@ -1,12 +1,12 @@
-import { ModuleNames } from '@dropgala/types/enums.type'
+import { ModuleGroup } from '@dropgala/types/enums.type'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const MenuDrawer = (props: Props) =>
-  componentFactory('MenuDrawer', ModuleNames.MENU_DRAWER, props)
+  componentFactory('MenuDrawer', ModuleGroup.MENU_DRAWER, props)
 
 export default MenuDrawer

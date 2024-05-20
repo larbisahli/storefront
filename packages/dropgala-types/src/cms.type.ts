@@ -1,6 +1,6 @@
 import { ImageType } from 'common.type'
 import { Scalars } from 'custom.type'
-import { ModuleNames, PageLayoutBlocks } from 'enums.type'
+import { ModuleGroup, PageLayoutBlocks } from 'enums.type'
 
 export interface LayoutModuleType {
   name: Scalars['String']
@@ -42,7 +42,8 @@ export interface StoreLayoutBlockType {
 export interface StoreLayoutComponentType {
   layoutBlockId: Scalars['String']
   componentId: Scalars['ID']
-  moduleName: ModuleNames
+  moduleName: string
+  moduleGroup: ModuleGroup
   position: Scalars['Int']
   data?: StoreLayoutComponentContentType
   children?: StoreLayoutComponentType[] | []

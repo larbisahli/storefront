@@ -2,6 +2,7 @@ import { CategoryType } from '@dropgala/types/category.type'
 import React from 'react'
 import Image from '../common/Image'
 import Link from '../common/Link'
+import { getThumbnail } from '@dropgala/utils/helpers'
 
 interface Props {
   category: CategoryType
@@ -9,7 +10,7 @@ interface Props {
 
 const CategoryCard: React.FC<Props> = ({ category }: Props) => {
   const { name, thumbnail, urlKey } = category
-  const { image, placeholder } = thumbnail[0] ?? {}
+  const { image, placeholder } = getThumbnail(thumbnail)
   return (
     <Link
       href={{

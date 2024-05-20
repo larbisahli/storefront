@@ -1,13 +1,23 @@
 import React from 'react'
 import { StoreProps } from '@dropgala/store'
+import BuilderPlaceholder from '../common/builderPlaceholder'
 
 interface Props extends StoreProps {
   data: any
 }
 
-const Subscription: React.FC<Props> = ({ useAppSelector }) => {
+const Subscription: React.FC<Props> = ({ useAppSelector, ...props }) => {
+  console.log({ props })
   return (
-    <section className="mt-14 py-3 items-center text-xs text-gray-700 mb-4 hidden lg:flex">
+    <section className="relative group mt-1 py-3 bg-red-300 ">
+      <BuilderPlaceholder
+        {...props}
+        isEdit
+        isRemove
+        isAddBefore
+        isAddAfter
+        isDuplicate
+      />
       Subscription
     </section>
   )

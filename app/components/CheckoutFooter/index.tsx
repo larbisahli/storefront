@@ -1,12 +1,12 @@
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const CheckoutFooter = (props: Props) =>
-  componentFactory(props?.componentName, ModuleNames.CHECKOUT_FOOTER, props)
+  componentFactory(props?.moduleName, ModuleGroup.CHECKOUT_FOOTER, props)
 
 export default CheckoutFooter

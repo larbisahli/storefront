@@ -18,10 +18,6 @@
     "incremental": true,
     "jsx": "preserve"
   },
-  "include": [
-    "src",
-    "additional.d.ts",
-    "../dropgala-placeholder/src/Breadcrumb.tsx"
-  ],
+  "include": ["src", "additional.d.ts"],
   "exclude": ["node_modules", "**/*.stories.tsx"]
 }

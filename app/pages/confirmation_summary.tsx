@@ -16,7 +16,7 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
-import AppLayout from '@components/layout/AppLayout'
+import AppLayout from '@components/AppLayout/AppLayout'
 import ConfirmationSummary from '@components/ConfirmationSummary'
 
 interface Props {

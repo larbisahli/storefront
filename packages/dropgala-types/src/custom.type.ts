@@ -1,4 +1,4 @@
-import { ModuleNames, SortOrder } from './enums.type'
+import { ModuleGroup, SortOrder } from './enums.type'
 
 export declare type Nullable<T> = T | null
 

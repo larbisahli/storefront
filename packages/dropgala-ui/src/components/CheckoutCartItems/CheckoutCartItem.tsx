@@ -15,6 +15,7 @@ import { cartChange, removeCartItem } from '@dropgala/store/Cart/thunks'
 import { notify } from '../ui/toast'
 import Loader from '../ui/loader'
 import CloseIcon from '@dropgala/assets/icons/close'
+import { getThumbnail } from '@dropgala/utils/helpers'
 
 interface Props extends StoreProps {
   item: CartItemType
@@ -69,10 +70,8 @@ const CheckoutCartItem: FC<Props> = ({
     : quantity
 
   const { image, placeholder } = !isEmpty(orderVariationOption?.thumbnail)
-    ? orderVariationOption?.thumbnail[0] ?? { image: '', placeholder: '' }
-    : !isEmpty(thumbnail)
-    ? thumbnail![0]
-    : { image: '', placeholder: '' }
+    ? getThumbnail(orderVariationOption?.thumbnail)
+    : getThumbnail(thumbnail)
 
   const ItemPrice = usePrice({
     amount: productPrice?.finalPrice.value,

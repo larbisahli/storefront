@@ -1,12 +1,12 @@
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const Miscellaneous = (props: Props) =>
-  componentFactory(props?.componentName, ModuleNames.MISCELLANEOUS, props)
+  componentFactory(props?.moduleName, ModuleGroup.MISCELLANEOUS, props)
 
 export default Miscellaneous

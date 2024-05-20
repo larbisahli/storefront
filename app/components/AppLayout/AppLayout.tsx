@@ -40,12 +40,12 @@ const AppLayout = ({ children, className }: Props) => {
         }
       `}</style>
       <CustomProfiler data={[headerData]} />
-      <CartDrawer componentName="CartDrawer" />
-      <MenuDrawer componentName="MenuDrawer" />
+      <CartDrawer moduleName="CartDrawer" />
+      <MenuDrawer moduleName="MenuDrawer" />
       <main
         className={cn(
           'h-[450px]',
-          'max-w-screen-xl xxl:max-w-screen-xxl mx-auto', // max-width is 1400px
+          // 'max-w-screen-xl xxl:max-w-[1300px] mx-auto', // max-width is 1300px
           'relative flex-grow h-full w-full',
           className
         )}

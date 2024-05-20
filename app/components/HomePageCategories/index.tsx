@@ -1,11 +1,11 @@
-import { ModuleNames } from '@dropgala/types/enums.type'
+import { ModuleGroup } from '@dropgala/types/enums.type'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const HomepageCategories = (props: Props) =>
-  componentFactory(props?.componentName, ModuleNames.HOMEPAGE_CATEGORIES, props)
+  componentFactory(props?.moduleName, ModuleGroup.HOMEPAGE_CATEGORIES, props)
 export default HomepageCategories

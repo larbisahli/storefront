@@ -22,7 +22,7 @@ import Link from '../common/Link'
 import { ConfigType } from '@dropgala/types/config.type'
 import dynamic from 'next/dynamic'
 import { getComponentFromChildren } from '@dropgala/utils/helpers'
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 
 const MyAccountActions = dynamic(() => import('./Header/AccountActions'), {
@@ -129,7 +129,7 @@ const Header: FC<Props> = ({
   const renderPromoBanner = () => {
     const PromoBanner = getComponentFromChildren(
       children,
-      ModuleNames.PROMO_BANNER
+      ModuleGroup.PROMO_BANNER
     )
     if (!PromoBanner) return null
     return PromoBanner
@@ -145,7 +145,7 @@ const Header: FC<Props> = ({
         {/* PromoBanner */}
         {renderPromoBanner()}
         {/* Navigation */}
-        <div className="max-w-screen-xl xxl:max-w-screen-xxl mx-auto relative group">
+        <div className="max-w-screen-xl xxl:max-w-[1300px] mx-auto relative group">
           <BuilderPlaceholder {...props} isEdit isRemove />
           {/* Info section */}
           <InfoSection

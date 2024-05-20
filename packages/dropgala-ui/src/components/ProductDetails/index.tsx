@@ -28,6 +28,7 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import StarIcon from '@dropgala/assets/icons/star'
 import { cartChange } from '@dropgala/store/Cart/thunks'
 import { notify } from '../ui/toast'
+import { getThumbnail } from '@dropgala/utils/helpers'
 
 // class CheckoutService {
 //   AddItem
@@ -87,9 +88,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   }, [selectedVariations, variationOptions])
 
   useEffect(() => {
-    const imageId =
-      selectedVariationOption?.thumbnail &&
-      selectedVariationOption?.thumbnail[0]?.id
+    const { id: imageId } = getThumbnail(selectedVariationOption?.thumbnail)
     if (imageId) {
       const imageIds = productGallery?.map((i) => i.id)
       const index = imageIds?.indexOf(imageId)

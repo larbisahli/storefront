@@ -1,15 +1,15 @@
-import { ModuleNames } from '@dropgala/types'
-import { isEmpty } from 'lodash'
+import { ImageType } from '@dropgala/types/common.type'
+import { isArray, isEmpty } from 'lodash'
 import React from 'react'
 
 /**
  * Desc: return component
  * @param {JSX.Element[]} JSX.Element[] in which find the component
- * @param {ModuleNames} string component name
+ * @param {string} string component name
  * */
 export const getComponentFromChildren = (
   ChildComponents: JSX.Element[],
-  moduleName: ModuleNames
+  moduleName: string
 ) => {
   if (isEmpty(ChildComponents)) {
     return null
@@ -35,3 +35,9 @@ export const resolvePath = (obj: any, path: string, defaultValue: any) =>
       (o, p) => (o && o[p] !== undefined ? o[p] : defaultValue),
       obj || {}
     )
+
+export const getThumbnail = (thumbnail: ImageType[] | null | undefined) => {
+  return !isEmpty(thumbnail) && isArray(thumbnail)
+    ? thumbnail[0]
+    : { image: '', placeholder: '' }
+}

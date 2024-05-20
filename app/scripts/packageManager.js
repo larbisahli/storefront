@@ -20,14 +20,9 @@ const outputFile = 'app/lib/generated.tsx'
 
 const themePaths = Object.values(enums.StoreThemes)
 
-const dynamicImport = (
-  themePath,
-  componentName,
-  placeholderName,
-  ssr = true
-) => {
+const dynamicImport = (themePath, moduleName, placeholderName, ssr = true) => {
   return `
-  dynamic(() => import('${themePath}/components/${componentName}'), {
+  dynamic(() => import('${themePath}/components/${moduleName}'), {
     loading: () => <${placeholderName} />,
     ssr: ${ssr}
   })
@@ -48,7 +43,7 @@ import {
   MenuDrawerPlaceholder,
   ProductCardPlaceholder
 } from '@components/placeholders'
-import { ModuleNames, StoreThemes } from '@dropgala/types/enums.type'
+import { ModuleGroup, StoreThemes } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -205,14 +200,6 @@ const Miscellaneous = {${themePaths?.map(
       'ProductCardPlaceholder'
     )}`
 )}}
-const PageCms = {${themePaths?.map(
-  (themePath) =>
-    `'${[themePath]}': ${dynamicImport(
-      themePath,
-      'PageCms',
-      'ProductCardPlaceholder'
-    )}`
-)}}
 const CheckoutInformation = {${themePaths?.map(
   (themePath) =>
     `'${[themePath]}': ${dynamicImport(
@@ -294,40 +281,38 @@ const PromoSlider = {${themePaths?.map(
     )}`
 )}}
 
-const components = new Map<ModuleNames, {[key in StoreThemes]: React.ComponentType<any>}>();
-components.set(ModuleNames.HEADER, Header);
-components.set(ModuleNames.FOOTER, Footer);
-components.set(ModuleNames.MENU_DRAWER, MenuDrawer);
-components.set(ModuleNames.CART_DRAWER, CartDrawer);
-components.set(ModuleNames.HERO_BANNER, HeroBanner);
-components.set(ModuleNames.HOMEPAGE_CATEGORIES, HomepageCategories);
-components.set(ModuleNames.PRODUCT_CARD, ProductCard);
-components.set(ModuleNames.PRODUCT_DETAILS, ProductDetails);
-components.set(ModuleNames.LINKED_PRODUCTS, LinkedProducts);
-components.set(ModuleNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb);
-components.set(ModuleNames.CHECKOUT_FOOTER, CheckoutFooter);
-components.set(ModuleNames.CHECKOUT_HEADER, CheckoutHeader);
-components.set(ModuleNames.BREADCRUMB, Breadcrumb);
-components.set(ModuleNames.CHECKOUT_CART_ITEMS, CheckoutCartItems);
-components.set(ModuleNames.ORDER_SUMMARY, OrderSummary);
-components.set(ModuleNames.CATEGORY_DETAILS, CategoryDetails);
-components.set(ModuleNames.CATEGORIES_LIST, CategoryList);
-components.set(ModuleNames.PAGINATION, Pagination);
-components.set(ModuleNames.MISCELLANEOUS, Miscellaneous);
-components.set(ModuleNames.PAGE_CMS, PageCms);
-components.set(ModuleNames.CHECKOUT_INFORMATION, CheckoutInformation);
-components.set(ModuleNames.CONFIRMATION_SUMMARY, ConfirmationSummary)
-components.set(ModuleNames.CHECKOUT_ITEMS, CheckoutItems);
-components.set(ModuleNames.CHECKOUT_SHIPPING, CheckoutShipping);
-components.set(ModuleNames.CHECKOUT_PAYMENT, CheckoutPayment);
-components.set(ModuleNames.INSTALL_PROMPT, InstallPrompt);
-components.set(ModuleNames.PRODUCT_NOT_FOUND, ProductNotFound);
-components.set(ModuleNames.COOKIE_POPUP, CookiePopup);
-components.set(ModuleNames.PROMO_SLIDER, PromoSlider);
+const components = new Map<ModuleGroup, {[key in StoreThemes]: React.ComponentType<any>}>();
+components.set(ModuleGroup.HEADER, Header);
+components.set(ModuleGroup.FOOTER, Footer);
+components.set(ModuleGroup.MENU_DRAWER, MenuDrawer);
+components.set(ModuleGroup.CART_DRAWER, CartDrawer);
+components.set(ModuleGroup.HERO_BANNER, HeroBanner);
+components.set(ModuleGroup.HOMEPAGE_CATEGORIES, HomepageCategories);
+components.set(ModuleGroup.PRODUCT_CARD, ProductCard);
+components.set(ModuleGroup.PRODUCT_DETAILS, ProductDetails);
+components.set(ModuleGroup.LINKED_PRODUCTS, LinkedProducts);
+components.set(ModuleGroup.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb);
+components.set(ModuleGroup.CHECKOUT_FOOTER, CheckoutFooter);
+components.set(ModuleGroup.CHECKOUT_HEADER, CheckoutHeader);
+components.set(ModuleGroup.BREADCRUMB, Breadcrumb);
+components.set(ModuleGroup.CHECKOUT_CART_ITEMS, CheckoutCartItems);
+components.set(ModuleGroup.ORDER_SUMMARY, OrderSummary);
+components.set(ModuleGroup.CATEGORY_DETAILS, CategoryDetails);
+components.set(ModuleGroup.CATEGORY_LIST, CategoryList);
+components.set(ModuleGroup.PAGINATION, Pagination);
+components.set(ModuleGroup.MISCELLANEOUS, Miscellaneous);
+components.set(ModuleGroup.CHECKOUT_INFORMATION, CheckoutInformation);
+components.set(ModuleGroup.CONFIRMATION_SUMMARY, ConfirmationSummary)
+components.set(ModuleGroup.CHECKOUT_ITEMS, CheckoutItems);
+components.set(ModuleGroup.CHECKOUT_SHIPPING, CheckoutShipping);
+components.set(ModuleGroup.CHECKOUT_PAYMENT, CheckoutPayment);
+components.set(ModuleGroup.INSTALL_PROMPT, InstallPrompt);
+components.set(ModuleGroup.PRODUCT_NOT_FOUND, ProductNotFound);
+components.set(ModuleGroup.COOKIE_POPUP, CookiePopup);
 
 export default function componentFactory<Props>(
   storeTheme: StoreThemes,
-  componentName: ModuleNames,
+  componentName: ModuleGroup,
   props: Props,
   children?:(
     props: any

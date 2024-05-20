@@ -23,7 +23,7 @@ export enum TagManagerConfig {
   LOGOUT = 'Logged out',
   NOT_APPLICABL = 'N/A',
   CATEGORY_PRODUCT_LIST = 'CategoryProductList',
-  PRODUCT_LIST_WIDGET = 'ProductListWidget',
+  PRODUCT_LIST = 'ProductList',
   CATEOGRY_LIMIT = 5,
   NOT_FOUND = 'notFound',
   CHECKOUT = 'checkout',

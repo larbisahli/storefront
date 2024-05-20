@@ -1,12 +1,12 @@
-import { ModuleNames } from '@dropgala/types/enums.type'
+import { ModuleGroup } from '@dropgala/types/enums.type'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const CookiePopup = (props: Props) =>
-  componentFactory(props?.componentName, ModuleNames.COOKIE_POPUP, props)
+  componentFactory(props?.moduleName, ModuleGroup.COOKIE_POPUP, props)
 
 export default CookiePopup

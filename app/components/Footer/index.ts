@@ -1,13 +1,13 @@
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const Footer = (props: Props) => {
-  return componentFactory(props?.componentName, ModuleNames.FOOTER, props)
+  return componentFactory(props?.moduleName, ModuleGroup.FOOTER, props)
 }
 
 export default Footer

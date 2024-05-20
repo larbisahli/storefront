@@ -70,7 +70,7 @@ export type StoreProps = {
   useAppSelector: TypedUseSelectorHook<AppState>
   moduleName: string
   componentId: string
-  componentName: string
+  moduleGroup: string
   data: any
 }
 

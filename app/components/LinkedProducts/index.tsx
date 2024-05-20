@@ -1,12 +1,12 @@
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const LinkedProducts = (props: Props) =>
-  componentFactory(props?.componentName, ModuleNames.LINKED_PRODUCTS, props)
+  componentFactory(props?.moduleName, ModuleGroup.LINKED_PRODUCTS, props)
 
 export default LinkedProducts

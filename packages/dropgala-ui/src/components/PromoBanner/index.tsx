@@ -21,7 +21,19 @@ interface Props extends StoreProps {
 }
 
 const PromoBanner = ({ data, ...props }: Props) => {
-  const { delaySpeed, direction, items, backgroundColor } = data ?? {}
+  const {
+    delaySpeed,
+    animationSpeed,
+    langDirection,
+    loop,
+    direction,
+    slidesPerView,
+    draggable,
+    items,
+    backgroundColor
+  } = data ?? {}
+
+  console.log({ data })
 
   const slides = useMemo(
     () => clone(items)?.sort((a, b) => a.position - b.position),
@@ -35,16 +47,22 @@ const PromoBanner = ({ data, ...props }: Props) => {
     >
       <BuilderPlaceholder {...props} isEdit isRemove isEditRemoveBottom />
       <SwiperComponent
-        dir={direction?.toLocaleLowerCase()}
-        loop
-        centeredSlides
+        dir={langDirection?.value?.toLocaleLowerCase()}
+        loop={loop}
+        speed={animationSpeed.value ?? 500}
         autoplay={{
-          delay: Number(delaySpeed),
+          delay: delaySpeed.value ?? 2000,
           disableOnInteraction: false
         }}
+        scrollbar={{ draggable }}
         modules={[Autoplay]}
+        slidesPerView={slidesPerView}
+        // effect="fade"
+        direction={direction}
         className="h-full"
+        centeredSlides
         items={slides}
+        // grabCursor
       >
         {(item: { content: string }) => (
           <div className="flex justify-center items-center w-screen h-[40px]">
@@ -53,7 +71,7 @@ const PromoBanner = ({ data, ...props }: Props) => {
               innerHtml={item?.content}
               attrs={{
                 className:
-                  'line-clamp-2 px-1 text-sm lg:text-base leading-[14px]'
+                  'line-clamp-2 px-1 text-sm lg:text-base leading-[20px]'
               }}
             />
           </div>

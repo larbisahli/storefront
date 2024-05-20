@@ -1,10 +1,10 @@
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 const OfflineNotice = (props: any) =>
-  componentFactory(props?.componentName, ModuleNames.OFFLINE_NOTICE, {
+  componentFactory(props?.moduleName, ModuleGroup.OFFLINE_NOTICE, {
     ...props,
-    componentName: 'OfflineNotice'
+    moduleName: 'OfflineNotice'
   })
 
 export default OfflineNotice

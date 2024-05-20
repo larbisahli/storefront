@@ -6,7 +6,7 @@ import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import AppLayout from '@components/layout/AppLayout'
+import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
@@ -21,9 +21,10 @@ import getMobileDetect from '@dropgala/utils/isMobile'
 import { LanguageType } from '@dropgala/types/config.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
 import Cookies from 'cookies'
-import { CookieNames } from '@dropgala/types/common.type'
-import React from 'react'
+import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
+import React, { useEffect } from 'react'
 import { setCollection } from '@dropgala/store/Collections'
+import { StoreBuilder } from '@dropgala/types'
 
 interface PageProps {
   pageProps: {
@@ -39,6 +40,19 @@ const HomePage = ({ pageProps }: PageProps) => {
   const config = useAppSelector(selectConfig)
   const { layout, language, ...storeConfig } = useAppSelector(selectConfig)
   console.log({ config })
+
+  useEffect(() => {
+    if (window.location !== window.parent.location) {
+      window.parent.postMessage(
+        {
+          source: StoreBuilder.GALA_CMS_BUILDER_PAGE,
+          layout: layout
+        },
+        'http://localhost:3001'
+      )
+    }
+  }, [])
+
   return (
     <NextSeo
       title={storeConfig?.storeName}
@@ -99,6 +113,8 @@ export const getServerSideProps: GetServerSideProps =
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
     const storeId = undefined
 
+    console.log('========>', { alias })
+
     try {
       if (!alias) {
         throw { error: { message: 'alias not specified' } }
@@ -130,6 +146,9 @@ export const getServerSideProps: GetServerSideProps =
       // Get current store language id for resource request
       const storeLanguageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
+      const templateId = ConfigReducer.templateId as string
+
+      console.log({ templateId })
 
       // Redux Store
       // NOTE: use promise.all
@@ -140,7 +159,14 @@ export const getServerSideProps: GetServerSideProps =
         await fetchStoreHomePageCategories(alias, storeLanguageId, storeId)
       )
       store.dispatch(
-        await fetchPageLayout(alias, storeLanguageId, 'homePage', storeId)
+        await fetchPageLayout({
+          alias,
+          page: StoreLayoutNames.HOMEPAGE,
+          templateId,
+          storeLanguageId,
+          isCustom: false,
+          storeId
+        })
       )
 
       // Client cart

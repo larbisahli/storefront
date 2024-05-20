@@ -1,7 +1,7 @@
 /**
  * **** Generated file, Do Not Edit ****
  */
-import { ModuleNames } from '@dropgala/types/enums.type'
+import { ModuleGroup } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
 import { useAppDispatch, useAppSelector } from '@hooks/useStore'
@@ -50,9 +50,9 @@ const CartDrawer = {
   })
 }
 
-const HeroBanner = {
+const HeroCarousel = {
   /* __DEFAULT__ */
-  HeroBanner: dynamic(() => import('@dropgala/ui/components/HeroBanner'), {
+  HeroCarousel: dynamic(() => import('@dropgala/ui/components/HeroCarousel'), {
     loading: () => <HeroBannerPlaceholder />,
     ssr: false
   })
@@ -154,7 +154,56 @@ const CategoryList = {
   CategoryList: dynamic(() => import('@dropgala/ui/components/CategoryList'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  })
+  }),
+  CategoryList2: dynamic(
+    () => import('@dropgala/ui/components/CategoryList/CategoryList2'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  CategoryList3: dynamic(
+    () => import('@dropgala/ui/components/CategoryList/CategoryList3'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  CategoryList4: dynamic(
+    () => import('@dropgala/ui/components/CategoryList/CategoryList4'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  CategoryList5: dynamic(
+    () => import('@dropgala/ui/components/CategoryList/CategoryList5'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  CategoryList6: dynamic(
+    () => import('@dropgala/ui/components/CategoryList/CategoryList6'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  CategoryList7: dynamic(
+    () => import('@dropgala/ui/components/CategoryList/CategoryList7'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  CategoryList8: dynamic(
+    () => import('@dropgala/ui/components/CategoryList/CategoryList8'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
 }
 const Pagination = {
   /* __DEFAULT__ */
@@ -172,13 +221,6 @@ const Miscellaneous = {
       ssr: true
     }
   )
-}
-const PageCms = {
-  /* __DEFAULT__ */
-  PageCms: dynamic(() => import('@dropgala/ui/components/PageCms'), {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  })
 }
 const CheckoutInformation = {
   /* __DEFAULT__ */
@@ -260,15 +302,12 @@ const ProductNotFound = {
     }
   )
 }
-const ProductListWidget = {
+const ProductList = {
   /* __DEFAULT__ */
-  ProductListWidget: dynamic(
-    () => import('@dropgala/ui/components/ProductListWidget'),
-    {
-      loading: () => <ProductCardPlaceholder />,
-      ssr: true
-    }
-  )
+  ProductList: dynamic(() => import('@dropgala/ui/components/ProductList'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
 }
 const CookiePopup = {
   /* __DEFAULT__ */
@@ -308,43 +347,106 @@ const Subscription = {
     ssr: true
   })
 }
+const Text = {
+  /* __DEFAULT__ */
+  Text: dynamic(() => import('@dropgala/ui/components/Text'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
+const Image = {
+  /* __DEFAULT__ */
+  Image: dynamic(() => import('@dropgala/ui/components/Image'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
+const ImageBanner = {
+  /* __DEFAULT__ */
+  ImageBanner: dynamic(() => import('@dropgala/ui/components/ImageBanner'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
+const VideoBanner = {
+  /* __DEFAULT__ */
+  VideoBanner: dynamic(() => import('@dropgala/ui/components/VideoBanner'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
+const Html = {
+  /* __DEFAULT__ */
+  Html: dynamic(() => import('@dropgala/ui/components/Html'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
+const Spacer = {
+  /* __DEFAULT__ */
+  Html: dynamic(() => import('@dropgala/ui/components/Spacer'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
+const Divider = {
+  /* __DEFAULT__ */
+  Html: dynamic(() => import('@dropgala/ui/components/Divider'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
+const Layout = {
+  /* __DEFAULT__ */
+  Html: dynamic(() => import('@dropgala/ui/components/Layout'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
+}
 
 const modules = new Map<
-  ModuleNames,
+  ModuleGroup,
   { [key: string]: React.ComponentType<any> }
 >()
-modules.set(ModuleNames.HEADER, Header)
-modules.set(ModuleNames.FOOTER, Footer)
-modules.set(ModuleNames.MENU_DRAWER, MenuDrawer)
-modules.set(ModuleNames.CART_DRAWER, CartDrawer)
-modules.set(ModuleNames.HERO_BANNER, HeroBanner)
-modules.set(ModuleNames.HOMEPAGE_CATEGORIES, HomepageCategories)
-modules.set(ModuleNames.PRODUCT_CARD, ProductCard)
-modules.set(ModuleNames.PRODUCT_DETAILS, ProductDetails)
-modules.set(ModuleNames.LINKED_PRODUCTS, LinkedProducts)
-modules.set(ModuleNames.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb)
-modules.set(ModuleNames.CHECKOUT_FOOTER, CheckoutFooter)
-modules.set(ModuleNames.CHECKOUT_HEADER, CheckoutHeader)
-modules.set(ModuleNames.BREADCRUMB, Breadcrumb)
-modules.set(ModuleNames.CHECKOUT_CART_ITEMS, CheckoutCartItems)
-modules.set(ModuleNames.ORDER_SUMMARY, OrderSummary)
-modules.set(ModuleNames.CATEGORY_DETAILS, CategoryDetails)
-modules.set(ModuleNames.CATEGORIES_LIST, CategoryList)
-modules.set(ModuleNames.PAGINATION, Pagination)
-modules.set(ModuleNames.MISCELLANEOUS, Miscellaneous)
-modules.set(ModuleNames.PAGE_CMS, PageCms)
-modules.set(ModuleNames.CHECKOUT_INFORMATION, CheckoutInformation)
-modules.set(ModuleNames.CONFIRMATION_SUMMARY, ConfirmationSummary)
-modules.set(ModuleNames.CHECKOUT_ITEMS, CheckoutItems)
-modules.set(ModuleNames.CHECKOUT_SHIPPING, CheckoutShipping)
-modules.set(ModuleNames.CHECKOUT_PAYMENT, CheckoutPayment)
-modules.set(ModuleNames.INSTALL_PROMPT, InstallPrompt)
-modules.set(ModuleNames.PRODUCT_NOT_FOUND, ProductNotFound)
-modules.set(ModuleNames.PRODUCT_LIST_WIDGET, ProductListWidget)
-modules.set(ModuleNames.COOKIE_POPUP, CookiePopup)
-modules.set(ModuleNames.PROMO_BANNER, PromoBanner)
-modules.set(ModuleNames.OFFLINE_NOTICE, OfflineNotice)
-modules.set(ModuleNames.SUBSCRIPTION, Subscription)
+modules.set(ModuleGroup.HEADER, Header)
+modules.set(ModuleGroup.FOOTER, Footer)
+modules.set(ModuleGroup.MENU_DRAWER, MenuDrawer)
+modules.set(ModuleGroup.CART_DRAWER, CartDrawer)
+modules.set(ModuleGroup.HERO_CAROUSEL, HeroCarousel)
+modules.set(ModuleGroup.HOMEPAGE_CATEGORIES, HomepageCategories)
+modules.set(ModuleGroup.PRODUCT_CARD, ProductCard)
+modules.set(ModuleGroup.PRODUCT_DETAILS, ProductDetails)
+modules.set(ModuleGroup.LINKED_PRODUCTS, LinkedProducts)
+modules.set(ModuleGroup.CHECKOUT_BREADCRUMB, CheckoutBreadcrumb)
+modules.set(ModuleGroup.CHECKOUT_FOOTER, CheckoutFooter)
+modules.set(ModuleGroup.CHECKOUT_HEADER, CheckoutHeader)
+modules.set(ModuleGroup.BREADCRUMB, Breadcrumb)
+modules.set(ModuleGroup.CHECKOUT_CART_ITEMS, CheckoutCartItems)
+modules.set(ModuleGroup.ORDER_SUMMARY, OrderSummary)
+modules.set(ModuleGroup.CATEGORY_DETAILS, CategoryDetails)
+modules.set(ModuleGroup.CATEGORY_LIST, CategoryList)
+modules.set(ModuleGroup.PAGINATION, Pagination)
+modules.set(ModuleGroup.MISCELLANEOUS, Miscellaneous)
+modules.set(ModuleGroup.CHECKOUT_INFORMATION, CheckoutInformation)
+modules.set(ModuleGroup.CONFIRMATION_SUMMARY, ConfirmationSummary)
+modules.set(ModuleGroup.CHECKOUT_ITEMS, CheckoutItems)
+modules.set(ModuleGroup.CHECKOUT_SHIPPING, CheckoutShipping)
+modules.set(ModuleGroup.CHECKOUT_PAYMENT, CheckoutPayment)
+modules.set(ModuleGroup.INSTALL_PROMPT, InstallPrompt)
+modules.set(ModuleGroup.PRODUCT_NOT_FOUND, ProductNotFound)
+modules.set(ModuleGroup.PRODUCT_LIST, ProductList)
+modules.set(ModuleGroup.COOKIE_POPUP, CookiePopup)
+modules.set(ModuleGroup.PROMO_BANNER, PromoBanner)
+modules.set(ModuleGroup.OFFLINE_NOTICE, OfflineNotice)
+modules.set(ModuleGroup.SUBSCRIPTION, Subscription)
+modules.set(ModuleGroup.TEXT, Text)
+modules.set(ModuleGroup.IMAGE, Image)
+modules.set(ModuleGroup.IMAGE_BANNER, ImageBanner)
+modules.set(ModuleGroup.VIDEO_BANNER, VideoBanner)
+modules.set(ModuleGroup.HTML, Html)
+modules.set(ModuleGroup.SPACER, Spacer)
+modules.set(ModuleGroup.DIVIDER, Divider)
+modules.set(ModuleGroup.LAYOUT, Layout)
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[] | Element | null
@@ -352,11 +454,11 @@ interface Props {
 }
 
 export default function componentFactory(
-  componentName: string | null,
-  moduleName: ModuleNames,
+  moduleName: string | null,
+  moduleGroup: ModuleGroup,
   props: Props
 ): ReactElement<Props> | null {
-  const components = modules.get(moduleName)
+  const components = modules.get(moduleGroup)
   if (isEmpty(components)) {
     console.warn(
       'Module ' +
@@ -365,11 +467,11 @@ export default function componentFactory(
     )
     return null
   }
-  const Component = components[componentName ?? moduleName]
+  const Component = components[moduleName ?? moduleGroup]
   if (!Component) {
     console.warn(
       'Component ' +
-        componentName +
+        moduleName +
         ' cannot be found in componentFactory and skipped from render.'
     )
     return null

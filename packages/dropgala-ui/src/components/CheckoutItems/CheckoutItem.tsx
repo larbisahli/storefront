@@ -7,6 +7,7 @@ import { usePrice } from '@dropgala/utils/hooks/usePrice'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { useProductPrice } from '@dropgala/utils/hooks/usePriceRange'
+import { getThumbnail } from '@dropgala/utils/helpers'
 
 type CheckoutItemProps = {
   item: ProductType
@@ -54,10 +55,8 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
   })
 
   const { image, placeholder } = !isEmpty(orderVariationOption?.thumbnail)
-    ? orderVariationOption?.thumbnail[0] ?? { image: '', placeholder: '' }
-    : !isEmpty(thumbnail)
-    ? thumbnail![0]
-    : { image: '', placeholder: '' }
+    ? getThumbnail(orderVariationOption?.thumbnail!)
+    : getThumbnail(thumbnail!)
 
   return (
     <div className="w-full h-auto flex justify-start last:border-none items-start relative mt-3 pb-4 last:border-b-0 border-b border-solid border-gray-400 px-3">

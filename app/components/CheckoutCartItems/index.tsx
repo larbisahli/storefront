@@ -1,12 +1,12 @@
-import { ModuleNames } from '@dropgala/types'
+import { ModuleGroup } from '@dropgala/types'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const CheckoutCartItems = (props: Props) =>
-  componentFactory(props?.componentName, ModuleNames.CHECKOUT_CART_ITEMS, props)
+  componentFactory(props?.moduleName, ModuleGroup.CHECKOUT_CART_ITEMS, props)
 
 export default CheckoutCartItems

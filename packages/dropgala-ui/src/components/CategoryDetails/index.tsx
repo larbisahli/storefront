@@ -3,6 +3,7 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import Image from '../common/Image'
 import { StoreProps } from '@dropgala/store'
 import { selectCategory } from '@dropgala/store/Category'
+import { getThumbnail } from '@dropgala/utils/helpers'
 
 const CategoryDetails: React.FC<StoreProps> = ({ useAppSelector }) => {
   const category = useAppSelector(selectCategory)
@@ -35,7 +36,7 @@ const CategoryDetails: React.FC<StoreProps> = ({ useAppSelector }) => {
       return null
     }
 
-    const { image, placeholder } = category?.thumbnail[0]
+    const { image, placeholder } = getThumbnail(category?.thumbnail)
 
     return (
       <div className="flex w-fit">

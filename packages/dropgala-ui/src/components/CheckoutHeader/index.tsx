@@ -1,5 +1,5 @@
 /**
- * componentName: Header
+ * moduleName: Header
  */
 import { StoreProps, selectConfig } from '@dropgala/store'
 import ArrowRightFilled from '@dropgala/assets/icons/filed-right-arrow'

@@ -1,14 +1,11 @@
 /* eslint-disable no-unused-vars */
 
-export enum ModuleNames {
+export enum ModuleGroup {
   HEADER = 'Header',
-  PROMO_SLIDER = 'PromoSlider',
   FOOTER = 'Footer',
-  HERO_BANNER = 'HeroBanner',
   CART_DRAWER = 'CartDrawer',
   MENU_DRAWER = 'MenuDrawer',
   HOMEPAGE_CATEGORIES = 'HomepageCategories',
-  CATEGORIES_LIST = 'CategoryList',
   PRODUCT_CARD = 'ProductCard',
   PRODUCT_DETAILS = 'ProductDetails',
   LINKED_PRODUCTS = 'LinkedProducts',
@@ -26,22 +23,31 @@ export enum ModuleNames {
   CATEGORY_DETAILS = 'CategoryDetails',
   PAGINATION = 'Pagination',
   MISCELLANEOUS = 'Miscellaneous',
-  PAGE_CMS = 'PageCms',
   INSTALL_PROMPT = 'InstallPrompt',
   PRODUCT_NOT_FOUND = 'ProductNotFound',
-  PRODUCT_LIST_WIDGET = 'ProductListWidget',
   COOKIE_POPUP = 'CookiePopup',
   PROMO_BANNER = 'PromoBanner',
   OFFLINE_NOTICE = 'OfflineNotice',
-  SUBSCRIPTION = 'Subscription'
+  SUBSCRIPTION = 'Subscription',
+  TEXT = 'Text',
+  IMAGE = 'Image',
+  IMAGE_BANNER = 'ImageBanner',
+  VIDEO_BANNER = 'VideoBanner',
+  HTML = 'Html',
+  CATEGORY_LIST = 'CategoryList',
+  PRODUCT_LIST = 'ProductList',
+  HERO_CAROUSEL = 'HeroCarousel',
+  SPACER = 'Spacer',
+  DIVIDER = 'Divider',
+  LAYOUT = 'Layout'
 }
 
 export enum BreadcrumbComponents {
   BREADCRUMB = 'Breadcrumb'
 }
 
-export enum ProductListWidgetComponents {
-  PRODUCT_LIST_WIDGET = 'ProductListWidget'
+export enum ProductListComponents {
+  PRODUCT_LIST = 'ProductList'
 }
 
 export enum ProductCardComponents {
@@ -130,11 +136,38 @@ export enum ThunkStatus {
 }
 
 export enum StoreBuilder {
-  GALA_CMS_BUILDER = 'gala-cms-builder'
+  GALA_CMS_BUILDER = 'gala-cms-builder',
+  GALA_CMS_BUILDER_PAGE = 'gala-cms-builder-page',
+  GALA_HOMEPAGE = 'gala-cms-builder-homepage'
+}
+
+export enum StoreBuilderActions {
+  EDIT_ACTION = 'EDIT_ACTION',
+  DELETE_ACTION = 'DELETE_ACTION',
+  ADD_NEW_BEFORE = 'ADD_NEW_BEFORE',
+  ADD_NEW_AFTER = 'ADD_NEW_AFTER',
+  DUPLICATE_BLOCK = 'DUPLICATE_BLOCK'
 }
 
 export enum PageLayoutBlocks {
   Header = 'jssHeader',
   Main = 'jssMain',
   Footer = 'jssFooter'
+}
+
+export enum SectionSize {
+  FULL = 'full',
+  AUTO = 'auto'
+}
+
+export enum Alignment {
+  RIGHT = 'right',
+  LEFT = 'left',
+  CENTER = 'center'
+}
+
+export enum TextSize {
+  LARGE = 'large',
+  MEDIUM = 'medium',
+  SMALL = 'small'
 }

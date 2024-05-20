@@ -1,7 +1,7 @@
 import { wrapper } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
-import CheckoutLayout from '@components/layout/CheckoutLayout'
+import CheckoutLayout from '@components/AppLayout/CheckoutLayout'
 import Cookies from 'cookies'
 
 import { CookieNames } from '@dropgala/types/common.type'

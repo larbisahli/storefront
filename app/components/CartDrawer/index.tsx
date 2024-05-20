@@ -1,12 +1,12 @@
-import { ModuleNames } from '@dropgala/types/enums.type'
+import { ModuleGroup } from '@dropgala/types/enums.type'
 import componentFactory from '@lib/componentFactory'
 
 interface Props {
-  componentName: string
+  moduleName: string
   [key: string]: any
 }
 
 const CartDrawer = (props: Props) =>
-  componentFactory('CartDrawer', ModuleNames.CART_DRAWER, { ...props })
+  componentFactory('CartDrawer', ModuleGroup.CART_DRAWER, { ...props })
 
 export default CartDrawer

@@ -91,8 +91,8 @@ export const layout = {
         },
         {
           componentId: 'e6d2b1b9-251f-4168-8181-20e4f32961sd',
-          componentName: 'ProductListWidget',
-          moduleName: 'ProductListWidget',
+          componentName: 'ProductList',
+          moduleName: 'ProductList',
           position: 3,
           data: {
             collectionId: 'categoryProducts'

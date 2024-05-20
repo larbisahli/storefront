@@ -2,7 +2,7 @@ import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
-import AppLayout from '@components/layout/AppLayout'
+import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
@@ -12,7 +12,6 @@ import {
 } from '@gRPC/handlers'
 import { fetchStorePage } from '@gRPC/handlers/page'
 import { PageType } from '@dropgala/types/page.type'
-import PageCms from '@components/PageCms'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { LanguageType } from '@dropgala/types/config.type'
@@ -83,9 +82,7 @@ const AboutUsPage = ({ pageProps }: PageProps) => {
           <Breadcrumb breadcrumbs={[]} name={page.name} />
         </div>
       </section>
-      <section className="mb-44">
-        <PageCms page={page} />
-      </section>
+      <section className="mb-44">{/* <PageCms page={page} /> */}</section>
     </>
   )
 }

@@ -17,16 +17,20 @@ const CustomProfiler = ({ data = [], ...props }: any) => {
     const children = resolvePath(component, 'children', null) as any[]
     const Component = (
       components as { [key: string]: (props: any) => JSX.Element }
-    )[component?.moduleName]
+    )[component?.moduleGroup]
     if (!Component) return null
-    console.log({ component })
     return (
       <Component key={component?.componentId} {...{ ...component, ...props }}>
         {!isEmpty(children) &&
           children?.map((child) => (
             <CustomProfiler
               key={child?.componentId}
-              {...{ ...props, moduleName: child?.moduleName, data: [child] }}
+              {...{
+                ...props,
+                moduleName: child?.moduleName,
+                moduleGroup: child?.moduleGroup,
+                data: [child]
+              }}
             />
           ))}
       </Component>
