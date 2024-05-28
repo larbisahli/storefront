@@ -119,17 +119,6 @@ export const layout = {
       },
       {
         layoutBlockId: '36d2b1b9-2514-4168-8181-20e4f32961sd',
-        componentId: 'e6d2b1b9-2514-4168-8181-20e4f32961sd',
-        componentName: 'HomepageCategories',
-        moduleName: 'HomepageCategories',
-        position: 2,
-        data: {
-          contentId: '36d2b1b9-2514-4168-8181-20e4f32961sd',
-          collectionId: 'e6d2b1b9-2514-4168-8181-20e4f32961sd'
-        }
-      },
-      {
-        layoutBlockId: '36d2b1b9-2514-4168-8181-20e4f32961sd',
         componentId: 'e6d2b1b9-251f-4168-8181-20e4f32961sd',
         componentName: 'ProductList',
         moduleName: 'ProductList',

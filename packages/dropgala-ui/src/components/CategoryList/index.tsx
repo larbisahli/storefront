@@ -184,8 +184,14 @@ const CategoryList: React.FC<StoreProps> = ({ useAppSelector, ...props }) => {
                   'relative flex justify-between items-center'
                 )}
               >
-                <Link href={category.link} className="">
-                  <div className="flex flex-col justify-end items-center rounded-t-full">
+                <Link
+                  href={{
+                    pathname: '/category/[slug]',
+                    query: { slug: category.link }
+                  }}
+                  className=""
+                >
+                  <figure className="flex flex-col justify-end items-center rounded-t-full">
                     <div
                       style={{ background: bgColor }}
                       className="rounded-full"
@@ -200,13 +206,17 @@ const CategoryList: React.FC<StoreProps> = ({ useAppSelector, ...props }) => {
                         className="bg-transparent rounded-full"
                       />
                     </div>
-                    <span className="uppercase tracking-wide line-clamp-1 text-xs mt-3 font-semibold">
-                      {category.title}
-                    </span>
-                    <span className="tracking-wide text-xs line-clamp-1">
-                      {category.subTitle}
-                    </span>
-                  </div>
+                    <figcaption>
+                      <span className="uppercase tracking-wide line-clamp-1 text-xs mt-3 font-semibold">
+                        {category.title}
+                      </span>
+                    </figcaption>
+                    <figcaption>
+                      <span className="tracking-wide text-xs line-clamp-1">
+                        {category.subTitle}
+                      </span>
+                    </figcaption>
+                  </figure>
                 </Link>
               </div>
             )

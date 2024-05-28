@@ -29,6 +29,10 @@ module.exports = {
       sm: '640px',
       md: '768px',
       lg: '1024px',
+      mobile: '450px',
+      tablet: '1024px',
+      laptop: '1024px',
+      desktop: '1280px',
       xl: '1200px',
       xxl: '1400px',
       '2xxl': { min: '1601px' },
@@ -73,11 +77,6 @@ module.exports = {
     container: {},
     // ********** Extend **********
     extend: {
-      fontFamily: {
-        body: ["'Inter', sans-serif"],
-        manrope: ["'Manrope', sans-serif"],
-        lato: ['var(--font-inter)', ...fontFamily.sans]
-      },
       screens: {
         '3xl': '1300px',
         '4xl': '1500px'

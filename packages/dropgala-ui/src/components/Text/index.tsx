@@ -2,20 +2,21 @@ import React from 'react'
 import { StoreProps } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
+import { resolvePath } from '@dropgala/utils/helpers'
 
 interface Props extends StoreProps {
   data: any
 }
 
 const Text: React.FC<Props> = ({ useAppSelector, ...props }) => {
-  const { header, text } = props.data ?? {}
+  const { header, description } = resolvePath(props, 'data', {})
+  const styles = resolvePath(props, 'styles', {})
   return (
     <section
       className={cn(
         'relative group my-8',
         'max-w-[933px] mx-auto',
         'flex justify-center items-center flex-col px-2'
-        // bg-yellow-500 lg:bg-black md:bg-orange-500
       )}
     >
       <BuilderPlaceholder
@@ -32,7 +33,7 @@ const Text: React.FC<Props> = ({ useAppSelector, ...props }) => {
         </div>
       )}
       <div className="break-words text-center md:text-lg">
-        <p>{text}</p>
+        <p>{description}</p>
       </div>
     </section>
   )

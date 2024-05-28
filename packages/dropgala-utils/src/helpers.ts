@@ -32,7 +32,8 @@ export const resolvePath = (obj: any, path: string, defaultValue: any) =>
   (path || '')
     .split('.')
     .reduce(
-      (o, p) => (o && o[p] !== undefined ? o[p] : defaultValue),
+      (o, p) =>
+        o && o[p] !== null && o[p] !== undefined ? o[p] : defaultValue,
       obj || {}
     )
 

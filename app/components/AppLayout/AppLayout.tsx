@@ -1,7 +1,15 @@
 import CartDrawer from '@components/CartDrawer'
 import MenuDrawer from '@components/MenuDrawer'
 import cn from 'clsx'
-import { Lato, Mulish, Merriweather, Roboto } from 'next/font/google'
+import {
+  Lato,
+  Signika,
+  Roboto,
+  Jost,
+  Merriweather,
+  Gelasio,
+  Spectral
+} from 'next/font/google'
 import React from 'react'
 import CustomProfiler from '@components/CustomProfiler'
 import { resolvePath } from '@dropgala/utils/helpers'
@@ -14,29 +22,74 @@ interface Props {
   className?: string
 }
 
-// TODO: Try to allow the customers to dynamically choose google fonts they want to use
-const inter = Lato({
-  weight: ['300', '400', '700', '900'],
+const lato = Lato({
+  weight: ['100', '300', '400', '700', '900'],
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-lato',
   display: 'swap'
 })
-// https://nextjs.org/docs/pages/building-your-application/optimizing/fonts#with-tailwind-css
+
+const roboto = Roboto({
+  weight: ['100', '300', '400', '700', '900'],
+  subsets: ['latin'],
+  variable: '--font-roboto',
+  display: 'swap'
+})
+
+const signika = Signika({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-signika',
+  display: 'swap'
+})
+
+const jost = Jost({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
+  variable: '--font-jost',
+  display: 'swap'
+})
+
+const merriweather = Merriweather({
+  weight: ['300', '400', '700', '900'],
+  subsets: ['latin'],
+  variable: '--font-merriweather',
+  display: 'swap'
+})
+
+const gelasio = Gelasio({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-gelasio',
+  display: 'swap'
+})
+
+const spectral = Spectral({
+  weight: ['200', '300', '400', '500', '600', '700', '800'],
+  subsets: ['latin'],
+  variable: '--font-spectral',
+  display: 'swap'
+})
 
 const AppLayout = ({ children, className }: Props) => {
   const { layout } = useAppSelector(selectConfig)
   const headerData = resolvePath(layout, PageLayoutBlocks.Header, {})
   const footerData = resolvePath(layout, PageLayoutBlocks.Footer, {})
   const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
-  console.log({ layout })
   return (
     <div className="relative bg-white">
       <style jsx global>{`
-        html {
-          font-family: ${inter.style.fontFamily};
+        :root {
+          --font-lato: ${lato.style.fontFamily};
+          --font-roboto: ${roboto.style.fontFamily};
+          --font-signika: ${signika.style.fontFamily};
+          --font-jost: ${jost.style.fontFamily};
+          --font-merriweather: ${merriweather.style.fontFamily};
+          --font-gelasio: ${gelasio.style.fontFamily};
+          --font-spectral: ${spectral.style.fontFamily};
         }
-        heading-font {
-          font-family: ${inter.style.fontFamily};
+        html {
+          font-family: ${lato.style.fontFamily};
         }
       `}</style>
       <CustomProfiler data={[headerData]} />

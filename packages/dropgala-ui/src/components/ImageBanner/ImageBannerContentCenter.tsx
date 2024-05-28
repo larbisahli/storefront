@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import useWindowSize from 'hooks/useWindowSize'
 import cn from 'clsx'
 import { Alignment, SectionSize, TextSize } from '@dropgala/types'
+import { getThumbnail } from '@dropgala/utils/helpers'
 
 interface Props extends StoreProps {
   data: any
@@ -16,12 +17,14 @@ const Image = dynamic(() => import('../common/Image'), {
   ssr: false
 })
 
-const ImageBanner: React.FC<Props> = ({ useAppSelector, ...props }) => {
+const ImageBannerContentCenter: React.FC<Props> = ({
+  useAppSelector,
+  ...props
+}) => {
   const { device } = useAppSelector(selectConfig)
   const { width } = useWindowSize()
   const {
-    image,
-    placeholder,
+    thumbnail,
     header,
     text,
     btnLabel,
@@ -36,6 +39,9 @@ const ImageBanner: React.FC<Props> = ({ useAppSelector, ...props }) => {
     borderRadius = 'lg',
     btnLink
   } = props?.data ?? {}
+
+  const { image, placeholder } = getThumbnail(thumbnail)
+
   const radius =
     sectionSize === SectionSize.AUTO
       ? `rounded-${borderRadius}`
@@ -154,4 +160,4 @@ const ImageBanner: React.FC<Props> = ({ useAppSelector, ...props }) => {
   )
 }
 
-export default ImageBanner
+export default ImageBannerContentCenter

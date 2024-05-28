@@ -3,7 +3,7 @@ import cn from 'clsx'
 import React, { MouseEvent } from 'react'
 
 const ButtonVariant = {
-  primary: 'text-white bg-primary hover:bg-primary-hover',
+  primary: 'text-white bg-gray-900 hover:bg-gray-700',
   border: 'border border-solid border-gray-500',
   secondary: 'text-white bg-gray-900 hover:bg-gray-900',
   elevation: 'text-white bg-gray-900 hover:bg-gray-900 shadow-upside'

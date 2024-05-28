@@ -36,7 +36,6 @@ const Image: React.FC<Props> = ({ useAppSelector, ...props }) => {
         sectionSize === SectionSize.FULL && 'max-w-full',
         'flex justify-center items-center flex-col px-2'
       )}
-      style={{ height: `${height}px` }}
     >
       <BuilderPlaceholder
         {...props}

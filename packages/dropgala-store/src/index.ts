@@ -1,4 +1,4 @@
-export * from './Banner'
+export * from './UI'
 export * from './Cart'
 export * from './Checkout'
 export * from './Config'

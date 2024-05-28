@@ -92,14 +92,6 @@ const HeroBanner = {${themePaths?.map(
       false
     )}`
 )}}
-const HomepageCategories = {${themePaths?.map(
-  (themePath) =>
-    `'${[themePath]}': ${dynamicImport(
-      themePath,
-      'HomepageCategories',
-      'HeroBannerPlaceholder'
-    )}`
-)}}
 const ProductCard = {${themePaths?.map(
   (themePath) =>
     `'${[themePath]}': ${dynamicImport(
@@ -287,7 +279,6 @@ components.set(ModuleGroup.FOOTER, Footer);
 components.set(ModuleGroup.MENU_DRAWER, MenuDrawer);
 components.set(ModuleGroup.CART_DRAWER, CartDrawer);
 components.set(ModuleGroup.HERO_BANNER, HeroBanner);
-components.set(ModuleGroup.HOMEPAGE_CATEGORIES, HomepageCategories);
 components.set(ModuleGroup.PRODUCT_CARD, ProductCard);
 components.set(ModuleGroup.PRODUCT_DETAILS, ProductDetails);
 components.set(ModuleGroup.LINKED_PRODUCTS, LinkedProducts);

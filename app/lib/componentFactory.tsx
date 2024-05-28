@@ -57,17 +57,6 @@ const HeroCarousel = {
     ssr: false
   })
 }
-
-const HomepageCategories = {
-  /* __DEFAULT__ */
-  HomepageCategories: dynamic(
-    () => import('@dropgala/ui/components/HomePageCategories'),
-    {
-      loading: () => <HeroBannerPlaceholder />,
-      ssr: true
-    }
-  )
-}
 const ProductCard = {
   /* __DEFAULT__ */
   ProductCard: dynamic(() => import('@dropgala/ui/components/ProductCard'), {
@@ -363,10 +352,43 @@ const Image = {
 }
 const ImageBanner = {
   /* __DEFAULT__ */
-  ImageBanner: dynamic(() => import('@dropgala/ui/components/ImageBanner'), {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  })
+  ImageBannerContentCenter: dynamic(
+    () =>
+      import('@dropgala/ui/components/ImageBanner/ImageBannerContentCenter'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  ImageBannerHeadingCenter: dynamic(
+    () =>
+      import('@dropgala/ui/components/ImageBanner/ImageBannerHeadingCenter'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  ImageBannerHeadingLeft: dynamic(
+    () => import('@dropgala/ui/components/ImageBanner/ImageBannerHeadingLeft'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  ImageBannerHeadingRight: dynamic(
+    () => import('@dropgala/ui/components/ImageBanner/ImageBannerHeadingRight'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  ImageBannerStack: dynamic(
+    () => import('@dropgala/ui/components/ImageBanner/ImageBannerStack'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
 }
 const VideoBanner = {
   /* __DEFAULT__ */
@@ -384,21 +406,21 @@ const Html = {
 }
 const Spacer = {
   /* __DEFAULT__ */
-  Html: dynamic(() => import('@dropgala/ui/components/Spacer'), {
+  Spacer: dynamic(() => import('@dropgala/ui/components/Spacer'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
   })
 }
 const Divider = {
   /* __DEFAULT__ */
-  Html: dynamic(() => import('@dropgala/ui/components/Divider'), {
+  Divider: dynamic(() => import('@dropgala/ui/components/Divider'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
   })
 }
 const Layout = {
   /* __DEFAULT__ */
-  Html: dynamic(() => import('@dropgala/ui/components/Layout'), {
+  Layout: dynamic(() => import('@dropgala/ui/components/Layout'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
   })
@@ -413,7 +435,6 @@ modules.set(ModuleGroup.FOOTER, Footer)
 modules.set(ModuleGroup.MENU_DRAWER, MenuDrawer)
 modules.set(ModuleGroup.CART_DRAWER, CartDrawer)
 modules.set(ModuleGroup.HERO_CAROUSEL, HeroCarousel)
-modules.set(ModuleGroup.HOMEPAGE_CATEGORIES, HomepageCategories)
 modules.set(ModuleGroup.PRODUCT_CARD, ProductCard)
 modules.set(ModuleGroup.PRODUCT_DETAILS, ProductDetails)
 modules.set(ModuleGroup.LINKED_PRODUCTS, LinkedProducts)

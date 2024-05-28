@@ -29,7 +29,6 @@ export const fetchPageLayout = async ({
   })
   if (layoutError) throw { layoutError }
   if (!layout) throw { message: 'Returned value from RPC is undefined' }
-  console.log(JSON.stringify(layout, null, 2))
   return setStoreLayout({
     layout: serializeNestedBuffers(layout)
   } as unknown as { layout: StoreLayoutType })

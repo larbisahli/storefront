@@ -6,7 +6,7 @@ import {
 } from '@reduxjs/toolkit'
 import { createWrapper } from 'next-redux-wrapper'
 
-import BannerReducer from './Banner'
+import UIReducer from './UI'
 import CartReducer from './Cart'
 import CheckoutReducer from './Checkout'
 import ConfigReducer from './Config'
@@ -29,7 +29,7 @@ export function createStore() {
       DrawerReducer,
       ConfigReducer,
       MenuReducer,
-      BannerReducer,
+      UIReducer,
       CategoryReducer,
       BreadcrumbsReducer,
       OfflineReducer,

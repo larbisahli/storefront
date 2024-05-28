@@ -5,7 +5,6 @@ export enum ModuleGroup {
   FOOTER = 'Footer',
   CART_DRAWER = 'CartDrawer',
   MENU_DRAWER = 'MenuDrawer',
-  HOMEPAGE_CATEGORIES = 'HomepageCategories',
   PRODUCT_CARD = 'ProductCard',
   PRODUCT_DETAILS = 'ProductDetails',
   LINKED_PRODUCTS = 'LinkedProducts',

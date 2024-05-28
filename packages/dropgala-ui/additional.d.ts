@@ -51,3 +51,5 @@ declare global {
 
   type EmptyObject = Record<string, never>
 }
+
+declare module 'react-vimeo'

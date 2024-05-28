@@ -25,6 +25,7 @@ import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import React, { useEffect } from 'react'
 import { setCollection } from '@dropgala/store/Collections'
 import { StoreBuilder } from '@dropgala/types'
+import _JSXStyle from 'styled-jsx/style'
 
 interface PageProps {
   pageProps: {
@@ -37,9 +38,8 @@ interface PageProps {
 
 const HomePage = ({ pageProps }: PageProps) => {
   const { host } = pageProps
-  const config = useAppSelector(selectConfig)
   const { layout, language, ...storeConfig } = useAppSelector(selectConfig)
-  console.log({ config })
+  console.log({ layout, language, ...storeConfig })
 
   useEffect(() => {
     if (window.location !== window.parent.location) {
@@ -54,50 +54,52 @@ const HomePage = ({ pageProps }: PageProps) => {
   }, [])
 
   return (
-    <NextSeo
-      title={storeConfig?.storeName}
-      description={storeConfig?.seo?.metaDescription}
-      canonical={`https://${host?.host}`}
-      openGraph={{
-        url: `https://${host?.host}`,
-        title: storeConfig?.seo?.metaTitle,
-        description: storeConfig?.seo?.metaDescription,
-        images: [
+    <>
+      <NextSeo
+        title={storeConfig?.storeName}
+        description={storeConfig?.seo?.metaDescription}
+        canonical={`https://${host?.host}`}
+        openGraph={{
+          url: `https://${host?.host}`,
+          title: storeConfig?.seo?.metaTitle,
+          description: storeConfig?.seo?.metaDescription,
+          images: [
+            {
+              url: !!storeConfig?.seo?.ogImage?.length
+                ? `${mediaURL}/${storeConfig?.seo?.ogImage[0].image}`
+                : '',
+              width: 800,
+              height: 600,
+              alt: 'Og Image Alt',
+              type: 'image/png'
+            }
+          ],
+          siteName: storeConfig?.storeName
+        }}
+        twitter={{
+          handle: storeConfig?.seo?.twitterHandle,
+          site: '@site',
+          cardType: 'summary_large_image'
+        }}
+        additionalLinkTags={[
           {
-            url: !!storeConfig?.seo?.ogImage?.length
-              ? `${mediaURL}/${storeConfig?.seo?.ogImage[0].image}`
-              : '',
-            width: 800,
-            height: 600,
-            alt: 'Og Image Alt',
-            type: 'image/png'
+            rel: 'apple-touch-icon',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_ios_180x180.png`,
+            sizes: '180x180'
+          },
+          {
+            rel: 'icon',
+            type: 'image/png',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_android_36x36.png`,
+            sizes: '36x36'
+          },
+          {
+            rel: 'manifest',
+            href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
           }
-        ],
-        siteName: storeConfig?.storeName
-      }}
-      twitter={{
-        handle: storeConfig?.seo?.twitterHandle,
-        site: '@site',
-        cardType: 'summary_large_image'
-      }}
-      additionalLinkTags={[
-        {
-          rel: 'apple-touch-icon',
-          href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_ios_180x180.png`,
-          sizes: '180x180'
-        },
-        {
-          rel: 'icon',
-          type: 'image/png',
-          href: `${mediaURL}/${storeConfig?.alias}/webmanifest/favicon/icons/icon_android_36x36.png`,
-          sizes: '36x36'
-        },
-        {
-          rel: 'manifest',
-          href: `${mediaURL}/${storeConfig?.alias}/webmanifest/manifest.json`
-        }
-      ]}
-    />
+        ]}
+      />
+    </>
   )
 }
 

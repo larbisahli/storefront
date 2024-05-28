@@ -2,15 +2,26 @@ import React from 'react'
 import { StoreProps } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
+import { resolvePath } from '@dropgala/utils/helpers'
+import _JSXStyle from 'styled-jsx/style'
 
 interface Props extends StoreProps {
   data: any
+  styles: any
 }
 
-const Spacer: React.FC<Props> = ({ ...props }) => {
-  const data = props.data ?? {}
+const Divider: React.FC<Props> = ({ ...props }) => {
+  const {
+    lineStyle = { value: 'solid' },
+    lineThickness = 1,
+    lineColor = '#555',
+    lineWidth = 60,
+    alignment = 'center'
+  } = resolvePath(props, 'styles', {})
+  const dividerWrapperClassName = `divider-wrapper-${props.componentId}`
+  const dividerClassName = `divider-${props.componentId}`
   return (
-    <section className={cn('relative group')}>
+    <section className={cn('relative group max-w-full divider')}>
       <BuilderPlaceholder
         {...props}
         isEdit
@@ -19,8 +30,23 @@ const Spacer: React.FC<Props> = ({ ...props }) => {
         isAddAfter
         isDuplicate
       />
+      <_JSXStyle id={props.componentId}>{`
+          .${dividerWrapperClassName} {
+            display: flex;
+            justify-content: ${alignment};
+          }
+          .${dividerClassName} {
+            border-width: ${lineThickness}px;
+            width: ${lineWidth}%;
+            border-style: ${lineStyle?.value};
+            border-color: ${lineColor};
+          }
+      `}</_JSXStyle>
+      <div className={dividerWrapperClassName}>
+        <div className={dividerClassName}></div>
+      </div>
     </section>
   )
 }
 
-export default Spacer
+export default Divider

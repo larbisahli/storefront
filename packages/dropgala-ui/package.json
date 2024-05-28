@@ -52,20 +52,21 @@
     }
   },
   "peerDependencies": {
+    "@apollo/client": "^3.7.11",
     "@dropgala/assets": "workspace:*",
     "@dropgala/query": "workspace:*",
     "@dropgala/store": "workspace:*",
     "@dropgala/types": "workspace:*",
     "@dropgala/utils": "workspace:*",
-    "@apollo/client": "^3.7.11",
+    "@hookform/resolvers": "^3.1.1",
     "@stripe/react-stripe-js": "^2.4.0",
     "@stripe/stripe-js": "^2.2.1",
-    "@hookform/resolvers": "^3.1.1",
-    "react-hot-toast": "^2.4.1",
     "clsx": "^1.1.1",
     "react": "^18.2.0",
+    "next": "^13.2.4",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.1",
+    "react-hot-toast": "^2.4.1",
     "react-redux": "^8.0.5",
     "swiper": "^11.0.5",
     "yup": "^1.2.0"
@@ -73,22 +74,24 @@
   "dependencies": {
     "@swc/helpers": "^0.4.12",
     "html-react-parser": "^3.0.16",
-    "react-select": "^5.7.3"
+    "react-select": "^5.7.3",
+    "react-vimeo": "^2.0.0",
+    "react-youtube": "^10.1.0"
   },
   "devDependencies": {
+    "@hookform/resolvers": "^3.1.1",
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.3.10",
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.31",
     "@types/react-redux": "^7.1.25",
-    "@hookform/resolvers": "^3.1.1",
-    "yup": "^1.2.0",
     "clsx": "^1.1.1",
     "eslint": "^8.16.0",
     "eslint-config-dropgala": "workspace:*",
     "next": "^13.2.4",
     "react-hook-form": "^7.45.1",
     "react-redux": "^8.0.5",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "yup": "^1.2.0"
   }
 }
