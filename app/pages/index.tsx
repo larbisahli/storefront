@@ -8,7 +8,7 @@ import { getHost } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
-import { mediaURL } from '@dropgala/utils/utils'
+import { builderURL, mediaURL } from '@dropgala/utils/utils'
 import {
   fetchPageLayout,
   fetchStoreConfig,
@@ -48,7 +48,7 @@ const HomePage = ({ pageProps }: PageProps) => {
           source: StoreBuilder.GALA_CMS_BUILDER_PAGE,
           layout: layout
         },
-        'http://localhost:3001'
+        builderURL
       )
     }
   }, [])

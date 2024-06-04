@@ -48,6 +48,10 @@ export const apiURL = PRODUCTION_ENV
   ? 'https://api.dropgala.com'
   : 'http://127.0.0.1:5002'
 
+export const builderURL = PRODUCTION_ENV
+  ? 'https://dropgala.com'
+  : 'http://localhost:3001'
+
 // eslint-disable-next-line no-unused-vars
 export function noop(_: any) {}
 

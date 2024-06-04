@@ -7,6 +7,7 @@ import { SectionSize } from '@dropgala/types'
 import cn from 'clsx'
 import { resolvePath } from '@dropgala/utils/helpers'
 import Link from 'next/link'
+import { handleOverlayStyle } from '@dropgala/utils/styles'
 
 const YouTubeVideo = dynamic(() => import('./YoutubeVideo'), {
   loading: () => <></>,
@@ -27,18 +28,21 @@ const YOUTUBE_FORMAT = /(?:https?\/\/)?www.youtube.com\/watch\?v=([\w-]+)/
 
 const VideoBanner: React.FC<Props> = ({ useAppSelector, ...props }) => {
   const data = resolvePath(props, 'data', {})
-  const { sectionSize } = resolvePath(props, 'styles', {})
+  const styles = resolvePath(props, 'styles', {})
 
   const [, vimeoId] = VIMEO_FORMAT.exec(data.videoUrl) || []
   const [, youtubeId] = YOUTUBE_FORMAT.exec(data.videoUrl) || []
+
+  const videoBannerClass = `video-banner-${props.componentId}`
+  const opacityClassName = `video-banner-opacity-${props.componentId}`
 
   return (
     <section
       className={cn(
         'relative group',
-        sectionSize === SectionSize.AUTO &&
+        styles?.sectionSize === SectionSize.AUTO &&
           'max-w-screen-xl xxl:max-w-[1300px] mx-auto',
-        sectionSize === SectionSize.FULL && 'max-w-full'
+        styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
       <BuilderPlaceholder
@@ -50,28 +54,35 @@ const VideoBanner: React.FC<Props> = ({ useAppSelector, ...props }) => {
         isDuplicate
       />
       <_JSXStyle id={data.contentId}>{`
-          .embedded-video-16-9 {
+          .${videoBannerClass} {
             position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
           }
-          .embedded-video-16-9 iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+          .${opacityClassName} {
+            ${handleOverlayStyle(styles?.overlay, styles?.border)}
           }
-
-      `}</_JSXStyle>
+          `}</_JSXStyle>
       <div
         className={cn(
           'relative bg-gray-100',
           !data?.displayContent && 'pointer-events-none'
         )}
       >
-        {vimeoId && <VimeoVideo videoId={vimeoId} data={data} />}
-        {youtubeId && <YouTubeVideo videoId={youtubeId} data={data} />}
+        <div className={opacityClassName}></div>
+        {vimeoId && (
+          <VimeoVideo
+            videoId={vimeoId}
+            data={data}
+            componentId={props.componentId}
+          />
+        )}
+        {youtubeId && (
+          <YouTubeVideo
+            videoId={youtubeId}
+            data={data}
+            styles={styles}
+            componentId={props.componentId}
+          />
+        )}
         {data?.displayContent && (
           <div
             className={cn(

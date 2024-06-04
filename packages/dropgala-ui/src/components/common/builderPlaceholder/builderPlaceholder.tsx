@@ -5,6 +5,7 @@ import DuplicateIcon from '@dropgala/assets/icons/copy'
 import { StoreBuilder, StoreBuilderActions } from '@dropgala/types'
 import { memo, useEffect, useState } from 'react'
 import cn from 'clsx'
+import { builderURL } from '@dropgala/utils/utils'
 
 const PlaceholderBlock = (props: any) => {
   const [adminSelectedBlock, SetAdminSelectedBlock] = useState({
@@ -15,6 +16,7 @@ const PlaceholderBlock = (props: any) => {
     props.componentId === adminSelectedBlock?.componentId
 
   useEffect(() => {
+    // TODO: Add hight level listerner with redux
     window.addEventListener(
       'message',
       (event) => {
@@ -36,7 +38,7 @@ const PlaceholderBlock = (props: any) => {
         position: props.position,
         actionType
       },
-      'http://localhost:3001'
+      builderURL
     )
   }
 

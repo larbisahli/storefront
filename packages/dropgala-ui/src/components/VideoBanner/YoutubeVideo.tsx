@@ -1,12 +1,22 @@
 import React from 'react'
 import YouTube from 'react-youtube'
+import cn from 'clsx'
+import _JSXStyle from 'styled-jsx/style'
+import { handleBorderStyle } from '@dropgala/utils/styles'
 
 interface Props {
   videoId: string
   data: any
+  styles: any
+  componentId: string
 }
 
-const YoutubeVideo: React.FC<Props> = ({ videoId, data }) => {
+const YoutubeVideo: React.FC<Props> = ({
+  videoId,
+  data,
+  styles,
+  componentId
+}) => {
   const opts = {
     width: '100%',
     height: '100%',
@@ -17,12 +27,33 @@ const YoutubeVideo: React.FC<Props> = ({ videoId, data }) => {
       mute: Number(data?.mute)
     }
   }
+
+  const embeddedClassName = `embedded-video-16-9-${componentId}`
+
   return (
-    <YouTube
-      videoId={videoId}
-      className="w-full h-full embedded-video-16-9"
-      opts={opts}
-    />
+    <>
+      <_JSXStyle id={`youtube-${data.contentId}`}>{`
+          .${embeddedClassName} {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+          }
+          .${embeddedClassName} iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            ${handleBorderStyle(styles?.border)}
+          }
+
+      `}</_JSXStyle>
+      <YouTube
+        videoId={videoId}
+        className={cn('w-full h-full', embeddedClassName)}
+        opts={opts}
+      />
+    </>
   )
 }
 

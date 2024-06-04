@@ -6,6 +6,7 @@ import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import {
+  fetchPageLayout,
   fetchStoreConfig,
   fetchStoreLanguage,
   fetchStoreMenu
@@ -19,6 +20,7 @@ import Breadcrumb from '@components/Breadcrumb'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
+import { useRouter } from 'next/router'
 
 interface PageProps {
   pageProps: {
@@ -27,18 +29,23 @@ interface PageProps {
   }
 }
 
-const AboutUsPage = ({ pageProps }: PageProps) => {
+const Page = ({ pageProps }: PageProps) => {
   const storeConfig = useAppSelector(selectConfig)
-  const { host, page } = pageProps
+  const { host } = pageProps
+  const {
+    query: { slug }
+  } = useRouter()
+  console.log('Page :>>', { storeConfig, slug })
 
+  const page = {}
   return (
     <>
       <NextSeo
         title={page?.name}
         description={page?.metaDescription}
-        canonical={`https://${host?.host}/about-us`}
+        canonical={`https://${host?.host}/${slug}`}
         openGraph={{
-          url: `https://${host?.host}/about-us`,
+          url: `https://${host?.host}/${slug}`,
           title: page?.metaTitle,
           description: page?.metaDescription,
           images: [
@@ -78,26 +85,28 @@ const AboutUsPage = ({ pageProps }: PageProps) => {
         ]}
       />
       <section className="mb-5">
-        <div className="">
+        {/* <div className="">
           <Breadcrumb breadcrumbs={[]} name={page.name} />
-        </div>
+        </div> */}
       </section>
       <section className="mb-44">{/* <PageCms page={page} /> */}</section>
     </>
   )
 }
 
-AboutUsPage.Layout = AppLayout
+Page.Layout = AppLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
-    const { req, res, locale } = context
+    const { req, res, locale, params } = context
     const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
 
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
     const storeId = undefined
+
+    const slug = params?.slug as string
 
     try {
       if (!alias) {
@@ -130,6 +139,7 @@ export const getServerSideProps: GetServerSideProps =
       // Get current store language id for resource request
       const storeLanguageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
+      const templateId = ConfigReducer.templateId as string
 
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
@@ -149,18 +159,20 @@ export const getServerSideProps: GetServerSideProps =
         }
       }
 
-      // Page Query
-      const page = await fetchStorePage(
-        alias,
-        storeLanguageId,
-        'about-us',
-        storeId
+      store.dispatch(
+        await fetchPageLayout({
+          alias,
+          page: slug,
+          templateId,
+          storeLanguageId,
+          isCustom: true,
+          storeId
+        })
       )
 
       return {
         props: {
-          host: { host, alias },
-          page
+          host: { host, alias }
         }
       }
     } catch (error) {
@@ -171,4 +183,4 @@ export const getServerSideProps: GetServerSideProps =
     }
   })
 
-export default AboutUsPage
+export default Page

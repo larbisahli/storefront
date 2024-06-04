@@ -38,7 +38,8 @@ export enum ModuleGroup {
   HERO_CAROUSEL = 'HeroCarousel',
   SPACER = 'Spacer',
   DIVIDER = 'Divider',
-  LAYOUT = 'Layout'
+  BUTTON = 'Button',
+  EDITORIAL_TEXT = 'EditorialText'
 }
 
 export enum BreadcrumbComponents {
@@ -136,6 +137,7 @@ export enum ThunkStatus {
 
 export enum StoreBuilder {
   GALA_CMS_BUILDER = 'gala-cms-builder',
+  GALA_CMS_BUILDER_LIBRARY = 'gala-cms-builder-library',
   GALA_CMS_BUILDER_PAGE = 'gala-cms-builder-page',
   GALA_HOMEPAGE = 'gala-cms-builder-homepage'
 }

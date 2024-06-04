@@ -418,12 +418,46 @@ const Divider = {
     ssr: true
   })
 }
-const Layout = {
+const Button = {
   /* __DEFAULT__ */
-  Layout: dynamic(() => import('@dropgala/ui/components/Layout'), {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  })
+  ButtonPrimary: dynamic(
+    () => import('@dropgala/ui/components/Button/ButtonPrimary'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  ButtonOutline: dynamic(
+    () => import('@dropgala/ui/components/Button/ButtonOutline'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  ButtonPrimaryRounded: dynamic(
+    () => import('@dropgala/ui/components/Button/ButtonPrimaryRounded'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  ButtonOutlineRounded: dynamic(
+    () => import('@dropgala/ui/components/Button/ButtonOutlineRounded'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const EditorialText = {
+  /* __DEFAULT__ */
+  EditorialText: dynamic(
+    () => import('@dropgala/ui/components/EditorialText'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
 }
 
 const modules = new Map<
@@ -467,7 +501,8 @@ modules.set(ModuleGroup.VIDEO_BANNER, VideoBanner)
 modules.set(ModuleGroup.HTML, Html)
 modules.set(ModuleGroup.SPACER, Spacer)
 modules.set(ModuleGroup.DIVIDER, Divider)
-modules.set(ModuleGroup.LAYOUT, Layout)
+modules.set(ModuleGroup.BUTTON, Button)
+modules.set(ModuleGroup.EDITORIAL_TEXT, EditorialText)
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[] | Element | null

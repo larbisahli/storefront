@@ -5,11 +5,12 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import useWindowSize from 'hooks/useWindowSize'
 import cn from 'clsx'
-import { Alignment, SectionSize, TextSize } from '@dropgala/types'
-import { getThumbnail } from '@dropgala/utils/helpers'
+import { Alignment, ModuleGroup, SectionSize, TextSize } from '@dropgala/types'
+import { getComponentFromChildren, getThumbnail } from '@dropgala/utils/helpers'
 
 interface Props extends StoreProps {
   data: any
+  children: JSX.Element[]
 }
 
 const Image = dynamic(() => import('../common/Image'), {
@@ -19,6 +20,7 @@ const Image = dynamic(() => import('../common/Image'), {
 
 const ImageBannerContentCenter: React.FC<Props> = ({
   useAppSelector,
+  children,
   ...props
 }) => {
   const { device } = useAppSelector(selectConfig)
@@ -27,17 +29,15 @@ const ImageBannerContentCenter: React.FC<Props> = ({
     thumbnail,
     header,
     text,
-    btnLabel,
+    buttonLabel,
+    buttonLink,
     sectionSize,
     headerSize,
     contentAlignment,
     headerColor,
     textColor,
-    btnBgColor,
-    btnTextColor,
     objectFit = 'cover',
-    borderRadius = 'lg',
-    btnLink
+    borderRadius = 'lg'
   } = props?.data ?? {}
 
   const { image, placeholder } = getThumbnail(thumbnail)
@@ -46,6 +46,12 @@ const ImageBannerContentCenter: React.FC<Props> = ({
     sectionSize === SectionSize.AUTO
       ? `rounded-${borderRadius}`
       : `rounded-none`
+
+  const renderButton = () => {
+    const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
+    if (!Button) return null
+    return React.cloneElement(Button, { label: buttonLabel })
+  }
   return (
     <section
       className={cn(
@@ -137,22 +143,7 @@ const ImageBannerContentCenter: React.FC<Props> = ({
             >
               {text}
             </p>
-            {btnLabel && (
-              <Link
-                href={btnLink ?? '/'}
-                className={cn(
-                  'h-[45px] w-fit mt-2 text-sm inline-flex items-center justify-center transition duration-300 uppercase leading-4',
-                  'rounded-sm px-6 py-2 font-semibold bg-skin-inverted text-skin-base hover:text-skin-inverted hover:bg-skin-primary'
-                )}
-                style={{
-                  color: btnTextColor ?? '#222',
-                  background: btnBgColor ?? '#fff'
-                }}
-                target="_blank"
-              >
-                {btnLabel}
-              </Link>
-            )}
+            {buttonLabel && <Link href={buttonLink}>{renderButton()}</Link>}
           </div>
         </div>
       </div>

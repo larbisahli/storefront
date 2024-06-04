@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const Layout = (props: Props) =>
-  componentFactory(props?.moduleName, ModuleGroup.LAYOUT, props)
+const EditorialText = (props: Props) =>
+  componentFactory(props?.moduleName, ModuleGroup.EDITORIAL_TEXT, props)
 
-export default Layout
+export default EditorialText

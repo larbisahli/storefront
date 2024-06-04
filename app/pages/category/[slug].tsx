@@ -16,7 +16,7 @@ import CategoryList from '@components/CategoryList'
 import ProductCard from '@components/ProductCard'
 import Pagination from '@components/Pagination'
 import Miscellaneous from '@components/Miscellaneous'
-import { ProductCardLayout } from '@dropgala/types'
+import { PageLayoutBlocks, ProductCardLayout } from '@dropgala/types'
 import cn from 'clsx'
 import { useRouter } from 'next/router'
 import {
@@ -34,6 +34,7 @@ import { fetchClientCart } from '@gRPC/handlers/checkout'
 import { setCollection } from '@dropgala/store/Collections'
 import { selectCategory, setCategory } from '@dropgala/store/Category'
 import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
+import { resolvePath } from '@dropgala/utils/helpers'
 
 interface PageProps {
   pageProps: {
@@ -48,6 +49,8 @@ interface PageProps {
 
 export default function ProductPage({ pageProps }: PageProps) {
   const storeConfig = useAppSelector(selectConfig)
+  const { layout } = storeConfig
+  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
 
   const {
     query: { slug, page = 1 }

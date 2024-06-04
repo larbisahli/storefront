@@ -27,6 +27,8 @@ import { useRouter } from 'next/router'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
+import { resolvePath } from '@dropgala/utils/helpers'
+import { PageLayoutBlocks } from '@dropgala/types'
 
 interface PageProps {
   pageProps: {
@@ -42,10 +44,14 @@ export default function ProductPage({ pageProps }: PageProps) {
   const {
     query: { slug = null }
   } = useRouter()
-  const storeConfig = useAppSelector(selectConfig)
   const dispatch = useDispatch()
 
+  const storeConfig = useAppSelector(selectConfig)
+  const { layout } = storeConfig
+
   const { host, product = {} } = pageProps
+
+  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
 
   console.log({ product })
 

@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react'
-import { StoreProps, addFontFamily, selectConfig } from '@dropgala/store'
+import React from 'react'
+import { StoreProps, selectConfig } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
-import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import useWindowSize from 'hooks/useWindowSize'
 import cn from 'clsx'
-import { Alignment, SectionSize, TextSize } from '@dropgala/types'
-import { getThumbnail, resolvePath } from '@dropgala/utils/helpers'
+import { ModuleGroup, SectionSize } from '@dropgala/types'
+import {
+  getComponentFromChildren,
+  getThumbnail,
+  resolvePath
+} from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
-import Button from '../ui/Button'
+import {
+  handleBorderStyle,
+  handleTypographyStyle
+} from '@dropgala/utils/styles'
+import Link from 'next/link'
 
 const NextImage = dynamic(() => import('../common/Image'), {
   loading: () => <></>,
@@ -17,6 +23,7 @@ const NextImage = dynamic(() => import('../common/Image'), {
 
 interface Props extends StoreProps {
   data: any
+  children: JSX.Element[]
 }
 
 const Image = dynamic(() => import('../common/Image'), {
@@ -24,15 +31,16 @@ const Image = dynamic(() => import('../common/Image'), {
   ssr: false
 })
 
-const ImageBannerStack: React.FC<Props> = ({ useAppSelector, ...props }) => {
+const ImageBannerStack: React.FC<Props> = ({
+  useAppSelector,
+  children,
+  ...props
+}) => {
   const { device } = useAppSelector(selectConfig)
   // const { width } = useWindowSize()
 
-  const { header, description, thumbnail, buttonLabel } = resolvePath(
-    props,
-    'data',
-    {}
-  )
+  const { header, description, thumbnail, buttonLabel, buttonLink } =
+    resolvePath(props, 'data', {})
   const {
     header: headerStyle,
     description: descriptionStyle,
@@ -48,22 +56,10 @@ const ImageBannerStack: React.FC<Props> = ({ useAppSelector, ...props }) => {
   const imageBorderWrapperClassName = `image-wrapper-${props.componentId}`
   const imageBorderClassName = `image-${props.componentId}`
 
-  const handleBorderStyle = (border: string) => {
-    if (border === 'all') {
-      return `border: ${imageBorder?.borderWidth}px ${imageBorder?.borderStyle?.value} ${imageBorder?.borderColor};`
-    }
-    if (border === 'top') {
-      return `border-top: ${imageBorder?.borderWidth}px ${imageBorder?.borderStyle?.value} ${imageBorder?.borderColor};`
-    }
-    if (border === 'left') {
-      return `border-left: ${imageBorder?.borderWidth}px ${imageBorder?.borderStyle?.value} ${imageBorder?.borderColor};`
-    }
-    if (border === 'right') {
-      return `border-right: ${imageBorder?.borderWidth}px ${imageBorder?.borderStyle?.value} ${imageBorder?.borderColor};`
-    }
-    if (border === 'bottom') {
-      return `border-bottom: ${imageBorder?.borderWidth}px ${imageBorder?.borderStyle?.value} ${imageBorder?.borderColor};`
-    }
+  const renderButton = () => {
+    const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
+    if (!Button) return null
+    return React.cloneElement(Button, { label: buttonLabel })
   }
 
   return (
@@ -85,42 +81,23 @@ const ImageBannerStack: React.FC<Props> = ({ useAppSelector, ...props }) => {
       />
       <_JSXStyle id={props.componentId}>{`
           .${headerClassName} {
-            font-family: var(${headerStyle?.fontFamily?.value});
-            font-size: ${headerStyle?.fontSize}px;
-            font-style: ${headerStyle?.fontStyle};
-            font-weight: ${headerStyle?.fontWeight?.value};
-            color: ${headerStyle?.color};
-            letter-spacing: ${headerStyle?.letterSpacing}px;
-            line-height: ${headerStyle?.lineHeight}px;
-            text-align: ${headerStyle?.textAlign};
-            text-decoration: ${headerStyle?.textDecoration};
-            text-transform: ${headerStyle?.textTransform};
+            ${handleTypographyStyle(headerStyle)}
           }
           .${descriptionClassName} {
-            font-family: var(${descriptionStyle?.fontFamily?.value});
-            font-size: ${descriptionStyle?.fontSize}px;
-            font-style: ${descriptionStyle?.fontStyle};
-            font-weight: ${descriptionStyle?.fontWeight?.value};
-            color: ${descriptionStyle?.color};
-            letter-spacing: ${descriptionStyle?.letterSpacing}px;
-            line-height: ${descriptionStyle?.lineHeight}px;
-            text-align: ${descriptionStyle?.textAlign};
-            text-decoration: ${descriptionStyle?.textDecoration};
-            text-transform: ${descriptionStyle?.textTransform};
+            ${handleTypographyStyle(descriptionStyle)}
           }
           .${imageBorderWrapperClassName} {
-            border-radius: ${imageBorder?.borderRadius}px;
-            ${handleBorderStyle(imageBorder?.border)}
+            ${handleBorderStyle(imageBorder)}
           }
           .${imageBorderClassName} {
             border-radius: ${imageBorder?.borderRadius}px;
           }
       `}</_JSXStyle>
       <div className={cn('lg:p-8 p-4 !px-0')}>
-        <div className={cn('flex fle justify-center items-center flex-col')}>
+        <div className={cn('flex justify-center items-center flex-col')}>
           <div
             className={cn(
-              'w-full mb-5 lg:mb-0 flex flex-col items-center justify-center'
+              'w-full mb-5 lg:mb-0 flex flex-col items-center justify-center desktop:max-w-[70%] tablet:max-w-[60%] max-w-[95%]'
             )}
           >
             <h3 className={cn('mb-5', headerClassName)}>{header}</h3>
@@ -128,7 +105,7 @@ const ImageBannerStack: React.FC<Props> = ({ useAppSelector, ...props }) => {
               {description}
             </p>
             <div className={cn('flex justify-center')}>
-              <Button>{buttonLabel}</Button>
+              {buttonLabel && <Link href={buttonLink}>{renderButton()}</Link>}
             </div>
           </div>
           <div className={cn('w-full mt-8 flex justify-center')}>

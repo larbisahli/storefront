@@ -9,7 +9,7 @@ import React from 'react'
  * */
 export const getComponentFromChildren = (
   ChildComponents: JSX.Element[],
-  moduleName: string
+  moduleGroup: string
 ) => {
   if (isEmpty(ChildComponents)) {
     return null
@@ -17,7 +17,7 @@ export const getComponentFromChildren = (
   return ChildComponents?.find(
     (component) =>
       React.isValidElement(component) &&
-      (component?.props as { moduleName: string })?.moduleName === moduleName
+      (component?.props as { moduleGroup: string })?.moduleGroup === moduleGroup
   )
 }
 
