@@ -151,7 +151,7 @@ const CategoryList: React.FC<StoreProps> = ({ useAppSelector, ...props }) => {
   const header = 'Featured Category'
   const bgColor = '#bfe6ff'
   return (
-    <section className="relative group max-w-screen-xl xxl:max-w-[1300px] mx-auto my-12">
+    <section className="relative group max-w-default mx-auto my-12">
       <BuilderPlaceholder
         {...props}
         isEdit
@@ -170,8 +170,8 @@ const CategoryList: React.FC<StoreProps> = ({ useAppSelector, ...props }) => {
       <div className="w-full">
         <div
           className={cn(
-            'grid w-fit mx-auto gap-5 grid-cols-2 ',
-            'sm:grid-cols-3 lg:grid-cols-6 md:grid-cols-4 lg:w-full'
+            'grid w-fit mx-auto gap-5 mobile:grid-cols-2 ',
+            'tablet:grid-cols-3 grid-cols-6 laptop:grid-cols-4 desktop:w-full'
           )}
         >
           {categories?.map((category, idx) => {

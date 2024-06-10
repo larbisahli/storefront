@@ -114,3 +114,32 @@ export interface PageBuilderStyles {
     overlayColor: string
   }
 }
+
+export type ThemeSettingsType = {
+  fontFamily: { value: string }
+  primaryColor: string
+  primaryHoverColor: string
+  textColor: string
+  background: string
+  modalBackground: string
+  alertBackground: string
+  primaryButtonTextColor: string
+  primaryButtonTextHoverColor: string
+  primaryButtonBackground: string
+  primaryButtonHoverBackground: string
+  primaryButtonBorder: string
+  primaryButtonBorderHover: string
+  secondaryButtonTextColor: string
+  secondaryButtonTextHoverColor: string
+  secondaryButtonBackground: string
+  secondaryButtonHoverBackground: string
+  secondaryButtonBorder: string
+  secondaryButtonBorderHover: string
+  checkboxIconColor: string
+  checkboxBackground: string
+  checkboxBorder: string
+  loadingBarColor: string
+  barLightHalfColor: string
+  barDarkHalfColor: string
+  modalLoadingBackground: string
+}

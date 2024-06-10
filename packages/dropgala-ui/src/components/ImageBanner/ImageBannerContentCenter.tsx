@@ -56,8 +56,7 @@ const ImageBannerContentCenter: React.FC<Props> = ({
     <section
       className={cn(
         'relative group mb-8',
-        sectionSize === SectionSize.AUTO &&
-          'max-w-screen-xl xxl:max-w-[1300px] mx-auto',
+        sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >

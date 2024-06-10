@@ -13,6 +13,7 @@ import StarIcon from '@dropgala/assets/icons/star'
 import { getIsRTL } from '@dropgala/utils/get-direction'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { getThumbnail } from '@dropgala/utils/helpers'
+import LibraryPlaceholder from '../common/libraryPlaceholder'
 
 interface ProductProps extends StoreProps {
   product: ProductType
@@ -26,7 +27,8 @@ const ProductCard: React.FC<ProductProps> = ({
   layout,
   className,
   carousel = false,
-  useAppSelector
+  useAppSelector,
+  ...props
 }) => {
   const config = useAppSelector(selectConfig)
   const { __ } = useTranslation(config.language, 'common')
@@ -124,8 +126,9 @@ const ProductCard: React.FC<ProductProps> = ({
         pathname: '/product/[slug]',
         query: { slug }
       }}
-      className="lg:mx-0 mx-auto"
+      className={cn('lg:mx-0 mx-auto', 'relative group/library')}
     >
+      <LibraryPlaceholder {...props} isEdit />
       <div
         className={cn(
           'flex border-transparent w-fit group rounded-md cursor-pointer lg:hover:shadow-cardHover hover:border border-solid transition-all duration-300 relative',

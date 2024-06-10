@@ -19,8 +19,7 @@ const Html: React.FC<Props> = ({ useAppSelector, ...props }) => {
     <section
       className={cn(
         'relative group',
-        sectionSize === SectionSize.AUTO &&
-          'max-w-screen-xl xxl:max-w-[1300px] mx-auto',
+        sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >

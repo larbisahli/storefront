@@ -1,4 +1,3 @@
-const { fontFamily } = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
 
 function withOpacity(variableName) {
@@ -7,6 +6,12 @@ function withOpacity(variableName) {
       return `rgba(var(${variableName}), ${opacityValue})`
     }
     return `rgba(var(${variableName}))`
+  }
+}
+
+function variable(variableName) {
+  return ({ opacityValue }) => {
+    return `var(${variableName})`
   }
 }
 
@@ -25,24 +30,11 @@ module.exports = {
   mode: 'jit',
   theme: {
     screens: {
-      xs: '450px',
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      mobile: '450px',
-      tablet: '1024px',
-      laptop: '1024px',
-      desktop: '1280px',
-      xl: '1200px',
-      xxl: '1400px',
-      '2xxl': { min: '1601px' },
-      'xxl-only': { min: '1400px', max: '1600px' },
-      large: { min: '2100px' }
+      mobile: { min: '320px', max: '480px' },
+      tablet: { min: '481px', max: '810px' },
+      laptop: { min: '811px', max: '1024px' },
+      desktop: { min: '1025px' }
     },
-    // fontFamily: {
-    //   mulish: ['var(--font-inter)', ...fontFamily.mulish],
-    //   open: ['Open Sans']
-    // },
     boxShadow: {
       card: '0px 0px 6px rgba(79, 95, 120, 0.1)',
       badge: '0px 0px 4px rgba(79, 95, 90, 0.04)',
@@ -77,10 +69,6 @@ module.exports = {
     container: {},
     // ********** Extend **********
     extend: {
-      screens: {
-        '3xl': '1300px',
-        '4xl': '1500px'
-      },
       fontSize: {
         '10px': '.625rem',
         '11px': '11px',
@@ -101,40 +89,42 @@ module.exports = {
       },
       textColor: {
         skin: {
-          primary: withOpacity('--color-primary'),
-          red: withOpacity('--color-red'),
-          carnation: withOpacity('--color-carnation'),
-          base: withOpacity('--color-text-base'),
-          inverted: withOpacity('--color-text-inverted'),
-          muted: withOpacity('--color-text-muted'),
-          extraMuted: withOpacity('--color-text-extra-muted'),
-          secondary: withOpacity('--color-text-secondary'),
-          countdown: withOpacity('--color-text-countdown')
+          base: withOpacity('--text-color'),
+          'primary-button': variable('--primary-button-text-color'),
+          'primary-button-hover': variable('--primary-button-text-hover-color'),
+          'secondary-button': variable('--secondary-button-text-color'),
+          'secondary-button-hover': variable(
+            '--secondary-button-text-hover-color'
+          ),
+          checkbox: variable('--checkbox-icon-color')
         }
       },
       backgroundColor: {
         skin: {
-          primary: withOpacity('--color-primary'),
-          fill: withOpacity('--color-fill'),
-          thumbnail: withOpacity('--color-fill-thumbnail'),
-          'black-rgba-6': 'rgba(0,0,0,0.6)',
-          'red-rgba-6': 'rgba(250,99,56,0.8)'
+          background: variable('--background-color'),
+          modal: variable('--modal-background-color'),
+          alert: variable('--alert-background-color'),
+          'primary-button': variable('--primary-button-background-color'),
+          'primary-button-hover': variable(
+            '--primary-button-background-hover-color'
+          ),
+          'secondary-button': variable('--secondary-button-background-color'),
+          'secondary-button-hover': variable(
+            '--secondary-button-background-hover-color'
+          ),
+          checkbox: variable('--checkbox-background-color'),
+          'loading-bar': variable('--loading-bar-color'),
+          'bar-light-half': variable('--bar-light-half-color'),
+          'bar-dark-half': variable('--bar-dark-half-color'),
+          'modal-loading': variable('--modal-loading-background-color')
         }
       },
       colors: {
-        green: '#209F85',
-        'green-hover': '#1E957C',
-        'green-light': 'rgba(32,159,133, 0.3)',
-        'gray-f7': '#f7f7f7',
-        'gray-3a': '#3a3a3a',
-        'light-yellow': '#feeec8',
-        'light-blue': '#ceeffe',
-        'light-green': '#d4f8c4',
-        'light-purple': '#d8dafe',
+        primary: variable('--primary-color'),
+        'primary-hover': variable('--primary-hover-color'),
         error: '#ff5b60',
         overlay: 'rgba(0,0,0,0.7)',
         dark: '#212121',
-
         gray: {
           100: '#f9f9f9',
           200: '#f3f3f3', // Light BG
@@ -165,8 +155,7 @@ module.exports = {
       },
       maxWidth: {
         half: '50%',
-        default: '1300px',
-        large: '1500px'
+        default: '1300px'
       },
       maxHeight: {
         '650px': '650px'
@@ -248,8 +237,15 @@ module.exports = {
         ...theme('colors'),
         default: theme('colors.gray.200', 'currentColor'),
         skin: {
-          primary: withOpacity('--color-border-primary'),
-          base: withOpacity('--color-border-base')
+          'primary-button': variable('--primary-button-border-color'),
+          'primary-button-hover': variable(
+            '--primary-button-border-hover-color'
+          ),
+          'secondary-button': variable('--secondary-button-border-color'),
+          'secondary-button-hover': variable(
+            '--secondary-button-border-hover-color'
+          ),
+          checkbox: variable('--checkbox-border-color')
         }
       }),
       transitionDuration: {

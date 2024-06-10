@@ -6,16 +6,18 @@ import Link from '../common/Link'
 import { selectBreadcrumbs } from '@dropgala/store/Breadcrumbs'
 import { StoreProps } from '@dropgala/store'
 import { cloneDeep } from '@dropgala/utils/lodashFunctions'
+import LibraryPlaceholder from '../common/libraryPlaceholder'
 
 interface Props extends StoreProps {
   data: any
 }
 
-const Breadcrumb: React.FC<Props> = ({ useAppSelector }) => {
+const Breadcrumb: React.FC<Props> = ({ useAppSelector, ...props }) => {
   const state = useAppSelector(selectBreadcrumbs)
   const breadcrumbs = cloneDeep(state.breadcrumbs)
   return (
-    <section className="mt-14 py-3 items-center text-xs text-gray-700 mb-4 hidden lg:flex">
+    <section className="relative group/library max-w-default mx-auto mt-14 py-3 items-center text-xs text-gray-700 mb-4 hidden desktop:flex">
+      <LibraryPlaceholder {...props} isEdit />
       <Link href={ROUTES.HOME}>
         <div className="flex items-center hover:text-rose-500 cursor-pointer">
           <div className="mr-1.5 text-skin-base text-xs">

@@ -28,8 +28,7 @@ const CheckoutLayout = ({ children, className }: Props) => {
       <CheckoutHeader />
       <main
         className={cn(
-          'h-[450px]',
-          'max-w-screen-xl xxl:max-w-[1300px] mx-auto',
+          'max-w-default mx-auto',
           'relative flex-grow h-full w-full',
           className
         )}

@@ -110,6 +110,7 @@ export const calcPercentage = (
 export function serializeNestedBuffers(obj: any) {
   // Clone the object to avoid modifying the original
   const newObj = { ...obj }
+
   // Recursive function to traverse nested objects
   function traverse(obj: any) {
     for (const key in obj) {
@@ -119,7 +120,10 @@ export function serializeNestedBuffers(obj: any) {
           // Check for empty buffer
           if (value.length) {
             // Convert the buffer to a base64 string
-            obj[key] = JSON.parse(value as unknown as string)
+            // Decode the base64 string back to JSON
+            // @ts-ignore
+            const decodedValue = Buffer.from(value, 'base64').toString('utf-8')
+            obj[key] = JSON.parse(decodedValue)
           } else {
             obj[key] = {}
           }

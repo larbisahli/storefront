@@ -1,4 +1,4 @@
-import { PageBuilderStyles } from '@dropgala/types'
+import { PageBuilderStyles, ThemeSettingsType } from '@dropgala/types'
 
 const handleBorderWidth = (border: PageBuilderStyles['Border']) => {
   if (!border) return ''
@@ -43,10 +43,60 @@ export const handleTypographyStyle = (
   typography: PageBuilderStyles['Typography']
 ) => {
   if (!typography) return ''
-  return `font-family: var(${typography?.fontFamily?.value});font-size: ${typography?.fontSize}px;font-style: ${typography?.fontStyle};font-weight: ${typography?.fontWeight?.value};color: ${typography?.color};letter-spacing: ${typography?.letterSpacing}px;line-height: ${typography?.lineHeight}px;text-align: ${typography?.textAlign};text-decoration: ${typography?.textDecoration};text-transform: ${typography?.textTransform};`
+  return `
+    font-family: var(${typography?.fontFamily?.value});
+    font-size: ${typography?.fontSize}px;
+    font-style: ${typography?.fontStyle};
+    font-weight: ${typography?.fontWeight?.value};
+    color: ${typography?.color};
+    letter-spacing: ${typography?.letterSpacing}px;
+    line-height: ${typography?.lineHeight}px;
+    text-align: ${typography?.textAlign};
+    text-decoration: ${typography?.textDecoration};
+    text-transform: ${typography?.textTransform};
+  `.trim()
 }
 
 export const handleSpacingStyle = (spacing: PageBuilderStyles['Spacing']) => {
   if (!spacing) return ''
   return ``
+}
+
+export const handleThemeSettingsDefaults = (settings: ThemeSettingsType) => {
+  if (!settings) return ''
+  return `
+  font-family: var(${settings?.fontFamily?.value});
+  background: var(--background-color);
+  `
+}
+
+export const handleThemeSettingsVariables = (settings: ThemeSettingsType) => {
+  if (!settings) return ''
+  return `
+    --primary-color: ${settings.primaryColor};
+    --primary-hover-color: ${settings.primaryHoverColor};
+    --text-color: ${settings.textColor};
+    --background-color: ${settings.background};
+    --modal-background-color: ${settings.modalBackground};
+    --alert-background-color: ${settings.alertBackground};
+    --primary-button-text-color: ${settings.primaryButtonTextColor};
+    --primary-button-text-hover-color: ${settings.primaryButtonTextHoverColor};
+    --primary-button-background-color: ${settings.primaryButtonBackground};
+    --primary-button-background-hover-color: ${settings.primaryButtonHoverBackground};
+    --primary-button-border-color: ${settings.primaryButtonBorder};
+    --primary-button-border-hover-color: ${settings.primaryButtonBorderHover};
+    --secondary-button-text-color: ${settings.secondaryButtonTextColor};
+    --secondary-button-text-hover-color: ${settings.secondaryButtonTextHoverColor};
+    --secondary-button-background-color: ${settings.secondaryButtonBackground};
+    --secondary-button-background-hover-color: ${settings.secondaryButtonHoverBackground};
+    --secondary-button-border-color: ${settings.secondaryButtonBorder};
+    --secondary-button-border-hover-color: ${settings.secondaryButtonBorderHover};
+    --checkbox-icon-color: ${settings.checkboxIconColor};
+    --checkbox-background-color: ${settings.checkboxBackground};
+    --checkbox-border-color: ${settings.checkboxBorder};
+    --loading-bar-color: ${settings.loadingBarColor};
+    --bar-light-half-color: ${settings.barLightHalfColor};
+    --bar-dark-half-color: ${settings.barDarkHalfColor};
+    --modal-loading-background-color: ${settings.modalLoadingBackground};
+  `.trim()
 }

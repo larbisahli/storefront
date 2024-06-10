@@ -22,29 +22,34 @@ const LibraryPlaceholderBlock = (props: any) => {
     <>
       <div
         className={cn(
-          'z-[999] absolute top-0 w-full h-[2px] bg-[#A131ED] hidden group-hover:block'
+          'z-[999] absolute top-0 w-full h-[2px] bg-[#A131ED] hidden',
+          'group-hover/library:block'
         )}
       ></div>
       <div
         className={cn(
-          'z-[999] absolute top-0 left-0 w-[2px] h-full bg-[#A131ED] hidden group-hover:block'
+          'z-[999] absolute top-0 left-0 w-[2px] h-full bg-[#A131ED] hidden',
+          'group-hover/library:block'
         )}
       ></div>
       <div
         className={cn(
-          'z-[999] absolute top-0 right-0 w-[2px] h-full bg-[#A131ED] hidden group-hover:block'
+          'z-[999] absolute top-0 right-0 w-[2px] h-full bg-[#A131ED] hidden',
+          'group-hover/library:block'
         )}
       ></div>
       <div
         className={cn(
-          'z-[999] absolute bottom-0 w-full h-[2px] bg-[#A131ED] hidden group-hover:block'
+          'z-[999] absolute bottom-0 w-full h-[2px] bg-[#A131ED] hidden',
+          'group-hover/library:block'
         )}
       ></div>
       <button
         title="Edit block"
         onClick={handlePostMessage}
         className={cn(
-          'z-[999] absolute left-0 hidden group-hover:block',
+          'z-[999] absolute left-0 hidden',
+          'group-hover/library:block',
           'pb-2 top-[-28px] left-[5px]'
         )}
       >

@@ -16,6 +16,10 @@ import { resolvePath } from '@dropgala/utils/helpers'
 import { useAppSelector } from '@hooks/useStore'
 import { selectConfig } from '@dropgala/store'
 import { PageLayoutBlocks } from '@dropgala/types'
+import {
+  handleThemeSettingsDefaults,
+  handleThemeSettingsVariables
+} from '@dropgala/utils/styles'
 
 interface Props {
   children: React.ReactNode
@@ -76,8 +80,10 @@ const AppLayout = ({ children, className }: Props) => {
   const headerData = resolvePath(layout, PageLayoutBlocks.Header, {})
   const footerData = resolvePath(layout, PageLayoutBlocks.Footer, {})
   const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
+  const settings = resolvePath(layout, 'settings', {})
+  console.log('APP_LAYOUT >>>', { layout })
   return (
-    <div className="relative bg-white">
+    <div className="relative">
       <style jsx global>{`
         :root {
           --font-lato: ${lato.style.fontFamily};
@@ -87,22 +93,16 @@ const AppLayout = ({ children, className }: Props) => {
           --font-merriweather: ${merriweather.style.fontFamily};
           --font-gelasio: ${gelasio.style.fontFamily};
           --font-spectral: ${spectral.style.fontFamily};
+          ${handleThemeSettingsVariables(settings)}
         }
         html {
-          font-family: ${lato.style.fontFamily};
+          ${handleThemeSettingsDefaults(settings)}
         }
       `}</style>
       <CustomProfiler data={[headerData]} />
       <CartDrawer moduleName="CartDrawer" />
       <MenuDrawer moduleName="MenuDrawer" />
-      <main
-        className={cn(
-          'h-[450px]',
-          // 'max-w-screen-xl xxl:max-w-[1300px] mx-auto', // max-width is 1300px
-          'relative flex-grow h-full w-full',
-          className
-        )}
-      >
+      <main className={cn('relative flex-grow h-full w-full', className)}>
         <div className="flex flex-col flex-grow">
           <div className="mt-[101px] lg:mt-[150px] flex-auto">
             <div className="mb-44">

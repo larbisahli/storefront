@@ -44,7 +44,7 @@ const ButtonOutlineRounded: React.FC<React.PropsWithChildren<ButtonProps>> = ({
     <button
       onClick={onClickHandler}
       className={cn(
-        'rounded-full relative group/button flex items-center justify-center flex-shrink-0 font-normal w-auto uppercase',
+        'rounded-full relative group/library flex items-center justify-center flex-shrink-0 font-normal w-auto uppercase',
         'rounded outline-none transition duration-250 ease-in-out focus:outline-none',
         ButtonSize[size],
         className,
@@ -58,7 +58,7 @@ const ButtonOutlineRounded: React.FC<React.PropsWithChildren<ButtonProps>> = ({
       type={type}
       aria-label={type}
     >
-      <LibraryPlaceholder {...props} group="group-hover/button" isEdit />
+      <LibraryPlaceholder {...props} isEdit />
       {!loading && <div>{label}</div>}
       {loading && (
         <div

@@ -66,8 +66,7 @@ const ImageBannerStack: React.FC<Props> = ({
     <section
       className={cn(
         'relative group mb-8',
-        sectionSize === SectionSize.AUTO &&
-          'max-w-screen-xl xxl:max-w-[1300px] mx-auto',
+        sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
@@ -101,7 +100,7 @@ const ImageBannerStack: React.FC<Props> = ({
             )}
           >
             <h3 className={cn('mb-5', headerClassName)}>{header}</h3>
-            <p className={cn('mb-8 max-w-[1300px] px-2', descriptionClassName)}>
+            <p className={cn('mb-8 max-w-default px-2', descriptionClassName)}>
               {description}
             </p>
             <div className={cn('flex justify-center')}>

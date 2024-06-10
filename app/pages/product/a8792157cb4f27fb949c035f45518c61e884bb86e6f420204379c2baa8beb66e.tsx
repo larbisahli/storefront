@@ -1,72 +1,117 @@
-import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
-import type { CategoryType } from '@dropgala/types/category.type'
-import type { HeroBannerType } from '@dropgala/types/slider.type'
+import {
+  wrapper,
+  selectConfig,
+  setConfigDevice,
+  setMobileHeaderTransition
+} from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
+import { useEffect, useMemo } from 'react'
 import { getHost } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
-import { builderURL, mediaURL } from '@dropgala/utils/utils'
+import { mediaURL } from '@dropgala/utils/utils'
+import Head from 'next/head'
 import {
-  fetchPageLayout,
   fetchStoreConfig,
-  fetchStoreHomePageCategories,
   fetchStoreLanguage,
   fetchStoreMenu,
-  fetchStorePopularProducts
+  fetchStoreProduct
 } from '@gRPC/handlers'
-import getMobileDetect from '@dropgala/utils/isMobile'
 import { LanguageType } from '@dropgala/types/config.type'
-import { fetchClientCart } from '@gRPC/handlers/checkout'
+import getMobileDetect from '@dropgala/utils/isMobile'
+import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 import Cookies from 'cookies'
-import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
-import React, { useEffect } from 'react'
-import { setCollection } from '@dropgala/store/Collections'
-import { StoreBuilder } from '@dropgala/types'
-import _JSXStyle from 'styled-jsx/style'
+import { CookieNames } from '@dropgala/types/common.type'
+import { fetchClientCart } from '@gRPC/handlers/checkout'
+import { resolvePath } from '@dropgala/utils/helpers'
+import { PageLayoutBlocks } from '@dropgala/types'
 
 interface PageProps {
   pageProps: {
-    menu: CategoryType[]
-    heroSlider: HeroBannerType[]
-    popularProducts: ProductType[]
-    host: { host: string; alias: string }
+    product: ProductType
+    host: {
+      host: string
+      alias: string
+    }
   }
 }
 
-const HomePage = ({ pageProps }: PageProps) => {
-  const { host } = pageProps
-  const { layout, language, ...storeConfig } = useAppSelector(selectConfig)
-  console.log({ layout, language, ...storeConfig })
+export default function ProductPage({ pageProps }: PageProps) {
+  const {
+    query: { slug = null }
+  } = useRouter()
+  const dispatch = useDispatch()
+
+  const storeConfig = useAppSelector(selectConfig)
+  const { layout } = storeConfig
+
+  const { host, product = {} } = pageProps
+
+  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
+
+  console.log({ product })
+
+  const {
+    productSeo,
+    relatedProducts = [],
+    upsellProducts = [],
+    categories = []
+  } = product
 
   useEffect(() => {
-    if (window.location !== window.parent.location) {
-      window.parent.postMessage(
-        {
-          source: StoreBuilder.GALA_CMS_BUILDER_PAGE,
-          layout: layout
-        },
-        builderURL
-      )
-    }
-  }, [])
+    dispatch(setMobileHeaderTransition({ allow: false }))
+  }, [slug])
+
+  const breadcrumbs = useMemo(() => {
+    const selectedCate = categories?.sort(
+      (a, b) =>
+        (b?.breadcrumbsPriority ?? 0) - (a?.breadcrumbsPriority ?? 0) ?? 0
+    )[0]
+    return [
+      ...(selectedCate?.parent
+        ? [
+            {
+              categoryLevel: selectedCate?.parent?.level,
+              categoryName: selectedCate?.parent?.name,
+              categoryUrl: selectedCate?.parent?.urlKey
+            }
+          ]
+        : []),
+      ...(selectedCate?.parent?.parent
+        ? [
+            {
+              categoryLevel: selectedCate?.parent?.parent?.level,
+              categoryName: selectedCate?.parent?.parent?.name,
+              categoryUrl: selectedCate?.parent?.parent?.urlKey
+            }
+          ]
+        : []),
+      {
+        categoryLevel: selectedCate?.level,
+        categoryName: selectedCate?.name,
+        categoryUrl: selectedCate?.urlKey
+      }
+    ]
+  }, [categories])
 
   return (
     <>
       <NextSeo
-        title={storeConfig?.storeName}
-        description={storeConfig?.seo?.metaDescription}
-        canonical={`https://${host?.host}`}
+        title={product?.name}
+        description={productSeo?.metaDescription}
+        canonical={`https://${host?.host}/product/${productSeo?.slug}`}
         openGraph={{
-          url: `https://${host?.host}`,
-          title: storeConfig?.seo?.metaTitle,
-          description: storeConfig?.seo?.metaDescription,
+          url: `https://${host?.host}/product/${productSeo?.slug}`,
+          title: productSeo?.metaTitle,
+          description: productSeo?.metaDescription,
           images: [
             {
-              url: !!storeConfig?.seo?.ogImage?.length
-                ? `${mediaURL}/${storeConfig?.seo?.ogImage[0].image}`
+              url: !!productSeo?.metaImage?.length
+                ? `${mediaURL}/${productSeo?.metaImage[0].image}`
                 : '',
               width: 800,
               height: 600,
@@ -99,15 +144,18 @@ const HomePage = ({ pageProps }: PageProps) => {
           }
         ]}
       />
+      <Head>
+        <meta name="keywords" content={productSeo?.metaKeywords} />
+      </Head>
     </>
   )
 }
 
-HomePage.Layout = AppLayout
+ProductPage.Layout = AppLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
-    const { req, res, locale } = context
+    const { req, res, locale, params } = context
     const userAgent = req.headers['user-agent']
     const { host, alias = '' } = getHost(req)
 
@@ -115,7 +163,7 @@ export const getServerSideProps: GetServerSideProps =
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
     const storeId = undefined
 
-    console.log('========>>', { alias })
+    const slug = params?.slug
 
     try {
       if (!alias) {
@@ -148,26 +196,11 @@ export const getServerSideProps: GetServerSideProps =
       // Get current store language id for resource request
       const storeLanguageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
-      const templateId = ConfigReducer.templateId as string
 
       // Redux Store
-      // NOTE: use promise.all
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
       store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-      store.dispatch(
-        await fetchStoreHomePageCategories(alias, storeLanguageId, storeId)
-      )
-      store.dispatch(
-        await fetchPageLayout({
-          alias,
-          page: StoreLayoutNames.HOMEPAGE,
-          templateId,
-          storeLanguageId,
-          isCustom: false,
-          storeId
-        })
-      )
 
       // Client cart
       if (cuid) {
@@ -182,23 +215,18 @@ export const getServerSideProps: GetServerSideProps =
         }
       }
 
-      // Page data props
-      const popularProducts = await fetchStorePopularProducts(
+      // Page props data
+      const product = await fetchStoreProduct(
+        slug as string,
         alias,
         storeLanguageId,
         storeId
       )
-      store.dispatch(
-        setCollection({
-          collection: {
-            id: 'e6d2b1b9-2514-4168-8181-20e4f32961sd',
-            items: popularProducts
-          }
-        })
-      )
+
       return {
         props: {
-          host: { host, alias }
+          host: { host, alias },
+          product
         }
       }
     } catch (error) {
@@ -208,5 +236,3 @@ export const getServerSideProps: GetServerSideProps =
       }
     }
   })
-
-export default HomePage

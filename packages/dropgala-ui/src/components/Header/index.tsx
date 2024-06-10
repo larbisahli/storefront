@@ -145,7 +145,7 @@ const Header: FC<Props> = ({
         {/* PromoBanner */}
         {renderPromoBanner()}
         {/* Navigation */}
-        <div className="max-w-screen-xl xxl:max-w-[1300px] mx-auto relative group">
+        <div className="max-w-default mx-auto relative group">
           <BuilderPlaceholder {...props} isEdit isRemove />
           {/* Info section */}
           <InfoSection
@@ -176,7 +176,7 @@ const Header: FC<Props> = ({
             <MyAccountActions handleCart={handleCart} itemsCount={itemsCount} />
           </div>
           {/* Menu Section */}
-          <div className="hidden lg:flex items-center justify-center">
+          <div className="hidden desktop:flex items-center justify-center">
             {menu?.map(({ id, name, urlKey }) => {
               return (
                 <Link

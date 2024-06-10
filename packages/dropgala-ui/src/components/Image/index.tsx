@@ -47,8 +47,7 @@ const Image: React.FC<Props> = ({ useAppSelector, ...props }) => {
     <section
       className={cn(
         'relative group mb-8',
-        styles?.sectionSize === SectionSize.AUTO &&
-          'max-w-screen-xl xxl:max-w-[1300px] mx-auto',
+        styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full',
         'flex justify-center items-center flex-col px-2'
       )}

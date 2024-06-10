@@ -4,19 +4,18 @@ import Image from '../common/Image'
 import { StoreProps } from '@dropgala/store'
 import { selectCategory } from '@dropgala/store/Category'
 import { getThumbnail } from '@dropgala/utils/helpers'
+import LibraryPlaceholder from '../common/libraryPlaceholder'
 
-const CategoryDetails: React.FC<StoreProps> = ({ useAppSelector }) => {
+const CategoryDetails: React.FC<StoreProps> = ({
+  useAppSelector,
+  ...props
+}) => {
   const category = useAppSelector(selectCategory)
-  console.log(
-    isEmpty(category),
-    useAppSelector((state) => state)
-  )
-
   const renderCategoryName = () => {
     return (
       <div
         className="text-lg border-t-2 border-b-2 mb-4
-         border-black w-full font-medium py-1 lg:text-3xl lg:w-fit lg:text-left text-center"
+         border-black w-full py-1 font-medium desktop:text-3xl desktop:w-fit desktop:text-left text-center"
       >
         {category?.name}
       </div>
@@ -25,7 +24,7 @@ const CategoryDetails: React.FC<StoreProps> = ({ useAppSelector }) => {
 
   const renderCategoryDescription = () => {
     return (
-      <div className="text-gray-900 text-xs lg:text-sm lg:text-left text-center">
+      <div className="text-gray-900 text-xs desktop:text-sm desktop:text-left text-center max-w-[90%]">
         {category?.description}
       </div>
     )
@@ -39,13 +38,13 @@ const CategoryDetails: React.FC<StoreProps> = ({ useAppSelector }) => {
     const { image, placeholder } = getThumbnail(category?.thumbnail)
 
     return (
-      <div className="flex w-fit">
+      <div className="relative rounded-sm w-[100%] h-[350px]">
         <Image
           src={image}
           customPlaceholder={placeholder}
-          objectFit="contain"
-          width={250}
-          height={250}
+          objectFit="cover"
+          layout="fill"
+          className="rounded-sm"
         />
       </div>
     )
@@ -56,13 +55,16 @@ const CategoryDetails: React.FC<StoreProps> = ({ useAppSelector }) => {
   }
 
   return (
-    <article className="bg-gray-100 rounded-sm flex items-center justify-between p-5 lg:flex-row flex-col">
-      <div className="flex-1 lg:p-8">
-        {renderCategoryName()}
-        {renderCategoryDescription()}
-      </div>
-      <div className="flex-1 lg:p-2 pt-10 flex justify-end">
-        {renderCategoryImage()}
+    <article className="relative group/library bg-gray-100 rounded-sm">
+      <LibraryPlaceholder {...props} isEdit />
+      <div className="p-5 max-w-default mx-auto flex items-center justify-between desktop:flex-row flex-col">
+        <div className="flex-1">
+          {renderCategoryName()}
+          {renderCategoryDescription()}
+        </div>
+        <div className="flex-1 pt-10 desktop:pt-0 flex justify-end w-full">
+          {renderCategoryImage()}
+        </div>
       </div>
     </article>
   )

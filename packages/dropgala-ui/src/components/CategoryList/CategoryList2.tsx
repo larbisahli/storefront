@@ -188,7 +188,7 @@ const CategoryList2: React.FC<StoreProps> = ({ useAppSelector, ...props }) => {
   const header = 'Featured Category 2'
   const bgColor = '#cbc3e0'
   return (
-    <section className="relative group max-w-screen-xl xxl:max-w-[1300px] mx-auto my-12">
+    <section className="relative group max-w-default mx-auto my-12">
       <BuilderPlaceholder
         {...props}
         isEdit

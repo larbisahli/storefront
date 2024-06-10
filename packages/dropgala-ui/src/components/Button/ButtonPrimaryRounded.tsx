@@ -44,7 +44,7 @@ const ButtonPrimaryRounded: React.FC<React.PropsWithChildren<ButtonProps>> = ({
     <button
       onClick={onClickHandler}
       className={cn(
-        'rounded-full relative group flex items-center justify-center flex-shrink-0 font-normal w-auto uppercase',
+        'relative group/library rounded-full flex items-center justify-center flex-shrink-0 font-normal w-auto uppercase',
         'rounded outline-none transition duration-250 ease-in-out focus:outline-none',
         ButtonSize[size],
         className,

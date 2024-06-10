@@ -40,8 +40,7 @@ const VideoBanner: React.FC<Props> = ({ useAppSelector, ...props }) => {
     <section
       className={cn(
         'relative group',
-        styles?.sectionSize === SectionSize.AUTO &&
-          'max-w-screen-xl xxl:max-w-[1300px] mx-auto',
+        styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >

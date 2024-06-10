@@ -23,6 +23,7 @@ export enum StoreLayoutNames {
   PRODUCT_PAGE = 'product-page',
   TERMS_OF_SERVICES = 'terms-of-service',
   CHECKOUT = 'checkout',
+  CATEGORY = 'category',
   CONTACT = 'contact',
   PRIVACY_POLICY = 'privacy-policy',
   RETURN_FAQ = 'returns-faq'

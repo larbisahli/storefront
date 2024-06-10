@@ -1,7 +1,3 @@
-:root {
-  --color-primary: #000;
-}
-
 @keyframes skeleton-loading {
   to {
     background-position: 100%;

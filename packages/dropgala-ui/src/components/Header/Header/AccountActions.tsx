@@ -35,14 +35,14 @@ const MyAccountActions = ({ handleCart, itemsCount }: Props) => {
         <HeartEmpty width={25} height={25} />
       </button>
       <button
-        className="mx-2 flex items-center justify-center flex-shrink-0 h-auto relative focus:outline-none"
+        className="mx-2 flex group/cart items-center justify-center flex-shrink-0 h-auto relative focus:outline-none"
         onClick={handleCart}
         aria-label="cart-button"
       >
         <CartIcon width={22} height={22} />
         <div
           className={cn(
-            'absolute bg-black rounded-full h-[19px] w-[19px] text-center text-white',
+            'absolute bg-[color:var(--primary-color)] group-hover/cart:bg-[color:var(--primary-hover-color)] rounded-full h-[19px] w-[19px] text-center text-white',
             'top-[-10px] right-[-12px] font-semibold text-xs flex items-center justify-center'
           )}
         >

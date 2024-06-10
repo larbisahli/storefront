@@ -6,20 +6,13 @@ import { GetServerSideProps } from 'next'
 import { useEffect, useMemo, useState } from 'react'
 import { getHost } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import Breadcrumb from '@components/Breadcrumb'
 import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import Head from 'next/head'
-import CategoryDetails from '@components/CategoryDetails'
-import CategoryList from '@components/CategoryList'
-import ProductCard from '@components/ProductCard'
-import Pagination from '@components/Pagination'
-import Miscellaneous from '@components/Miscellaneous'
-import { PageLayoutBlocks, ProductCardLayout } from '@dropgala/types'
-import cn from 'clsx'
 import { useRouter } from 'next/router'
 import {
+  fetchPageLayout,
   fetchStoreCategory,
   fetchStoreCategoryProducts,
   fetchStoreConfig,
@@ -29,12 +22,11 @@ import {
 import { LanguageType } from '@dropgala/types/config.type'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import Cookies from 'cookies'
-import { CookieNames } from '@dropgala/types/common.type'
+import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
 import { setCollection } from '@dropgala/store/Collections'
 import { selectCategory, setCategory } from '@dropgala/store/Category'
 import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
-import { resolvePath } from '@dropgala/utils/helpers'
 
 interface PageProps {
   pageProps: {
@@ -49,8 +41,6 @@ interface PageProps {
 
 export default function ProductPage({ pageProps }: PageProps) {
   const storeConfig = useAppSelector(selectConfig)
-  const { layout } = storeConfig
-  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
 
   const {
     query: { slug, page = 1 }
@@ -164,46 +154,6 @@ export default function ProductPage({ pageProps }: PageProps) {
       <Head>
         {metaRobots && <meta name="robots" content={metaRobots as string} />}
       </Head>
-      {/* <section className="mb-5 py-35px mx-0 lg:mx-2">
-        <div className="">
-          <div className="mx-auto max-w-[1920px]">
-            <Breadcrumb breadcrumbs={breadcrumbs} />
-          </div>
-        </div>
-      </section> */}
-      {/* <div className="">
-          {!isEmpty(category) && <CategoryDetails category={category} />}
-        </div> */}
-      {/* <section className="mx-2">
-        {<CategoryList categories={category?.children ?? []} />}
-      </section> */}
-      {/* <section className="mx-2 my-10 ">
-        <Miscellaneous layout={layout} setLayout={setLayout} />
-      </section> */}
-      {/* CATEGORY PRODUCTS SECTION */}
-      {/* <section className="mb-44 mt-20 mx-2">
-        {!isEmpty(categoryProducts) ? (
-          <div
-            className={cn('grid grid-cols-1 my-10 gap-3 md:gap-4 2xl:gap-5', {
-              'xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-xl:grid-cols-5 2xl:grid-cols-4 3xl:grid-cols-5':
-                layout === ProductCardLayout.Grid
-            })}
-          >
-            {productList?.map((product) => (
-              <ProductCard key={product.id} product={product} layout={layout} />
-            ))}
-          </div>
-        ) : (
-          <div className="w-full flex flex-col items-center pt-10px md:pt-40px lg:pt-20px pb-40px">
-            <ProductNotFound />
-          </div>
-        )}
-        {!isProductLimitReached && (
-          <div className="mt-5">
-            <Pagination />
-          </div>
-        )}
-      </section> */}
     </>
   )
 }
@@ -265,6 +215,7 @@ export const getServerSideProps: GetServerSideProps =
       // Get current store language id for resource request
       const storeLanguageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
+      const templateId = ConfigReducer.templateId as string
 
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
@@ -283,6 +234,17 @@ export const getServerSideProps: GetServerSideProps =
           store.dispatch(clientCartStore)
         }
       }
+
+      store.dispatch(
+        await fetchPageLayout({
+          alias,
+          page: StoreLayoutNames.CATEGORY,
+          templateId,
+          storeLanguageId,
+          isCustom: false,
+          storeId
+        })
+      )
 
       // Page data props
       const category = await fetchStoreCategory(
