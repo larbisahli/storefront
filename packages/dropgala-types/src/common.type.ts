@@ -20,11 +20,14 @@ export enum CookieNames {
 
 export enum StoreLayoutNames {
   HOMEPAGE = 'home-page',
-  PRODUCT_PAGE = 'product-page',
+  CATEGORY_PAGE = 'category',
+  PRODUCT_PAGE = 'product',
   TERMS_OF_SERVICES = 'terms-of-service',
   CHECKOUT = 'checkout',
-  CATEGORY = 'category',
+  CART_PAGE = 'cart',
   CONTACT = 'contact',
   PRIVACY_POLICY = 'privacy-policy',
-  RETURN_FAQ = 'returns-faq'
+  RETURN_POLICY = 'returns-policy',
+  ABOUT_US = 'about-us',
+  FAQ = 'faq'
 }

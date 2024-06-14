@@ -2,9 +2,7 @@ import React from 'react'
 import { StoreProps } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 
-interface Props extends StoreProps {
-  data: any
-}
+interface Props extends StoreProps {}
 
 const Subscription: React.FC<Props> = ({ useAppSelector, ...props }) => {
   console.log({ props })

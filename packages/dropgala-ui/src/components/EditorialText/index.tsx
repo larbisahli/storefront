@@ -5,15 +5,22 @@ import cn from 'clsx'
 import { resolvePath } from '@dropgala/utils/helpers'
 import ReactHtmlParser from 'html-react-parser'
 import _JSXStyle from 'styled-jsx/style'
-import { SectionSize } from '@dropgala/types'
+import {
+  SectionSize,
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType
+} from '@dropgala/types'
 
-interface Props extends StoreProps {
-  data: any
-}
+interface Props extends StoreProps {}
 
 const EditorialText: React.FC<Props> = ({ useAppSelector, ...props }) => {
-  const { contentId, content = '' } = resolvePath(props, 'data', {})
-  const styles = resolvePath(props, 'styles', {})
+  const { contentId, content = '' } =
+    resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
+  const styles = resolvePath<StoreLayoutComponentStylesType>(
+    props,
+    'styles',
+    {}
+  )
   const editorialTextClassName = `editorial-text-${props.componentId}`
   return (
     <section

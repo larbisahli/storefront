@@ -6,6 +6,7 @@ import { StoreProps, selectConfig } from '@dropgala/store'
 import dynamic from 'next/dynamic'
 import { resolvePath } from '@dropgala/utils/helpers'
 import BuilderPlaceholder from '../common/builderPlaceholder'
+import { StoreLayoutComponentContentType } from '@dropgala/types'
 
 const SwiperComponent = dynamic(() => import('../common/Swiper'), {
   loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
@@ -24,7 +25,7 @@ const HeroSliderBlock: React.FC<Props> = ({
   ...props
 }) => {
   const { device } = useAppSelector(selectConfig)
-  const items = resolvePath(data, 'items', {})
+  const items = resolvePath<any[]>(data, 'items', [])
   return (
     <section className="relative mx-0 lg:mx-2 mb-7 mt-12 group">
       <BuilderPlaceholder

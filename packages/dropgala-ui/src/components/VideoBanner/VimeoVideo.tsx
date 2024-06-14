@@ -1,9 +1,10 @@
+import { StoreLayoutComponentContentType } from '@dropgala/types'
 import React from 'react'
 import Vimeo from 'react-vimeo'
 
 interface Props {
   videoId: string
-  data: any
+  data: StoreLayoutComponentContentType
   componentId: string
 }
 

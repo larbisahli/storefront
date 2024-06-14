@@ -154,7 +154,7 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(
         await fetchPageLayout({
           alias,
-          page: StoreLayoutNames.CATEGORY,
+          page: StoreLayoutNames.CATEGORY_PAGE,
           templateId,
           storeLanguageId,
           isCustom: false,

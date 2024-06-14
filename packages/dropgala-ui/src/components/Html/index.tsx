@@ -2,18 +2,24 @@ import React from 'react'
 import { StoreProps } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import { resolvePath } from '@dropgala/utils/helpers'
-import { SectionSize } from '@dropgala/types'
+import {
+  SectionSize,
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType
+} from '@dropgala/types'
 import cn from 'clsx'
 import DynamicContent from '../common/DynamicContent'
 import _JSXStyle from 'styled-jsx/style'
 
-interface Props extends StoreProps {
-  data: any
-}
+interface Props extends StoreProps {}
 
 const Html: React.FC<Props> = ({ useAppSelector, ...props }) => {
-  const data = resolvePath(props, 'data', {})
-  const { sectionSize, css } = resolvePath(props, 'styles', {})
+  const data = resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
+  const { sectionSize, css } = resolvePath<StoreLayoutComponentStylesType>(
+    props,
+    'styles',
+    {}
+  )
 
   return (
     <section

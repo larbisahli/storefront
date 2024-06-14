@@ -12,9 +12,10 @@ import { getHost } from 'utils'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
-import { mediaURL } from '@dropgala/utils/utils'
+import { ProductBreadcrumbs, mediaURL } from '@dropgala/utils/utils'
 import Head from 'next/head'
 import {
+  fetchPageLayout,
   fetchStoreConfig,
   fetchStoreLanguage,
   fetchStoreMenu,
@@ -25,10 +26,10 @@ import getMobileDetect from '@dropgala/utils/isMobile'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import Cookies from 'cookies'
-import { CookieNames } from '@dropgala/types/common.type'
+import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
-import { resolvePath } from '@dropgala/utils/helpers'
-import { PageLayoutBlocks } from '@dropgala/types'
+import { selectProduct, setProduct } from '@dropgala/store/Product'
+import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
 
 interface PageProps {
   pageProps: {
@@ -47,71 +48,38 @@ export default function ProductPage({ pageProps }: PageProps) {
   const dispatch = useDispatch()
 
   const storeConfig = useAppSelector(selectConfig)
-  const { layout } = storeConfig
+  const { product } = useAppSelector(selectProduct)
 
-  const { host, product = {} } = pageProps
+  const { host } = pageProps
 
-  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
-
-  console.log({ product })
-
-  const {
-    productSeo,
-    relatedProducts = [],
-    upsellProducts = [],
-    categories = []
-  } = product
+  const { productSeo } = product
 
   useEffect(() => {
     dispatch(setMobileHeaderTransition({ allow: false }))
   }, [slug])
 
-  const breadcrumbs = useMemo(() => {
-    const selectedCate = categories?.sort(
-      (a, b) =>
-        (b?.breadcrumbsPriority ?? 0) - (a?.breadcrumbsPriority ?? 0) ?? 0
-    )[0]
-    return [
-      ...(selectedCate?.parent
-        ? [
-            {
-              categoryLevel: selectedCate?.parent?.level,
-              categoryName: selectedCate?.parent?.name,
-              categoryUrl: selectedCate?.parent?.urlKey
-            }
-          ]
-        : []),
-      ...(selectedCate?.parent?.parent
-        ? [
-            {
-              categoryLevel: selectedCate?.parent?.parent?.level,
-              categoryName: selectedCate?.parent?.parent?.name,
-              categoryUrl: selectedCate?.parent?.parent?.urlKey
-            }
-          ]
-        : []),
-      {
-        categoryLevel: selectedCate?.level,
-        categoryName: selectedCate?.name,
-        categoryUrl: selectedCate?.urlKey
-      }
-    ]
-  }, [categories])
+  const {
+    metaTitle,
+    metaImage,
+    metaKeywords,
+    metaDescription,
+    slug: keyUrl = ''
+  } = productSeo ?? {}
 
   return (
     <>
       <NextSeo
         title={product?.name}
-        description={productSeo?.metaDescription}
-        canonical={`https://${host?.host}/product/${productSeo?.slug}`}
+        description={metaDescription}
+        canonical={`https://${host?.host}/product/${keyUrl}`}
         openGraph={{
-          url: `https://${host?.host}/product/${productSeo?.slug}`,
-          title: productSeo?.metaTitle,
-          description: productSeo?.metaDescription,
+          url: `https://${host?.host}/product/${keyUrl}`,
+          title: metaTitle,
+          description: metaDescription,
           images: [
             {
-              url: !!productSeo?.metaImage?.length
-                ? `${mediaURL}/${productSeo?.metaImage[0].image}`
+              url: !!metaImage?.length
+                ? `${mediaURL}/${metaImage[0].image}`
                 : '',
               width: 800,
               height: 600,
@@ -145,7 +113,7 @@ export default function ProductPage({ pageProps }: PageProps) {
         ]}
       />
       <Head>
-        <meta name="keywords" content={productSeo?.metaKeywords} />
+        <meta name="keywords" content={metaKeywords} />
       </Head>
     </>
   )
@@ -196,6 +164,7 @@ export const getServerSideProps: GetServerSideProps =
       // Get current store language id for resource request
       const storeLanguageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
+      const templateId = ConfigReducer.templateId as string
 
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
@@ -215,18 +184,36 @@ export const getServerSideProps: GetServerSideProps =
         }
       }
 
+      store.dispatch(
+        await fetchPageLayout({
+          alias,
+          page: StoreLayoutNames.PRODUCT_PAGE,
+          templateId,
+          storeLanguageId,
+          isCustom: false,
+          storeId
+        })
+      )
+
       // Page props data
-      const product = await fetchStoreProduct(
+      const product = (await fetchStoreProduct(
         slug as string,
         alias,
         storeLanguageId,
         storeId
+      )) as unknown as ProductType
+
+      store.dispatch(setProduct({ product }))
+      store.dispatch(
+        setBreadcrumb({
+          name: product.name ?? null,
+          breadcrumbs: ProductBreadcrumbs(product.categories ?? [])
+        })
       )
 
       return {
         props: {
-          host: { host, alias },
-          product
+          host: { host, alias }
         }
       }
     } catch (error) {

@@ -4,6 +4,7 @@ import Copyright from './Copyright'
 import { footer } from './data'
 import Widgets from './widget/Widget'
 import { StoreProps, selectConfig } from '@dropgala/store'
+import BuilderPlaceholder from '../common/builderPlaceholder'
 
 const { widgets, payment } = footer
 
@@ -12,7 +13,7 @@ const { widgets, payment } = footer
 
 interface Props extends StoreProps {}
 
-const Footer: React.FC<Props> = ({ useAppSelector }) => {
+const Footer: React.FC<Props> = ({ useAppSelector, ...props }) => {
   const storeConfig = useAppSelector(selectConfig)
 
   const [storeWidgets, setStoreWidgets] = useState(null)
@@ -25,7 +26,8 @@ const Footer: React.FC<Props> = ({ useAppSelector }) => {
 
   return (
     <Fragment>
-      <footer className="mt-[50px] lg:mt-14 2xl:mt-16 pt-14 border-dashed border-1 border-t border-gray-400">
+      <footer className="relative group mt-[50px] lg:mt-14 2xl:mt-16 pt-14 border-dashed border-1 border-t border-gray-400">
+        <BuilderPlaceholder {...props} isEdit />
         {storeWidgets && (
           <Widgets storeConfig={storeConfig} widgets={storeWidgets} />
         )}

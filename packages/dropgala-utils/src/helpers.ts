@@ -28,7 +28,8 @@ export const getComponentFromChildren = (
  * @param {any} default value if path/key not present
  * @return {any} return the value if path/key matches else default value if present else undefined
  * */
-export const resolvePath = (obj: any, path: string, defaultValue: any) =>
+// TODO: Consider useMemo()
+export const resolvePath = <T>(obj: any, path: string, defaultValue: any): T =>
   (path || '')
     .split('.')
     .reduce(

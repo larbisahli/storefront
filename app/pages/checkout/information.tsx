@@ -19,7 +19,7 @@ import { fetchClientCheckout } from '@gRPC/handlers/checkout'
 import CheckoutInformation from '@components/CheckoutInformation'
 import CheckoutFooter from '@components/CheckoutFooter'
 import { resolvePath } from '@dropgala/utils/helpers'
-import { PageLayoutBlocks } from '@dropgala/types'
+import { PageLayoutBlocks, StoreLayoutComponentType } from '@dropgala/types'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -29,7 +29,11 @@ export default function CheckoutInformationPage({ host }: Props) {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'common')
   const { layout } = storeConfig
-  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
+  const mainData = resolvePath<StoreLayoutComponentType[]>(
+    layout,
+    PageLayoutBlocks.Main,
+    {}
+  )
 
   return (
     <>

@@ -28,7 +28,7 @@ import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
 import { resolvePath } from '@dropgala/utils/helpers'
-import { PageLayoutBlocks } from '@dropgala/types'
+import { PageLayoutBlocks, StoreLayoutComponentType } from '@dropgala/types'
 
 interface PageProps {
   pageProps: {
@@ -51,7 +51,11 @@ export default function ProductPage({ pageProps }: PageProps) {
 
   const { host, product = {} } = pageProps
 
-  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
+  const mainData = resolvePath<StoreLayoutComponentType[]>(
+    layout,
+    PageLayoutBlocks.Main,
+    []
+  )
 
   console.log({ product })
 

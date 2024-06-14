@@ -63,7 +63,7 @@ function VariationPrice({
   return (
     <div className="flex-1">
       <div className="flex items-center">
-        <div className="text-skin-base font-bold text-xl lg:text-2xl leading-none">
+        <div className="text-skin-base font-bold text-xl desktop:text-2xl leading-none">
           {!!selectedFinalPrice && productPriceValue}
         </div>
         {!!selectedDiscountAmountOff && (

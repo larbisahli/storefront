@@ -1,4 +1,4 @@
-import { ModuleGroup } from '@dropgala/types'
+import { ModuleGroup, StoreLayoutComponentContentType } from '@dropgala/types'
 import { resolvePath } from '@dropgala/utils/helpers'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import componentFactory from '@lib/componentFactory'
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const PromoBanner = (props: Props) => {
-  const data = resolvePath(props, 'data', {})
+  const data = resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
   if (isEmpty(data?.items)) return null
   return componentFactory(props?.moduleName, ModuleGroup.PROMO_BANNER, props)
 }

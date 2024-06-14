@@ -4,14 +4,19 @@ import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
 import { resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
+import {
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType
+} from '@dropgala/types'
 
-interface Props extends StoreProps {
-  data: any
-  styles: any
-}
+interface Props extends StoreProps {}
 
 const Spacer: React.FC<Props> = ({ ...props }) => {
-  const { spaceHeight = 50 } = resolvePath(props, 'styles', {})
+  const { spaceHeight = 50 } = resolvePath<StoreLayoutComponentStylesType>(
+    props,
+    'styles',
+    {}
+  )
   const spacerClassName = `spacer-${props.componentId}`
   return (
     <section className={cn('relative group max-w-full spacer')}>

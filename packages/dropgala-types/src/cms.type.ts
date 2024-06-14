@@ -40,15 +40,27 @@ export interface StoreLayoutBlockType {
 }
 
 export interface StoreLayoutComponentType {
-  layoutBlockId: Scalars['String']
-  componentId: Scalars['ID']
-  moduleName: string
-  moduleGroup: ModuleGroup
-  position: Scalars['Int']
+  layoutBlockId?: Scalars['String']
+  componentId?: Scalars['ID']
+  moduleName?: string
+  moduleGroup?: ModuleGroup
+  position?: Scalars['Int']
   data?: StoreLayoutComponentContentType
+  styles?: StoreLayoutComponentStylesType
   children?: StoreLayoutComponentType[] | []
+  settings?: ThemeSettingsType
 }
 
+export interface StoreLayoutComponentStylesType {
+  [key: string]:
+    | string
+    | number
+    | boolean
+    | TextAlignEnum
+    | BorderEnum
+    | { value: string }
+    | any
+}
 export interface StoreLayoutComponentContentType {
   contentId?: Scalars['ID']
   [key: string]: string | number | boolean | any

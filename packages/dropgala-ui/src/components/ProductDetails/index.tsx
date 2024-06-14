@@ -29,17 +29,15 @@ import StarIcon from '@dropgala/assets/icons/star'
 import { cartChange } from '@dropgala/store/Cart/thunks'
 import { notify } from '../ui/toast'
 import { getThumbnail } from '@dropgala/utils/helpers'
-
-// class CheckoutService {
-//   AddItem
-// }
+import { selectProduct } from '@dropgala/store/Product'
 
 interface Props extends StoreProps {
   product: ProductType
 }
 
-const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
+const ProductDetails = ({ useAppDispatch, useAppSelector }: Props) => {
   const cart = useAppSelector(selectCart)
+  const { product } = useAppSelector(selectProduct)
   const { device, language, csrf, storeId, locales, ...rest } =
     useAppSelector(selectConfig)
 
@@ -174,7 +172,10 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
     const maxWidth = windowWidth > 600 ? '600px' : `${windowWidth}px`
 
     return (
-      <div className="flex flex-col lg:flex-row-reverse" style={{ maxWidth }}>
+      <div
+        className="flex flex-col desktop:flex-row-reverse"
+        style={{ maxWidth }}
+      >
         <div
           className="flex-1"
           style={{ maxWidth: device?.isDesktop ? 'calc(100% - 50px)' : '100%' }}
@@ -205,7 +206,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
             )}
           </Swiper>
         </div>
-        <div className="flex w-full lg:w-[50px] max-h-[600px] items-center flex-row lg:flex-col justify-center lg:justify-start">
+        <div className="flex w-full desktop:w-[50px] max-h-[600px] items-center flex-row desktop:flex-col justify-center desktop:justify-start">
           {productGallery?.map(({ id, image, placeholder }, index) => {
             return (
               <button
@@ -260,7 +261,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
           </div>
         </div>
         {/* BUTTONS */}
-        <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5 mt-5">
+        <div className="pt-1.5 desktop:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5 mt-5">
           <div className="flex items-center w-full">
             <Button
               onClick={addToCart}
@@ -276,8 +277,8 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
             >
               {productQuantity === 0 ? __('sold out') : __('Add to cart')}
             </Button>
-            <Button className="border rounded-sm h-[50px] !px-3 border-black flex flex-0 items-center justify-center m-1">
-              <HeartEmpty className="text-black" width={25} height={25} />
+            <Button className="border text-white rounded-sm h-[50px] !px-3 border-black flex flex-0 items-center justify-center m-1">
+              <HeartEmpty width={25} height={25} />
             </Button>
           </div>
         </div>
@@ -353,15 +354,15 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
   }
 
   return (
-    <div className="pt-6 md:pt-7 pb-2">
-      <div className="flex flex-col lg:flex-row justify-between h-full">
-        <div className="relative flex-1 mb-6 md:mb-8 lg:mb-0">
-          <div className="max-w-[600px] xl:max-w-[700px] sticky top-[200px] h-fit overflow-hidden lg:mx-0 mx-auto">
+    <section className="pt-6 md:pt-7 pb-2 max-w-default mx-auto">
+      <div className="flex flex-col desktop:flex-row justify-between h-full">
+        <div className="relative flex-1 mb-6 md:mb-8 desktop:mb-0">
+          <div className="max-w-[600px] xl:max-w-[700px] sticky top-[200px] h-fit overflow-hidden desktop:mx-0 mx-auto">
             {renderGallery()}
           </div>
         </div>
-        <div className="flex-shrink-0 flex flex-col w-full flex-1 xl:ps-2 lg:ml-2 px-2">
-          <div className="pb-3 lg:pb-5">
+        <div className="flex-shrink-0 flex flex-col w-full flex-1 xl:ps-2 desktop:ml-2 px-2">
+          <div className="pb-3 desktop:pb-5">
             <div className="md:mb-2.5 block">
               <h2 className="text-skin-base text-xl md:text-3xl font-semibold transition-colors duration-300 mb-2">
                 {name}
@@ -425,7 +426,7 @@ const ProductDetails = ({ product, useAppDispatch, useAppSelector }: Props) => {
           {renderTags()}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -3,7 +3,11 @@ import { StoreProps } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
 import dynamic from 'next/dynamic'
-import { SectionSize } from '@dropgala/types'
+import {
+  SectionSize,
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType
+} from '@dropgala/types'
 import { getThumbnail, resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
 import { handleBorderStyle, handleOverlayStyle } from '@dropgala/utils/styles'
@@ -14,13 +18,15 @@ const NextImage = dynamic(() => import('../common/Image'), {
   ssr: false
 })
 
-interface Props extends StoreProps {
-  data: any
-}
+interface Props extends StoreProps {}
 
 const Image: React.FC<Props> = ({ useAppSelector, ...props }) => {
-  const data = resolvePath(props, 'data', {})
-  const styles = resolvePath(props, 'styles', {})
+  const data = resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
+  const styles = resolvePath<StoreLayoutComponentStylesType>(
+    props,
+    'styles',
+    {}
+  )
 
   const { contentId, thumbnail, link, target } = data
   const { image, placeholder, height, width } = getThumbnail(thumbnail)

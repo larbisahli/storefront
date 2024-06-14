@@ -27,7 +27,8 @@ interface Props {
 
 const MyAccountActions = ({ handleCart, itemsCount }: Props) => {
   return (
-    <div className="hidden lg:flex items-center">
+    <div className="hidden desktop:flex items-center">
+      {/* ltr:bg-red-500 rtl:bg-blue-500 */}
       <button className="mx-2 text-black">
         <UserIcon width={25} height={25} />
       </button>

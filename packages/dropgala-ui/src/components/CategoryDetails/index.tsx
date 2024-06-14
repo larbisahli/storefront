@@ -24,7 +24,7 @@ const CategoryDetails: React.FC<StoreProps> = ({
 
   const renderCategoryDescription = () => {
     return (
-      <div className="text-gray-900 text-xs desktop:text-sm desktop:text-left text-center max-w-[90%]">
+      <div className="text-gray-900 text-xs desktop:text-sm rtl:desktop:text-right ltr:desktop:text-left text-center max-w-[90%]">
         {category?.description}
       </div>
     )

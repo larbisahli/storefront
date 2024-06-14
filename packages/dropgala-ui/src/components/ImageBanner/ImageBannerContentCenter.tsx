@@ -8,10 +8,7 @@ import cn from 'clsx'
 import { Alignment, ModuleGroup, SectionSize, TextSize } from '@dropgala/types'
 import { getComponentFromChildren, getThumbnail } from '@dropgala/utils/helpers'
 
-interface Props extends StoreProps {
-  data: any
-  children: JSX.Element[]
-}
+interface Props extends StoreProps {}
 
 const Image = dynamic(() => import('../common/Image'), {
   loading: () => <></>,

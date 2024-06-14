@@ -3,11 +3,15 @@ import YouTube from 'react-youtube'
 import cn from 'clsx'
 import _JSXStyle from 'styled-jsx/style'
 import { handleBorderStyle } from '@dropgala/utils/styles'
+import {
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType
+} from '@dropgala/types'
 
 interface Props {
   videoId: string
-  data: any
-  styles: any
+  data: StoreLayoutComponentContentType
+  styles: StoreLayoutComponentStylesType
   componentId: string
 }
 

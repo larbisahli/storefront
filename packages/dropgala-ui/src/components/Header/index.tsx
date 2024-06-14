@@ -53,9 +53,7 @@ const SearchSection = dynamic(() => import('./Header/SearchSection'), {
   ssr: false
 })
 
-interface Props extends StoreProps {
-  children: JSX.Element[]
-}
+interface Props extends StoreProps {}
 
 export const Wrapper = ({ children }: { children: JSX.Element }) => {
   return children
@@ -146,7 +144,7 @@ const Header: FC<Props> = ({
         {renderPromoBanner()}
         {/* Navigation */}
         <div className="max-w-default mx-auto relative group">
-          <BuilderPlaceholder {...props} isEdit isRemove />
+          <BuilderPlaceholder {...props} isEdit />
           {/* Info section */}
           <InfoSection
             storeConfig={storeConfig}
@@ -168,7 +166,7 @@ const Header: FC<Props> = ({
                 </div>
               </Link>
             </div>
-            <div className="hidden lg:block flex-1 max-w-[500px] m-auto">
+            <div className="hidden desktop:block flex-1 max-w-[500px] m-auto">
               {/* Search field */}
               <SearchSection />
             </div>
@@ -207,6 +205,7 @@ const Header: FC<Props> = ({
         itemsCount={itemsCount}
         isMobileHeaderTransition={isMobileHeaderTransition}
       />
+      <div className="pt-[180px] -z-10"></div>
     </Fragment>
   )
 }

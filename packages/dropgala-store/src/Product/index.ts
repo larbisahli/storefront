@@ -1,14 +1,15 @@
-import type { HeroBannerType } from '@dropgala/types/slider.type'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
 
 import { AppState } from '../store'
+import { ProductType } from '@dropgala/types/product.type'
 
-export interface ProductState {}
+export interface ProductState {
+  product: ProductType
+}
 
 const initialState: ProductState = {
-  heroSliderList: [],
-  promoBanner: null
+  product: {}
 }
 
 export const Product = createSlice({
@@ -17,16 +18,16 @@ export const Product = createSlice({
   reducers: {
     setProduct: (
       state: ProductState,
-      action: PayloadAction<{ items: HeroBannerType[] }>
+      action: PayloadAction<{ product: ProductType }>
     ) => {
-      state = action.payload.items
+      state.product = action.payload.product
     }
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
       return {
         ...state,
-        ...action.payload.BannerReducer
+        ...action.payload.ProductReducer
       }
     }
   }
@@ -34,7 +35,7 @@ export const Product = createSlice({
 
 export const { setProduct } = Product.actions
 
-export const selectBanner = (state: AppState): ProductState =>
+export const selectProduct = (state: AppState): ProductState =>
   state.ProductReducer
 
 export default Product.reducer

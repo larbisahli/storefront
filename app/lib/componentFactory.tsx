@@ -459,6 +459,23 @@ const EditorialText = {
     }
   )
 }
+const BannerWidget = {
+  /* __DEFAULT__ */
+  BannerWidgetBg: dynamic(
+    () => import('@dropgala/ui/components/BannerWidget/BannerWidgetBg'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  BannerWidgetNoBg: dynamic(
+    () => import('@dropgala/ui/components/BannerWidget/BannerWidgetNoBg'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
 
 const modules = new Map<
   ModuleGroup,
@@ -503,6 +520,7 @@ modules.set(ModuleGroup.SPACER, Spacer)
 modules.set(ModuleGroup.DIVIDER, Divider)
 modules.set(ModuleGroup.BUTTON, Button)
 modules.set(ModuleGroup.EDITORIAL_TEXT, EditorialText)
+modules.set(ModuleGroup.BANNER_WIDGET, BannerWidget)
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[] | Element | null

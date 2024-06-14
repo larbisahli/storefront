@@ -1,4 +1,5 @@
-import { isEqual, sortBy } from './lodashFunctions'
+import { CategoryType } from '@dropgala/types/category.type'
+import { cloneDeep, isEqual, sortBy } from './lodashFunctions'
 import {
   VariationsType,
   VariationOptionsType
@@ -137,4 +138,35 @@ export function serializeNestedBuffers(obj: any) {
   // Start traversal from the top-level object
   traverse(newObj)
   return newObj
+}
+
+export const ProductBreadcrumbs = (categories: CategoryType[]) => {
+  const selectedCate = cloneDeep(categories)?.sort(
+    (a, b) => (b?.breadcrumbsPriority ?? 0) - (a?.breadcrumbsPriority ?? 0) ?? 0
+  )[0]
+  return [
+    ...(selectedCate?.parent
+      ? [
+          {
+            categoryLevel: selectedCate?.parent?.level,
+            categoryName: selectedCate?.parent?.name,
+            categoryUrl: selectedCate?.parent?.urlKey
+          }
+        ]
+      : []),
+    ...(selectedCate?.parent?.parent
+      ? [
+          {
+            categoryLevel: selectedCate?.parent?.parent?.level,
+            categoryName: selectedCate?.parent?.parent?.name,
+            categoryUrl: selectedCate?.parent?.parent?.urlKey
+          }
+        ]
+      : []),
+    {
+      categoryLevel: selectedCate?.level,
+      categoryName: selectedCate?.name,
+      categoryUrl: selectedCate?.urlKey
+    }
+  ]
 }

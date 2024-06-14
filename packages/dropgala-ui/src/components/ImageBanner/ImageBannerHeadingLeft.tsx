@@ -5,7 +5,14 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import useWindowSize from 'hooks/useWindowSize'
 import cn from 'clsx'
-import { Alignment, ModuleGroup, SectionSize, TextSize } from '@dropgala/types'
+import {
+  Alignment,
+  ModuleGroup,
+  SectionSize,
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType,
+  TextSize
+} from '@dropgala/types'
 import {
   getComponentFromChildren,
   getThumbnail,
@@ -23,10 +30,7 @@ const NextImage = dynamic(() => import('../common/Image'), {
   ssr: false
 })
 
-interface Props extends StoreProps {
-  data: any
-  children: JSX.Element[]
-}
+interface Props extends StoreProps {}
 
 const Image = dynamic(() => import('../common/Image'), {
   loading: () => <></>,
@@ -42,14 +46,14 @@ const ImageBannerHeadingLeft: React.FC<Props> = ({
   // const { width } = useWindowSize()
 
   const { header, description, thumbnail, buttonLabel, buttonLink } =
-    resolvePath(props, 'data', {})
+    resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
   const {
     header: headerStyle,
     description: descriptionStyle,
     sectionSize,
     objectFit,
     imageBorder
-  } = resolvePath(props, 'styles', {})
+  } = resolvePath<StoreLayoutComponentStylesType>(props, 'styles', {})
 
   const { image, placeholder, width, height } = getThumbnail(thumbnail)
 

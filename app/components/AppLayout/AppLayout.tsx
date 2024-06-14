@@ -15,7 +15,11 @@ import CustomProfiler from '@components/CustomProfiler'
 import { resolvePath } from '@dropgala/utils/helpers'
 import { useAppSelector } from '@hooks/useStore'
 import { selectConfig } from '@dropgala/store'
-import { PageLayoutBlocks } from '@dropgala/types'
+import {
+  PageLayoutBlocks,
+  StoreLayoutComponentType,
+  ThemeSettingsType
+} from '@dropgala/types'
 import {
   handleThemeSettingsDefaults,
   handleThemeSettingsVariables
@@ -77,10 +81,22 @@ const spectral = Spectral({
 
 const AppLayout = ({ children, className }: Props) => {
   const { layout } = useAppSelector(selectConfig)
-  const headerData = resolvePath(layout, PageLayoutBlocks.Header, {})
-  const footerData = resolvePath(layout, PageLayoutBlocks.Footer, {})
-  const mainData = resolvePath(layout, PageLayoutBlocks.Main, {})
-  const settings = resolvePath(layout, 'settings', {})
+  const headerData = resolvePath<StoreLayoutComponentType>(
+    layout,
+    PageLayoutBlocks.Header,
+    {}
+  )
+  const footerData = resolvePath<StoreLayoutComponentType>(
+    layout,
+    PageLayoutBlocks.Footer,
+    {}
+  )
+  const mainData = resolvePath<StoreLayoutComponentType[]>(
+    layout,
+    PageLayoutBlocks.Main,
+    []
+  )
+  const settings = resolvePath<ThemeSettingsType>(layout, 'settings', {})
   console.log('APP_LAYOUT >>>', { layout })
   return (
     <div className="relative">
@@ -99,20 +115,20 @@ const AppLayout = ({ children, className }: Props) => {
           ${handleThemeSettingsDefaults(settings)}
         }
       `}</style>
-      <CustomProfiler data={[headerData]} />
+      <CustomProfiler components={[headerData]} />
       <CartDrawer moduleName="CartDrawer" />
       <MenuDrawer moduleName="MenuDrawer" />
       <main className={cn('relative flex-grow h-full w-full', className)}>
         <div className="flex flex-col flex-grow">
-          <div className="mt-[101px] lg:mt-[150px] flex-auto">
+          <div className="smt-[101px] desktop:smt-[150px] flex-auto">
             <div className="mb-44">
-              <CustomProfiler data={mainData} />
+              <CustomProfiler components={mainData} />
             </div>
             {children}
           </div>
         </div>
       </main>
-      <CustomProfiler data={[footerData]} />
+      <CustomProfiler components={[footerData]} />
     </div>
   )
 }

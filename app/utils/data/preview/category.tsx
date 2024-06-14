@@ -76,7 +76,14 @@ export const PreviewCategory = {
       relatedProducts: [],
       upsellProducts: [],
       crossSellProducts: [],
-      price: {},
+      price: {
+        salePrice: 234,
+        maxSalePrice: 342,
+        minSalePrice: 134,
+        comparePrice: 334,
+        maxComparePrice: 334,
+        minComparePrice: 234
+      },
       ratingSummary: 14,
       reviewCount: 5
     },
@@ -118,7 +125,14 @@ export const PreviewCategory = {
       relatedProducts: [],
       upsellProducts: [],
       crossSellProducts: [],
-      price: {},
+      price: {
+        salePrice: 234,
+        maxSalePrice: 342,
+        minSalePrice: 134,
+        comparePrice: 334,
+        maxComparePrice: 334,
+        minComparePrice: 234
+      },
       ratingSummary: 6,
       reviewCount: 2
     },
@@ -160,7 +174,14 @@ export const PreviewCategory = {
       relatedProducts: [],
       upsellProducts: [],
       crossSellProducts: [],
-      price: {},
+      price: {
+        salePrice: 234,
+        maxSalePrice: 342,
+        minSalePrice: 134,
+        comparePrice: 334,
+        maxComparePrice: 334,
+        minComparePrice: 234
+      },
       ratingSummary: 3,
       reviewCount: 3
     },
@@ -202,7 +223,14 @@ export const PreviewCategory = {
       relatedProducts: [],
       upsellProducts: [],
       crossSellProducts: [],
-      price: {},
+      price: {
+        salePrice: 234,
+        maxSalePrice: 342,
+        minSalePrice: 134,
+        comparePrice: 334,
+        maxComparePrice: 334,
+        minComparePrice: 234
+      },
       ratingSummary: 8,
       reviewCount: 4
     },
@@ -244,7 +272,14 @@ export const PreviewCategory = {
       relatedProducts: [],
       upsellProducts: [],
       crossSellProducts: [],
-      price: {},
+      price: {
+        salePrice: 234,
+        maxSalePrice: 342,
+        minSalePrice: 134,
+        comparePrice: 334,
+        maxComparePrice: 334,
+        minComparePrice: 234
+      },
       ratingSummary: 5,
       reviewCount: 4
     }

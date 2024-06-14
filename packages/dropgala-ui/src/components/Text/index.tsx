@@ -3,14 +3,24 @@ import { StoreProps } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
 import { resolvePath } from '@dropgala/utils/helpers'
+import {
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType
+} from '@dropgala/types'
 
-interface Props extends StoreProps {
-  data: any
-}
+interface Props extends StoreProps {}
 
 const Text: React.FC<Props> = ({ useAppSelector, ...props }) => {
-  const { header, description } = resolvePath(props, 'data', {})
-  const styles = resolvePath(props, 'styles', {})
+  const { header, description } = resolvePath<StoreLayoutComponentContentType>(
+    props,
+    'data',
+    {}
+  )
+  const styles = resolvePath<StoreLayoutComponentStylesType>(
+    props,
+    'styles',
+    {}
+  )
   return (
     <section
       className={cn(

@@ -3,7 +3,12 @@ import { StoreProps, selectConfig } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import dynamic from 'next/dynamic'
 import cn from 'clsx'
-import { ModuleGroup, SectionSize } from '@dropgala/types'
+import {
+  ModuleGroup,
+  SectionSize,
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType
+} from '@dropgala/types'
 import {
   getComponentFromChildren,
   getThumbnail,
@@ -21,10 +26,7 @@ const NextImage = dynamic(() => import('../common/Image'), {
   ssr: false
 })
 
-interface Props extends StoreProps {
-  data: any
-  children: JSX.Element[]
-}
+interface Props extends StoreProps {}
 
 const Image = dynamic(() => import('../common/Image'), {
   loading: () => <></>,
@@ -40,14 +42,14 @@ const ImageBannerStack: React.FC<Props> = ({
   // const { width } = useWindowSize()
 
   const { header, description, thumbnail, buttonLabel, buttonLink } =
-    resolvePath(props, 'data', {})
+    resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
   const {
     header: headerStyle,
     description: descriptionStyle,
     sectionSize,
     objectFit,
     imageBorder
-  } = resolvePath(props, 'styles', {})
+  } = resolvePath<StoreLayoutComponentStylesType>(props, 'styles', {})
 
   const { image, placeholder, width, height } = getThumbnail(thumbnail)
 

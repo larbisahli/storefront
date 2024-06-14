@@ -50,11 +50,6 @@ export default function ProductPage({ pageProps }: PageProps) {
 
   const category = useAppSelector(selectCategory)
 
-  console.log(
-    '____:',
-    useAppSelector((state) => state)
-  )
-
   const { host, products = [] } = pageProps
 
   const [categoryProducts, setCategoryProducts] = useState<{
@@ -102,8 +97,6 @@ export default function ProductPage({ pageProps }: PageProps) {
   }, [categoryProducts])
 
   const { metaTitle, metaImage, metaRobots, metaDescription, urlKey } = category
-
-  console.log('_______', { category })
 
   return (
     <>
@@ -238,7 +231,7 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(
         await fetchPageLayout({
           alias,
-          page: StoreLayoutNames.CATEGORY,
+          page: StoreLayoutNames.CATEGORY_PAGE,
           templateId,
           storeLanguageId,
           isCustom: false,
@@ -266,7 +259,6 @@ export const getServerSideProps: GetServerSideProps =
           collection: { id: 'categoryProducts', items: products }
         })
       )
-      console.log({ category })
       store.dispatch(setCategory({ category }))
       store.dispatch(
         setBreadcrumb({ name: null, breadcrumbs: category?.breadcrumbs ?? [] })

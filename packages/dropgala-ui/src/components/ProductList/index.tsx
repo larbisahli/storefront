@@ -4,14 +4,10 @@ import { StoreProps, selectConfig } from '@dropgala/store'
 import { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { getComponentFromChildren, resolvePath } from '@dropgala/utils/helpers'
-import { ModuleGroup } from '@dropgala/types'
+import { ModuleGroup, StoreLayoutComponentContentType } from '@dropgala/types'
 import { selectCollection } from '@dropgala/store/Collections'
-import LibraryPlaceholder from '../common/libraryPlaceholder'
 
-interface Props extends StoreProps {
-  popularProducts: ProductType[]
-  children: JSX.Element[]
-}
+interface Props extends StoreProps {}
 
 const ProductList: React.FC<Props> = ({
   useAppSelector,
@@ -21,13 +17,17 @@ const ProductList: React.FC<Props> = ({
   const { language } = useAppSelector(selectConfig)
   const { __ } = useTranslation(language, 'exception')
 
-  const products = useAppSelector((state) =>
+  const data = resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
+
+  const collection = useAppSelector((state) =>
     selectCollection(
       state,
       // data?.collectionId
       'categoryProducts'
     )
   )
+
+  const products = resolvePath<ProductType[]>(data, 'collection', [])
 
   const renderProductNotFound = () => {
     const ProductNotFound = getComponentFromChildren(
@@ -69,8 +69,6 @@ const ProductList: React.FC<Props> = ({
 
   const isProductLimitReached = false
 
-  const data = resolvePath(props, 'data', {})
-
   return (
     <section className="mt-8 max-w-default mx-auto">
       <h3 className="text-2xl font-semibold">{data?.name}</h3>
@@ -79,7 +77,7 @@ const ProductList: React.FC<Props> = ({
         tablet:grid-cols-3 desktop:grid-cols-xl:grid-cols-5
         laptop:grid-cols-4 desktop:grid-cols-5 gap-3 md:gap-4 2xl:gap-5"
       >
-        {products?.map((products) => renderProductCard(products))}
+        {products?.map((items: ProductType) => renderProductCard(items))}
       </div>
       {!isProductLimitReached && (
         <div className="mt-5">{renderPagination()}</div>

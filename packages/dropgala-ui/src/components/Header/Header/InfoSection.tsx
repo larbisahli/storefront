@@ -13,7 +13,7 @@ interface Props {
 const InfoSection = ({ storeConfig, handleDefaultCurrency }: Props) => {
   const { storeEmail, storeNumber } = storeConfig
   return (
-    <div className="hidden lg:flex items-center justify-between pt-2 pb-1 px-2">
+    <div className="hidden desktop:flex items-center justify-between pt-2 pb-1 px-2">
       <div className="flex items-center text-xs text-gray-900 flex-1">
         {storeNumber && (
           <div className="pr-5 flex items-center">

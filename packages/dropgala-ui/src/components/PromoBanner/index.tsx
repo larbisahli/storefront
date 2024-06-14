@@ -16,9 +16,7 @@ const DynamicContent = dynamic(() => import('../common/DynamicContent'), {
   ssr: false
 })
 
-interface Props extends StoreProps {
-  data: any
-}
+interface Props extends StoreProps {}
 
 const PromoBanner = ({ data, ...props }: Props) => {
   const {

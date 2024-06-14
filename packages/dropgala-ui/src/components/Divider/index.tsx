@@ -4,11 +4,12 @@ import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
 import { resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
+import {
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType
+} from '@dropgala/types'
 
-interface Props extends StoreProps {
-  data: any
-  styles: any
-}
+interface Props extends StoreProps {}
 
 const Divider: React.FC<Props> = ({ ...props }) => {
   const {
@@ -17,7 +18,7 @@ const Divider: React.FC<Props> = ({ ...props }) => {
     lineColor = '#555',
     lineWidth = 60,
     alignment = 'center'
-  } = resolvePath(props, 'styles', {})
+  } = resolvePath<StoreLayoutComponentStylesType>(props, 'styles', {})
   const dividerWrapperClassName = `divider-wrapper-${props.componentId}`
   const dividerClassName = `divider-${props.componentId}`
   return (

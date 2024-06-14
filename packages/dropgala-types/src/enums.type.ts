@@ -39,7 +39,8 @@ export enum ModuleGroup {
   SPACER = 'Spacer',
   DIVIDER = 'Divider',
   BUTTON = 'Button',
-  EDITORIAL_TEXT = 'EditorialText'
+  EDITORIAL_TEXT = 'EditorialText',
+  BANNER_WIDGET = 'BannerWidget'
 }
 
 export enum BreadcrumbComponents {

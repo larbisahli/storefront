@@ -17,7 +17,11 @@ import BreadcrumbsReducer from './Breadcrumbs'
 import OfflineReducer from './Offline'
 import ProductReducer from './Product'
 import CollectionsReducer from './Collections'
-import { TypedUseSelectorHook } from '@dropgala/types'
+import {
+  StoreLayoutComponentContentType,
+  StoreLayoutComponentStylesType,
+  TypedUseSelectorHook
+} from '@dropgala/types'
 
 const PRODUCTION_ENV = process.env.NODE_ENV === 'production'
 
@@ -71,7 +75,9 @@ export type StoreProps = {
   moduleName: string
   componentId: string
   moduleGroup: string
-  data: any
+  data: StoreLayoutComponentContentType
+  styles: StoreLayoutComponentStylesType
+  children: JSX.Element[]
 }
 
 export default store
