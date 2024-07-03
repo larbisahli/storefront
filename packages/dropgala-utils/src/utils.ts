@@ -43,11 +43,11 @@ Number.prototype.toCommas = function () {
 
 export const mediaURL = PRODUCTION_ENV
   ? 'https://api.dropgala.com/media'
-  : 'http://127.0.0.1:5002/media'
+  : 'http://localhost:5002/media'
 
 export const apiURL = PRODUCTION_ENV
   ? 'https://api.dropgala.com'
-  : 'http://127.0.0.1:5002'
+  : 'http://localhost:5002'
 
 export const builderURL = PRODUCTION_ENV
   ? 'https://dropgala.com'
@@ -97,8 +97,12 @@ export const daysToSeconds = (days: number) => 60 * 60 * (24 * days)
 
 export const roundTo3 = (v: number = 0) => Math.round(v * 1000) / 1000
 
-export const calcTaxRate = (price: number = 0, rate: number = 0) =>
-  roundTo3(Number(price) + Number(price) * (Number(rate) / 100))
+export const calcTaxRate = (price: number = 0, rate: number = 0) => {
+  if (rate > 0) {
+    return roundTo3(Number(price) + Number(price) * (Number(rate) / 100))
+  }
+  return roundTo3(Number(price))
+}
 
 export const calcPercentage = (
   salePrice: number = 0,

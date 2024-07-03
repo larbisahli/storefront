@@ -7,7 +7,10 @@ interface Props extends StoreProps {}
 const Subscription: React.FC<Props> = ({ useAppSelector, ...props }) => {
   console.log({ props })
   return (
-    <section className="relative group mt-1 py-3 bg-red-300 ">
+    <section
+      id={props.componentId}
+      className="relative group mt-1 py-3 bg-red-300 scroll-mt-160px"
+    >
       <BuilderPlaceholder
         {...props}
         isEdit

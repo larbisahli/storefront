@@ -12,22 +12,16 @@ const SwiperComponent = dynamic(() => import('../common/Swiper'), {
   loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
   ssr: false
 })
-interface Props {
-  useAppSelector: StoreProps['useAppSelector']
-  data: {
-    items: HeroBannerType[]
-  }
-}
+interface Props extends StoreProps {}
 
-const HeroSliderBlock: React.FC<Props> = ({
-  useAppSelector,
-  data,
-  ...props
-}) => {
+const HeroCarousel: React.FC<Props> = ({ useAppSelector, data, ...props }) => {
   const { device } = useAppSelector(selectConfig)
   const items = resolvePath<any[]>(data, 'items', [])
   return (
-    <section className="relative mx-0 lg:mx-2 mb-7 mt-12 group">
+    <section
+      id={props.componentId}
+      className="relative mx-0 lg:mx-2 mb-7 mt-12 group scroll-mt-160px"
+    >
       <BuilderPlaceholder
         {...props}
         isAddAfter
@@ -60,4 +54,4 @@ const HeroSliderBlock: React.FC<Props> = ({
   )
 }
 
-export default memo(HeroSliderBlock)
+export default memo(HeroCarousel)

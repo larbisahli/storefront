@@ -43,6 +43,8 @@ export const handleTypographyStyle = (
   typography: PageBuilderStyles['Typography']
 ) => {
   if (!typography) return ''
+  const textAlign =
+    typography?.textAlign && `text-align: ${typography?.textAlign};`
   return `
     font-family: var(${typography?.fontFamily?.value});
     font-size: ${typography?.fontSize}px;
@@ -51,9 +53,9 @@ export const handleTypographyStyle = (
     color: ${typography?.color};
     letter-spacing: ${typography?.letterSpacing}px;
     line-height: ${typography?.lineHeight}px;
-    text-align: ${typography?.textAlign};
     text-decoration: ${typography?.textDecoration};
     text-transform: ${typography?.textTransform};
+    ${textAlign ?? ''}
   `.trim()
 }
 
@@ -99,4 +101,14 @@ export const handleThemeSettingsVariables = (settings: ThemeSettingsType) => {
     --bar-dark-half-color: ${settings.barDarkHalfColor};
     --modal-loading-background-color: ${settings.modalLoadingBackground};
   `.trim()
+}
+
+export const handleFlexAlignment = (
+  alignment: PageBuilderStyles['FlexAlignment']
+) => {
+  if (!alignment) return ''
+  return `
+   align-items: ${alignment?.alignItems?.value};
+   justify-content: ${alignment?.justifyContent?.value};
+  `
 }

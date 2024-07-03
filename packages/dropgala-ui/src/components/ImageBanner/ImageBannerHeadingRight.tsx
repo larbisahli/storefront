@@ -70,8 +70,9 @@ const ImageBannerHeadingRight: React.FC<Props> = ({
 
   return (
     <section
+      id={props.componentId}
       className={cn(
-        'relative group mb-8',
+        'relative group scroll-mt-160px',
         sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
@@ -103,16 +104,16 @@ const ImageBannerHeadingRight: React.FC<Props> = ({
             }
            }
       `}</_JSXStyle>
-      <div className={cn('lg:p-8 p-4 !px-0 tablet:!px-2')}>
+      <div className={cn('desktop:p-8 p-4 !px-2')}>
         <div
           className={cn(
             'flex justify-center items-center',
-            'lg:flex-row flex-col'
+            'desktop:flex-row flex-col'
           )}
         >
           <div
             className={cn(
-              'lg:w-1/2 w-full flex tablet:justify-center desktop:justify-start'
+              'desktop:w-1/2 w-full flex justify-center desktop:justify-start'
             )}
           >
             <div
@@ -130,14 +131,28 @@ const ImageBannerHeadingRight: React.FC<Props> = ({
           </div>
           <div
             className={cn(
-              'lg:w-1/2 w-full lg:pl-12 mb-5 lg:mb-0 flex flex-col tablet:justify-center desktop:justify-start tablet:items-center desktop:items-start'
+              'desktop:w-1/2 w-full max-w-[800px] desktop:pl-12 mt-6 desktop:mt-0 flex flex-col tablet:justify-center desktop:justify-start tablet:items-center desktop:items-start'
             )}
           >
-            <h3 className={cn('mb-5', headerClassName)}>{header}</h3>
-            <p className={cn('mb-8 max-w-[600px]', descriptionClassName)}>
+            <h3
+              className={cn(
+                'mb-5',
+                headerClassName,
+                'text-center desktop:text-left rtl:desktop:text-right'
+              )}
+            >
+              {header}
+            </h3>
+            <p
+              className={cn(
+                'mb-8',
+                descriptionClassName,
+                'text-center desktop:text-left rtl:desktop:text-right'
+              )}
+            >
               {description}
             </p>
-            <div className={cn('flex lg:justify-start justify-center')}>
+            <div className={cn('flex desktop:justify-start justify-center')}>
               <Link href={buttonLink}>{renderButton()}</Link>
             </div>
           </div>

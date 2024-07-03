@@ -45,12 +45,12 @@ const LibraryPlaceholderBlock = (props: any) => {
         )}
       ></div>
       <button
-        title="Edit block"
+        title="Component Library"
         onClick={handlePostMessage}
         className={cn(
           'z-[999] absolute left-0 hidden',
           'group-hover/library:block',
-          'pb-2 top-[-28px] left-[5px]'
+          'pb-2 top-[0] left-[0]'
         )}
       >
         <div className="text-white h-6 w-6 rounded-sm items-center flex justify-center bg-[#A131ED] hover:bg-[#A131ED]">

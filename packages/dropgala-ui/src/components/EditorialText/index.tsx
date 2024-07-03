@@ -24,8 +24,9 @@ const EditorialText: React.FC<Props> = ({ useAppSelector, ...props }) => {
   const editorialTextClassName = `editorial-text-${props.componentId}`
   return (
     <section
+      id={props.componentId}
       className={cn(
-        'relative group mb-8',
+        'relative group mb-8 scroll-mt-160px',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full',
         'flex justify-center items-center flex-col px-2'

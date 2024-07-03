@@ -33,7 +33,7 @@ export default function CartPage({ host }: Props) {
         <section className="w-full flex justify-center my-30px">
           <CheckoutBreadcrumb />
         </section>
-        <div className="flex w-full lg:flex-row flex-col border border-gray-200 rounded-md">
+        <div className="flex w-full desktop:flex-row flex-col border border-gray-200 rounded-md">
           {/* 1 */}
           <div className="flex-1">
             <CheckoutCartItems />
@@ -41,7 +41,7 @@ export default function CartPage({ host }: Props) {
           {/* 2 */}
           <div
             style={{ background: 'rgba(0,0,0,0.03)' }}
-            className="pb-5 lg:w-[40%] xl:w-[45%] w-full"
+            className="pb-5 desktop:w-[40%] w-full"
           >
             <OrderSummary />
           </div>

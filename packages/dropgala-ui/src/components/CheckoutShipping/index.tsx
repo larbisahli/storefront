@@ -112,7 +112,7 @@ const CheckoutShipping = ({
           })}
         </Scrollbar>
       </div>
-      <div className="my-5 flex items-center justify-between flex-0">
+      <div className="my-5 flex items-center justify-between">
         <Link
           href={{
             pathname: `/checkout/${CheckoutSteps.INFORMATION}`

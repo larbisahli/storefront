@@ -152,9 +152,7 @@ const CheckoutItems = ({ useAppSelector, useAppDispatch }: Props) => {
   const renderTotal = () => {
     return (
       <div className="flex items-center justify-between">
-        <span className="text-black font-bold text-base">
-          {__('Order total')}
-        </span>
+        <span className="text-black font-bold text-lg">{__('Total')}</span>
         <div className="flex items-end flex-col">
           <span className="text-black font-bold text-xl">
             {grandTotalInclTax}

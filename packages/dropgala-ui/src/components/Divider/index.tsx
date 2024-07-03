@@ -22,7 +22,10 @@ const Divider: React.FC<Props> = ({ ...props }) => {
   const dividerWrapperClassName = `divider-wrapper-${props.componentId}`
   const dividerClassName = `divider-${props.componentId}`
   return (
-    <section className={cn('relative group max-w-full divider')}>
+    <section
+      id={props.componentId}
+      className={cn('relative group max-w-full divider my-1 scroll-mt-160px')}
+    >
       <BuilderPlaceholder
         {...props}
         isEdit

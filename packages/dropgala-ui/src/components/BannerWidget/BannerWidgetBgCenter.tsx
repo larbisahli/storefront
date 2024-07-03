@@ -14,7 +14,7 @@ import _JSXStyle from 'styled-jsx/style'
 
 interface Props extends StoreProps {}
 
-const BannerWidgetNoBg: React.FC<Props> = ({
+const BannerWidgetBgCenter: React.FC<Props> = ({
   useAppSelector,
   children,
   ...props
@@ -40,8 +40,8 @@ const BannerWidgetNoBg: React.FC<Props> = ({
     <figcaption
       id={props.componentId}
       className={cn(
-        'relative group/library scroll-mt-320px',
-        'flex flex-col justify-center items-center p-5 rounded-md max-w-[800px]'
+        'relative group/library scroll-mt-320px bg-white',
+        'flex flex-col justify-center items-center p-5 rounded-md max-w-[700px] opacity-95 border'
       )}
     >
       <_JSXStyle id={props.componentId}>{`
@@ -53,9 +53,11 @@ const BannerWidgetNoBg: React.FC<Props> = ({
           }
       `}</_JSXStyle>
       <LibraryPlaceholder {...props} isEdit />
-      <div className="">
+      <div className="flex flex-col justify-center items-center">
         <h2 className={cn('mb-5', headerClassName)}>{header}</h2>
-        <p className={cn('mb-8  max-w-[80%]', descriptionClassName)}>
+        <p
+          className={cn('text-center mb-8  max-w-[80%]', descriptionClassName)}
+        >
           {description}
         </p>
         {buttonLabel && <Link href={buttonLink ?? '/'}>{renderButton()}</Link>}
@@ -64,4 +66,4 @@ const BannerWidgetNoBg: React.FC<Props> = ({
   )
 }
 
-export default BannerWidgetNoBg
+export default BannerWidgetBgCenter

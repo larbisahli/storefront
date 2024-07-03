@@ -9,6 +9,8 @@ import {
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
 import LibraryPlaceholder from '../common/libraryPlaceholder'
+import { handleTypographyStyle } from '@dropgala/utils/styles'
+import _JSXStyle from 'styled-jsx/style'
 
 interface Props extends StoreProps {}
 
@@ -31,18 +33,31 @@ const BannerWidgetBg: React.FC<Props> = ({
     return React.cloneElement(Button, { label: buttonLabel })
   }
 
+  const headerClassName = `header-${props.componentId}`
+  const descriptionClassName = `description-${props.componentId}`
+
   return (
     <figcaption
+      id={props.componentId}
       className={cn(
-        'relative group/library',
-        'bg-white',
-        'flex flex-col justify-center items-center p-5 rounded-md max-w-[80%] opacity-95 border'
+        'relative group/library scroll-mt-320px bg-white',
+        'flex flex-col justify-center items-center p-5 rounded-md max-w-[700px] opacity-95 border'
       )}
     >
+      <_JSXStyle id={props.componentId}>{`
+          .${headerClassName} {
+            ${handleTypographyStyle(styles.header)}
+          }
+          .${descriptionClassName} {
+            ${handleTypographyStyle(styles.description)}
+          }
+      `}</_JSXStyle>
       <LibraryPlaceholder {...props} isEdit />
-      <div className="flex flex-col justify-center items-center">
-        <h2 className="font-semibold text-2xl mb-5">{header}</h2>
-        <p className="text-center mb-8  max-w-[90%]">{description}</p>
+      <div className="">
+        <h2 className={cn('mb-5', headerClassName)}>{header}</h2>
+        <p className={cn('mb-8  max-w-[80%]', descriptionClassName)}>
+          {description}
+        </p>
         {buttonLabel && <Link href={buttonLink ?? '/'}>{renderButton()}</Link>}
       </div>
     </figcaption>

@@ -23,8 +23,9 @@ const Html: React.FC<Props> = ({ useAppSelector, ...props }) => {
 
   return (
     <section
+      id={props.componentId}
       className={cn(
-        'relative group',
+        'relative group scroll-mt-160px',
         sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
@@ -38,7 +39,7 @@ const Html: React.FC<Props> = ({ useAppSelector, ...props }) => {
         isDuplicate
       />
       <_JSXStyle id={data.contentId}>{css}</_JSXStyle>
-      <DynamicContent tagName="div" innerHtml={data?.innerHtml} />
+      <DynamicContent tagName="div" innerHtml={data?.html} />
     </section>
   )
 }

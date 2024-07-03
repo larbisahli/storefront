@@ -248,11 +248,11 @@ const InstallPrompt = {${themePaths?.map(
       'ProductCardPlaceholder'
     )}`
 )}}
-const ProductNotFound = {${themePaths?.map(
+const ContentNotFound = {${themePaths?.map(
   (themePath) =>
     `'${[themePath]}': ${dynamicImport(
       themePath,
-      'ProductNotFound',
+      'ContentNotFound',
       'ProductCardPlaceholder'
     )}`
 )}}
@@ -298,7 +298,7 @@ components.set(ModuleGroup.CHECKOUT_ITEMS, CheckoutItems);
 components.set(ModuleGroup.CHECKOUT_SHIPPING, CheckoutShipping);
 components.set(ModuleGroup.CHECKOUT_PAYMENT, CheckoutPayment);
 components.set(ModuleGroup.INSTALL_PROMPT, InstallPrompt);
-components.set(ModuleGroup.PRODUCT_NOT_FOUND, ProductNotFound);
+components.set(ModuleGroup.CONTENT_NOT_FOUND, ContentNotFound);
 components.set(ModuleGroup.COOKIE_POPUP, CookiePopup);
 
 export default function componentFactory<Props>(

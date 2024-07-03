@@ -2,6 +2,7 @@ import { ButtonSizes } from '@dropgala/types/props.type'
 import cn from 'clsx'
 import React, { MouseEvent } from 'react'
 import LibraryPlaceholder from '../common/libraryPlaceholder'
+import { StoreProps } from '@dropgala/store'
 
 const ButtonSize = {
   big: 'h-12 px-30px',
@@ -9,11 +10,10 @@ const ButtonSize = {
   small: 'h-9 text-13px px-20px'
 }
 
-interface Props {
+interface Props extends StoreProps {
   size?: ButtonSizes
   label: string
   type?: React.ButtonHTMLAttributes<any>['type']
-  children: React.ReactNode | undefined
   loading?: boolean
   disabled?: boolean
   onClick?: React.MouseEventHandler<HTMLButtonElement>
@@ -42,9 +42,10 @@ const ButtonPrimaryRounded: React.FC<React.PropsWithChildren<ButtonProps>> = ({
 
   return (
     <button
+      id={props.componentId}
       onClick={onClickHandler}
       className={cn(
-        'relative group/library rounded-full flex items-center justify-center flex-shrink-0 font-normal w-auto uppercase',
+        'relative group/library scroll-mt-320px rounded-full flex items-center justify-center flex-shrink-0 font-normal w-auto uppercase',
         'rounded outline-none transition duration-250 ease-in-out focus:outline-none',
         ButtonSize[size],
         className,

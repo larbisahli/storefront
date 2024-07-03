@@ -190,7 +190,6 @@
 .swiper-button-prev::after {
   color: #000000 !important;
   font-weight: 700;
-  @apply !text-base lg:!text-xl;
 }
 
 .loading-bar-container {
@@ -219,4 +218,13 @@
 }
 .loading-bar--show {
   display: block;
+}
+
+.gradient-category-item-2 {
+  background: linear-gradient(
+    0deg,
+    rgb(0 0 0 / 64%) 7%,
+    rgb(0 0 0 / 63%) 4%,
+    rgb(0 0 0 / 0%) 30%
+  );
 }

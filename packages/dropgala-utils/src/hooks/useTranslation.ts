@@ -10,7 +10,7 @@ export default function useTranslation(
     return string.replace(/%s/g, () => values[i++] ?? '')
   }
   function translateString(string: string) {
-    return (translation && translation[string]) || string
+    return (translation && string && translation[string]) || string || ''
   }
   function getTranslatedStringWithInjectedValues(
     string: string,

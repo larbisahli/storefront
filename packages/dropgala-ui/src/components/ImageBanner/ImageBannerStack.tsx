@@ -66,8 +66,9 @@ const ImageBannerStack: React.FC<Props> = ({
 
   return (
     <section
+      id={props.componentId}
       className={cn(
-        'relative group mb-8',
+        'relative group scroll-mt-160px',
         sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
@@ -94,15 +95,22 @@ const ImageBannerStack: React.FC<Props> = ({
             border-radius: ${imageBorder?.borderRadius}px;
           }
       `}</_JSXStyle>
-      <div className={cn('lg:p-8 p-4 !px-0')}>
+      <div className={cn('desktop:p-8 p-4 !px-0')}>
         <div className={cn('flex justify-center items-center flex-col')}>
           <div
             className={cn(
-              'w-full mb-5 lg:mb-0 flex flex-col items-center justify-center desktop:max-w-[70%] tablet:max-w-[60%] max-w-[95%]'
+              'w-full mb-6 max-w-[800px] flex flex-col items-center justify-center'
             )}
           >
-            <h3 className={cn('mb-5', headerClassName)}>{header}</h3>
-            <p className={cn('mb-8 max-w-default px-2', descriptionClassName)}>
+            <h3 className={cn('mb-5 text-center px-1', headerClassName)}>
+              {header}
+            </h3>
+            <p
+              className={cn(
+                'mb-8 max-w-default text-center px-2',
+                descriptionClassName
+              )}
+            >
               {description}
             </p>
             <div className={cn('flex justify-center')}>

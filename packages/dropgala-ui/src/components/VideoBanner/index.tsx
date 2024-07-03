@@ -11,7 +11,7 @@ import {
 } from '@dropgala/types'
 import cn from 'clsx'
 import { getComponentFromChildren, resolvePath } from '@dropgala/utils/helpers'
-import { handleOverlayStyle } from '@dropgala/utils/styles'
+import { handleFlexAlignment, handleOverlayStyle } from '@dropgala/utils/styles'
 
 const YouTubeVideo = dynamic(() => import('./YoutubeVideo'), {
   loading: () => <></>,
@@ -45,6 +45,7 @@ const VideoBanner: React.FC<Props> = ({
 
   const videoBannerClass = `video-banner-${props.componentId}`
   const opacityClassName = `video-banner-opacity-${props.componentId}`
+  const flexAlignment = `alignment-${props.componentId}`
 
   const renderBannerWidget = () => {
     const BannerWidget = getComponentFromChildren(
@@ -52,13 +53,14 @@ const VideoBanner: React.FC<Props> = ({
       ModuleGroup.BANNER_WIDGET
     )
     if (!BannerWidget) return null
-    return React.cloneElement(BannerWidget, { data })
+    return React.cloneElement(BannerWidget, { data, styles })
   }
 
   return (
     <section
+      id={props.componentId}
       className={cn(
-        'relative group',
+        'relative group scroll-mt-160px',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
@@ -77,6 +79,9 @@ const VideoBanner: React.FC<Props> = ({
           }
           .${opacityClassName} {
             ${handleOverlayStyle(styles?.overlay, styles?.border)}
+          }
+          .${flexAlignment} {
+            ${handleFlexAlignment(styles.flexAlignment)}
           }
           `}</_JSXStyle>
       <figure
@@ -104,7 +109,8 @@ const VideoBanner: React.FC<Props> = ({
         <div
           className={cn(
             'absolute top-0 left-0 right-0 bottom-0',
-            'z-10 flex flex-col justify-center items-center'
+            'z-10 flex flex-col m-[50px]',
+            flexAlignment
           )}
         >
           {data?.displayContent && renderBannerWidget()}

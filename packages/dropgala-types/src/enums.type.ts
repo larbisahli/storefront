@@ -23,7 +23,7 @@ export enum ModuleGroup {
   PAGINATION = 'Pagination',
   MISCELLANEOUS = 'Miscellaneous',
   INSTALL_PROMPT = 'InstallPrompt',
-  PRODUCT_NOT_FOUND = 'ProductNotFound',
+  CONTENT_NOT_FOUND = 'ContentNotFound',
   COOKIE_POPUP = 'CookiePopup',
   PROMO_BANNER = 'PromoBanner',
   OFFLINE_NOTICE = 'OfflineNotice',
@@ -34,8 +34,9 @@ export enum ModuleGroup {
   VIDEO_BANNER = 'VideoBanner',
   HTML = 'Html',
   CATEGORY_LIST = 'CategoryList',
+  CATEGORY_LIST_ITEM = 'CategoryListItem',
   PRODUCT_LIST = 'ProductList',
-  HERO_CAROUSEL = 'HeroCarousel',
+  CAROUSEL = 'Carousel',
   SPACER = 'Spacer',
   DIVIDER = 'Divider',
   BUTTON = 'Button',
@@ -55,8 +56,8 @@ export enum ProductCardComponents {
   PRODUCT_CARD = 'ProductCard'
 }
 
-export enum ProductNotFoundComponents {
-  PRODUCT_NOT_FOUND = 'ProductNotFound'
+export enum ContentNotFoundComponents {
+  CONTENT_NOT_FOUND = 'ContentNotFound'
 }
 
 export enum SortOrder {
@@ -148,7 +149,9 @@ export enum StoreBuilderActions {
   DELETE_ACTION = 'DELETE_ACTION',
   ADD_NEW_BEFORE = 'ADD_NEW_BEFORE',
   ADD_NEW_AFTER = 'ADD_NEW_AFTER',
-  DUPLICATE_BLOCK = 'DUPLICATE_BLOCK'
+  DUPLICATE_BLOCK = 'DUPLICATE_BLOCK',
+  SCROLL_TO_SECTION = 'SCROLL_TO_SECTION',
+  BLOCK_SELECTION = 'BLOCK_SELECTION'
 }
 
 export enum PageLayoutBlocks {

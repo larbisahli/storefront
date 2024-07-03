@@ -6,7 +6,7 @@ interface Props {
   [key: string]: any
 }
 
-const ProductNotFound = (props: Props) =>
-  componentFactory(props?.moduleName, ModuleGroup.PRODUCT_NOT_FOUND, props)
+const ContentNotFound = (props: Props) =>
+  componentFactory(props?.moduleName, ModuleGroup.CONTENT_NOT_FOUND, props)
 
-export default ProductNotFound
+export default ContentNotFound

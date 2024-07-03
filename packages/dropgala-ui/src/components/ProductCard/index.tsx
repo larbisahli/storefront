@@ -40,6 +40,7 @@ const ProductCard: React.FC<ProductProps> = ({
     ratingSummary,
     reviewCount,
     thumbnail,
+    productSeo,
     slug,
     type,
     inStock,
@@ -124,14 +125,14 @@ const ProductCard: React.FC<ProductProps> = ({
     <Link
       href={{
         pathname: '/product/[slug]',
-        query: { slug }
+        query: { slug: slug ?? productSeo?.slug }
       }}
       className={cn('lg:mx-0 mx-auto', 'relative group/library')}
     >
       <LibraryPlaceholder {...props} isEdit />
       <div
         className={cn(
-          'flex border-transparent w-fit group rounded-md cursor-pointer lg:hover:shadow-cardHover hover:border border-solid transition-all duration-300 relative',
+          'flex border-transparent w-fit group/card rounded-md cursor-pointer lg:hover:shadow-cardHover hover:border border-solid transition-all duration-300 relative',
           {
             'shadow-cardHover': carousel,
             'flex-row w-full max-h-[400px]': layout === ProductCardLayout.List,
@@ -152,7 +153,7 @@ const ProductCard: React.FC<ProductProps> = ({
         >
           <div
             className={
-              'flex px-3 py-7 rounded-ms overflow-hidden transition duration-200 ease-in-out transform group-hover:scale-105 relative'
+              'flex px-3 py-7 rounded-ms overflow-hidden transition duration-200 ease-in-out transform group-hover/card:scale-105 relative'
             }
           >
             <Image
@@ -173,7 +174,7 @@ const ProductCard: React.FC<ProductProps> = ({
                 </span>
               </div>
             )}
-            <button className="absolute top-0 right-0 group-hover:flex hidden items-center justify-center m-3">
+            <button className="absolute top-0 right-0 group-hover/card:flex hidden items-center justify-center m-3">
               <HeartEmpty width={25} height={25} />
             </button>
           </div>
@@ -207,12 +208,12 @@ const ProductCard: React.FC<ProductProps> = ({
               { 'mt-5': layout === ProductCardLayout.List }
             )}
           >
-            {!isConfigurable && discountPercentOff && discountValue && (
+            {!isConfigurable && discountPercentOff && !!discountAmountOff && (
               <span>{`${Math.round(discountPercentOff)}%`} off</span>
             )}
           </div>
           <div className="mb-1 lg:mb-1.5 flex items-center">
-            {!isConfigurable && discountValue && (
+            {!isConfigurable && !!discountAmountOff && (
               <div
                 className={cn('text-base', getIsRTL(locale) ? 'ml-3' : 'mr-3')}
               >
@@ -224,7 +225,7 @@ const ProductCard: React.FC<ProductProps> = ({
             {!isConfigurable && (
               <div
                 className={cn('leading-none text-[24px] font-[600]', {
-                  'text-black': discountValue
+                  'text-black': !!discountAmountOff
                 })}
               >
                 {finalPrice}

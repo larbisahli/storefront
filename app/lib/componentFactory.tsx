@@ -50,12 +50,15 @@ const CartDrawer = {
   })
 }
 
-const HeroCarousel = {
+const Carousel = {
   /* __DEFAULT__ */
-  HeroCarousel: dynamic(() => import('@dropgala/ui/components/HeroCarousel'), {
-    loading: () => <HeroBannerPlaceholder />,
-    ssr: false
-  })
+  HeroCarousel: dynamic(
+    () => import('@dropgala/ui/components/Carousel/HeroCarousel'),
+    {
+      loading: () => <HeroBannerPlaceholder />,
+      ssr: false
+    }
+  )
 }
 const ProductCard = {
   /* __DEFAULT__ */
@@ -144,50 +147,32 @@ const CategoryList = {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
   }),
-  CategoryList2: dynamic(
-    () => import('@dropgala/ui/components/CategoryList/CategoryList2'),
+  CategoryListSlide: dynamic(
+    () => import('@dropgala/ui/components/CategoryList/CategoryListSlide'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
+}
+const CategoryListItem = {
+  /* __DEFAULT__ */
+  CategoryListItem1: dynamic(
+    () => import('@dropgala/ui/components/CategoryListItem/CategoryListItem1'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
   ),
-  CategoryList3: dynamic(
-    () => import('@dropgala/ui/components/CategoryList/CategoryList3'),
+  CategoryListItem2: dynamic(
+    () => import('@dropgala/ui/components/CategoryListItem/CategoryListItem2'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
   ),
-  CategoryList4: dynamic(
-    () => import('@dropgala/ui/components/CategoryList/CategoryList4'),
-    {
-      loading: () => <ProductCardPlaceholder />,
-      ssr: true
-    }
-  ),
-  CategoryList5: dynamic(
-    () => import('@dropgala/ui/components/CategoryList/CategoryList5'),
-    {
-      loading: () => <ProductCardPlaceholder />,
-      ssr: true
-    }
-  ),
-  CategoryList6: dynamic(
-    () => import('@dropgala/ui/components/CategoryList/CategoryList6'),
-    {
-      loading: () => <ProductCardPlaceholder />,
-      ssr: true
-    }
-  ),
-  CategoryList7: dynamic(
-    () => import('@dropgala/ui/components/CategoryList/CategoryList7'),
-    {
-      loading: () => <ProductCardPlaceholder />,
-      ssr: true
-    }
-  ),
-  CategoryList8: dynamic(
-    () => import('@dropgala/ui/components/CategoryList/CategoryList8'),
+  CategoryListItem3: dynamic(
+    () => import('@dropgala/ui/components/CategoryListItem/CategoryListItem3'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -281,10 +266,10 @@ const InstallPrompt = {
     }
   )
 }
-const ProductNotFound = {
+const ContentNotFound = {
   /* __DEFAULT__ */
-  ProductNotFound: dynamic(
-    () => import('@dropgala/ui/components/ProductNotFound'),
+  ContentNotFound: dynamic(
+    () => import('@dropgala/ui/components/ContentNotFound'),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
@@ -296,7 +281,14 @@ const ProductList = {
   ProductList: dynamic(() => import('@dropgala/ui/components/ProductList'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  })
+  }),
+  ProductListSlide: dynamic(
+    () => import('@dropgala/ui/components/ProductList/ProductListSlide'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  )
 }
 const CookiePopup = {
   /* __DEFAULT__ */
@@ -320,14 +312,7 @@ const PromoBanner = {
   PromoBanner: dynamic(() => import('@dropgala/ui/components/PromoBanner'), {
     loading: () => <ProductCardPlaceholder />,
     ssr: true
-  }),
-  PromoBannerVertical: dynamic(
-    () => import('@dropgala/ui/components/PromoBanner/PromoBannerVertical'),
-    {
-      loading: () => <ProductCardPlaceholder />,
-      ssr: true
-    }
-  )
+  })
 }
 const Subscription = {
   /* __DEFAULT__ */
@@ -474,6 +459,20 @@ const BannerWidget = {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
+  ),
+  BannerWidgetBgCenter: dynamic(
+    () => import('@dropgala/ui/components/BannerWidget/BannerWidgetBgCenter'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  BannerWidgetNoBgCenter: dynamic(
+    () => import('@dropgala/ui/components/BannerWidget/BannerWidgetNoBgCenter'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
   )
 }
 
@@ -485,7 +484,7 @@ modules.set(ModuleGroup.HEADER, Header)
 modules.set(ModuleGroup.FOOTER, Footer)
 modules.set(ModuleGroup.MENU_DRAWER, MenuDrawer)
 modules.set(ModuleGroup.CART_DRAWER, CartDrawer)
-modules.set(ModuleGroup.HERO_CAROUSEL, HeroCarousel)
+modules.set(ModuleGroup.CAROUSEL, Carousel)
 modules.set(ModuleGroup.PRODUCT_CARD, ProductCard)
 modules.set(ModuleGroup.PRODUCT_DETAILS, ProductDetails)
 modules.set(ModuleGroup.LINKED_PRODUCTS, LinkedProducts)
@@ -505,7 +504,7 @@ modules.set(ModuleGroup.CHECKOUT_ITEMS, CheckoutItems)
 modules.set(ModuleGroup.CHECKOUT_SHIPPING, CheckoutShipping)
 modules.set(ModuleGroup.CHECKOUT_PAYMENT, CheckoutPayment)
 modules.set(ModuleGroup.INSTALL_PROMPT, InstallPrompt)
-modules.set(ModuleGroup.PRODUCT_NOT_FOUND, ProductNotFound)
+modules.set(ModuleGroup.CONTENT_NOT_FOUND, ContentNotFound)
 modules.set(ModuleGroup.PRODUCT_LIST, ProductList)
 modules.set(ModuleGroup.COOKIE_POPUP, CookiePopup)
 modules.set(ModuleGroup.PROMO_BANNER, PromoBanner)
@@ -521,6 +520,7 @@ modules.set(ModuleGroup.DIVIDER, Divider)
 modules.set(ModuleGroup.BUTTON, Button)
 modules.set(ModuleGroup.EDITORIAL_TEXT, EditorialText)
 modules.set(ModuleGroup.BANNER_WIDGET, BannerWidget)
+modules.set(ModuleGroup.CATEGORY_LIST_ITEM, CategoryListItem)
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[] | Element | null

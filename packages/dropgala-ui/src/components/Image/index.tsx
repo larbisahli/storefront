@@ -51,8 +51,9 @@ const Image: React.FC<Props> = ({ useAppSelector, ...props }) => {
 
   return (
     <section
+      id={props.componentId}
       className={cn(
-        'relative group mb-8',
+        'relative group mb-8 scroll-mt-160px',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full',
         'flex justify-center items-center flex-col px-2'
@@ -68,6 +69,7 @@ const Image: React.FC<Props> = ({ useAppSelector, ...props }) => {
       />
       <_JSXStyle id={contentId}>{`
           .${opacityClassName} {
+            margin-bottom: 6px;
             ${handleOverlayStyle(styles?.overlay, styles?.border)}
           }
           .${imageBannerClassName} {
@@ -75,7 +77,6 @@ const Image: React.FC<Props> = ({ useAppSelector, ...props }) => {
             ${handleBorderStyle(styles?.border)}
           }
           `}</_JSXStyle>
-
       {link ? (
         <Link target={target ?? '_self'} href={link}>
           {renderImage()}

@@ -8,7 +8,10 @@ const Link: React.FC<
     className?: string
     [key: string]: any
   }
-> = ({ href, children, ...props }) => {
+> = ({ isCheckLink = false, link, href, children, ...props }) => {
+  if (isCheckLink && !link) {
+    return <>{children}</>
+  }
   return (
     <NextLink href={href} {...props}>
       {children}

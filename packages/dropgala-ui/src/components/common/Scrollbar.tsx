@@ -7,7 +7,7 @@ type ScrollbarProps = {
 }
 
 const Scrollbar: React.FC<ScrollbarProps> = ({ children, className }) => {
-  return <div className={cn('overflow-auto h-full', className)}>{children}</div>
+  return <div className={cn('overflow-auto h-fit', className)}>{children}</div>
 }
 
 export default Scrollbar

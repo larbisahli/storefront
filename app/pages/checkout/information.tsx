@@ -88,7 +88,7 @@ export default function CheckoutInformationPage({ host }: Props) {
         <section className="w-full flex justify-center my-30px">
           <CheckoutBreadcrumb />
         </section>
-        <section className="flex w-full lg:flex-row flex-col-reverse border border-gray-300 rounded-md">
+        <section className="flex w-full desktop:flex-row flex-col-reverse border border-gray-300 rounded-md">
           {/* Checkout Information */}
           <div className="flex-1">
             <div className="px-5 py-3 mt-10 sm:mt-0 flex justify-center h-full items-start">
@@ -102,7 +102,7 @@ export default function CheckoutInformationPage({ host }: Props) {
           {/* Checkout Items */}
           <div
             style={{ background: 'rgba(0,0,0,0.05)' }}
-            className="lg:w-[40%] xl:w-[45%] w-full"
+            className="desktop:w-[40%] xl:w-[45%] w-full"
           >
             <CheckoutItems />
           </div>

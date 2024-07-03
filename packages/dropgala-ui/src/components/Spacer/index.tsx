@@ -19,7 +19,10 @@ const Spacer: React.FC<Props> = ({ ...props }) => {
   )
   const spacerClassName = `spacer-${props.componentId}`
   return (
-    <section className={cn('relative group max-w-full spacer')}>
+    <section
+      id={props.componentId}
+      className={cn('relative group max-w-full scroll-mt-160px')}
+    >
       <BuilderPlaceholder
         {...props}
         isEdit

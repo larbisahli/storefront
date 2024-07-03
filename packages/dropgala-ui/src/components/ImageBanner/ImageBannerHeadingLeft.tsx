@@ -70,8 +70,9 @@ const ImageBannerHeadingLeft: React.FC<Props> = ({
 
   return (
     <section
+      id={props.componentId}
       className={cn(
-        'relative group mb-8',
+        'relative group scroll-mt-160px',
         sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
@@ -98,28 +99,44 @@ const ImageBannerHeadingLeft: React.FC<Props> = ({
               border-radius: ${imageBorder?.borderRadius}px;
             }
       `}</_JSXStyle>
-      <div className={cn('lg:p-8 p-4 !px-0')}>
+      <div className={cn('desktop:p-8 p-4 !px-2')}>
         <div
           className={cn(
             'flex justify-center items-center',
-            'lg:flex-row flex-col'
+            'desktop:flex-row flex-col'
           )}
         >
           <div
             className={cn(
-              'lg:w-1/2 w-full lg:pr-12 mb-5 lg:mb-0 lg:block flex flex-col justify-center'
+              'desktop:w-1/2 w-full max-w-[800px] desktop:pr-12 mb-6 desktop:mb-0 desktop:block flex flex-col justify-center'
             )}
           >
-            <h3 className={cn('mb-5', headerClassName)}>{header}</h3>
-            <p className={cn('mb-8', descriptionClassName, '!lg:bg-red-300')}>
+            <h3
+              className={cn(
+                'mb-5',
+                headerClassName,
+                'text-center desktop:text-left'
+              )}
+            >
+              {header}
+            </h3>
+            <p
+              className={cn(
+                'mb-8',
+                descriptionClassName,
+                'text-center desktop:text-left'
+              )}
+            >
               {description}
             </p>
-            <div className={cn('flex lg:justify-start justify-center')}>
+            <div className={cn('flex desktop:justify-start justify-center')}>
               <Link href={buttonLink}>{renderButton()}</Link>
             </div>
           </div>
           <div
-            className={cn('lg:w-1/2 w-full flex justify-end sm:justify-center')}
+            className={cn(
+              'desktop:w-1/2 w-full flex desktop:justify-end justify-center'
+            )}
           >
             <div
               className={cn('w-[600px] h-fit flex-end', imageBorderClassName)}

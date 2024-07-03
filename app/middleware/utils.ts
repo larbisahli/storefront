@@ -32,7 +32,7 @@ export async function XSRFHandler(context: GetServerSidePropsContext) {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // Token is valid for 24 hours
         sameSite: 'strict',
-        domain: PRODUCTION_ENV ? '.dropgala.shop' : '127.0.0.1',
+        domain: PRODUCTION_ENV ? '.dropgala.shop' : 'localhost',
         overwrite: true
       })
     }

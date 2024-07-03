@@ -16,12 +16,27 @@ const PlaceholderBlock = (props: any) => {
     props.componentId === adminSelectedBlock?.componentId
 
   useEffect(() => {
-    // TODO: Add hight level listerner with redux
+    // TODO: Add hight level listener with redux
     window.addEventListener(
       'message',
       (event) => {
         if (event.data?.source == StoreBuilder.GALA_CMS_BUILDER) {
-          SetAdminSelectedBlock(event.data)
+          if (event.data?.actionType === StoreBuilderActions.BLOCK_SELECTION) {
+            SetAdminSelectedBlock(event.data)
+          } else if (
+            event.data?.actionType === StoreBuilderActions.SCROLL_TO_SECTION &&
+            event.data?.sectionId
+          ) {
+            setTimeout(() => {
+              const ele = document.getElementById(event.data?.sectionId)
+              ele &&
+                ele.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                  inline: 'nearest'
+                })
+            }, 250)
+          }
         }
       },
       false

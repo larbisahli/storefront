@@ -53,10 +53,10 @@ export const calcPriceRange = (product: ProductType, rate: number) => {
         value: price?.salePrice
       },
       discount: {
-        amountOff: calcTaxRate(price?.comparePrice, rate),
+        amountOff: calcTaxRate(price?.comparePrice ?? 0, rate),
         percentOff: calcPercentage(
           calcTaxRate(price?.salePrice, rate),
-          calcTaxRate(price?.comparePrice, rate)
+          calcTaxRate(price?.comparePrice ?? 0, rate)
         )
       }
     }
