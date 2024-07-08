@@ -81,10 +81,12 @@ const OrderSummary: FC<Props> = ({ useAppSelector }) => {
     },
     onCompleted: (data: any) => {
       const coupon = data.applyCoupon
-      if (isEmpty(coupon)) {
+      if (isEmpty(coupon.code)) {
+        notify.error(`Can't apply coupon`)
         return
       }
       setCoupon(coupon)
+      notify.success(`Coupon ${coupon.code} applied successfully.`)
     }
   })
 

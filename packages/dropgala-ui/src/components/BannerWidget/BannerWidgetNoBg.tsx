@@ -41,7 +41,7 @@ const BannerWidgetNoBg: React.FC<Props> = ({
       id={props.componentId}
       className={cn(
         'relative group/library scroll-mt-320px',
-        'flex flex-col justify-center items-center p-5 rounded-md max-w-[800px]'
+        'flex flex-col justify-center items-center p-5 rounded-md max-w-[600px]'
       )}
     >
       <_JSXStyle id={props.componentId}>{`
@@ -53,9 +53,9 @@ const BannerWidgetNoBg: React.FC<Props> = ({
           }
       `}</_JSXStyle>
       <LibraryPlaceholder {...props} isEdit />
-      <div className="">
-        <h2 className={cn('mb-5', headerClassName)}>{header}</h2>
-        <p className={cn('mb-8  max-w-[80%]', descriptionClassName)}>
+      <div className="flex flex-col items-start rtl:items-end">
+        <h2 className={cn('mb-5 text-left', headerClassName)}>{header}</h2>
+        <p className={cn('mb-8 text-left', descriptionClassName)}>
           {description}
         </p>
         {buttonLabel && <Link href={buttonLink ?? '/'}>{renderButton()}</Link>}

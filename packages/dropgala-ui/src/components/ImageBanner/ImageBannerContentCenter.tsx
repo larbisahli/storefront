@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import useWindowSize from 'hooks/useWindowSize'
 import cn from 'clsx'
 import {
+  Alignment,
   ModuleGroup,
   SectionSize,
   StoreLayoutComponentContentType
@@ -15,7 +16,7 @@ import {
   resolvePath
 } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
-import { handleFlexAlignment, handleOverlayStyle } from '@dropgala/utils/styles'
+import { handleOverlayStyle } from '@dropgala/utils/styles'
 
 interface Props extends StoreProps {}
 
@@ -49,7 +50,6 @@ const ImageBannerContentCenter: React.FC<Props> = ({
   }
 
   const imageBorderClassName = `image-${props.componentId}`
-  const flexAlignment = `alignment-${props.componentId}`
   const opacityClassName = `video-banner-opacity-${props.componentId}`
 
   return (
@@ -75,9 +75,6 @@ const ImageBannerContentCenter: React.FC<Props> = ({
           }
           .${opacityClassName} {
             ${handleOverlayStyle(styles?.overlay, styles?.border)}
-          }
-          .${flexAlignment} {
-            ${handleFlexAlignment(styles.flexAlignment)}
           }
           `}</_JSXStyle>
       <figure
@@ -105,8 +102,10 @@ const ImageBannerContentCenter: React.FC<Props> = ({
         <div
           className={cn(
             'absolute top-0 left-0 right-0 bottom-0',
-            'z-10 flex flex-col m-[15px] justify-center items-center',
-            flexAlignment
+            'z-10 flex m-[15px] justify-center items-center',
+            data?.contentAlignment === Alignment.LEFT && '!justify-end',
+            data?.contentAlignment === Alignment.CENTER && '!justify-center',
+            data?.contentAlignment === Alignment.RIGHT && '!justify-start'
           )}
         >
           {renderBannerWidget()}

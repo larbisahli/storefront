@@ -69,6 +69,8 @@ const breakpoints = {
 const CategoryListSlide: React.FC<StoreProps> = ({
   useAppSelector,
   children,
+  data,
+  styles,
   ...props
 }) => {
   const {
@@ -78,12 +80,9 @@ const CategoryListSlide: React.FC<StoreProps> = ({
     category,
     buttonLabel,
     sliderConfiguration
-  } = resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
-  const { header: headerStyle } = resolvePath<StoreLayoutComponentStylesType>(
-    props,
-    'styles',
-    {}
-  )
+  } = data
+
+  const { header: headerStyle } = styles
 
   const { loop, langDirection, delaySpeed, animationSpeed, draggable } =
     sliderConfiguration ?? {}
@@ -138,7 +137,8 @@ const CategoryListSlide: React.FC<StoreProps> = ({
           speed={animationSpeed.value ?? 500}
           autoplay={{
             delay: delaySpeed.value ?? 2000,
-            disableOnInteraction: false
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
           }}
           scrollbar={{ draggable }}
           modules={[Pagination, Autoplay]}

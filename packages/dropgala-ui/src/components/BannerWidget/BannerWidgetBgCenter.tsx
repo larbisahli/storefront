@@ -41,7 +41,7 @@ const BannerWidgetBgCenter: React.FC<Props> = ({
       id={props.componentId}
       className={cn(
         'relative group/library scroll-mt-320px bg-white',
-        'flex flex-col justify-center items-center p-5 rounded-md max-w-[700px] opacity-95 border'
+        'flex flex-col justify-center items-center p-5 rounded-md max-w-[600px] opacity-95 border'
       )}
     >
       <_JSXStyle id={props.componentId}>{`
@@ -55,9 +55,7 @@ const BannerWidgetBgCenter: React.FC<Props> = ({
       <LibraryPlaceholder {...props} isEdit />
       <div className="flex flex-col justify-center items-center">
         <h2 className={cn('mb-5', headerClassName)}>{header}</h2>
-        <p
-          className={cn('text-center mb-8  max-w-[80%]', descriptionClassName)}
-        >
+        <p className={cn('text-center mb-8', descriptionClassName)}>
           {description}
         </p>
         {buttonLabel && <Link href={buttonLink ?? '/'}>{renderButton()}</Link>}

@@ -102,13 +102,3 @@ export const handleThemeSettingsVariables = (settings: ThemeSettingsType) => {
     --modal-loading-background-color: ${settings.modalLoadingBackground};
   `.trim()
 }
-
-export const handleFlexAlignment = (
-  alignment: PageBuilderStyles['FlexAlignment']
-) => {
-  if (!alignment) return ''
-  return `
-   align-items: ${alignment?.alignItems?.value};
-   justify-content: ${alignment?.justifyContent?.value};
-  `
-}

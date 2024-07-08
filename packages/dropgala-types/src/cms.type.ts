@@ -125,10 +125,6 @@ export interface PageBuilderStyles {
     overlayOpacity: number
     overlayColor: string
   }
-  FlexAlignment: {
-    justifyContent: { value: string; label: string }
-    alignItems: { value: string; label: string }
-  }
 }
 
 export type ThemeSettingsType = {

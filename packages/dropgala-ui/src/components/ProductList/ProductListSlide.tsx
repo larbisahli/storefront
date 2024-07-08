@@ -179,7 +179,8 @@ const ProductListSlide: React.FC<Props> = ({
           speed={animationSpeed.value ?? 500}
           autoplay={{
             delay: delaySpeed.value ?? 2000,
-            disableOnInteraction: false
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
           }}
           scrollbar={{ draggable }}
           modules={[Pagination, Autoplay]}
