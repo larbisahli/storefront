@@ -65,7 +65,7 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
         return
       }
       router.push({
-        pathname: `/${CheckoutSteps.CONFIRMATION_SUMMARY}`,
+        pathname: `/checkout/${CheckoutSteps.ORDER_CONFIRMATION}`,
         query: { ref: order?.ref, status: order?.success }
       })
     }

@@ -23,7 +23,7 @@ interface Props {
   host: { host: string; subdomain: string }
 }
 
-export default function ConfirmationSummaryPage({ host }: Props) {
+export default function OrderConfirmationPage({ host }: Props) {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'common')
   return (
@@ -81,7 +81,7 @@ export default function ConfirmationSummaryPage({ host }: Props) {
   )
 }
 
-ConfirmationSummaryPage.Layout = AppLayout
+OrderConfirmationPage.Layout = AppLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {

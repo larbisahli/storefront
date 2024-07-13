@@ -111,7 +111,7 @@ export enum CheckoutSteps {
   INFORMATION = 'information',
   SHIPPING = 'shipping',
   PAYMENT = 'payment',
-  CONFIRMATION_SUMMARY = 'confirmation_summary'
+  ORDER_CONFIRMATION = 'order-confirmation'
 }
 
 export enum ProductTypes {
