@@ -1,6 +1,6 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
-import { StoreProps, selectConfig } from '@dropgala/store'
+import { StoreProps } from '@dropgala/store'
 import dynamic from 'next/dynamic'
 import {
   getComponentFromChildren,
@@ -9,7 +9,6 @@ import {
 } from '@dropgala/utils/helpers'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import { Alignment, ModuleGroup, SectionSize } from '@dropgala/types'
-import useWindowSize from 'hooks/useWindowSize'
 import cn from 'clsx'
 import _JSXStyle from 'styled-jsx/style'
 import { handleOverlayStyle } from '@dropgala/utils/styles'
@@ -84,9 +83,9 @@ const HeroCarousel: React.FC<Props> = ({
         }}
         items={slides}
         loop={loop}
-        speed={animationSpeed.value ?? 500}
+        speed={animationSpeed?.value ?? 500}
         autoplay={{
-          delay: delaySpeed.value ?? 2000,
+          delay: delaySpeed?.value ?? 2000,
           disableOnInteraction: false
         }}
         scrollbar={{ draggable }}
@@ -122,10 +121,10 @@ const HeroCarousel: React.FC<Props> = ({
                 className={cn(
                   'absolute top-0 left-0 right-0 bottom-0',
                   'z-10 flex m-[15px] justify-center items-center',
-                  data?.contentAlignment === Alignment.LEFT && '!justify-end',
+                  data?.contentAlignment === Alignment.LEFT && '!justify-start',
                   data?.contentAlignment === Alignment.CENTER &&
                     '!justify-center',
-                  data?.contentAlignment === Alignment.RIGHT && '!justify-start'
+                  data?.contentAlignment === Alignment.RIGHT && '!justify-end'
                 )}
               >
                 {slide?.displayContent && renderBannerWidget(slide)}

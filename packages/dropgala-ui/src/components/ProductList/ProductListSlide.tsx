@@ -110,17 +110,6 @@ const ProductListSlide: React.FC<Props> = ({
     return React.cloneElement(ProductCard, { product })
   }
 
-  if (isEmpty(products)) {
-    return (
-      <div
-        className="w-full flex flex-col items-center
-       pt-10px md:pt-40px lg:pt-20px pb-40px"
-      >
-        {renderContentNotFound()}
-      </div>
-    )
-  }
-
   const renderButton = () => {
     const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
     if (!Button) return null
@@ -154,42 +143,57 @@ const ProductListSlide: React.FC<Props> = ({
             ${handleTypographyStyle(headerStyle)}
           }
       `}</_JSXStyle>
-      <div className="flex justify-between items-center">
-        {data?.header && <h3 className={headerClassName}>{data?.header}</h3>}
-        {data?.category?.urlKey && data?.buttonLabel && (
-          <Link
-            href={{
-              pathname: '/category/[slug]',
-              query: { slug: data?.category?.urlKey }
-            }}
-          >
-            {renderButton()}
-          </Link>
-        )}
-      </div>
-      <div className="w-full mt-5">
-        <SwiperComponent
-          dir={langDirection?.value?.toLocaleLowerCase()}
-          pagination={{
-            dynamicBullets: true
-          }}
-          breakpoints={breakpoints}
-          items={products}
-          loop={loop}
-          speed={animationSpeed.value ?? 500}
-          autoplay={{
-            delay: delaySpeed.value ?? 2000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true
-          }}
-          scrollbar={{ draggable }}
-          modules={[Pagination, Autoplay]}
-          className="h-full"
-          centeredSlides
+      {isEmpty(products) && (
+        <div
+          className="w-full flex flex-col items-center
+       pt-10px md:pt-40px lg:pt-20px pb-40px"
         >
-          {(item: ProductType) => renderProductCard(item)}
-        </SwiperComponent>
-      </div>
+          {renderContentNotFound()}
+        </div>
+      )}
+
+      {!isEmpty(products) && (
+        <>
+          <div className="flex justify-between items-center">
+            {data?.header && (
+              <h3 className={headerClassName}>{data?.header}</h3>
+            )}
+            {data?.category?.urlKey && data?.buttonLabel && (
+              <Link
+                href={{
+                  pathname: '/category/[slug]',
+                  query: { slug: data?.category?.urlKey }
+                }}
+              >
+                {renderButton()}
+              </Link>
+            )}
+          </div>
+          <div className="w-full mt-5">
+            <SwiperComponent
+              dir={langDirection?.value?.toLocaleLowerCase()}
+              pagination={{
+                dynamicBullets: true
+              }}
+              breakpoints={breakpoints}
+              items={products}
+              loop={loop}
+              speed={animationSpeed.value ?? 500}
+              autoplay={{
+                delay: delaySpeed.value ?? 2000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+              }}
+              scrollbar={{ draggable }}
+              modules={[Pagination, Autoplay]}
+              className="h-full"
+              centeredSlides
+            >
+              {(item: ProductType) => renderProductCard(item)}
+            </SwiperComponent>
+          </div>
+        </>
+      )}
     </section>
   )
 }

@@ -1,7 +1,5 @@
-import { CheckoutSteps } from '@dropgala/types'
-import Scrollbar from '../common/Scrollbar'
+import { CheckoutSteps, PaymentTypes } from '@dropgala/types'
 import Radio from '../ui/radio'
-import CODPaymentOption from './CODPaymentOption'
 import Loader from '../ui/loader'
 import ChevronLeft from '@dropgala/assets/icons/chevron-left'
 import Button from '../ui/Button'
@@ -13,41 +11,21 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { useRouter } from 'next/router'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import ShippingAddress from './shippingAddress'
-// import { PaymentElement } from '@stripe/react-stripe-js'
 import { useMutation } from '@apollo/client'
 import { CREATE_ORDER } from '@dropgala/query/checkout.query'
+import OfflinePaymentOption from './OfflinePaymentOption'
 
-const paymentMethods = [
-  // {
-  //   name: 'Credit/ Debit Card',
-  //   component: (selectedPaymentMethod: CheckoutFormValues['paymentMethod'])=>
-  //   <StripePaymentOption selectedPaymentMethod={selectedPaymentMethod} id='STRIPE'/>,
-  //   id: 'STRIPE'
-  // },
-  {
-    name: 'Cash On Delivery',
-    component: (selectedOption: string) => (
-      <CODPaymentOption selectedOption={selectedOption} id="COD" />
-    ),
-    id: 'COD'
-  }
-  // {
-  //   name: 'PayPal',
-  //   component: (selectedPaymentMethod:CheckoutFormValues['paymentMethod'])=>
-  //   <PayPalPaymentOption selectedPaymentMethod={selectedPaymentMethod} id='PAYPAL'/>,
-  //   id: 'PAYPAL'
-  // }
-]
+interface Props extends StoreProps {
+  payments: PaymentTypes[]
+}
 
-interface Props extends StoreProps {}
-
-const CheckoutPayment = ({ useAppSelector }: Props) => {
+const CheckoutPayment = ({ useAppSelector, payments }: Props) => {
   const router = useRouter()
 
   const { language, csrf, storeId } = useAppSelector(selectConfig)
   const { __ } = useTranslation(language, 'common')
 
-  const [selectedOption, setSelectedOption] = useState('')
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null)
   const [tncChecked, setTncChecked] = useState(false)
 
   const [error, setError] = useState()
@@ -72,24 +50,24 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
   })
 
   const onSubmit = async () => {
-    if (isEmpty(selectedOption)) {
+    if (isEmpty(selectedOptionId)) {
       return
     }
 
     createOrder({
       variables: {
         storeId,
-        paymentId: selectedOption
+        paymentId: selectedOptionId
       }
     }).catch((err) => {
       setError(err)
     })
   }
 
-  const handleOptionChange = (
+  const handleSelectedPaymentId = (
     changeEvent: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setSelectedOption(changeEvent.target.value)
+    setSelectedOptionId(changeEvent.target.value)
   }
 
   const isLoading = false
@@ -112,19 +90,23 @@ const CheckoutPayment = ({ useAppSelector }: Props) => {
         <h1 className="my-8 text-xl mb-4 mt-8 font-light uppercase">
           {__('Payment methods')}
         </h1>
-        <Scrollbar className="cart-scrollbar flex-grow">
-          {paymentMethods.map(({ id, component }) => (
-            <Radio
-              name={id}
-              label={() => component(selectedOption)}
-              inputClassName="absolute right-0 top-0 m-2 z-10"
-              onChange={handleOptionChange}
-              id={id}
-              key={id}
-              value={id}
-            />
-          ))}
-        </Scrollbar>
+        {payments.map((payment) => (
+          <Radio
+            key={payment.id}
+            name={payment.id}
+            label={() => (
+              <OfflinePaymentOption
+                selectedOptionId={selectedOptionId}
+                payment={payment}
+              />
+            )}
+            inputClassName="absolute right-0 top-0 m-2 z-10"
+            onChange={handleSelectedPaymentId}
+            id={payment.id}
+            value={payment.id}
+            checked={selectedOptionId === payment.id}
+          />
+        ))}
       </div>
       <div>
         <div>

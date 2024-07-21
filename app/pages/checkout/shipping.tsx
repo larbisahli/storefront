@@ -170,7 +170,6 @@ export const getServerSideProps: GetServerSideProps =
           store.dispatch(clientCheckout)
         }
       } else {
-        console.log('======================>')
         return {
           redirect: {
             destination: '/',

@@ -17,15 +17,24 @@ import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCheckout } from '@gRPC/handlers/checkout'
 import CheckoutPayment from '@components/CheckoutPayment'
 import CheckoutFooter from '@components/CheckoutFooter'
+import { fetchAvailablePayments } from '@gRPC/handlers/payment'
+import { PaymentTypes } from '@dropgala/types'
 
 interface Props {
   host: { host: string; subdomain: string }
+  payments: PaymentTypes[]
 }
 
-export default function CheckoutPaymentPage({ host }: Props) {
+export default function CheckoutPaymentPage({
+  pageProps
+}: {
+  pageProps: Props
+}) {
   const storeConfig = useAppSelector(selectConfig)
   const { __ } = useTranslation(storeConfig?.language, 'common')
+  const { host, payments } = pageProps
   console.log({ storeConfig })
+  console.log({ payments })
   return (
     <>
       <NextSeo
@@ -84,7 +93,7 @@ export default function CheckoutPaymentPage({ host }: Props) {
             <div className="px-5 py-3 flex justify-center h-full items-start">
               <div className="max-w-[650px] w-full h-full">
                 <div className="md:mt-0 h-full">
-                  <CheckoutPayment />
+                  <CheckoutPayment payments={payments} />
                 </div>
               </div>
             </div>
@@ -174,9 +183,14 @@ export const getServerSideProps: GetServerSideProps =
         }
       }
 
+      const payments = await fetchAvailablePayments({ alias, storeId })
+
+      console.log({ payments })
+
       return {
         props: {
-          host: { host, alias }
+          host: { host, alias },
+          payments
         }
       }
     } catch (error) {

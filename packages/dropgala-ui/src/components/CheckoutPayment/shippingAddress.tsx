@@ -32,7 +32,7 @@ const ShippingAddress = ({ useAppSelector }: Props) => {
           </div>
         </Link>
       </div>
-      <div className="border border-gray-800 rounded-sm">
+      <div className="border border-gray-400 rounded-sm">
         <div className="flex-1">
           <div className="flex items-center p-2 py-1">
             <span className="capitalized font-semibold flex-0">

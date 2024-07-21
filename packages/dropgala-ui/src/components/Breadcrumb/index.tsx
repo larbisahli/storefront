@@ -16,7 +16,11 @@ const Breadcrumb: React.FC<Props> = ({ useAppSelector, ...props }) => {
   return (
     <section className="relative group/library max-w-default mx-auto mt-2 py-3 items-center text-xs text-gray-700 mb-4 hidden desktop:flex">
       <LibraryPlaceholder {...props} isEdit />
-      <ol itemScope itemType="http://schema.org/BreadcrumbList">
+      <ol
+        className="flex justify-center items-center"
+        itemScope
+        itemType="http://schema.org/BreadcrumbList"
+      >
         <li
           itemProp="itemListElement"
           itemScope
@@ -47,6 +51,7 @@ const Breadcrumb: React.FC<Props> = ({ useAppSelector, ...props }) => {
                 itemProp="itemListElement"
                 itemScope
                 itemType="http://schema.org/ListItem"
+                className="flex justify-center items-center"
               >
                 <div className="text-skin-base text-opacity-40 mx-3">
                   <ChevronRight width={10} height={10} />
@@ -78,7 +83,12 @@ const Breadcrumb: React.FC<Props> = ({ useAppSelector, ...props }) => {
             itemScope
             itemType="http://schema.org/ListItem"
           >
-            <div itemScope itemType="http://schema.org/Thing" itemProp="item">
+            <div
+              className="flex justify-center items-center"
+              itemScope
+              itemType="http://schema.org/Thing"
+              itemProp="item"
+            >
               <div className="text-skin-base text-opacity-40 text-xs mx-2">
                 <ChevronRight width={10} height={10} />
               </div>

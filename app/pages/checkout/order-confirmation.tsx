@@ -16,8 +16,8 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { fetchClientCart } from '@gRPC/handlers/checkout'
-import AppLayout from '@components/AppLayout/AppLayout'
 import ConfirmationSummary from '@components/ConfirmationSummary'
+import CheckoutLayout from '@components/AppLayout/CheckoutLayout'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -81,7 +81,7 @@ export default function OrderConfirmationPage({ host }: Props) {
   )
 }
 
-OrderConfirmationPage.Layout = AppLayout
+OrderConfirmationPage.Layout = CheckoutLayout
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {

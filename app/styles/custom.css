@@ -103,12 +103,12 @@
 }
 
 .checkbox:focus + label:before {
-  border-color: var(--color-primary);
+  border-color: black;
 }
 
 .checkbox:checked + label:before {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
+  background-color: black;
+  border-color: black;
 }
 
 .checkbox:disabled + label {
@@ -125,7 +125,7 @@
   content: '';
   position: absolute;
   left: 4px;
-  top: 9px;
+  top: 10px;
   background: #ffffff;
   width: 2px;
   height: 2px;
@@ -144,7 +144,7 @@
   z-index: 10;
   top: 50%;
   right: 0px;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -90%);
 }
 
 .radio_input[type='radio']:checked + label,

@@ -56,26 +56,6 @@ const ProductList: React.FC<Props> = ({
     return React.cloneElement(ProductCard, { product })
   }
 
-  const renderPagination = () => {
-    const Pagination = getComponentFromChildren(
-      children,
-      ModuleGroup.PAGINATION
-    )
-    if (!Pagination) return null
-    return Pagination
-  }
-
-  if (isEmpty(products)) {
-    return (
-      <div
-        className="w-full flex flex-col items-center
-       pt-10px md:pt-40px lg:pt-20px pb-40px"
-      >
-        {renderContentNotFound()}
-      </div>
-    )
-  }
-
   const renderButton = () => {
     const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
     if (!Button) return null
@@ -85,7 +65,6 @@ const ProductList: React.FC<Props> = ({
     })
   }
 
-  const isProductLimitReached = false
   const headerClassName = `header-${props.componentId}`
 
   return (
@@ -110,35 +89,44 @@ const ProductList: React.FC<Props> = ({
             ${handleTypographyStyle(headerStyle)}
           }
       `}</_JSXStyle>
-      <div className="flex justify-between items-center">
-        <h3 className={headerClassName}>{data?.header}</h3>
-        {data?.category?.urlKey && (
-          <Link
-            href={{
-              pathname: '/category/[slug]',
-              query: { slug: data?.category?.urlKey }
-            }}
+      {isEmpty(products) && (
+        <div
+          className="w-full flex flex-col items-center
+       pt-10px md:pt-40px lg:pt-20px pb-40px"
+        >
+          {renderContentNotFound()}
+        </div>
+      )}
+      {!isEmpty(products) && (
+        <>
+          <div className="flex justify-between items-center">
+            <h3 className={headerClassName}>{data?.header}</h3>
+            {data?.category?.urlKey && (
+              <Link
+                href={{
+                  pathname: '/category/[slug]',
+                  query: { slug: data?.category?.urlKey }
+                }}
+              >
+                {renderButton()}
+              </Link>
+            )}
+          </div>
+          <div
+            className={cn(
+              'grid grid-cols-1 my-10 mobile:grid-cols-2',
+              data?.productsPerView === 6 &&
+                'tablet:grid-cols-3 laptop:grid-cols-5 desktop:grid-cols-6',
+              data?.productsPerView === 5 &&
+                'tablet:grid-cols-3 laptop:grid-cols-4 desktop:grid-cols-5',
+              data?.productsPerView === 4 &&
+                'tablet:grid-cols-3 desktop:grid-cols-4',
+              data?.productsPerView === 3 && 'desktop:grid-cols-3'
+            )}
           >
-            {renderButton()}
-          </Link>
-        )}
-      </div>
-      <div
-        className={cn(
-          'grid grid-cols-1 my-10 mobile:grid-cols-2',
-          data?.productsPerView === 6 &&
-            'tablet:grid-cols-3 laptop:grid-cols-5 desktop:grid-cols-6',
-          data?.productsPerView === 5 &&
-            'tablet:grid-cols-3 laptop:grid-cols-4 desktop:grid-cols-5',
-          data?.productsPerView === 4 &&
-            'tablet:grid-cols-3 desktop:grid-cols-4',
-          data?.productsPerView === 3 && 'desktop:grid-cols-3'
-        )}
-      >
-        {products?.map((item: ProductType) => renderProductCard(item))}
-      </div>
-      {!isProductLimitReached && (
-        <div className="mt-5">{renderPagination()}</div>
+            {products?.map((item: ProductType) => renderProductCard(item))}
+          </div>
+        </>
       )}
     </section>
   )

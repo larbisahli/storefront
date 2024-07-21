@@ -61,7 +61,7 @@ const ShippingOption = ({ useAppSelector, shipping }: Props) => {
   }
 
   return (
-    <div className="bg-gray-100 label-bg w-full sm:rounded relative shadow border border-gray-300">
+    <div className="bg-gray-100 w-full sm:rounded relative shadow border border-gray-300">
       <div className="p-3 flex items-start">
         {!isEmpty(shipping?.logo) && (
           <div className="w-[65px] h-[65px]">

@@ -112,3 +112,31 @@ export const CREATE_ORDER = gql`
     }
   }
 `
+
+export const GET_ORDER_SUMMARY = gql`
+  query GetOrderSummary($storeId: String!, $orderId: String!) {
+    getOrderSummary(storeId: $storeId, orderId: $orderId) {
+      orderNumber
+      tax {
+        name
+        rate
+      }
+      currency {
+        code
+      }
+      payment {
+        code
+        data
+      }
+      customer {
+        fullName
+      }
+      totalQuantity
+      grandTotalInclTax
+      grandTotalExclTax
+      subTotalInclTax
+      subTotalExclTax
+      discountAmount
+    }
+  }
+`
