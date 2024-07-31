@@ -1,14 +1,6 @@
 import CartDrawer from '@components/CartDrawer'
 import MenuDrawer from '@components/MenuDrawer'
 import cn from 'clsx'
-import {
-  Lato,
-  Signika,
-  Jost,
-  Merriweather,
-  Gelasio,
-  Spectral
-} from 'next/font/google'
 import React from 'react'
 import CustomProfiler from '@components/CustomProfiler'
 import { resolvePath } from '@dropgala/utils/helpers'
@@ -29,12 +21,12 @@ interface Props {
   className?: string
 }
 
-const lato = Lato({
-  weight: ['100', '300', '400', '700', '900'],
-  subsets: ['latin'],
-  variable: '--font-lato',
-  display: 'swap'
-})
+// const lato = Lato({
+//   weight: ['100', '300', '400', '700', '900'],
+//   subsets: ['latin'],
+//   variable: '--font-lato',
+//   display: 'swap'
+// })
 
 // const roboto = Roboto_Condensed({
 //   weight: ['300', '400', '700'],
@@ -43,40 +35,40 @@ const lato = Lato({
 //   display: 'swap'
 // })
 
-const signika = Signika({
-  weight: ['300', '400', '500', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-signika',
-  display: 'swap'
-})
+// const signika = Signika({
+//   weight: ['300', '400', '500', '600', '700'],
+//   subsets: ['latin'],
+//   variable: '--font-signika',
+//   display: 'swap'
+// })
 
-const jost = Jost({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'],
-  variable: '--font-jost',
-  display: 'swap'
-})
+// const jost = Jost({
+//   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+//   subsets: ['latin'],
+//   variable: '--font-jost',
+//   display: 'swap'
+// })
 
-const merriweather = Merriweather({
-  weight: ['300', '400', '700', '900'],
-  subsets: ['latin'],
-  variable: '--font-merriweather',
-  display: 'swap'
-})
+// const merriweather = Merriweather({
+//   weight: ['300', '400', '700', '900'],
+//   subsets: ['latin'],
+//   variable: '--font-merriweather',
+//   display: 'swap'
+// })
 
-const gelasio = Gelasio({
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-gelasio',
-  display: 'swap'
-})
+// const gelasio = Gelasio({
+//   weight: ['400', '500', '600', '700'],
+//   subsets: ['latin'],
+//   variable: '--font-gelasio',
+//   display: 'swap'
+// })
 
-const spectral = Spectral({
-  weight: ['200', '300', '400', '500', '600', '700', '800'],
-  subsets: ['latin'],
-  variable: '--font-spectral',
-  display: 'swap'
-})
+// const spectral = Spectral({
+//   weight: ['200', '300', '400', '500', '600', '700', '800'],
+//   subsets: ['latin'],
+//   variable: '--font-spectral',
+//   display: 'swap'
+// })
 
 const AppLayout = ({ children, className }: Props) => {
   const { layout } = useAppSelector(selectConfig)
@@ -99,7 +91,7 @@ const AppLayout = ({ children, className }: Props) => {
   console.log('APP_LAYOUT >>>', { layout })
   return (
     <div className="relative">
-      <style jsx global>{`
+      {/* <style jsx global>{`
         :root {
           --font-lato: ${lato.style.fontFamily};
           --font-signika: ${signika.style.fontFamily};
@@ -107,6 +99,14 @@ const AppLayout = ({ children, className }: Props) => {
           --font-merriweather: ${merriweather.style.fontFamily};
           --font-gelasio: ${gelasio.style.fontFamily};
           --font-spectral: ${spectral.style.fontFamily};
+          ${handleThemeSettingsVariables(settings)}
+        }
+        html {
+          ${handleThemeSettingsDefaults(settings)}
+        }
+      `}</style> */}
+      <style jsx global>{`
+        :root {
           ${handleThemeSettingsVariables(settings)}
         }
         html {
