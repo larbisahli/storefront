@@ -4,7 +4,6 @@ import cn from 'clsx'
 import {
   Lato,
   Signika,
-  Roboto_Condensed,
   Jost,
   Merriweather,
   Gelasio,
@@ -37,12 +36,12 @@ const lato = Lato({
   display: 'swap'
 })
 
-const roboto = Roboto_Condensed({
-  weight: ['300', '400', '700'],
-  subsets: ['latin'],
-  variable: '--font-roboto',
-  display: 'swap'
-})
+// const roboto = Roboto_Condensed({
+//   weight: ['300', '400', '700'],
+//   subsets: ['latin'],
+//   variable: '--font-roboto',
+//   display: 'swap'
+// })
 
 const signika = Signika({
   weight: ['300', '400', '500', '600', '700'],
@@ -103,7 +102,6 @@ const AppLayout = ({ children, className }: Props) => {
       <style jsx global>{`
         :root {
           --font-lato: ${lato.style.fontFamily};
-          --font-roboto: ${roboto.style.fontFamily};
           --font-signika: ${signika.style.fontFamily};
           --font-jost: ${jost.style.fontFamily};
           --font-merriweather: ${merriweather.style.fontFamily};
