@@ -9,11 +9,6 @@ message Payment {
     bytes data = 4;
 }
 
-message PaymentRequest {
-    required string alias = 1;
-    optional string suid = 2;
-}
-
-message PaymentResponse {
+message Payments {
     repeated Payment payments = 1;
 }

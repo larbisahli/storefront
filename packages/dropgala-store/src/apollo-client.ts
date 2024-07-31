@@ -1,4 +1,10 @@
-import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  from,
+  HttpLink,
+  InMemoryCache,
+  NormalizedCacheObject
+} from '@apollo/client'
 import { RetryLink } from '@apollo/client/link/retry'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { apiURL } from '@dropgala/utils/utils'
@@ -23,7 +29,7 @@ const retryLink = new RetryLink({
   }
 })
 
-const apolloClient = new ApolloClient({
+const apolloClient = new ApolloClient<NormalizedCacheObject>({
   link: from([retryLink, httpLink]),
   cache: new InMemoryCache({
     addTypename: false

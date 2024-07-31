@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package storePackage;
+
+message Etag {
+    required string couponEtag = 1;
+    required string mediaEtag = 2;
+    required string shipmentEtag = 3;
+    required string userEtag = 4;
+    required string supplierEtag = 5;
+    required string configEtag = 6;
+    required string layoutEtag = 7;
+    required string productEtag = 8;
+    required string categoryEtag = 9;
+    required string customerEtag = 10;
+    required string analyticEtag = 11;
+    required string orderEtag = 12;
+    required string tagEtag = 13;
+    required string manufacturerEtag = 14;
+    required string attributeEtag = 15;
+    required string userRoleEtag = 16;
+    required string orderStatusEtag = 17;
+    required string taxEtag = 18;
+    required string paymentEtag = 19;
+}
+
+message SystemLanguage {
+    required uint32 id = 1;
+}
+
+message Store {
+    required string id = 1;
+    string alias = 2;
+    bool published = 3;
+    string tier = 4;
+    string status = 5;
+    Etag etag = 6;
+    SystemLanguage systemLanguage = 7;
+}

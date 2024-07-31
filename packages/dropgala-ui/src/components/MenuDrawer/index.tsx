@@ -9,7 +9,7 @@ import {
   selectMenu,
   toggleCart
 } from '@dropgala/store'
-import Overlay from 'components/common/Overlay'
+import Overlay from '@components/common/Overlay'
 import CloseIcon from '@dropgala/assets/icons/close'
 
 interface Props extends StoreProps {

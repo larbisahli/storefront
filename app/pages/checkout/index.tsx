@@ -5,10 +5,9 @@ import CheckoutLayout from '@components/AppLayout/CheckoutLayout'
 import Cookies from 'cookies'
 
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchClientCheckout } from '@gRPC/handlers/checkout'
-import { fetchStoreConfig } from '@gRPC/handlers'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import { fetchStoreConfig } from '@lib/api'
 
 export default function CheckoutPage() {
   return null
@@ -23,7 +22,6 @@ export const getServerSideProps: GetServerSideProps =
 
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
-    const storeId = undefined
 
     try {
       if (!alias) {
@@ -31,7 +29,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -54,26 +52,26 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
 
       // Client cart
-      if (cuid) {
-        const clientCheckout = await fetchClientCheckout(
-          context,
-          alias,
-          storeLanguageId,
-          cuid
-        )
-        const checkout = clientCheckout?.payload.checkout
-        if (checkout?.stepsConfig?.currentStep) {
-          return {
-            redirect: {
-              permanent: false,
-              destination: `/checkout/${checkout?.stepsConfig?.currentStep}`
-            }
-          }
-        }
-      }
+      // if (cuid) {
+      //   const clientCheckout = await fetchClientCheckout(
+      //     context,
+      //     alias,
+      //     languageId,
+      //     cuid
+      //   )
+      //   const checkout = clientCheckout?.payload.checkout
+      //   if (checkout?.stepsConfig?.currentStep) {
+      //     return {
+      //       redirect: {
+      //         permanent: false,
+      //         destination: `/checkout/${checkout?.stepsConfig?.currentStep}`
+      //       }
+      //     }
+      //   }
+      // }
 
       return {
         redirect: {

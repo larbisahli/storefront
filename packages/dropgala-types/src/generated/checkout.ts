@@ -15,26 +15,18 @@ export interface ProtoGrpcType {
   }
   cart: {
     Cart: MessageTypeDefinition
-    CartRequest: MessageTypeDefinition
-    CartResponse: MessageTypeDefinition
     Item: MessageTypeDefinition
   }
   category: {
     Breadcrumbs: MessageTypeDefinition
+    Categories: MessageTypeDefinition
     Category: MessageTypeDefinition
-    CategoryRequest: MessageTypeDefinition
-    CategoryResponse: MessageTypeDefinition
-    HomePageCategoryRequest: MessageTypeDefinition
-    HomePageCategoryResponse: MessageTypeDefinition
     Menu: MessageTypeDefinition
-    MenuRequest: MessageTypeDefinition
-    MenuResponse: MessageTypeDefinition
+    MenuItem: MessageTypeDefinition
   }
   checkout: {
     AppliedCoupon: MessageTypeDefinition
     Checkout: MessageTypeDefinition
-    CheckoutRequest: MessageTypeDefinition
-    CheckoutResponse: MessageTypeDefinition
     FinalPrice: MessageTypeDefinition
     Geo: MessageTypeDefinition
     Metadata: MessageTypeDefinition
@@ -62,15 +54,11 @@ export interface ProtoGrpcType {
     Image: MessageTypeDefinition
   }
   product: {
-    CategoryProductsRequest: MessageTypeDefinition
-    PopularProductsRequest: MessageTypeDefinition
     Price: MessageTypeDefinition
     Product: MessageTypeDefinition
-    ProductRequest: MessageTypeDefinition
-    ProductResponse: MessageTypeDefinition
     ProductSeo: MessageTypeDefinition
     ProductShippingInfo: MessageTypeDefinition
-    ProductsResponse: MessageTypeDefinition
+    Products: MessageTypeDefinition
     Unit: MessageTypeDefinition
     Variation: MessageTypeDefinition
     VariationOption: MessageTypeDefinition
@@ -79,8 +67,7 @@ export interface ProtoGrpcType {
     DeliveryTime: MessageTypeDefinition
     Rate: MessageTypeDefinition
     Shipping: MessageTypeDefinition
-    ShippingRequest: MessageTypeDefinition
-    ShippingResponse: MessageTypeDefinition
+    Shippings: MessageTypeDefinition
   }
   tag: {
     Tag: MessageTypeDefinition

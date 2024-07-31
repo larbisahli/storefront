@@ -2,7 +2,7 @@ import React from 'react'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import dynamic from 'next/dynamic'
-import useWindowSize from 'hooks/useWindowSize'
+import useWindowSize from '@hooks/useWindowSize'
 import cn from 'clsx'
 import {
   Alignment,

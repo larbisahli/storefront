@@ -4,3 +4,7 @@ export interface PaymentTypes {
   data: any
   type: string
 }
+
+export interface PaymentConfiguration {
+  id?: string
+}

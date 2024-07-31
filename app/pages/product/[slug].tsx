@@ -14,22 +14,15 @@ import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { ProductBreadcrumbs, mediaURL } from '@dropgala/utils/utils'
 import Head from 'next/head'
-import {
-  fetchPageLayout,
-  fetchStoreConfig,
-  fetchStoreLanguage,
-  fetchStoreMenu,
-  fetchStoreProduct
-} from '@gRPC/handlers'
 import { LanguageType } from '@dropgala/types/config.type'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import Cookies from 'cookies'
 import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
-import { fetchClientCart } from '@gRPC/handlers/checkout'
 import { selectProduct, setProduct } from '@dropgala/store/Product'
 import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
+import { fetchPageLayout, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
 
 interface PageProps {
   pageProps: {
@@ -129,7 +122,6 @@ export const getServerSideProps: GetServerSideProps =
 
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
-    const storeId = undefined
 
     const slug = params?.slug
 
@@ -139,7 +131,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -162,54 +154,54 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      // Redux Store
-      store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
-      store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-
-      // Client cart
-      if (cuid) {
-        const clientCartStore = await fetchClientCart({
-          alias,
-          storeLanguageId,
-          cuid,
-          storeId
-        })
-        if (clientCartStore) {
-          store.dispatch(clientCartStore)
-        }
-      }
-
-      store.dispatch(
+      const [storeLanguage, pageLayout] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
         await fetchPageLayout({
           alias,
           page: StoreLayoutNames.PRODUCT_PAGE,
           templateId,
-          storeLanguageId,
-          isCustom: false,
-          storeId
+          languageId,
+          isCustom: false
         })
-      )
+      ])
+
+      store.dispatch(storeLanguage)
+      store.dispatch(pageLayout)
+      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(setConfigDevice({ device }))
+
+      // Client cart
+      // if (cuid) {
+      //   const clientCartStore = await fetchClientCart({
+      //     alias,
+      //     languageId,
+      //     cuid,
+      //     storeId
+      //   })
+      //   if (clientCartStore) {
+      //     store.dispatch(clientCartStore)
+      //   }
+      // }
 
       // Page props data
-      const product = (await fetchStoreProduct(
-        slug as string,
-        alias,
-        storeLanguageId,
-        storeId
-      )) as unknown as ProductType
+      // const product = (await fetchStoreProduct(
+      //   slug as string,
+      //   alias,
+      //   storeLanguageId,
+      //   storeId
+      // )) as unknown as ProductType
 
-      store.dispatch(setProduct({ product }))
-      store.dispatch(
-        setBreadcrumb({
-          name: product.name ?? null,
-          breadcrumbs: ProductBreadcrumbs(product.categories ?? [])
-        })
-      )
+      // store.dispatch(setProduct({ product }))
+      // store.dispatch(
+      //   setBreadcrumb({
+      //     name: product.name ?? null,
+      //     breadcrumbs: ProductBreadcrumbs(product.categories ?? [])
+      //   })
+      // )
 
       return {
         props: {

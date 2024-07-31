@@ -15,14 +15,10 @@ export interface ProtoGrpcType {
   }
   category: {
     Breadcrumbs: MessageTypeDefinition
+    Categories: MessageTypeDefinition
     Category: MessageTypeDefinition
-    CategoryRequest: MessageTypeDefinition
-    CategoryResponse: MessageTypeDefinition
-    HomePageCategoryRequest: MessageTypeDefinition
-    HomePageCategoryResponse: MessageTypeDefinition
     Menu: MessageTypeDefinition
-    MenuRequest: MessageTypeDefinition
-    MenuResponse: MessageTypeDefinition
+    MenuItem: MessageTypeDefinition
   }
   commons: {
     Country: MessageTypeDefinition
@@ -42,15 +38,11 @@ export interface ProtoGrpcType {
     Image: MessageTypeDefinition
   }
   product: {
-    CategoryProductsRequest: MessageTypeDefinition
-    PopularProductsRequest: MessageTypeDefinition
     Price: MessageTypeDefinition
     Product: MessageTypeDefinition
-    ProductRequest: MessageTypeDefinition
-    ProductResponse: MessageTypeDefinition
     ProductSeo: MessageTypeDefinition
     ProductShippingInfo: MessageTypeDefinition
-    ProductsResponse: MessageTypeDefinition
+    Products: MessageTypeDefinition
     Unit: MessageTypeDefinition
     Variation: MessageTypeDefinition
     VariationOption: MessageTypeDefinition

@@ -11,8 +11,6 @@ type SubtypeConstructor<
 export interface ProtoGrpcType {
   language: {
     Language: MessageTypeDefinition
-    LanguageRequest: MessageTypeDefinition
-    LanguageResponse: MessageTypeDefinition
     Translation: MessageTypeDefinition
   }
 }

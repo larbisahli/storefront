@@ -26,14 +26,3 @@ message Cart {
     repeated Item items = 2;
     uint32 totalQuantity = 3;
 }
-
-message CartRequest {
-    required string alias = 1;
-    required uint32 storeLanguageId = 2;
-    required string cuid = 3;
-    optional string suid = 4;
-}
-
-message CartResponse {
-    Cart cart = 1;
-}

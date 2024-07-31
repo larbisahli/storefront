@@ -18,7 +18,7 @@ import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import { useCartTotal } from '@dropgala/utils/hooks/useCartTotal'
 import CloseIcon from '@dropgala/assets/icons/close'
-import Overlay from 'components/common/Overlay'
+import Overlay from '@components/common/Overlay'
 
 const LockIcon = dynamic(() => import('@dropgala/assets/icons/lock'), {
   loading: () => <></>,

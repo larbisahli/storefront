@@ -84,31 +84,6 @@ message Product {
     uint32 reviewCount = 23;
 }
 
-message PopularProductsRequest {
-  required string alias = 1;
-  required uint32 storeLanguageId = 2;
-  optional string suid = 3;
-}
-
-message ProductsResponse {
+message Products {
   repeated Product products = 1;
-}
-
-message CategoryProductsRequest {
-  required string alias = 1;
-  required uint32 storeLanguageId = 2;
-  optional string suid = 3;
-  required string urlKey = 4;
-  required uint32 page = 5;
-}
-
-message ProductRequest {
-  required string alias = 1;
-  required uint32 storeLanguageId = 2;
-  optional string suid = 3;
-  required string slug = 4;
-}
-
-message ProductResponse {
-  Product product = 1;
 }

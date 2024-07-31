@@ -35,7 +35,7 @@ message Category {
   uint32 level = 17;
 }
 
-message Menu {
+message MenuItem {
   uint32 id = 1;
   string name = 2;
   string urlKey = 3;
@@ -43,33 +43,10 @@ message Menu {
   repeated Menu children = 5 [lazy = true];
 }
 
-message MenuRequest {
-  required string alias = 1;
-  required uint32 storeLanguageId = 2;
-  optional string suid = 3;
+message Menu {
+  repeated MenuItem menu = 1;
 }
 
-message MenuResponse {
-  repeated Menu menu = 1;
-}
-
-message HomePageCategoryRequest {
-  required string alias = 1;
-  required uint32 storeLanguageId = 2;
-  optional string suid = 3;
-}
-
-message HomePageCategoryResponse {
-  repeated Category categories = 1;
-}
-
-message CategoryRequest {
-  required string urlKey = 1;
-  required string alias = 2;
-  required uint32 storeLanguageId = 3;
-  optional string suid = 4;
-}
-
-message CategoryResponse {
+message Categories {
   Category category = 1;
 }

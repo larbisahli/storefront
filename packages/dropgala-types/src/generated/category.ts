@@ -11,14 +11,10 @@ type SubtypeConstructor<
 export interface ProtoGrpcType {
   category: {
     Breadcrumbs: MessageTypeDefinition
+    Categories: MessageTypeDefinition
     Category: MessageTypeDefinition
-    CategoryRequest: MessageTypeDefinition
-    CategoryResponse: MessageTypeDefinition
-    HomePageCategoryRequest: MessageTypeDefinition
-    HomePageCategoryResponse: MessageTypeDefinition
     Menu: MessageTypeDefinition
-    MenuRequest: MessageTypeDefinition
-    MenuResponse: MessageTypeDefinition
+    MenuItem: MessageTypeDefinition
   }
   media: {
     Image: MessageTypeDefinition

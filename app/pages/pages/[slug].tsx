@@ -5,13 +5,7 @@ import { getHost } from 'utils'
 import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
-import {
-  fetchPageLayout,
-  fetchStoreConfig,
-  fetchStoreLanguage,
-  fetchStoreMenu
-} from '@gRPC/handlers'
-import { fetchStorePage } from '@gRPC/handlers/page'
+
 import { PageType } from '@dropgala/types/page.type'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -19,8 +13,8 @@ import { LanguageType } from '@dropgala/types/config.type'
 import Breadcrumb from '@components/Breadcrumb'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchClientCart } from '@gRPC/handlers/checkout'
 import { useRouter } from 'next/router'
+import { fetchPageLayout, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
 
 interface PageProps {
   pageProps: {
@@ -104,7 +98,6 @@ export const getServerSideProps: GetServerSideProps =
 
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
-    const storeId = undefined
 
     const slug = params?.slug as string
 
@@ -114,7 +107,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -137,38 +130,37 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
-      store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-
-      // Client cart
-      if (cuid) {
-        const clientCartStore = await fetchClientCart({
-          alias,
-          storeLanguageId,
-          cuid,
-          storeId
-        })
-        if (clientCartStore) {
-          store.dispatch(clientCartStore)
-        }
-      }
+      store.dispatch(await fetchStoreLanguage(languageId, alias))
+      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
 
       store.dispatch(
         await fetchPageLayout({
           alias,
           page: slug,
           templateId,
-          storeLanguageId,
-          isCustom: true,
-          storeId
+          languageId,
+          isCustom: true
         })
       )
+
+      // Client cart
+      // if (cuid) {
+      //   const clientCartStore = await fetchClientCart({
+      //     alias,
+      //     languageId,
+      //     cuid,
+      //     storeId
+      //   })
+      //   if (clientCartStore) {
+      //     store.dispatch(clientCartStore)
+      //   }
+      // }
 
       return {
         props: {

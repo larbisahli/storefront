@@ -1,4 +1,5 @@
 {
+  "name": "dropgala-storefront",
   "repository": "https://github.com/dropgala/storefront",
   "license": "MIT",
   "private": true,

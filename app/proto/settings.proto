@@ -29,11 +29,6 @@ message Settings {
     Tax tax = 19;
 }
 
-message ConfigRequest {
-    required string alias = 1;
-    optional string suid = 3;
-}
-
-message ConfigResponse {
+message Config {
     Settings config = 1;
 }

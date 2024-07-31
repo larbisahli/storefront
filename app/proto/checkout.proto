@@ -84,14 +84,3 @@ message Checkout {
     Cart cart = 13;
     Summary summary = 14;
 }
-
-message CheckoutRequest {
-    required string alias = 1;
-    required uint32 storeLanguageId = 2;
-    required string cuid = 3;
-    optional string suid = 4;
-}
-
-message CheckoutResponse {
-    Checkout checkout = 1;
-}

@@ -32,11 +32,6 @@ message Shipping {
     repeated Country zones = 8;
 }
 
-message ShippingRequest {
-    required string alias = 1;
-    optional string suid = 2;
-}
-
-message ShippingResponse {
+message Shippings {
     repeated Shipping shippings = 1;
 }

@@ -6,13 +6,12 @@ import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/AppLayout/CheckoutLayout'
 import CheckoutCartItems from '@components/CheckoutCartItems'
 import OrderSummary from '@components/OrderSummary'
-import { fetchStoreConfig, fetchStoreLanguage } from '@gRPC/handlers'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchClientCart } from '@gRPC/handlers/checkout'
+import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -61,7 +60,6 @@ export const getServerSideProps: GetServerSideProps =
 
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
-    const storeId = undefined
 
     try {
       if (!alias) {
@@ -69,7 +67,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -97,20 +95,20 @@ export const getServerSideProps: GetServerSideProps =
 
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
+      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias))
 
       // Client cart
-      if (cuid) {
-        const clientCartStore = await fetchClientCart({
-          alias,
-          storeLanguageId,
-          cuid,
-          storeId
-        })
-        if (clientCartStore) {
-          store.dispatch(clientCartStore)
-        }
-      }
+      // if (cuid) {
+      //   const clientCartStore = await fetchClientCart({
+      //     alias,
+      //     storeLanguageId,
+      //     cuid,
+      //     storeId
+      //   })
+      //   if (clientCartStore) {
+      //     store.dispatch(clientCartStore)
+      //   }
+      // }
 
       return {
         props: {

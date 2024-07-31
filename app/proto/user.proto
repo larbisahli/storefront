@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package userPackage;
+
+import "photo.proto";
+
+message Permissions {
+    required bool write = 1;
+    required bool read = 2;
+    required bool update = 3;
+    required bool delete = 4;
+}
+
+message Resource {
+    required Permissions permissions = 1;
+}
+
+message Resources {
+    required Resource user = 1;
+    required Resource category = 2;
+    required Resource product = 3;
+    required Resource tag = 4;
+    required Resource tax = 5;
+    required Resource supplier = 6;
+    required Resource attribute = 7;
+    required Resource customer = 8;
+    required Resource coupon = 9;
+    required Resource shipping = 10;
+    required Resource orderStatus = 11;
+    required Resource order = 12;
+    required Resource role = 13;
+    required Resource theme = 14;
+    required Resource marketPlace = 15;
+    required Resource storeSettings = 16;
+    required Resource media = 17;
+    required Resource manufacturer = 18;
+    required Resource storeLanguage = 19;
+    required Resource storeBuilder = 20;
+    required Resource internal = 21;
+    required Resource payment = 22;
+}
+
+message Privileges {
+    required Resources resources = 1;
+}
+
+message Role {
+    required int32 id = 1;
+    required string name = 2;
+    required Privileges privileges = 3;
+}
+
+message User {
+    required string id = 1;
+    required string email = 2;
+    string firstName = 3;
+    string lastName = 4;
+    string phoneNumber = 5;
+    bool isAdmin = 6;
+    repeated Image  profile = 7;
+    required Role role = 8;
+    required bool active = 9;
+    optional string googleProfileImage = 10;
+}

@@ -146,7 +146,7 @@ export function serializeNestedBuffers(obj: any) {
 
 export const ProductBreadcrumbs = (categories: CategoryType[]) => {
   const selectedCate = cloneDeep(categories)?.sort(
-    (a, b) => (b?.breadcrumbsPriority ?? 0) - (a?.breadcrumbsPriority ?? 0) ?? 0
+    (a, b) => (b?.breadcrumbsPriority || 0) - (a?.breadcrumbsPriority || 0) || 0
   )[0]
   return [
     ...(selectedCate?.parent

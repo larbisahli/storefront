@@ -11,7 +11,6 @@ type SubtypeConstructor<
 export interface ProtoGrpcType {
   payment: {
     Payment: MessageTypeDefinition
-    PaymentRequest: MessageTypeDefinition
-    PaymentResponse: MessageTypeDefinition
+    Payments: MessageTypeDefinition
   }
 }

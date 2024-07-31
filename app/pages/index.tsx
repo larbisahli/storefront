@@ -1,6 +1,5 @@
 import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
-import type { HeroBannerType } from '@dropgala/types/slider.type'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
@@ -12,14 +11,12 @@ import { builderURL, mediaURL } from '@dropgala/utils/utils'
 import {
   fetchPageLayout,
   fetchStoreConfig,
-  fetchStoreHomePageCategories,
   fetchStoreLanguage,
   fetchStoreMenu,
-  fetchStorePopularProducts
-} from '@gRPC/handlers'
+  fetchClientCart
+} from '@api'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { LanguageType } from '@dropgala/types/config.type'
-import { fetchClientCart } from '@gRPC/handlers/checkout'
 import Cookies from 'cookies'
 import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import React, { useEffect } from 'react'
@@ -30,7 +27,6 @@ import _JSXStyle from 'styled-jsx/style'
 interface PageProps {
   pageProps: {
     menu: CategoryType[]
-    heroSlider: HeroBannerType[]
     popularProducts: ProductType[]
     host: { host: string; alias: string }
   }
@@ -113,7 +109,6 @@ export const getServerSideProps: GetServerSideProps =
 
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
-    const storeId = undefined
 
     console.log('========>>', { alias })
 
@@ -123,7 +118,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -146,56 +141,39 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      // Redux Store
-      // NOTE: use promise.all
-      store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
-      store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-      store.dispatch(
-        await fetchStoreHomePageCategories(alias, storeLanguageId, storeId)
-      )
-      store.dispatch(
+      const [storeLanguage, pageLayout] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
         await fetchPageLayout({
           alias,
           page: StoreLayoutNames.HOMEPAGE,
           templateId,
-          storeLanguageId,
-          isCustom: false,
-          storeId
+          languageId,
+          isCustom: false
         })
-      )
+      ])
+
+      store.dispatch(storeLanguage)
+      store.dispatch(pageLayout)
+      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(setConfigDevice({ device }))
 
       // Client cart
-      if (cuid) {
-        const clientCartStore = await fetchClientCart({
-          alias,
-          storeLanguageId,
-          cuid,
-          storeId
-        })
-        if (clientCartStore) {
-          store.dispatch(clientCartStore)
-        }
-      }
+      // if (cuid) {
+      //   const clientCartStore = await fetchClientCart({
+      //     alias,
+      //     storeLanguageId,
+      //     cuid,
+      //     storeId
+      //   })
+      //   if (clientCartStore) {
+      //     store.dispatch(clientCartStore)
+      //   }
+      // }
 
-      // Page data props
-      const popularProducts = await fetchStorePopularProducts(
-        alias,
-        storeLanguageId,
-        storeId
-      )
-      store.dispatch(
-        setCollection({
-          collection: {
-            id: 'e6d2b1b9-2514-4168-8181-20e4f32961sd',
-            items: popularProducts
-          }
-        })
-      )
       return {
         props: {
           host: { host, alias }

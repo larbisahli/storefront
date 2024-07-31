@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
 import CheckoutLayout from '@components/AppLayout/CheckoutLayout'
-import { fetchStoreConfig, fetchStoreLanguage } from '@gRPC/handlers'
 import CheckoutItems from '@components/CheckoutItems'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
@@ -14,11 +13,10 @@ import { mediaURL } from '@dropgala/utils/utils'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchClientCheckout } from '@gRPC/handlers/checkout'
 import CheckoutPayment from '@components/CheckoutPayment'
 import CheckoutFooter from '@components/CheckoutFooter'
-import { fetchAvailablePayments } from '@gRPC/handlers/payment'
 import { PaymentTypes } from '@dropgala/types'
+import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -124,7 +122,6 @@ export const getServerSideProps: GetServerSideProps =
 
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
-    const storeId = undefined
 
     try {
       if (!alias) {
@@ -132,7 +129,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -160,37 +157,35 @@ export const getServerSideProps: GetServerSideProps =
 
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
+      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias))
 
       // Client cart and Checkout
-      if (cuid) {
-        const clientCheckout = await fetchClientCheckout(
-          context,
-          alias,
-          storeLanguageId,
-          cuid
-        )
-        if (clientCheckout) {
-          store.dispatch(clientCheckout)
-        }
-      } else {
-        console.log('======================>')
-        return {
-          redirect: {
-            destination: '/',
-            permanent: false
-          }
-        }
-      }
+      // if (cuid) {
+      //   const clientCheckout = await fetchClientCheckout(
+      //     context,
+      //     alias,
+      //     storeLanguageId,
+      //     cuid
+      //   )
+      //   if (clientCheckout) {
+      //     store.dispatch(clientCheckout)
+      //   }
+      // } else {
+      //   console.log('======================>')
+      //   return {
+      //     redirect: {
+      //       destination: '/',
+      //       permanent: false
+      //     }
+      //   }
+      // }
 
-      const payments = await fetchAvailablePayments({ alias, storeId })
-
-      console.log({ payments })
+      // const payments = await fetchAvailablePayments({ alias, storeId })
 
       return {
         props: {
           host: { host, alias },
-          payments
+          payments: []
         }
       }
     } catch (error) {

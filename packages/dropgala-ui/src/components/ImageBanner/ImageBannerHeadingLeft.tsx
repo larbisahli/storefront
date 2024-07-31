@@ -3,7 +3,7 @@ import { StoreProps, addFontFamily, selectConfig } from '@dropgala/store'
 import BuilderPlaceholder from '../common/builderPlaceholder'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import useWindowSize from 'hooks/useWindowSize'
+import useWindowSize from '@hooks/useWindowSize'
 import cn from 'clsx'
 import {
   Alignment,

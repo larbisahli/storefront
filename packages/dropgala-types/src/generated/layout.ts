@@ -12,7 +12,5 @@ export interface ProtoGrpcType {
   layout: {
     Layout: MessageTypeDefinition
     LayoutBlock: MessageTypeDefinition
-    LayoutRequest: MessageTypeDefinition
-    LayoutResponse: MessageTypeDefinition
   }
 }

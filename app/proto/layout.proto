@@ -2,17 +2,6 @@ syntax = "proto3";
 
 package layout;
 
-message Layout {
-    string templateId = 1;
-    bytes settings = 2;
-    string layoutId = 3;
-    string layoutName = 4;
-    string title = 5;
-    LayoutBlock jssHeader = 6;
-    repeated LayoutBlock jssMain = 7;
-    LayoutBlock jssFooter = 8;
-}
-
 message LayoutBlock {
     string componentId = 1;
     string moduleName = 2;
@@ -23,15 +12,13 @@ message LayoutBlock {
     repeated LayoutBlock children = 7 [lazy = true];
 }
 
-message LayoutRequest {
-    required string alias = 1;
-    required uint32 storeLanguageId = 2;
-    optional string suid = 3;
-    required string page = 4;
-    required bool isCustom = 5;
-    required string templateId = 6;
-}
-
-message LayoutResponse {
-    Layout layout = 1;
+message Layout {
+    string templateId = 1;
+    bytes settings = 2;
+    string layoutId = 3;
+    string layoutName = 4;
+    string title = 5;
+    LayoutBlock jssHeader = 6;
+    repeated LayoutBlock jssMain = 7;
+    LayoutBlock jssFooter = 8;
 }

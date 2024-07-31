@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -25,9 +25,9 @@
       "@hooks/*": ["hooks/*"],
       "@hooks": ["hooks/index"],
       "@assets": ["assets/index"],
-      "@gRPC/*": ["gRPC/*"],
       "@middleware/*": ["middleware/*"],
-      "@gRPC": ["gRPC/index"]
+      "@cache/*": ["lib/cache/*"],
+      "@api": ["lib/api/index"]
     },
     "incremental": true
   },

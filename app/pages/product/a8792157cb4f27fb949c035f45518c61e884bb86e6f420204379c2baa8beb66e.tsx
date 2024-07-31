@@ -14,21 +14,15 @@ import AppLayout from '@components/AppLayout/AppLayout'
 import { NextSeo } from 'next-seo'
 import { mediaURL } from '@dropgala/utils/utils'
 import Head from 'next/head'
-import {
-  fetchStoreConfig,
-  fetchStoreLanguage,
-  fetchStoreMenu,
-  fetchStoreProduct
-} from '@gRPC/handlers'
 import { LanguageType } from '@dropgala/types/config.type'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchClientCart } from '@gRPC/handlers/checkout'
 import { resolvePath } from '@dropgala/utils/helpers'
 import { PageLayoutBlocks, StoreLayoutComponentType } from '@dropgala/types'
+import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
 
 interface PageProps {
   pageProps: {
@@ -73,7 +67,7 @@ export default function ProductPage({ pageProps }: PageProps) {
   const breadcrumbs = useMemo(() => {
     const selectedCate = categories?.sort(
       (a, b) =>
-        (b?.breadcrumbsPriority ?? 0) - (a?.breadcrumbsPriority ?? 0) ?? 0
+        (b?.breadcrumbsPriority || 0) - (a?.breadcrumbsPriority || 0) || 0
     )[0]
     return [
       ...(selectedCate?.parent
@@ -165,7 +159,6 @@ export const getServerSideProps: GetServerSideProps =
 
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
-    const storeId = undefined
 
     const slug = params?.slug
 
@@ -175,7 +168,7 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias, storeId))
+      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -203,34 +196,35 @@ export const getServerSideProps: GetServerSideProps =
 
       // Redux Store
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias, storeId))
-      store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias))
+
+      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
 
       // Client cart
-      if (cuid) {
-        const clientCartStore = await fetchClientCart({
-          alias,
-          storeLanguageId,
-          cuid,
-          storeId
-        })
-        if (clientCartStore) {
-          store.dispatch(clientCartStore)
-        }
-      }
+      // if (cuid) {
+      //   const clientCartStore = await fetchClientCart({
+      //     alias,
+      //     storeLanguageId,
+      //     cuid,
+      //     storeId
+      //   })
+      //   if (clientCartStore) {
+      //     store.dispatch(clientCartStore)
+      //   }
+      // }
 
       // Page props data
-      const product = await fetchStoreProduct(
-        slug as string,
-        alias,
-        storeLanguageId,
-        storeId
-      )
+      // const product = await fetchStoreProduct(
+      //   slug as string,
+      //   alias,
+      //   storeLanguageId,
+      //   storeId
+      // )
 
       return {
         props: {
           host: { host, alias },
-          product
+          product: {}
         }
       }
     } catch (error) {

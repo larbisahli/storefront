@@ -26,16 +26,6 @@ message Language {
     required string name = 2;
     required bool isDefault = 3;
     required string localeId = 4;
-    string direction = 6;
-    Translation translation = 7;
-}
-
-message LanguageRequest {
-    required uint32 id = 1;
-    required string alias = 2;
-    optional string suid = 3;
-}
-
-message LanguageResponse {
-    Language language = 1;
+    string direction = 5;
+    Translation translation = 6;
 }

@@ -25,16 +25,13 @@ export interface ProtoGrpcType {
   }
   language: {
     Language: MessageTypeDefinition
-    LanguageRequest: MessageTypeDefinition
-    LanguageResponse: MessageTypeDefinition
     Translation: MessageTypeDefinition
   }
   media: {
     Image: MessageTypeDefinition
   }
   settings: {
-    ConfigRequest: MessageTypeDefinition
-    ConfigResponse: MessageTypeDefinition
+    Config: MessageTypeDefinition
     Settings: MessageTypeDefinition
   }
   tax: {
