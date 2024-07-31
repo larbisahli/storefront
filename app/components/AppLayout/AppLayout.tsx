@@ -4,7 +4,7 @@ import cn from 'clsx'
 import {
   Lato,
   Signika,
-  Roboto,
+  Roboto_Condensed,
   Jost,
   Merriweather,
   Gelasio,
@@ -37,8 +37,8 @@ const lato = Lato({
   display: 'swap'
 })
 
-const roboto = Roboto({
-  weight: ['100', '300', '400', '700', '900'],
+const roboto = Roboto_Condensed({
+  weight: ['300', '400', '700'],
   subsets: ['latin'],
   variable: '--font-roboto',
   display: 'swap'
