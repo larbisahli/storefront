@@ -5,10 +5,9 @@ import protobuf from 'protobufjs'
 import { Checkout } from '@dropgala/types/generated/checkout/Checkout'
 import path from 'path'
 
-const PROTO_PATH = path.join(
-  path.join(process.cwd(), './proto'),
-  'checkout.proto'
-)
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
+
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'checkout.proto')
 
 export class CheckoutPackage extends protobuf.Root {
   Checkout: protobuf.Type

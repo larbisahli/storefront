@@ -5,10 +5,9 @@ import protobuf from 'protobufjs'
 import { Payment } from '@dropgala/types/generated/payment/Payment'
 import path from 'path'
 
-const PROTO_PATH = path.join(
-  path.join(process.cwd(), './proto'),
-  'payment.proto'
-)
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
+
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'payment.proto')
 
 export class PaymentPackage extends protobuf.Root {
   Payment: protobuf.Type

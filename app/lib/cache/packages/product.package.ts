@@ -5,13 +5,12 @@ import { Product } from '@dropgala/types/generated/product/Product'
 import protobuf from 'protobufjs'
 import path from 'path'
 
-const PROTO_PATH = path.join(
-  path.join(process.cwd(), './proto'),
-  'product.proto'
-)
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
+
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'product.proto')
 
 export default class ProductPackage extends protobuf.Root {
-  root: protobuf.Root
+  _root: protobuf.Root
   Products: protobuf.Type
   Product: protobuf.Type
   decodeOptions: {

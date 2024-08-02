@@ -5,7 +5,9 @@ import protobuf from 'protobufjs'
 import { Cart } from '@dropgala/types/generated/cart/Cart'
 import path from 'path'
 
-const PROTO_PATH = path.join(path.join(process.cwd(), './proto'), 'cart.proto')
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
+
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'cart.proto')
 
 export class CartPackage extends protobuf.Root {
   Cart: protobuf.Type

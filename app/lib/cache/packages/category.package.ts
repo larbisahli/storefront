@@ -5,13 +5,12 @@ import { Menu } from '@dropgala/types/generated/category/Menu'
 import protobuf from 'protobufjs'
 import path from 'path'
 
-const PROTO_PATH = path.join(
-  path.join(process.cwd(), './proto'),
-  'category.proto'
-)
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
+
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'category.proto')
 
 export default class CategoryPackage extends protobuf.Root {
-  root: protobuf.Root
+  _root: protobuf.Root
   Menu: protobuf.Type
   decodeOptions: {
     enums: StringConstructor // enums as string names

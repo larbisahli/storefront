@@ -1,17 +1,15 @@
 /**
  * This package helps us encode and decode resources to a binary blob (Uint8Array)
  */
-import { Language } from '@dropgala/types/generated/language/Language'
 import protobuf from 'protobufjs'
 import path from 'path'
 
-const PROTO_PATH = path.join(
-  path.join(process.cwd(), './proto'),
-  'language.proto'
-)
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
+
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'language.proto')
 
 export class LanguagePackage extends protobuf.Root {
-  _root: protobuf.Root
+  __root: protobuf.Root
   Language: protobuf.Type
   decodeOptions: {
     enums: StringConstructor // enums as string names

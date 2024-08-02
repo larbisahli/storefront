@@ -4,13 +4,12 @@
 import protobuf from 'protobufjs'
 import path from 'path'
 
-const PROTO_PATH = path.join(
-  path.join(process.cwd(), './proto'),
-  'layout.proto'
-)
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
+
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'layout.proto')
 
 export class LayoutPackage extends protobuf.Root {
-  _root: protobuf.Root
+  __root: protobuf.Root
   Layout: protobuf.Type
   decodeOptions: {
     enums: StringConstructor // enums as string names

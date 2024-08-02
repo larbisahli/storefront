@@ -4,15 +4,12 @@
 import protobuf from 'protobufjs'
 import path from 'path'
 
-const PROTO_PATH = path.join(
-  path.join(process.cwd(), './proto'),
-  'settings.proto'
-)
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
 
-console.log({ PROTO_PATH })
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'settings.proto')
 
 export class ConfigPackage extends protobuf.Root {
-  _root: protobuf.Root
+  __root: protobuf.Root
   Config: protobuf.Type
   decodeOptions: {
     enums: StringConstructor // enums as string names

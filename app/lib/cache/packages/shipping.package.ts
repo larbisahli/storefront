@@ -5,10 +5,9 @@ import protobuf from 'protobufjs'
 import { Shipping } from '@dropgala/types/generated/shipping/Shipping'
 import path from 'path'
 
-const PROTO_PATH = path.join(
-  path.join(process.cwd(), './proto'),
-  'shipping.proto'
-)
+const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
+
+const PROTO_PATH = path.join(PROTO_DIR_PATH, 'shipping.proto')
 
 export class ShippingPackage extends protobuf.Root {
   Shipping: protobuf.Type
