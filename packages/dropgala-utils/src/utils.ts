@@ -121,14 +121,21 @@ export function serializeNestedBuffers(obj: any) {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const value = obj[key]
-        if (value instanceof Buffer) {
+        var base64regex =
+          /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$/
+        // Detect based64
+        if (base64regex.test(value)) {
           // Check for empty buffer
           if (value.length) {
             // Convert the buffer to a base64 string
             // Decode the base64 string back to JSON
             // @ts-ignore
             const decodedValue = Buffer.from(value, 'base64').toString('utf-8')
-            obj[key] = JSON.parse(decodedValue)
+            try {
+              obj[key] = JSON.parse(decodedValue)
+            } catch (error) {
+              obj[key] = value
+            }
           } else {
             obj[key] = {}
           }
