@@ -59,10 +59,9 @@ export const fetchStoreLanguage = async (languageId: number, alias: string) => {
       console.log('__________<< Language Error >>', error)
       throw { message: error.message }
     }
-    language = await response.json()
+    const languageResponse = await response.json()
+    language = languageResponse?.language
   }
 
-  return setLanguage({
-    storeLanguage: language as unknown as LanguageType
-  })
+  return language as LanguageType
 }

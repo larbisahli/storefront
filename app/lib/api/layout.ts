@@ -1,4 +1,3 @@
-import { setStoreLayout } from '@dropgala/store'
 import { StoreLayoutType } from '@dropgala/types'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { apiURL, serializeNestedBuffers } from '@dropgala/utils/utils'
@@ -45,10 +44,9 @@ export const fetchPageLayout = async ({
       console.log('__________<< Language Error >>', error)
       throw { message: error.message }
     }
-    layout = await response.json()
+    const layoutResponse = await response.json()
+    layout = layoutResponse?.layout
   }
 
-  return setStoreLayout({
-    layout: serializeNestedBuffers(layout)
-  } as unknown as { layout: StoreLayoutType })
+  return serializeNestedBuffers(layout) as StoreLayoutType
 }

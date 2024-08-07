@@ -1,5 +1,5 @@
 import { CategoryType } from '@dropgala/types/category.type'
-import { cloneDeep, isEqual, sortBy } from './lodashFunctions'
+import { cloneDeep, isEmpty, isEqual, sortBy } from './lodashFunctions'
 import {
   VariationsType,
   VariationOptionsType
@@ -126,7 +126,7 @@ export function serializeNestedBuffers(obj: any) {
         // Detect based64
         if (base64regex.test(value)) {
           // Check for empty buffer
-          if (value.length) {
+          if (value?.length) {
             // Convert the buffer to a base64 string
             // Decode the base64 string back to JSON
             // @ts-ignore
@@ -152,6 +152,7 @@ export function serializeNestedBuffers(obj: any) {
 }
 
 export const ProductBreadcrumbs = (categories: CategoryType[]) => {
+  if (isEmpty(categories)) return []
   const selectedCate = cloneDeep(categories)?.sort(
     (a, b) => (b?.breadcrumbsPriority || 0) - (a?.breadcrumbsPriority || 0) || 0
   )[0]

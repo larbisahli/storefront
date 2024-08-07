@@ -276,19 +276,33 @@ const ContentNotFound = {
     }
   )
 }
-const ProductList = {
+const ProductListWidget = {
   /* __DEFAULT__ */
-  ProductList: dynamic(() => import('@dropgala/ui/components/ProductList'), {
-    loading: () => <ProductCardPlaceholder />,
-    ssr: true
-  }),
-  ProductListSlide: dynamic(
-    () => import('@dropgala/ui/components/ProductList/ProductListSlide'),
+  ProductListGridWidget: dynamic(
+    () =>
+      import('@dropgala/ui/components/ProductListWidget/ProductListGridWidget'),
+    {
+      loading: () => <ProductCardPlaceholder />,
+      ssr: true
+    }
+  ),
+  ProductListSlideWidget: dynamic(
+    () =>
+      import(
+        '@dropgala/ui/components/ProductListWidget/ProductListSlideWidget'
+      ),
     {
       loading: () => <ProductCardPlaceholder />,
       ssr: true
     }
   )
+}
+const ProductList = {
+  /* __DEFAULT__ */
+  ProductList: dynamic(() => import('@dropgala/ui/components/ProductList'), {
+    loading: () => <ProductCardPlaceholder />,
+    ssr: true
+  })
 }
 const CookiePopup = {
   /* __DEFAULT__ */
@@ -506,6 +520,7 @@ modules.set(ModuleGroup.CHECKOUT_PAYMENT, CheckoutPayment)
 modules.set(ModuleGroup.INSTALL_PROMPT, InstallPrompt)
 modules.set(ModuleGroup.CONTENT_NOT_FOUND, ContentNotFound)
 modules.set(ModuleGroup.PRODUCT_LIST, ProductList)
+modules.set(ModuleGroup.PRODUCT_LIST_WIDGET, ProductListWidget)
 modules.set(ModuleGroup.COOKIE_POPUP, CookiePopup)
 modules.set(ModuleGroup.PROMO_BANNER, PromoBanner)
 modules.set(ModuleGroup.OFFLINE_NOTICE, OfflineNotice)

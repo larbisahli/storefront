@@ -1,4 +1,9 @@
-import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
+import {
+  selectConfig,
+  setConfigDevice,
+  setLanguage,
+  wrapper
+} from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
@@ -152,12 +157,17 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
 
-      // Redux Store
+      const [storeLanguage] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias)
+      ])
+
+      // const payments = await fetchAvailablePayments({ alias, storeId })
+
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias))
+      store.dispatch(setLanguage({ storeLanguage }))
 
       // Client cart and Checkout
       // if (cuid) {
@@ -179,8 +189,6 @@ export const getServerSideProps: GetServerSideProps =
       //     }
       //   }
       // }
-
-      // const payments = await fetchAvailablePayments({ alias, storeId })
 
       return {
         props: {

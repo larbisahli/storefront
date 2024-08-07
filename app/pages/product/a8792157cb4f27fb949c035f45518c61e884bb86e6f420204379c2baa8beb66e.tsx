@@ -2,7 +2,10 @@ import {
   wrapper,
   selectConfig,
   setConfigDevice,
-  setMobileHeaderTransition
+  setMobileHeaderTransition,
+  setLanguage,
+  setMenu,
+  setStoreLayout
 } from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
@@ -19,10 +22,15 @@ import getMobileDetect from '@dropgala/utils/isMobile'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import Cookies from 'cookies'
-import { CookieNames } from '@dropgala/types/common.type'
+import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import { resolvePath } from '@dropgala/utils/helpers'
 import { PageLayoutBlocks, StoreLayoutComponentType } from '@dropgala/types'
-import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import {
+  fetchPageLayout,
+  fetchStoreConfig,
+  fetchStoreLanguage,
+  fetchStoreMenu
+} from '@lib/api'
 
 interface PageProps {
   pageProps: {
@@ -191,12 +199,26 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
+      const templateId = ConfigReducer.templateId as string
 
-      // Redux Store
+      const [storeLanguage, menu, layout] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
+        await fetchStoreMenu(languageId, alias),
+        await fetchPageLayout({
+          alias,
+          page: StoreLayoutNames.PRODUCT_PAGE,
+          templateId,
+          languageId,
+          isCustom: false
+        })
+      ])
+
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias))
+      store.dispatch(setLanguage({ storeLanguage }))
+      store.dispatch(setMenu(menu))
+      store.dispatch(setStoreLayout({ layout }))
 
       // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
 

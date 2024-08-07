@@ -1,4 +1,4 @@
-import { ProductPackage } from './packages'
+import productPackage from './packages/product.package'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import crypto from 'crypto'
 import ProductSchema from './models/product'
@@ -7,22 +7,47 @@ export class ProductCacheStore {
   constructor() {}
 
   private getBySlug = ({
-    storeId,
-    slug
+    languageId,
+    slug,
+    alias
   }: {
-    storeId: string
     slug: string
+    alias: string
+    languageId: number
   }) => {
     return crypto
       .createHash('sha256')
-      .update(`${storeId}:${slug}`)
+      .update(alias + slug + languageId)
       .digest('hex')
   }
 
-  public getProductById = async (id: number) => {
+  private getById = ({
+    languageId,
+    id,
+    alias
+  }: {
+    alias: string
+    id: number
+    languageId: number
+  }) => {
+    return crypto
+      .createHash('sha256')
+      .update(alias + id + languageId)
+      .digest('hex')
+  }
+
+  public getProductById = async ({
+    languageId,
+    id,
+    alias
+  }: {
+    alias: string
+    id: number
+    languageId: number
+  }) => {
     try {
       const resource = await ProductSchema.findOne({
-        key: { $eq: id }
+        key: { $eq: this.getById({ languageId, alias, id }) }
       })
 
       if (isEmpty(resource && resource.data)) {
@@ -32,8 +57,7 @@ export class ProductCacheStore {
       /**
        * Convert the data from Buffer to object
        */
-      return (await this.productPackage.decodeProduct(resource?.data!))
-        ?.resource
+      return (await productPackage.decodeProduct(resource?.data!))?.resource
     } catch (error) {
       // Logger.system.error((error as Error).message);
       console.log('getProductById >>', { error })
@@ -42,15 +66,17 @@ export class ProductCacheStore {
   }
 
   public getProductBySlug = async ({
-    storeId,
-    slug
+    languageId,
+    slug,
+    alias
   }: {
-    storeId: string
     slug: string
+    alias: string
+    languageId: number
   }) => {
     try {
       const resource = await ProductSchema.findOne({
-        slug: { $eq: this.getBySlug({ storeId, slug }) }
+        slug: { $eq: this.getBySlug({ slug, alias, languageId }) }
       })
 
       if (isEmpty(resource && resource.data)) {
@@ -60,8 +86,7 @@ export class ProductCacheStore {
       /**
        * Convert the data from Buffer to object
        */
-      return (await this.productPackage.decodeProduct(resource?.data!))
-        ?.resource
+      return (await productPackage.decodeProduct(resource?.data!))?.resource
     } catch (error) {
       // Logger.system.error((error as Error).message);
       console.log('getProductBySlug >>', { error })
@@ -69,3 +94,7 @@ export class ProductCacheStore {
     }
   }
 }
+
+const productCacheStore = new ProductCacheStore()
+
+export default productCacheStore

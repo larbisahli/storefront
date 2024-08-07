@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
 
 export interface Product extends mongoose.Document {
-  key: number
+  key: string
   alias: string
   domain: string
+  slug: string
   storeId: string
   localeId: string
   data: Uint8Array
@@ -14,14 +15,14 @@ export interface Product extends mongoose.Document {
 const ProductSchema = new mongoose.Schema<Product>(
   {
     key: {
-      type: Number,
+      type: String,
       required: true,
-      index: { unique: true } // product id
+      index: { unique: true }
     },
     slug: {
       type: String,
       required: true,
-      index: { unique: true } // sha(alias:slug)
+      index: { unique: true }
     },
     alias: {
       type: String,

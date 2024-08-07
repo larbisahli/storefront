@@ -1,16 +1,15 @@
 import mongoose from 'mongoose'
 
-export interface Category extends mongoose.Document {
+export interface Menu extends mongoose.Document {
   key: string
   alias: string
   domain: string
   data: Uint8Array
-  slug: string
   size: String
   expireAt: Date
 }
 
-const CategorySchema = new mongoose.Schema<Category>(
+const MenuSchema = new mongoose.Schema<Menu>(
   {
     key: {
       type: String,
@@ -27,10 +26,6 @@ const CategorySchema = new mongoose.Schema<Category>(
       require: false,
       index: { unique: false }
     },
-    slug: {
-      type: String,
-      required: true
-    },
     data: {
       type: Buffer,
       required: true
@@ -44,8 +39,7 @@ const CategorySchema = new mongoose.Schema<Category>(
       default: Date.now
     }
   },
-  { collection: 'categories' }
+  { collection: 'menus' }
 )
 
-export default mongoose.models.Category ||
-  mongoose.model<Category>('Category', CategorySchema)
+export default mongoose.models.Menu || mongoose.model<Menu>('Menu', MenuSchema)

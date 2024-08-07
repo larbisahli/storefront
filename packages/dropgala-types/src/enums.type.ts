@@ -36,6 +36,7 @@ export enum ModuleGroup {
   CATEGORY_LIST = 'CategoryList',
   CATEGORY_LIST_ITEM = 'CategoryListItem',
   PRODUCT_LIST = 'ProductList',
+  PRODUCT_LIST_WIDGET = 'ProductListWidget',
   CAROUSEL = 'Carousel',
   SPACER = 'Spacer',
   DIVIDER = 'Divider',

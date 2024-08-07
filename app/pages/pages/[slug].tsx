@@ -1,4 +1,11 @@
-import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
+import {
+  selectConfig,
+  setConfigDevice,
+  setLanguage,
+  setMenu,
+  setStoreLayout,
+  wrapper
+} from '@dropgala/store'
 import { useAppSelector } from '@hooks/useStore'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
@@ -14,7 +21,12 @@ import Breadcrumb from '@components/Breadcrumb'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { useRouter } from 'next/router'
-import { fetchPageLayout, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import {
+  fetchPageLayout,
+  fetchStoreConfig,
+  fetchStoreLanguage,
+  fetchStoreMenu
+} from '@lib/api'
 
 interface PageProps {
   pageProps: {
@@ -134,12 +146,9 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      // Redux Store
-      store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(languageId, alias))
-      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-
-      store.dispatch(
+      const [storeLanguage, menu, layout] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
+        await fetchStoreMenu(languageId, alias),
         await fetchPageLayout({
           alias,
           page: slug,
@@ -147,7 +156,12 @@ export const getServerSideProps: GetServerSideProps =
           languageId,
           isCustom: true
         })
-      )
+      ])
+
+      store.dispatch(setConfigDevice({ device }))
+      store.dispatch(setLanguage({ storeLanguage }))
+      store.dispatch(setMenu(menu))
+      store.dispatch(setStoreLayout({ layout }))
 
       // Client cart
       // if (cuid) {

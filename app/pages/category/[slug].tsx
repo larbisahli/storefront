@@ -1,4 +1,11 @@
-import { wrapper, selectConfig, setConfigDevice } from '@dropgala/store'
+import {
+  wrapper,
+  selectConfig,
+  setConfigDevice,
+  setMenu,
+  setLanguage,
+  setStoreLayout
+} from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
@@ -18,7 +25,14 @@ import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import { setCollection } from '@dropgala/store/Collections'
 import { selectCategory, setCategory } from '@dropgala/store/Category'
 import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
-import { fetchPageLayout, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import {
+  fetchPageLayout,
+  fetchStoreCategoryProducts,
+  fetchStoreConfig,
+  fetchStoreLanguage,
+  fetchStoreMenu
+} from '@lib/api'
+import { fetchStoreCategory } from '@lib/api/category'
 
 interface PageProps {
   pageProps: {
@@ -43,6 +57,8 @@ export default function ProductPage({ pageProps }: PageProps) {
   const category = useAppSelector(selectCategory)
 
   const { host, products = [] } = pageProps
+
+  console.log({ products })
 
   const [categoryProducts, setCategoryProducts] = useState<{
     [key: string]: ProductType[]
@@ -201,18 +217,47 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      // Redux Store
-      store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(languageId, alias))
-      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      const [storeLanguage, menu, category, layout, products = []] =
+        await Promise.all([
+          await fetchStoreLanguage(languageId, alias),
+          await fetchStoreMenu(languageId, alias),
+          await fetchStoreCategory({
+            slug,
+            alias,
+            languageId
+          }),
+          await fetchPageLayout({
+            alias,
+            page: StoreLayoutNames.CATEGORY_PAGE,
+            templateId,
+            languageId,
+            isCustom: false
+          }),
+          await fetchStoreCategoryProducts({
+            slug,
+            alias,
+            page: currentPage,
+            languageId
+          })
+        ])
 
+      store.dispatch(setLanguage({ storeLanguage }))
+      store.dispatch(setMenu(menu))
+      store.dispatch(setStoreLayout({ layout }))
+      store.dispatch(setConfigDevice({ device }))
+      store.dispatch(setCategory({ category }))
       store.dispatch(
-        await fetchPageLayout({
-          alias,
-          page: StoreLayoutNames.CATEGORY_PAGE,
-          templateId,
-          languageId,
-          isCustom: false
+        setBreadcrumb({
+          name: null,
+          breadcrumbs: category?.breadcrumbs ?? []
+        })
+      )
+      store.dispatch(
+        setCollection({
+          collection: {
+            id: 'categoryProducts',
+            items: products
+          }
         })
       )
 
@@ -229,35 +274,9 @@ export const getServerSideProps: GetServerSideProps =
       //   }
       // }
 
-      // Page data props
-      // const category = await fetchStoreCategory(
-      //   slug,
-      //   alias,
-      //   storeLanguageId,
-      //   storeId
-      // )
-      // const products = await fetchStoreCategoryProducts(
-      //   slug,
-      //   currentPage,
-      //   alias,
-      //   storeLanguageId,
-      //   storeId
-      // )
-
-      // store.dispatch(
-      //   setCollection({
-      //     collection: { id: 'categoryProducts', items: products }
-      //   })
-      // )
-      // store.dispatch(setCategory({ category }))
-      // store.dispatch(
-      //   setBreadcrumb({ name: null, breadcrumbs: category?.breadcrumbs ?? [] })
-      // )
-
       return {
         props: {
-          host: { host, alias },
-          products: []
+          host: { host, alias }
         }
       }
     } catch (error) {

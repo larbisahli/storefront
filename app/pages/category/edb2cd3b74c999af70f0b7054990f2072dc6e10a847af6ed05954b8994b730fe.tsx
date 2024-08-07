@@ -1,4 +1,11 @@
-import { wrapper, selectConfig, setConfigDevice } from '@dropgala/store'
+import {
+  wrapper,
+  selectConfig,
+  setConfigDevice,
+  setLanguage,
+  setMenu,
+  setStoreLayout
+} from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
@@ -12,13 +19,14 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { LanguageType } from '@dropgala/types/config.type'
 import getMobileDetect from '@dropgala/utils/isMobile'
-import Cookies from 'cookies'
-import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
-import { setCollection } from '@dropgala/store/Collections'
-import { selectCategory, setCategory } from '@dropgala/store/Category'
-import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
-import { PreviewCategory } from 'utils/data/preview/category'
-import { fetchPageLayout, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import { StoreLayoutNames } from '@dropgala/types/common.type'
+import { selectCategory } from '@dropgala/store/Category'
+import {
+  fetchPageLayout,
+  fetchStoreConfig,
+  fetchStoreLanguage,
+  fetchStoreMenu
+} from '@lib/api'
 
 interface PageProps {
   pageProps: {
@@ -136,12 +144,9 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      // Redux Store
-      store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(languageId, alias, storeId))
-      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-
-      store.dispatch(
+      const [storeLanguage, menu, layout] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
+        await fetchStoreMenu(languageId, alias),
         await fetchPageLayout({
           alias,
           page: StoreLayoutNames.CATEGORY_PAGE,
@@ -149,7 +154,13 @@ export const getServerSideProps: GetServerSideProps =
           languageId,
           isCustom: false
         })
-      )
+      ])
+
+      store.dispatch(setConfigDevice({ device }))
+      store.dispatch(setLanguage({ storeLanguage }))
+      store.dispatch(setLanguage({ storeLanguage }))
+      store.dispatch(setMenu(menu))
+      store.dispatch(setStoreLayout({ layout }))
 
       // Page data props
       // const category = await fetchStoreCategory(

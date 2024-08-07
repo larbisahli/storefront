@@ -1,4 +1,11 @@
-import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
+import {
+  selectConfig,
+  setConfigDevice,
+  setLanguage,
+  setMenu,
+  setStoreLayout,
+  wrapper
+} from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
@@ -12,15 +19,13 @@ import {
   fetchPageLayout,
   fetchStoreConfig,
   fetchStoreLanguage,
-  fetchStoreMenu,
-  fetchClientCart
+  fetchStoreMenu
 } from '@api'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { LanguageType } from '@dropgala/types/config.type'
 import Cookies from 'cookies'
 import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import React, { useEffect } from 'react'
-import { setCollection } from '@dropgala/store/Collections'
 import { StoreBuilder } from '@dropgala/types'
 import _JSXStyle from 'styled-jsx/style'
 
@@ -110,8 +115,6 @@ export const getServerSideProps: GetServerSideProps =
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
 
-    console.log('========>>', { alias })
-
     try {
       if (!alias) {
         throw { error: { message: 'alias not specified' } }
@@ -145,20 +148,21 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      const [storeLanguage, pageLayout] = await Promise.all([
+      const [storeLanguage, menu, layout] = await Promise.all([
         await fetchStoreLanguage(languageId, alias),
+        await fetchStoreMenu(languageId, alias),
         await fetchPageLayout({
           alias,
-          page: StoreLayoutNames.HOMEPAGE,
+          page: StoreLayoutNames.CATEGORY_PAGE,
           templateId,
           languageId,
           isCustom: false
         })
       ])
 
-      store.dispatch(storeLanguage)
-      store.dispatch(pageLayout)
-      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(setLanguage({ storeLanguage }))
+      store.dispatch(setMenu(menu))
+      store.dispatch(setStoreLayout({ layout }))
       store.dispatch(setConfigDevice({ device }))
 
       // Client cart

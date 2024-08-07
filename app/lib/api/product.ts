@@ -1,38 +1,90 @@
 import { ProductType } from '@dropgala/types/product.type'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import { apiURL } from '@dropgala/utils/utils'
+import productCacheStore from '@lib/cache/product.store'
+import productsCacheStore from '@lib/cache/products.store'
 
-const productService = null
-
-export const fetchStoreProduct = async (
-  slug: string,
-  alias: string,
-  storeLanguageId: number,
-  storeId?: string
-) => {
-  const { product, error: productError } = await productService.getStoreProduct(
+export const fetchStoreCategoryProducts = async ({
+  slug,
+  alias,
+  page,
+  languageId
+}: {
+  slug: string
+  alias: string
+  page: number
+  languageId: number
+}) => {
+  let productsObject = { products: [] } as { products: ProductType[] }
+  productsObject = await productsCacheStore.getProducts({
+    languageId,
     slug,
     alias,
-    storeLanguageId,
-    storeId
-  )
-  if (productError) throw { productError }
-  return product
+    page
+  })
+
+  if (isEmpty(productsObject?.products)) {
+    const response = await fetch(`${apiURL}/resources/categoryProducts`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        slug,
+        alias,
+        page,
+        languageId
+      })
+    })
+    if (!response.ok) {
+      const error = await response.json()
+      console.log('__________<< Category Products Error >>', error)
+      throw { message: error.message }
+    }
+    productsObject = await response.json()
+  }
+
+  return productsObject?.products
 }
 
-export const fetchStoreCategoryProducts = async (
-  slug: string,
-  currentPage: number,
-  alias: string,
-  storeLanguageId: number,
-  storeId?: string
-) => {
-  const { products, error: categoryProductsError } =
-    await productService.getStoreCategoryProducts(
-      slug,
-      currentPage,
-      alias,
-      storeLanguageId,
-      storeId
-    )
-  if (categoryProductsError) throw { categoryProductsError }
-  return products as unknown as ProductType[]
+export const fetchStoreProduct = async ({
+  slug,
+  alias,
+  languageId
+}: {
+  slug: string
+  alias: string
+  languageId: number
+}) => {
+  let product: ProductType
+  product = await productCacheStore.getProductBySlug({
+    languageId,
+    slug,
+    alias
+  })
+
+  if (isEmpty(product)) {
+    const response = await fetch(`${apiURL}/resources/product`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        slug,
+        alias,
+        languageId
+      })
+    })
+    if (!response.ok) {
+      const error = await response.json()
+      console.log('__________<< Product Error >>', error)
+      throw { message: error.message }
+    }
+    product = await response.json()
+    console.log('===?======>', { product })
+  }
+
+  return product
 }

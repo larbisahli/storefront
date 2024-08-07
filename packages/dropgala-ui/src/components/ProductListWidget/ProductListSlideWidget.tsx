@@ -57,7 +57,7 @@ const breakpoints = {
   }
 }
 
-const ProductListSlide: React.FC<Props> = ({
+const ProductListSlideWidget: React.FC<Props> = ({
   useAppSelector,
   children,
   ...props
@@ -198,4 +198,4 @@ const ProductListSlide: React.FC<Props> = ({
   )
 }
 
-export default ProductListSlide
+export default ProductListSlideWidget

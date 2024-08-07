@@ -148,12 +148,17 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
 
-      // Redux Store
+      const [storeLanguage] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias)
+      ])
+
+      // const shippings = await fetchAvailableShippings({ alias, storeId })
+
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias))
+      store.dispatch(setLanguage({ storeLanguage }))
 
       // Client cart and Checkout
       // if (cuid) {
@@ -174,8 +179,6 @@ export const getServerSideProps: GetServerSideProps =
       //     }
       //   }
       // }
-
-      // const shippings = await fetchAvailableShippings({ alias, storeId })
 
       return {
         props: {

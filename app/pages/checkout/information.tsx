@@ -1,4 +1,10 @@
-import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
+import {
+  selectConfig,
+  setConfigDevice,
+  setLanguage,
+  setStoreLayout,
+  wrapper
+} from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
@@ -18,7 +24,7 @@ import CheckoutInformation from '@components/CheckoutInformation'
 import CheckoutFooter from '@components/CheckoutFooter'
 import { resolvePath } from '@dropgala/utils/helpers'
 import { PageLayoutBlocks, StoreLayoutComponentType } from '@dropgala/types'
-import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import { fetchPageLayout, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -154,12 +160,15 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
 
-      // Redux Store
+      const [storeLanguage] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias)
+      ])
+
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias))
+      store.dispatch(setLanguage({ storeLanguage }))
 
       // Client cart and Checkout
       // if (cuid) {

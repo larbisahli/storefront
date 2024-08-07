@@ -2,7 +2,10 @@ import {
   wrapper,
   selectConfig,
   setConfigDevice,
-  setMobileHeaderTransition
+  setMobileHeaderTransition,
+  setLanguage,
+  setMenu,
+  setStoreLayout
 } from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
@@ -22,7 +25,14 @@ import Cookies from 'cookies'
 import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import { selectProduct, setProduct } from '@dropgala/store/Product'
 import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
-import { fetchPageLayout, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import {
+  fetchPageLayout,
+  fetchStoreConfig,
+  fetchStoreLanguage,
+  fetchStoreMenu,
+  fetchStoreProduct
+} from '@lib/api'
+import { fetchStoreCategory } from '@lib/api/category'
 
 interface PageProps {
   pageProps: {
@@ -123,11 +133,15 @@ export const getServerSideProps: GetServerSideProps =
     const cookies = new Cookies(req, res)
     const cuid = cookies.get(CookieNames.CUSTOMER_SESSION_NAME)
 
-    const slug = params?.slug
+    const slug = params?.slug as string
 
     try {
       if (!alias) {
         throw { error: { message: 'alias not specified' } }
+      }
+
+      if (!slug) {
+        throw { error: { message: 'slug not specified' } }
       }
 
       // Check if store has locales
@@ -158,21 +172,34 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      const [storeLanguage, pageLayout] = await Promise.all([
+      const [storeLanguage, menu, layout, product] = await Promise.all([
         await fetchStoreLanguage(languageId, alias),
+        await fetchStoreMenu(languageId, alias),
         await fetchPageLayout({
           alias,
           page: StoreLayoutNames.PRODUCT_PAGE,
           templateId,
           languageId,
           isCustom: false
+        }),
+        await fetchStoreProduct({
+          slug,
+          alias,
+          languageId
         })
       ])
 
-      store.dispatch(storeLanguage)
-      store.dispatch(pageLayout)
-      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(setLanguage({ storeLanguage }))
+      store.dispatch(setMenu(menu))
+      store.dispatch(setStoreLayout({ layout }))
       store.dispatch(setConfigDevice({ device }))
+      store.dispatch(setProduct({ product }))
+      store.dispatch(
+        setBreadcrumb({
+          name: product?.name ?? null,
+          breadcrumbs: ProductBreadcrumbs(product?.categories ?? [])
+        })
+      )
 
       // Client cart
       // if (cuid) {
@@ -186,22 +213,6 @@ export const getServerSideProps: GetServerSideProps =
       //     store.dispatch(clientCartStore)
       //   }
       // }
-
-      // Page props data
-      // const product = (await fetchStoreProduct(
-      //   slug as string,
-      //   alias,
-      //   storeLanguageId,
-      //   storeId
-      // )) as unknown as ProductType
-
-      // store.dispatch(setProduct({ product }))
-      // store.dispatch(
-      //   setBreadcrumb({
-      //     name: product.name ?? null,
-      //     breadcrumbs: ProductBreadcrumbs(product.categories ?? [])
-      //   })
-      // )
 
       return {
         props: {

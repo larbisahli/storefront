@@ -1,44 +1,49 @@
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import crypto from 'crypto'
 import ProductsSchema from './models/products'
+import { productPackage } from './packages'
 
 export class ProductsCacheStore {
   constructor() {}
 
   private getId = ({
-    storeId,
-    key,
+    languageId,
+    slug,
+    alias,
     page = null
   }: {
-    storeId: string
-    key: string
+    languageId: number
+    slug: string
+    alias: string
     page?: number | null
   }) => {
     if (page) {
       return crypto
         .createHash('sha256')
-        .update(`${storeId}:${key}:${page}`)
+        .update(languageId + slug + alias + page)
         .digest('hex')
     } else {
       return crypto
         .createHash('sha256')
-        .update(`${storeId}:${key}`)
+        .update(languageId + slug + alias)
         .digest('hex')
     }
   }
 
   public getProducts = async ({
-    storeId,
-    key,
-    page = null
+    languageId,
+    slug,
+    alias,
+    page
   }: {
-    storeId: string
-    key: string
+    languageId: number
+    slug: string
+    alias: string
     page?: number | null
   }) => {
     try {
       const resource = await ProductsSchema.findOne({
-        key: { $eq: this.getId({ storeId, key, page }) }
+        key: { $eq: this.getId({ languageId, slug, alias, page }) }
       })
 
       if (isEmpty(resource && resource.data)) {
@@ -48,12 +53,14 @@ export class ProductsCacheStore {
       /**
        * Convert the data from Buffer to object
        */
-      return (await this.productPackage.decodeProducts(resource?.data!))
-        ?.resource
+      return (await productPackage.decodeProducts(resource?.data!))?.resource
     } catch (error) {
-      // Logger.system.error((error as Error).message);
       console.log('getProducts >>', { error })
       throw error
     }
   }
 }
+
+const productsCacheStore = new ProductsCacheStore()
+
+export default productsCacheStore

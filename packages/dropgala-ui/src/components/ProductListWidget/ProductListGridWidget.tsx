@@ -10,21 +10,20 @@ import {
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
+import Link from 'next/link'
 import cn from 'clsx'
 import BuilderPlaceholder from '../common/builderPlaceholder'
-import { selectCollection } from '@dropgala/store/Collections'
+import _JSXStyle from 'styled-jsx/style'
+import { handleTypographyStyle } from '@dropgala/utils/styles'
 
 interface Props extends StoreProps {}
 
-const ProductList: React.FC<Props> = ({
+const ProductListGridWidget: React.FC<Props> = ({
   useAppSelector,
   children,
   ...props
 }) => {
   const { language } = useAppSelector(selectConfig)
-  const p = useAppSelector((state) =>
-    selectCollection(state, 'categoryProducts')
-  )
   const { __ } = useTranslation(language, 'exception')
 
   const data = resolvePath<StoreLayoutComponentContentType>(props, 'data', {})
@@ -34,7 +33,10 @@ const ProductList: React.FC<Props> = ({
     {}
   )
 
-  const products = [...p, ...p, ...p, ...p, ...p, ...p, ...p, ...p]
+  const headerStyle = styles?.header
+
+  const p = resolvePath<ProductType[]>(data, 'collection', [])
+  const products = [...p, ...p, ...p, ...p, ...p, ...p]
 
   const renderContentNotFound = () => {
     const ContentNotFound = getComponentFromChildren(
@@ -63,11 +65,15 @@ const ProductList: React.FC<Props> = ({
     })
   }
 
+  const headerClassName = `header-${props.componentId}`
+
   return (
     <section
       id={props.componentId}
       className={cn(
-        'relative group px-1 scroll-mt-160px max-w-default mx-auto'
+        'relative group px-1 scroll-mt-160px',
+        styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
+        styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
       <BuilderPlaceholder
@@ -78,6 +84,11 @@ const ProductList: React.FC<Props> = ({
         isAddAfter
         isDuplicate
       />
+      <_JSXStyle id={props.componentId}>{`
+          .${headerClassName} {
+            ${handleTypographyStyle(headerStyle)}
+          }
+      `}</_JSXStyle>
       {isEmpty(products) && (
         <div
           className="w-full flex flex-col items-center
@@ -88,7 +99,31 @@ const ProductList: React.FC<Props> = ({
       )}
       {!isEmpty(products) && (
         <>
-          <div className="grid grid-cols-1 my-10 mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-5 desktop:grid-cols-6">
+          <div className="flex justify-between items-center">
+            <h3 className={headerClassName}>{data?.header}</h3>
+            {data?.category?.urlKey && (
+              <Link
+                href={{
+                  pathname: '/category/[slug]',
+                  query: { slug: data?.category?.urlKey }
+                }}
+              >
+                {renderButton()}
+              </Link>
+            )}
+          </div>
+          <div
+            className={cn(
+              'grid grid-cols-1 my-10 mobile:grid-cols-2',
+              data?.productsPerView === 6 &&
+                'tablet:grid-cols-3 laptop:grid-cols-5 desktop:grid-cols-6',
+              data?.productsPerView === 5 &&
+                'tablet:grid-cols-3 laptop:grid-cols-4 desktop:grid-cols-5',
+              data?.productsPerView === 4 &&
+                'tablet:grid-cols-3 desktop:grid-cols-4',
+              data?.productsPerView === 3 && 'desktop:grid-cols-3'
+            )}
+          >
             {products?.map((item: ProductType) => renderProductCard(item))}
           </div>
         </>
@@ -97,4 +132,4 @@ const ProductList: React.FC<Props> = ({
   )
 }
 
-export default ProductList
+export default ProductListGridWidget

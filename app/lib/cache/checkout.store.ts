@@ -18,7 +18,7 @@ export class CheckoutCacheStore {
       /**
        * Convert the data from Buffer to object
        */
-      return await this.checkoutPackage.decode(resource?.data!)
+      return //await checkoutPackage.decode(resource?.data!)
     } catch (error) {
       // Logger.system.error((error as Error).message);
       console.log('getCheckout >>', { error })

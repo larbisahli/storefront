@@ -36,29 +36,6 @@ export class CheckoutPackage extends protobuf.Root {
   }
 
   /**
-   * @param {Cart} cart
-   * @returns {Promise<{ buffer: Uint8Array; error?: unknown }>}
-   */
-  public encode = (
-    checkout: Checkout
-  ): Promise<{ buffer: Uint8Array; error?: unknown }> => {
-    return new Promise((resolve, reject) => {
-      try {
-        const errMsg = this.Checkout.verify(checkout)
-        if (errMsg) {
-          reject({ error: errMsg })
-        }
-        const message = this.Checkout.create(checkout)
-        // Encode the message to a buffer
-        const buffer = this.Checkout.encode(message).finish()
-        resolve({ buffer })
-      } catch (error) {
-        reject({ error })
-      }
-    })
-  }
-
-  /**
    * @param {protobuf.Buffer} buffer
    * @returns {Promise<{ resource: any; error?: unknown }>}
    */
@@ -76,3 +53,7 @@ export class CheckoutPackage extends protobuf.Root {
     })
   }
 }
+
+const checkoutPackage = new CheckoutPackage()
+
+export default checkoutPackage

@@ -1,4 +1,9 @@
-import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
+import {
+  selectConfig,
+  setConfigDevice,
+  setLanguage,
+  wrapper
+} from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
 import { LanguageType } from '@dropgala/types/config.type'
@@ -116,13 +121,15 @@ export const getServerSideProps: GetServerSideProps =
       }
 
       // Get current store language id for resource request
-      const storeLanguageId = currentLocale?.id!
+      const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
 
-      // Redux Store
+      const [storeLanguage] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias)
+      ])
+
       store.dispatch(setConfigDevice({ device }))
-      store.dispatch(await fetchStoreLanguage(storeLanguageId, alias))
-      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
+      store.dispatch(setLanguage({ storeLanguage }))
 
       // Client cart
       // if (cuid) {

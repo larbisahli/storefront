@@ -5,6 +5,7 @@ export interface Products extends mongoose.Document {
   alias: string
   domain: string
   localeId: string
+  slug: string
   page: number
   data: Uint8Array
   size: String
@@ -27,6 +28,10 @@ const ProductsSchema = new mongoose.Schema<Products>(
       type: String,
       require: false,
       index: { unique: false }
+    },
+    slug: {
+      type: String,
+      require: false
     },
     page: {
       type: Number

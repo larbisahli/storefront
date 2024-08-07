@@ -9,7 +9,7 @@ const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include 
 const PROTO_PATH = path.join(PROTO_DIR_PATH, 'settings.proto')
 
 export class ConfigPackage extends protobuf.Root {
-  __root: protobuf.Root
+  _root: protobuf.Root
   Config: protobuf.Type
   decodeOptions: {
     enums: StringConstructor // enums as string names

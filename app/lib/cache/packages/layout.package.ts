@@ -9,7 +9,7 @@ const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include 
 const PROTO_PATH = path.join(PROTO_DIR_PATH, 'layout.proto')
 
 export class LayoutPackage extends protobuf.Root {
-  __root: protobuf.Root
+  _root: protobuf.Root
   Layout: protobuf.Type
   decodeOptions: {
     enums: StringConstructor // enums as string names
