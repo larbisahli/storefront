@@ -8,4 +8,6 @@ export interface ShippingType {
   logo: ImageType[]
   rateType: string
   price: number
+  zones?: any[]
+  rates?: any[]
 }

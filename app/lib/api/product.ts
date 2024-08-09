@@ -49,20 +49,33 @@ export const fetchStoreCategoryProducts = async ({
 }
 
 export const fetchStoreProduct = async ({
-  slug,
   alias,
-  languageId
+  languageId,
+  slug,
+  id
 }: {
-  slug: string
   alias: string
   languageId: number
+  slug?: string
+  id?: number
 }) => {
   let product: ProductType
-  product = await productCacheStore.getProductBySlug({
-    languageId,
-    slug,
-    alias
-  })
+
+  if (slug) {
+    product = await productCacheStore.getProductBySlug({
+      languageId,
+      slug,
+      alias
+    })
+  } else if (id) {
+    product = await productCacheStore.getProductById({
+      languageId,
+      id,
+      alias
+    })
+  } else {
+    product = {}
+  }
 
   if (isEmpty(product)) {
     const response = await fetch(`${apiURL}/resources/product`, {
@@ -72,6 +85,7 @@ export const fetchStoreProduct = async ({
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        id,
         slug,
         alias,
         languageId

@@ -1,54 +1,132 @@
-import { setCart, setCheckout } from '@dropgala/store'
-import { CartType, CheckoutState } from '@dropgala/types'
+import {
+  CartType,
+  CheckoutState,
+  ProductTypes,
+  ShippingType
+} from '@dropgala/types'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import cartCacheStore from '@lib/cache/cart.store'
 import { GetServerSidePropsContext } from 'next'
 import requestIp from 'request-ip'
-
-const checkoutService = null
+import { fetchStoreProduct } from './product'
+import checkoutCacheStore from '@lib/cache/checkout.store'
+import { fetchStoreConfig } from './config'
+import { fetchAvailableShippings } from './shipping'
+import { calcCheckoutSummary } from '@dropgala/utils/checkout'
+import { Shipping } from '@dropgala/types/generated/shipping/Shipping'
 
 export const fetchClientCart = async ({
   alias,
-  storeLanguageId,
-  cuid,
-  storeId
+  languageId,
+  cuid
 }: {
   alias: string
-  storeLanguageId: number
-  cuid: string
-  storeId?: string
+  languageId: number
+  cuid?: string
 }) => {
-  if (!cuid) return null
-  const { cart = null, error: cartError } = await checkoutService.getStoreCart({
-    alias,
-    storeLanguageId,
-    cuid,
-    storeId
-  })
-  if (cartError) throw { cartError }
-  if (!cart) return null
-  return setCart({
-    cart: cart as unknown as CartType
-  })
+  let cart = {} as CartType
+  if (!cuid) return cart
+
+  cart = await cartCacheStore.getClientCart(cuid)
+
+  if (!isEmpty(cart)) {
+    let items: CartType['items'] = []
+
+    for await (const { id, ...rest } of cart?.items ?? []) {
+      const product = await fetchStoreProduct({
+        alias,
+        languageId,
+        id
+      })
+      if (product) {
+        const isConfigurable = product?.type === ProductTypes.Variable
+        if (isConfigurable) {
+          const selectedVariationOption = product?.variationOptions?.find(
+            (option) => option.id === rest?.orderVariationOption?.id
+          )
+          items.push({
+            ...rest,
+            orderVariationOption: {
+              ...selectedVariationOption
+            },
+            ...product
+          })
+        } else {
+          items.push({
+            ...rest,
+            ...product
+          })
+        }
+      }
+    }
+
+    cart = {
+      ...cart,
+      items
+    }
+  }
+  return cart
 }
 
 export const fetchClientCheckout = async (
   context: GetServerSidePropsContext,
   alias: string,
-  storeLanguageId: number,
+  languageId: number,
   cuid: string
 ) => {
-  if (!cuid) return null
-  const { checkout = null, error: checkoutError } =
-    await checkoutService.getStoreCheckout(alias, cuid, storeLanguageId)
-  if (checkoutError) throw { checkoutError }
-  if (!checkout) return null
+  let checkout = {} as CheckoutState
+  if (!cuid) return checkout
 
+  // ****** Get Location ******
   const { req } = context
   const clientIp = requestIp.getClientIp(req)
 
-  return setCheckout({
-    checkout: {
-      ...((checkout ?? {}) as unknown as CheckoutState),
-      metadata: { ip: clientIp }
-    }
+  // ****** Get Cart ******
+  const cart = await fetchClientCart({
+    alias,
+    languageId,
+    cuid
   })
+
+  if (!cart) return checkout
+
+  // ****** Get Checkout ******
+  checkout = await checkoutCacheStore.getClientCheckout(cuid)
+
+  // ****** Get Config ******
+  const config = await fetchStoreConfig(alias)
+
+  // ****** Shipment ******
+  let selectedShipping = {} as Shipping
+  if (checkout?.shipment?.id) {
+    /** Check if resource is in the cache store */
+    const shippings = await fetchAvailableShippings({ alias, languageId })
+    selectedShipping = shippings?.find(
+      (shipping) => shipping.id === checkout?.shipment?.id
+    ) as Shipping
+    checkout.shipment = {
+      id: selectedShipping?.id,
+      name: selectedShipping?.name,
+      deliveryTime: selectedShipping?.deliveryTime,
+      freeShipping: selectedShipping?.freeShipping,
+      logo: selectedShipping?.logo,
+      rateType: selectedShipping?.rateType
+    }
+  }
+
+  const discount = checkout?.appliedCoupon ?? {}
+  const taxRate = config?.tax?.rate!
+  checkout!.cart = cart
+  checkout!.summary = calcCheckoutSummary({
+    shipping: selectedShipping,
+    shippingAddress: checkout?.shippingAddress!,
+    taxRate,
+    items: cart.items,
+    discount
+  })
+
+  return {
+    ...checkout,
+    metadata: { ip: clientIp }
+  } as CheckoutState
 }

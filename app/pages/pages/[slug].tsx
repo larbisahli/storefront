@@ -1,5 +1,7 @@
 import {
   selectConfig,
+  setCart,
+  setConfig,
   setConfigDevice,
   setLanguage,
   setMenu,
@@ -22,11 +24,13 @@ import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { useRouter } from 'next/router'
 import {
+  fetchClientCart,
   fetchPageLayout,
   fetchStoreConfig,
   fetchStoreLanguage,
   fetchStoreMenu
 } from '@lib/api'
+import { XSRFHandler } from '@middleware/utils'
 
 interface PageProps {
   pageProps: {
@@ -118,8 +122,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -146,7 +161,7 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      const [storeLanguage, menu, layout] = await Promise.all([
+      const [storeLanguage, menu, layout, clientCartStore] = await Promise.all([
         await fetchStoreLanguage(languageId, alias),
         await fetchStoreMenu(languageId, alias),
         await fetchPageLayout({
@@ -155,6 +170,11 @@ export const getServerSideProps: GetServerSideProps =
           templateId,
           languageId,
           isCustom: true
+        }),
+        await fetchClientCart({
+          alias,
+          languageId,
+          cuid
         })
       ])
 
@@ -162,19 +182,7 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(setLanguage({ storeLanguage }))
       store.dispatch(setMenu(menu))
       store.dispatch(setStoreLayout({ layout }))
-
-      // Client cart
-      // if (cuid) {
-      //   const clientCartStore = await fetchClientCart({
-      //     alias,
-      //     languageId,
-      //     cuid,
-      //     storeId
-      //   })
-      //   if (clientCartStore) {
-      //     store.dispatch(clientCartStore)
-      //   }
-      // }
+      store.dispatch(setCart({ cart: clientCartStore }))
 
       return {
         props: {

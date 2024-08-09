@@ -1,14 +1,34 @@
-const shippingService = null
+import { Shipping } from '@dropgala/types/generated/shipping/Shipping'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import { apiURL } from '@dropgala/utils/utils'
+import shippingCacheStore from '@lib/cache/shipping.store'
 
 export const fetchAvailableShippings = async ({
   alias,
-  storeId
+  languageId
 }: {
   alias: string
-  storeId?: string
+  languageId: number
 }) => {
-  const { shippings = [], error: shippingError } =
-    await shippingService.getStoreShippings(alias, storeId)
-  if (shippingError) throw { shippingError }
-  return shippings
+  let shippingsObject = { shippings: [] } as { shippings: Shipping[] }
+  shippingsObject = await shippingCacheStore.getShippings(alias, languageId)
+
+  if (isEmpty(shippingsObject?.shippings)) {
+    const response = await fetch(`${apiURL}/resources/shippings`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ alias, languageId })
+    })
+    if (!response.ok) {
+      const error = await response.json()
+      console.log('__________<< shippings Error >>', error)
+      throw { message: error.message }
+    }
+    shippingsObject = await response.json()
+  }
+
+  return shippingsObject?.shippings
 }

@@ -1,25 +1,26 @@
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import CartSchema from './models/cart'
-import { CartPackage } from './packages/cart.package'
+import cartPackage from './packages/cart.package'
+import { CartType } from '@dropgala/types'
 
 export class CartCacheStore {
   constructor() {}
 
-  public getClientCart = async ({ cartId }: { cartId: string }) => {
+  public getClientCart = async (cuid: string) => {
     try {
       const resource = await CartSchema.findOne({
-        key: { $eq: cartId }
-      }) //.lean()
+        key: { $eq: cuid }
+      })
 
       if (isEmpty(resource && resource.data)) {
-        return null
+        return {} as CartType
       }
 
       /**
        * Convert the data from Buffer to object
        */
-      const cart = await this.cartPackage.decode(resource?.data!)
-      return { cart }
+      const cart = await cartPackage.decode(resource?.data!)
+      return cart as CartType
     } catch (error) {
       // Logger.system.error((error as Error).message);
       console.log('getClientCart >>', { error })
@@ -27,3 +28,7 @@ export class CartCacheStore {
     }
   }
 }
+
+const cartCacheStore = new CartCacheStore()
+
+export default cartCacheStore

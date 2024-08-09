@@ -6,7 +6,7 @@ import { AppState } from '../store'
 import { StoreLayoutType } from '@dropgala/types'
 
 export interface StoreConfigState extends ConfigType {
-  csrf?: { csrfToken?: string; csrfError?: string }
+  csrf?: { csrfToken: string | null; csrfError: string | null }
 }
 
 const initialState: StoreConfigState = {

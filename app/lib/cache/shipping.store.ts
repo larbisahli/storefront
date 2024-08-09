@@ -1,18 +1,22 @@
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import ShippingSchema from './models/shipping'
 import crypto from 'crypto'
+import shippingPackage from './packages/shipping.package'
 
 export class ShippingCacheStore {
   constructor() {}
 
-  private getId = (storeId: string) => {
-    return crypto.createHash('sha256').update(storeId).digest('hex')
+  private getId = (alias: string, languageId: number) => {
+    return crypto
+      .createHash('sha256')
+      .update(alias + languageId)
+      .digest('hex')
   }
 
-  public getShippings = async (storeId: string) => {
+  public getShippings = async (alias: string, languageId: number) => {
     try {
       const resource = await ShippingSchema.findOne({
-        key: { $eq: this.getId(storeId) }
+        key: { $eq: this.getId(alias, languageId) }
       })
 
       if (isEmpty(resource && resource.data)) {
@@ -22,7 +26,7 @@ export class ShippingCacheStore {
       /**
        * Convert the data from Buffer to object
        */
-      return (await this.shippingPackage.decode(resource?.data!))?.resource
+      return (await shippingPackage.decode(resource?.data!))?.resource
     } catch (error) {
       // Logger.system.error((error as Error).message);
       console.log('getShippings >>', { error })
@@ -30,3 +34,7 @@ export class ShippingCacheStore {
     }
   }
 }
+
+const shippingCacheStore = new ShippingCacheStore()
+
+export default shippingCacheStore

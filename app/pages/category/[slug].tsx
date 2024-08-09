@@ -4,7 +4,9 @@ import {
   setConfigDevice,
   setMenu,
   setLanguage,
-  setStoreLayout
+  setStoreLayout,
+  setConfig,
+  setCart
 } from '@dropgala/store'
 import type { CategoryType } from '@dropgala/types/category.type'
 import type { ProductType } from '@dropgala/types/product.type'
@@ -26,6 +28,7 @@ import { setCollection } from '@dropgala/store/Collections'
 import { selectCategory, setCategory } from '@dropgala/store/Category'
 import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
 import {
+  fetchClientCart,
   fetchPageLayout,
   fetchStoreCategoryProducts,
   fetchStoreConfig,
@@ -33,6 +36,7 @@ import {
   fetchStoreMenu
 } from '@lib/api'
 import { fetchStoreCategory } from '@lib/api/category'
+import { XSRFHandler } from '@middleware/utils'
 
 interface PageProps {
   pageProps: {
@@ -189,8 +193,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -217,35 +232,47 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      const [storeLanguage, menu, category, layout, products = []] =
-        await Promise.all([
-          await fetchStoreLanguage(languageId, alias),
-          await fetchStoreMenu(languageId, alias),
-          await fetchStoreCategory({
-            slug,
-            alias,
-            languageId
-          }),
-          await fetchPageLayout({
-            alias,
-            page: StoreLayoutNames.CATEGORY_PAGE,
-            templateId,
-            languageId,
-            isCustom: false
-          }),
-          await fetchStoreCategoryProducts({
-            slug,
-            alias,
-            page: currentPage,
-            languageId
-          })
-        ])
+      const [
+        storeLanguage,
+        menu,
+        category,
+        layout,
+        products = [],
+        clientCartStore
+      ] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
+        await fetchStoreMenu(languageId, alias),
+        await fetchStoreCategory({
+          slug,
+          alias,
+          languageId
+        }),
+        await fetchPageLayout({
+          alias,
+          page: StoreLayoutNames.CATEGORY_PAGE,
+          templateId,
+          languageId,
+          isCustom: false
+        }),
+        await fetchStoreCategoryProducts({
+          slug,
+          alias,
+          page: currentPage,
+          languageId
+        }),
+        await fetchClientCart({
+          alias,
+          languageId,
+          cuid
+        })
+      ])
 
       store.dispatch(setLanguage({ storeLanguage }))
       store.dispatch(setMenu(menu))
       store.dispatch(setStoreLayout({ layout }))
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(setCategory({ category }))
+      store.dispatch(setCart({ cart: clientCartStore }))
       store.dispatch(
         setBreadcrumb({
           name: null,
@@ -260,19 +287,6 @@ export const getServerSideProps: GetServerSideProps =
           }
         })
       )
-
-      // Client cart
-      // if (cuid) {
-      //   const clientCartStore = await fetchClientCart({
-      //     alias,
-      //     storeLanguageId,
-      //     cuid,
-      //     storeId
-      //   })
-      //   if (clientCartStore) {
-      //     store.dispatch(clientCartStore)
-      //   }
-      // }
 
       return {
         props: {

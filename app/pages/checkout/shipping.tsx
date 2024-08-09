@@ -1,4 +1,10 @@
-import { selectConfig, setConfigDevice, wrapper } from '@dropgala/store'
+import {
+  selectConfig,
+  setConfig,
+  setConfigDevice,
+  setLanguage,
+  wrapper
+} from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
 import CheckoutBreadcrumb from '@components/CheckoutBreadcrumb'
@@ -17,6 +23,7 @@ import CheckoutFooter from '@components/CheckoutFooter'
 import CheckoutShipping from '@components/CheckoutShipping'
 import { Shipping } from '@dropgala/types/generated/shipping/Shipping'
 import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import { XSRFHandler } from '@middleware/utils'
 
 interface Props {
   pageProps: {
@@ -124,8 +131,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 

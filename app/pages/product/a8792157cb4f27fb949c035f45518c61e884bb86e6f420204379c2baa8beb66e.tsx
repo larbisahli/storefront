@@ -5,7 +5,9 @@ import {
   setMobileHeaderTransition,
   setLanguage,
   setMenu,
-  setStoreLayout
+  setStoreLayout,
+  setConfig,
+  setCart
 } from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
@@ -26,11 +28,13 @@ import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import { resolvePath } from '@dropgala/utils/helpers'
 import { PageLayoutBlocks, StoreLayoutComponentType } from '@dropgala/types'
 import {
+  fetchClientCart,
   fetchPageLayout,
   fetchStoreConfig,
   fetchStoreLanguage,
   fetchStoreMenu
 } from '@lib/api'
+import { XSRFHandler } from '@middleware/utils'
 
 interface PageProps {
   pageProps: {
@@ -175,8 +179,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -203,7 +218,7 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      const [storeLanguage, menu, layout] = await Promise.all([
+      const [storeLanguage, menu, layout, clientCartStore] = await Promise.all([
         await fetchStoreLanguage(languageId, alias),
         await fetchStoreMenu(languageId, alias),
         await fetchPageLayout({
@@ -212,6 +227,11 @@ export const getServerSideProps: GetServerSideProps =
           templateId,
           languageId,
           isCustom: false
+        }),
+        await fetchClientCart({
+          alias,
+          languageId,
+          cuid
         })
       ])
 
@@ -219,21 +239,7 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(setLanguage({ storeLanguage }))
       store.dispatch(setMenu(menu))
       store.dispatch(setStoreLayout({ layout }))
-
-      // store.dispatch(await fetchStoreMenu(alias, storeLanguageId, storeId))
-
-      // Client cart
-      // if (cuid) {
-      //   const clientCartStore = await fetchClientCart({
-      //     alias,
-      //     storeLanguageId,
-      //     cuid,
-      //     storeId
-      //   })
-      //   if (clientCartStore) {
-      //     store.dispatch(clientCartStore)
-      //   }
-      // }
+      store.dispatch(setCart({ cart: clientCartStore }))
 
       // Page props data
       // const product = await fetchStoreProduct(

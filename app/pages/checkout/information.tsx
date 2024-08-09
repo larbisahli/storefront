@@ -1,8 +1,10 @@
 import {
   selectConfig,
+  setCheckout,
   setConfigDevice,
   setLanguage,
   setStoreLayout,
+  setConfig,
   wrapper
 } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
@@ -24,7 +26,13 @@ import CheckoutInformation from '@components/CheckoutInformation'
 import CheckoutFooter from '@components/CheckoutFooter'
 import { resolvePath } from '@dropgala/utils/helpers'
 import { PageLayoutBlocks, StoreLayoutComponentType } from '@dropgala/types'
-import { fetchPageLayout, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import {
+  fetchClientCheckout,
+  fetchPageLayout,
+  fetchStoreConfig,
+  fetchStoreLanguage
+} from '@lib/api'
+import { XSRFHandler } from '@middleware/utils'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -136,8 +144,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -171,25 +190,25 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(setLanguage({ storeLanguage }))
 
       // Client cart and Checkout
-      // if (cuid) {
-      //   const clientCheckout = await fetchClientCheckout(
-      //     context,
-      //     alias,
-      //     storeLanguageId,
-      //     cuid
-      //   )
-      //   if (clientCheckout) {
-      //     store.dispatch(clientCheckout)
-      //   }
-      // } else {
-      //   console.log('======================>')
-      //   return {
-      //     redirect: {
-      //       destination: '/',
-      //       permanent: false
-      //     }
-      //   }
-      // }
+      if (cuid) {
+        const clientCheckout = await fetchClientCheckout(
+          context,
+          alias,
+          languageId,
+          cuid
+        )
+        if (clientCheckout) {
+          store.dispatch(setCheckout({ checkout: clientCheckout }))
+        }
+      } else {
+        console.log('======================>')
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false
+          }
+        }
+      }
 
       return {
         props: {

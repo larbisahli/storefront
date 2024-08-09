@@ -2,7 +2,6 @@
  * This package helps us turn objects info buffer, useful for storage
  */
 import protobuf from 'protobufjs'
-import { Shipping } from '@dropgala/types/generated/shipping/Shipping'
 import path from 'path'
 
 const PROTO_DIR_PATH = path.join(process.cwd(), './proto') // this will include all *.proto files at the build time
@@ -36,29 +35,6 @@ export class ShippingPackage extends protobuf.Root {
   }
 
   /**
-   * @param {Shipping} shipping
-   * @returns {Promise<{ buffer: Uint8Array; error?: unknown }>}
-   */
-  public encode = (
-    shippings: Shipping[]
-  ): Promise<{ buffer: Uint8Array; error?: unknown }> => {
-    return new Promise((resolve, reject) => {
-      try {
-        const errMsg = this.Shipping.verify({ shippings })
-        if (errMsg) {
-          reject({ error: errMsg })
-        }
-        const message = this.Shipping.create({ shippings })
-        // Encode the message to a buffer
-        const buffer = this.Shipping.encode(message).finish()
-        resolve({ buffer })
-      } catch (error) {
-        reject({ error })
-      }
-    })
-  }
-
-  /**
    * @param {protobuf.Buffer} buffer
    * @returns {Promise<Shipping>}
    */
@@ -78,3 +54,7 @@ export class ShippingPackage extends protobuf.Root {
     })
   }
 }
+
+const shippingPackage = new ShippingPackage()
+
+export default shippingPackage

@@ -177,3 +177,23 @@ export enum TextSize {
   MEDIUM = 'medium',
   SMALL = 'small'
 }
+
+export enum CouponDiscountsType {
+  Fixed = 'fixed',
+  Percentage = 'percentage',
+  FreeShipping = 'free_shipping'
+}
+
+export enum RateTypes {
+  price = 'price',
+  weight = 'weight'
+}
+
+export enum UnitTypes {
+  G = 'g',
+  KG = 'kg'
+}
+
+export interface Unit {
+  unit?: string
+}

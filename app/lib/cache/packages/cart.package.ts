@@ -36,29 +36,6 @@ export class CartPackage extends protobuf.Root {
   }
 
   /**
-   * @param {Cart} cart
-   * @returns {Promise<{ buffer: Uint8Array; error?: unknown }>}
-   */
-  public encode = (
-    cart: Cart
-  ): Promise<{ buffer: Uint8Array; error?: unknown }> => {
-    return new Promise((resolve, reject) => {
-      try {
-        const errMsg = this.Cart.verify(cart)
-        if (errMsg) {
-          reject({ error: errMsg })
-        }
-        const message = this.Cart.create(cart)
-        // Encode the message to a buffer
-        const buffer = this.Cart.encode(message).finish()
-        resolve({ buffer })
-      } catch (error) {
-        reject({ error })
-      }
-    })
-  }
-
-  /**
    * @param {protobuf.Buffer} buffer
    * @returns {Promise<Cart>}
    */
@@ -76,3 +53,7 @@ export class CartPackage extends protobuf.Root {
     })
   }
 }
+
+const cartPackage = new CartPackage()
+
+export default cartPackage

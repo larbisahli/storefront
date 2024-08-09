@@ -5,7 +5,9 @@ import {
   setMobileHeaderTransition,
   setLanguage,
   setMenu,
-  setStoreLayout
+  setStoreLayout,
+  setConfig,
+  setCart
 } from '@dropgala/store'
 import type { ProductType } from '@dropgala/types/product.type'
 import { useAppSelector } from '@hooks/useStore'
@@ -26,6 +28,7 @@ import { CookieNames, StoreLayoutNames } from '@dropgala/types/common.type'
 import { selectProduct, setProduct } from '@dropgala/store/Product'
 import { setBreadcrumb } from '@dropgala/store/Breadcrumbs'
 import {
+  fetchClientCart,
   fetchPageLayout,
   fetchStoreConfig,
   fetchStoreLanguage,
@@ -33,6 +36,7 @@ import {
   fetchStoreProduct
 } from '@lib/api'
 import { fetchStoreCategory } from '@lib/api/category'
+import { XSRFHandler } from '@middleware/utils'
 
 interface PageProps {
   pageProps: {
@@ -144,8 +148,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'slug not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -172,47 +187,41 @@ export const getServerSideProps: GetServerSideProps =
       const device = getMobileDetect(userAgent)
       const templateId = ConfigReducer.templateId as string
 
-      const [storeLanguage, menu, layout, product] = await Promise.all([
-        await fetchStoreLanguage(languageId, alias),
-        await fetchStoreMenu(languageId, alias),
-        await fetchPageLayout({
-          alias,
-          page: StoreLayoutNames.PRODUCT_PAGE,
-          templateId,
-          languageId,
-          isCustom: false
-        }),
-        await fetchStoreProduct({
-          slug,
-          alias,
-          languageId
-        })
-      ])
+      const [storeLanguage, menu, layout, product, clientCartStore] =
+        await Promise.all([
+          await fetchStoreLanguage(languageId, alias),
+          await fetchStoreMenu(languageId, alias),
+          await fetchPageLayout({
+            alias,
+            page: StoreLayoutNames.PRODUCT_PAGE,
+            templateId,
+            languageId,
+            isCustom: false
+          }),
+          await fetchStoreProduct({
+            slug,
+            alias,
+            languageId
+          }),
+          await fetchClientCart({
+            alias,
+            languageId,
+            cuid
+          })
+        ])
 
       store.dispatch(setLanguage({ storeLanguage }))
       store.dispatch(setMenu(menu))
       store.dispatch(setStoreLayout({ layout }))
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(setProduct({ product }))
+      store.dispatch(setCart({ cart: clientCartStore }))
       store.dispatch(
         setBreadcrumb({
           name: product?.name ?? null,
           breadcrumbs: ProductBreadcrumbs(product?.categories ?? [])
         })
       )
-
-      // Client cart
-      // if (cuid) {
-      //   const clientCartStore = await fetchClientCart({
-      //     alias,
-      //     languageId,
-      //     cuid,
-      //     storeId
-      //   })
-      //   if (clientCartStore) {
-      //     store.dispatch(clientCartStore)
-      //   }
-      // }
 
       return {
         props: {

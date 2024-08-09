@@ -38,6 +38,6 @@ export const { setCollection } = Collections.actions
 export const selectCollections = (state: AppState): CollectionState =>
   state.CollectionsReducer
 export const selectCollection = (state: AppState, key: string): ProductType[] =>
-  state.CollectionsReducer[key]
+  state.CollectionsReducer[key] ?? []
 
 export default Collections.reducer

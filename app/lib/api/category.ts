@@ -27,7 +27,7 @@ export const fetchStoreCategory = async ({
     })
     if (!response.ok) {
       const error = await response.json()
-      console.log('__________<< Menu Error >>', error)
+      console.log('__________<< Category Error >>', error)
       throw { message: error.message }
     }
     category = await response.json()

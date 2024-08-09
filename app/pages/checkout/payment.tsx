@@ -1,5 +1,6 @@
 import {
   selectConfig,
+  setConfig,
   setConfigDevice,
   setLanguage,
   wrapper
@@ -22,6 +23,7 @@ import CheckoutPayment from '@components/CheckoutPayment'
 import CheckoutFooter from '@components/CheckoutFooter'
 import { PaymentTypes } from '@dropgala/types'
 import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import { XSRFHandler } from '@middleware/utils'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -133,8 +135,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 

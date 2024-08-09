@@ -71,7 +71,7 @@ interface Props {
 // })
 
 const AppLayout = ({ children, className }: Props) => {
-  const { layout } = useAppSelector(selectConfig)
+  const { layout, ...rest } = useAppSelector(selectConfig)
   const headerData = resolvePath<StoreLayoutComponentType>(
     layout,
     PageLayoutBlocks.Header,
@@ -88,7 +88,8 @@ const AppLayout = ({ children, className }: Props) => {
     []
   )
   const settings = resolvePath<ThemeSettingsType>(layout, 'settings', {})
-  console.log('APP_LAYOUT >>>', { layout })
+  console.log('___CONFIG__ >>>', { config: rest })
+  console.log('__APP_LAYOUT__ >>>', { layout })
   return (
     <div className="relative">
       {/* <style jsx global>{`

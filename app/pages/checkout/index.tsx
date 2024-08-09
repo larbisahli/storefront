@@ -1,4 +1,4 @@
-import { wrapper } from '@dropgala/store'
+import { setConfig, wrapper } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import { getHost } from 'utils'
 import CheckoutLayout from '@components/AppLayout/CheckoutLayout'
@@ -7,7 +7,8 @@ import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import { fetchStoreConfig } from '@lib/api'
+import { fetchClientCheckout, fetchStoreConfig } from '@lib/api'
+import { XSRFHandler } from '@middleware/utils'
 
 export default function CheckoutPage() {
   return null
@@ -28,8 +29,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 

@@ -1,17 +1,11 @@
-import { setConfig, setLanguage } from '@dropgala/store'
 import { ConfigType, LanguageType } from '@dropgala/types/config.type'
-import { XSRFHandler } from '@middleware/utils'
-import { GetServerSidePropsContext } from 'next'
 import { apiURL } from '@dropgala/utils/utils'
 import configCacheStore from '@lib/cache/config.store'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import languageCacheStore from '@lib/cache/language.store'
 
-export const fetchStoreConfig = async (
-  context: GetServerSidePropsContext,
-  alias: string
-) => {
-  let configObject = { config: {} }
+export const fetchStoreConfig = async (alias: string) => {
+  let configObject = { config: {} } as { config: ConfigType }
   configObject = await configCacheStore.getConfig(alias)
 
   if (isEmpty(configObject?.config)) {
@@ -31,14 +25,7 @@ export const fetchStoreConfig = async (
     configObject = await response.json()
   }
 
-  const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
-
-  return setConfig({
-    storeConfig: {
-      csrf: { csrfToken, csrfError },
-      ...configObject?.config
-    } as unknown as ConfigType
-  })
+  return configObject?.config
 }
 
 export const fetchStoreLanguage = async (languageId: number, alias: string) => {

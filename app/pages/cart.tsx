@@ -1,4 +1,4 @@
-import { setConfigDevice, setLanguage, wrapper } from '@dropgala/store'
+import { setCart, setConfigDevice, setLanguage, wrapper } from '@dropgala/store'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { getHost } from 'utils'
@@ -11,7 +11,9 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import { fetchClientCart, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import { XSRFHandler } from '@middleware/utils'
+import { setConfig } from '@dropgala/store'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -66,8 +68,19 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      // ** STORE CONFIG **
+      const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
+      const config = await fetchStoreConfig(alias)
+      store.dispatch(
+        setConfig({
+          storeConfig: {
+            csrf: { csrfToken, csrfError },
+            ...config
+          }
+        })
+      )
+
       // Check if store has locales
-      store.dispatch(await fetchStoreConfig(context, alias))
       const { ConfigReducer } = store.getState()
       const locales = ConfigReducer.locales as LanguageType[]
 
@@ -92,23 +105,19 @@ export const getServerSideProps: GetServerSideProps =
       // Get current store language id for resource request
       const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
-      const storeLanguage = await fetchStoreLanguage(languageId, alias)
+
+      const [storeLanguage, clientCartStore] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
+        await fetchClientCart({
+          alias,
+          languageId,
+          cuid
+        })
+      ])
 
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(setLanguage({ storeLanguage }))
-
-      // Client cart
-      // if (cuid) {
-      //   const clientCartStore = await fetchClientCart({
-      //     alias,
-      //     storeLanguageId,
-      //     cuid,
-      //     storeId
-      //   })
-      //   if (clientCartStore) {
-      //     store.dispatch(clientCartStore)
-      //   }
-      // }
+      store.dispatch(setCart({ cart: clientCartStore }))
 
       return {
         props: {
