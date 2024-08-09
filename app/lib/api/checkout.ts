@@ -100,7 +100,7 @@ export const fetchClientCheckout = async (
   let selectedShipping = {} as Shipping
   if (checkout?.shipment?.id) {
     /** Check if resource is in the cache store */
-    const shippings = await fetchAvailableShippings({ alias, languageId })
+    const shippings = await fetchAvailableShippings(alias)
     selectedShipping = shippings?.find(
       (shipping) => shipping.id === checkout?.shipment?.id
     ) as Shipping

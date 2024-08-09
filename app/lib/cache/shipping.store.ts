@@ -6,17 +6,17 @@ import shippingPackage from './packages/shipping.package'
 export class ShippingCacheStore {
   constructor() {}
 
-  private getId = (alias: string, languageId: number) => {
+  private getId = (alias: string) => {
     return crypto
       .createHash('sha256')
-      .update(alias + languageId)
+      .update(alias)
       .digest('hex')
   }
 
-  public getShippings = async (alias: string, languageId: number) => {
+  public getShippings = async (alias: string) => {
     try {
       const resource = await ShippingSchema.findOne({
-        key: { $eq: this.getId(alias, languageId) }
+        key: { $eq: this.getId(alias) }
       })
 
       if (isEmpty(resource && resource.data)) {

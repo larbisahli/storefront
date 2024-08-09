@@ -3,15 +3,9 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { apiURL } from '@dropgala/utils/utils'
 import shippingCacheStore from '@lib/cache/shipping.store'
 
-export const fetchAvailableShippings = async ({
-  alias,
-  languageId
-}: {
-  alias: string
-  languageId: number
-}) => {
+export const fetchAvailableShippings = async (alias: string) => {
   let shippingsObject = { shippings: [] } as { shippings: Shipping[] }
-  shippingsObject = await shippingCacheStore.getShippings(alias, languageId)
+  shippingsObject = await shippingCacheStore.getShippings(alias)
 
   if (isEmpty(shippingsObject?.shippings)) {
     const response = await fetch(`${apiURL}/resources/shippings`, {
@@ -20,7 +14,7 @@ export const fetchAvailableShippings = async ({
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ alias, languageId })
+      body: JSON.stringify({ alias })
     })
     if (!response.ok) {
       const error = await response.json()
