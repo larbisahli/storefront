@@ -197,7 +197,7 @@ const CheckoutCartItem: FC<Props> = ({
               customPlaceholder={placeholder}
               width={110}
               height={165}
-              className="object-contain bg-skin-thumbnail rounded-sm"
+              className="object-contain rounded-sm"
             />
             <div
               className="absolute right-0 bottom-0 left-0 bg-skin-black-rgba-6

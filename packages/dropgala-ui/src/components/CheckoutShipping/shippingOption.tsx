@@ -71,7 +71,7 @@ const ShippingOption = ({ useAppSelector, shipping }: Props) => {
               width={65}
               height={65}
               quality={90}
-              className="contain bg-skin-thumbnail rounded"
+              className="contain rounded"
             />
           </div>
         )}

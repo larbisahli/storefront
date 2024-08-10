@@ -74,7 +74,7 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
             width={75}
             height={75}
             quality={90}
-            className="object-cover bg-skin-thumbnail rounded"
+            className="object-cover rounded"
           />
         </div>
       </div>

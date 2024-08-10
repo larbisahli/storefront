@@ -163,7 +163,7 @@ const ProductCard: React.FC<ProductProps> = ({
               height={450}
               quality={100}
               objectFit="cover"
-              className={cn('object-cover bg-skin-thumbnail', {
+              className={cn('object-cover', {
                 'rounded-b-none': carousel
               })}
             />

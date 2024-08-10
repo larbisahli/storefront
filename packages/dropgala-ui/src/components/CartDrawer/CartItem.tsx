@@ -205,7 +205,7 @@ const CartItem: React.FC<CartItemProps> = ({
             customPlaceholder={placeholder}
             width={105}
             height={105}
-            className="object-cover bg-skin-thumbnail rounded-sm"
+            className="object-cover rounded-sm"
             alt=""
           />
         </div>

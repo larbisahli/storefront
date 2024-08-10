@@ -134,7 +134,7 @@ const ImageBannerHeadingCenter: React.FC<Props> = ({
                 width={600}
                 height={350}
                 objectFit={objectFit?.value}
-                className={cn('bg-skin-thumbnail', imageBorderClassName)}
+                className={imageBorderClassName}
               />
             </div>
           </div>
