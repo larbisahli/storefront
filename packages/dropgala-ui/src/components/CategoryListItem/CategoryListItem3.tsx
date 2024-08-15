@@ -43,10 +43,7 @@ const CategoryListItem3: React.FC<Props> = ({
 
   return (
     <div
-      className={cn(
-        'mb-6 group/library group/category_card cursor-pointer',
-        'relative flex justify-between items-center'
-      )}
+      className={cn('mb-6 group/library group/category_card cursor-pointer')}
     >
       <LibraryPlaceholder {...props} isEdit />
       <Link

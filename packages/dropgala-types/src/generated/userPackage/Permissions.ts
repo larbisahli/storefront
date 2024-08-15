@@ -1,4 +1,4 @@
-// Original file: app/proto/user.proto
+// Original file: packages/dropgala-query/src/proto/user.proto
 
 export interface Permissions {
   write?: boolean

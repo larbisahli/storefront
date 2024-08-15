@@ -121,10 +121,11 @@ const HeroCarousel: React.FC<Props> = ({
                 className={cn(
                   'absolute top-0 left-0 right-0 bottom-0',
                   'z-10 flex m-[15px] justify-center items-center',
-                  data?.contentAlignment === Alignment.LEFT && '!justify-start',
+                  data?.contentAlignment === Alignment.RIGHT &&
+                    '!justify-start',
                   data?.contentAlignment === Alignment.CENTER &&
                     '!justify-center',
-                  data?.contentAlignment === Alignment.RIGHT && '!justify-end'
+                  data?.contentAlignment === Alignment.LEFT && '!justify-end'
                 )}
               >
                 {slide?.displayContent && renderBannerWidget(slide)}

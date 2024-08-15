@@ -1,4 +1,4 @@
-// Original file: app/proto/attribute.proto
+// Original file: packages/dropgala-query/src/proto/attribute.proto
 
 import type {
   AttributeValue as _attribute_AttributeValue,

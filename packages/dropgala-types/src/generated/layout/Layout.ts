@@ -1,4 +1,4 @@
-// Original file: app/proto/layout.proto
+// Original file: packages/dropgala-query/src/proto/layout.proto
 
 import type {
   LayoutBlock as _layout_LayoutBlock,

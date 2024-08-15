@@ -1,4 +1,4 @@
-// Original file: app/proto/payment.proto
+// Original file: packages/dropgala-query/src/proto/payment.proto
 
 export interface Payment {
   id?: string

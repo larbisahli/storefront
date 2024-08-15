@@ -1,4 +1,4 @@
-// Original file: app/proto/enum.proto
+// Original file: packages/dropgala-query/src/proto/enum.proto
 
 export const productTypeEnum = {
   simple: 'simple',

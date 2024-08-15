@@ -1,4 +1,4 @@
-// Original file: app/proto/product.proto
+// Original file: packages/dropgala-query/src/proto/product.proto
 
 import type {
   Image as _media_Image,

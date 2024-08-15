@@ -23,13 +23,13 @@ import ProductDescription from './ProductDescription'
 import ProductAttributes from './ProductAttributes'
 import VariationPrice from './VariationPrice'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import useWindowSize from '@hooks/useWindowSize'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import StarIcon from '@dropgala/assets/icons/star'
 import { cartChange } from '@dropgala/store/Cart/thunks'
 import { notify } from '../ui/toast'
 import { getThumbnail } from '@dropgala/utils/helpers'
 import { selectProduct } from '@dropgala/store/Product'
+import useWindowSize from 'hooks/useWindowSize'
 
 interface Props extends StoreProps {
   product: ProductType
@@ -38,7 +38,7 @@ interface Props extends StoreProps {
 const ProductDetails = ({ useAppDispatch, useAppSelector }: Props) => {
   const cart = useAppSelector(selectCart)
   const { product } = useAppSelector(selectProduct)
-  const { device, language, csrf, storeId, locales, ...rest } =
+  const { device, language, csrf, storeId, locales } =
     useAppSelector(selectConfig)
 
   const { __ } = useTranslation(language, 'common')
@@ -126,13 +126,13 @@ const ProductDetails = ({ useAppDispatch, useAppSelector }: Props) => {
 
   function addToCart() {
     const orderQuantity = selectedQuantity
-    const storeLanguageId = locales?.find((locale) => locale.isDefault)?.id!
+    const languageId = locales?.find((locale) => locale.isDefault)?.id!
     const orderVariationOption = isEmpty(selectedVariationOption)
       ? null
       : { id: selectedVariationOption?.id }
     dispatch(
       cartChange({
-        storeLanguageId,
+        languageId,
         itemId: id!,
         storeId: storeId!,
         orderQuantity,

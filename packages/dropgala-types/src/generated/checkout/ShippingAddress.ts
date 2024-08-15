@@ -1,4 +1,4 @@
-// Original file: app/proto/checkout.proto
+// Original file: packages/dropgala-query/src/proto/checkout.proto
 
 import type {
   Country as _commons_Country,

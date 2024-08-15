@@ -25,9 +25,7 @@
       "@hooks/*": ["hooks/*"],
       "@hooks": ["hooks/index"],
       "@assets": ["assets/index"],
-      "@middleware/*": ["middleware/*"],
-      "@cache/*": ["lib/cache/*"],
-      "@api": ["lib/api/index"]
+      "@middleware/*": ["middleware/*"]
     },
     "incremental": true
   },

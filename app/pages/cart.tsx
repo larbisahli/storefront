@@ -11,7 +11,11 @@ import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
-import { fetchClientCart, fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import {
+  fetchClientCart,
+  fetchStoreConfig,
+  fetchStoreLanguage
+} from '@dropgala/query/api'
 import { XSRFHandler } from '@middleware/utils'
 import { setConfig } from '@dropgala/store'
 

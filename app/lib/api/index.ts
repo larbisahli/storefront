@@ -1,7 +1,0 @@
-export * from './config'
-export * from './menu'
-export * from './product'
-export * from './layout'
-export * from './checkout'
-export * from './payment'
-export * from './shipping'

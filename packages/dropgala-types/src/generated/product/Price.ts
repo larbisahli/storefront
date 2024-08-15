@@ -1,4 +1,4 @@
-// Original file: app/proto/product.proto
+// Original file: packages/dropgala-query/src/proto/product.proto
 
 export interface Price {
   salePrice?: number | string

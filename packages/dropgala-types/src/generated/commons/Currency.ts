@@ -1,4 +1,4 @@
-// Original file: app/proto/commons.proto
+// Original file: packages/dropgala-query/src/proto/commons.proto
 
 export interface Currency {
   symbol?: string

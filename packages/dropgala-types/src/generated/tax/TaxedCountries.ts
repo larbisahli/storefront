@@ -1,4 +1,4 @@
-// Original file: app/proto/tax.proto
+// Original file: packages/dropgala-query/src/proto/tax.proto
 
 import type {
   AppliesTo as _tax_AppliesTo,

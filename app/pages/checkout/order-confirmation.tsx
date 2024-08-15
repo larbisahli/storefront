@@ -18,7 +18,7 @@ import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import ConfirmationSummary from '@components/ConfirmationSummary'
 import CheckoutLayout from '@components/AppLayout/CheckoutLayout'
-import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import { fetchStoreConfig, fetchStoreLanguage } from '@dropgala/query/api'
 import { XSRFHandler } from '@middleware/utils'
 
 interface Props {
@@ -145,17 +145,6 @@ export const getServerSideProps: GetServerSideProps =
       store.dispatch(setLanguage({ storeLanguage }))
 
       // Client cart
-      // if (cuid) {
-      //   const clientCartStore = await fetchClientCart({
-      //     alias,
-      //     storeLanguageId,
-      //     cuid,
-      //     storeId
-      //   })
-      //   if (clientCartStore) {
-      //     store.dispatch(clientCartStore)
-      //   }
-      // }
 
       return {
         props: {

@@ -97,7 +97,7 @@ const CheckoutCartItem: FC<Props> = ({
     currencyCode: defaultCurrency?.code
   })
 
-  const storeLanguageId = useMemo(
+  const languageId = useMemo(
     () => locales?.find((locale) => locale.isDefault)?.id!,
     [locales]
   )
@@ -115,7 +115,7 @@ const CheckoutCartItem: FC<Props> = ({
     setCurrentLoadingItem(key)
     dispatch(
       cartChange({
-        storeLanguageId,
+        languageId,
         itemId: id!,
         storeId: storeId!,
         orderQuantity: 1,
@@ -137,7 +137,7 @@ const CheckoutCartItem: FC<Props> = ({
     setCurrentLoadingItem(key)
     dispatch(
       cartChange({
-        storeLanguageId,
+        languageId,
         itemId: id!,
         storeId: storeId!,
         orderQuantity: -1,
@@ -161,7 +161,7 @@ const CheckoutCartItem: FC<Props> = ({
       removeCartItem({
         key: key!,
         storeId: storeId!,
-        storeLanguageId,
+        languageId,
         csrfToken: csrf?.csrfToken!
       })
     ).then((data) => {
@@ -200,7 +200,7 @@ const CheckoutCartItem: FC<Props> = ({
               className="object-contain rounded-sm"
             />
             <div
-              className="absolute right-0 bottom-0 left-0 bg-skin-black-rgba-6
+              className="absolute right-0 bottom-0 left-0 bg-black bg-opacity-70
                text-white text-xs text-center py-[3px] font-bold"
             >
               {disabled && <span>Sold Out</span>}

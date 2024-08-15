@@ -6,19 +6,21 @@ import { Toaster } from 'react-hot-toast'
 import { ApolloProvider } from '@apollo/client'
 import ErrorBoundary from '@components/common/ErrorBoundary'
 import { wrapper } from '@dropgala/store'
-import apolloClient from '@lib/apolloClient'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import LoadingBar from '@components/common/loading-bar'
 import OfflineNotice from '@components/OfflineNotice'
+import { useApollo } from '@dropgala/query/graphql/client'
 
 const Noop: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>{children}</>
 )
 
 const App = ({ Component, ...rest }: AppProps) => {
+  const { pageProps } = rest
   const Layout = (Component as any).Layout || Noop
   const { store, props } = wrapper.useWrappedStore(rest)
+  const apolloClient = useApollo(pageProps.initialApolloState)
   return (
     <ErrorBoundary>
       <Provider store={store}>

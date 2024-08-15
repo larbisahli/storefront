@@ -1,4 +1,4 @@
-// Original file: app/proto/tax.proto
+// Original file: packages/dropgala-query/src/proto/tax.proto
 
 export interface ZipCodeRange {
   from?: string

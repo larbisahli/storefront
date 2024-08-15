@@ -27,7 +27,7 @@ import {
   fetchStoreConfig,
   fetchStoreLanguage,
   fetchStoreMenu
-} from '@lib/api'
+} from '@dropgala/query/api'
 import { XSRFHandler } from '@middleware/utils'
 
 interface PageProps {

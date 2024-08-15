@@ -1,5 +1,6 @@
 import {
   selectConfig,
+  setCheckout,
   setConfig,
   setConfigDevice,
   setLanguage,
@@ -22,7 +23,12 @@ import { CookieNames } from '@dropgala/types/common.type'
 import CheckoutPayment from '@components/CheckoutPayment'
 import CheckoutFooter from '@components/CheckoutFooter'
 import { PaymentTypes } from '@dropgala/types'
-import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import {
+  fetchAvailablePayments,
+  fetchClientCheckout,
+  fetchStoreConfig,
+  fetchStoreLanguage
+} from '@dropgala/query/api'
 import { XSRFHandler } from '@middleware/utils'
 
 interface Props {
@@ -135,6 +141,15 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      if (!cuid) {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false
+          }
+        }
+      }
+
       // ** STORE CONFIG **
       const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
       const config = await fetchStoreConfig(alias)
@@ -173,40 +188,25 @@ export const getServerSideProps: GetServerSideProps =
       const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
 
-      const [storeLanguage] = await Promise.all([
-        await fetchStoreLanguage(languageId, alias)
+      const [storeLanguage, checkout, payments] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
+        await fetchClientCheckout({
+          context,
+          alias,
+          languageId,
+          cuid
+        }),
+        await fetchAvailablePayments(alias)
       ])
-
-      // const payments = await fetchAvailablePayments({ alias, storeId })
 
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(setLanguage({ storeLanguage }))
-
-      // Client cart and Checkout
-      // if (cuid) {
-      //   const clientCheckout = await fetchClientCheckout(
-      //     context,
-      //     alias,
-      //     storeLanguageId,
-      //     cuid
-      //   )
-      //   if (clientCheckout) {
-      //     store.dispatch(clientCheckout)
-      //   }
-      // } else {
-      //   console.log('======================>')
-      //   return {
-      //     redirect: {
-      //       destination: '/',
-      //       permanent: false
-      //     }
-      //   }
-      // }
+      store.dispatch(setCheckout({ checkout: checkout }))
 
       return {
         props: {
           host: { host, alias },
-          payments: []
+          payments
         }
       }
     } catch (error) {

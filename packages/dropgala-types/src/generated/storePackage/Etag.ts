@@ -1,4 +1,4 @@
-// Original file: app/proto/store.proto
+// Original file: packages/dropgala-query/src/proto/store.proto
 
 export interface Etag {
   couponEtag?: string

@@ -1,4 +1,4 @@
-// Original file: app/proto/payment.proto
+// Original file: packages/dropgala-query/src/proto/payment.proto
 
 import type {
   Payment as _payment_Payment,

@@ -1,4 +1,4 @@
-// Original file: app/proto/product.proto
+// Original file: packages/dropgala-query/src/proto/product.proto
 
 import type {
   Product as _product_Product,

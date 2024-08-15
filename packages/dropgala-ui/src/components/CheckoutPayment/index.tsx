@@ -12,8 +12,9 @@ import { useRouter } from 'next/router'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import ShippingAddress from './shippingAddress'
 import { useMutation } from '@apollo/client'
-import { CREATE_ORDER } from '@dropgala/query/checkout.query'
+import { CREATE_ORDER } from '@dropgala/query/graphql/client/schema/checkout.query'
 import OfflinePaymentOption from './OfflinePaymentOption'
+import { notify } from '../ui/toast'
 
 interface Props extends StoreProps {
   payments: PaymentTypes[]
@@ -51,6 +52,7 @@ const CheckoutPayment = ({ useAppSelector, payments }: Props) => {
 
   const onSubmit = async () => {
     if (isEmpty(selectedOptionId)) {
+      notify.error('Please select the payment method')
       return
     }
 
@@ -86,29 +88,31 @@ const CheckoutPayment = ({ useAppSelector, payments }: Props) => {
           <Loader />
         </div>
       )}
-      <div className="flex-1">
-        <h1 className="my-8 text-xl mb-4 mt-8 font-light uppercase">
-          {__('Payment methods')}
-        </h1>
-        {payments.map((payment) => (
-          <Radio
-            key={payment.id}
-            name={payment.id}
-            label={() => (
-              <OfflinePaymentOption
-                selectedOptionId={selectedOptionId}
-                payment={payment}
-              />
-            )}
-            inputClassName="absolute right-0 top-0 m-2 z-10"
-            onChange={handleSelectedPaymentId}
-            id={payment.id}
-            value={payment.id}
-            checked={selectedOptionId === payment.id}
-          />
-        ))}
-      </div>
-      <div>
+      {!isEmpty(payments) && (
+        <div className="flex-1">
+          <h1 className="text-xl mt-8 mb-4 font-light uppercase">
+            {__('Payment methods')}
+          </h1>
+          {payments.map((payment) => (
+            <Radio
+              key={payment.id}
+              name={payment.id}
+              label={() => (
+                <OfflinePaymentOption
+                  selectedOptionId={selectedOptionId}
+                  payment={payment}
+                />
+              )}
+              inputClassName="absolute right-0 top-0 m-2 z-10"
+              onChange={handleSelectedPaymentId}
+              id={payment.id}
+              value={payment.id}
+              checked={selectedOptionId === payment.id}
+            />
+          ))}
+        </div>
+      )}
+      <div className="mt-4">
         <div>
           <div className="flex items-center">
             <input

@@ -34,9 +34,21 @@ import {
   fetchStoreConfig,
   fetchStoreLanguage,
   fetchStoreMenu
-} from '@lib/api'
-import { fetchStoreCategory } from '@lib/api/category'
+} from '@dropgala/query/api'
+import { fetchStoreCategory } from '@dropgala/query/api/category'
 import { XSRFHandler } from '@middleware/utils'
+import { initializeApollo } from '@dropgala/query/graphql/client'
+import { gql, useQuery } from '@apollo/client'
+
+const ViewerQuery = gql`
+  query ViewerQuery {
+    viewer {
+      id
+      name
+      status
+    }
+  }
+`
 
 interface PageProps {
   pageProps: {
@@ -109,6 +121,10 @@ export default function ProductPage({ pageProps }: PageProps) {
   }, [categoryProducts])
 
   const { metaTitle, metaImage, metaRobots, metaDescription, urlKey } = category
+
+  const { data } = useQuery(ViewerQuery)
+
+  console.log({ data })
 
   return (
     <>
@@ -267,6 +283,12 @@ export const getServerSideProps: GetServerSideProps =
         })
       ])
 
+      // const apolloClient = initializeApollo();
+
+      // await apolloClient.query({
+      //   query: ViewerQuery,
+      // });
+
       store.dispatch(setLanguage({ storeLanguage }))
       store.dispatch(setMenu(menu))
       store.dispatch(setStoreLayout({ layout }))
@@ -291,6 +313,7 @@ export const getServerSideProps: GetServerSideProps =
       return {
         props: {
           host: { host, alias }
+          // initialApolloState: apolloClient.cache.extract(),
         }
       }
     } catch (error) {

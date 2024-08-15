@@ -1,4 +1,4 @@
-// Original file: app/proto/settings.proto
+// Original file: packages/dropgala-query/src/proto/settings.proto
 
 import type {
   Settings as _settings_Settings,

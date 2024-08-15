@@ -1,4 +1,4 @@
-// Original file: app/proto/tag.proto
+// Original file: packages/dropgala-query/src/proto/tag.proto
 
 export interface Tag {
   id?: number

@@ -31,8 +31,7 @@ export async function XSRFHandler(context: GetServerSidePropsContext) {
       cookies.set(CookieNames.XSRF_TOKEN, csrfSecret, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // Token is valid for 24 hours
-        sameSite: PRODUCTION_ENV ? 'None' : 'Lax',
-        secure: PRODUCTION_ENV,
+        sameSite: 'strict',
         domain: PRODUCTION_ENV ? '.dropgala.shop' : 'localhost',
         overwrite: true
       })

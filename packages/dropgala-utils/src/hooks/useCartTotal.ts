@@ -12,7 +12,7 @@ const getCartItemsTotalPrice = (
   rate: number,
   shippingPrice?: number
 ) => {
-  let total = items!.reduce((total: number, item: CartItemType) => {
+  let total = items!?.reduce((total: number, item: CartItemType) => {
     const isVariableType = item!.type === ProductTypes.Variable
     const selectedPrice = isVariableType
       ? calcTaxRate(item?.orderVariationOption?.salePrice, rate)
@@ -26,7 +26,7 @@ const getCartItemsTotalPriceExclTax = (
   items: CartItemType[],
   shippingPrice?: number
 ) => {
-  let total = items!.reduce((total: number, item: CartItemType) => {
+  let total = items!?.reduce((total: number, item: CartItemType) => {
     const isVariableType = item!.type === ProductTypes.Variable
     const selectedTaxPrice = isVariableType
       ? item?.orderVariationOption?.salePrice

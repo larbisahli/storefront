@@ -33,9 +33,9 @@ import {
   fetchStoreConfig,
   fetchStoreLanguage,
   fetchStoreMenu,
-  fetchStoreProduct
-} from '@lib/api'
-import { fetchStoreCategory } from '@lib/api/category'
+  fetchStoreProduct,
+  fetchStoreCategory
+} from '@dropgala/query/api'
 import { XSRFHandler } from '@middleware/utils'
 
 interface PageProps {

@@ -1,25 +1,28 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { CART_CHANGE, REMOVE_CART_ITEM } from '@dropgala/query/cart.query'
+import {
+  CART_CHANGE,
+  REMOVE_CART_ITEM
+} from '@dropgala/query/graphql/client/schema/cart.query'
 
-import apolloClient from 'apollo-client'
-import { CartType } from '@dropgala/types'
+import { initializeApollo } from '@dropgala/query/graphql/client'
 
 interface RemoveCartItemProps {
   key: string
-  storeLanguageId: number
+  languageId: number
   storeId: string
   csrfToken: string
 }
 
 export const removeCartItem = createAsyncThunk(
   'cart/removeCartItem',
-  async ({ storeLanguageId, key, storeId, csrfToken }: RemoveCartItemProps) => {
+  async ({ languageId, key, storeId, csrfToken }: RemoveCartItemProps) => {
+    const apolloClient = initializeApollo()
     const { data } = await apolloClient.mutate<any>({
       mutation: REMOVE_CART_ITEM,
       variables: {
         key,
         storeId,
-        storeLanguageId
+        languageId
       },
       context: {
         headers: {
@@ -35,7 +38,7 @@ export const removeCartItem = createAsyncThunk(
 
 interface CartChangeProps {
   itemId: number
-  storeLanguageId: number
+  languageId: number
   orderQuantity: number
   storeId: string
   orderVariationOption: { id: number } | null
@@ -46,17 +49,18 @@ export const cartChange = createAsyncThunk(
   'cart/cartChange',
   async ({
     itemId,
-    storeLanguageId,
+    languageId,
     orderQuantity,
     storeId,
     orderVariationOption,
     csrfToken
   }: CartChangeProps) => {
+    const apolloClient = initializeApollo()
     const { data } = await apolloClient.mutate<any>({
       mutation: CART_CHANGE,
       variables: {
         itemId,
-        storeLanguageId,
+        languageId,
         orderVariationOption,
         orderQuantity,
         storeId
@@ -70,12 +74,5 @@ export const cartChange = createAsyncThunk(
     })
     const { cartChange, error } = data ?? {}
     return { data: cartChange, error }
-  }
-)
-
-export const getCartRPC = createAsyncThunk(
-  'cart/getCartRPC',
-  (cart: CartType, error: any) => {
-    return { data: cart, error }
   }
 )

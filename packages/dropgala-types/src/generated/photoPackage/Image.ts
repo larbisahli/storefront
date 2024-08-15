@@ -1,4 +1,4 @@
-// Original file: app/proto/photo.proto
+// Original file: packages/dropgala-query/src/proto/photo.proto
 
 import type {
   Timestamp as _google_protobuf_Timestamp,

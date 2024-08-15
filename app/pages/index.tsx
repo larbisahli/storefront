@@ -23,7 +23,7 @@ import {
   fetchStoreConfig,
   fetchStoreLanguage,
   fetchStoreMenu
-} from '@api'
+} from '@dropgala/query/api'
 import getMobileDetect from '@dropgala/utils/isMobile'
 import { LanguageType } from '@dropgala/types/config.type'
 import Cookies from 'cookies'
@@ -168,7 +168,7 @@ export const getServerSideProps: GetServerSideProps =
         await fetchStoreMenu(languageId, alias),
         await fetchPageLayout({
           alias,
-          page: StoreLayoutNames.CATEGORY_PAGE,
+          page: StoreLayoutNames.HOMEPAGE,
           templateId,
           languageId,
           isCustom: false

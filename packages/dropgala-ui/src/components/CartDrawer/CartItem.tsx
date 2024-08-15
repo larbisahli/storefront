@@ -105,7 +105,7 @@ const CartItem: React.FC<CartItemProps> = ({
 
   const { image = '', placeholder = '' } = imageThumbnail
 
-  const storeLanguageId = useMemo(
+  const languageId = useMemo(
     () => locales?.find((locale) => locale.isDefault)?.id!,
     [locales]
   )
@@ -120,7 +120,7 @@ const CartItem: React.FC<CartItemProps> = ({
     setCurrentLoadingItem(key)
     dispatch(
       cartChange({
-        storeLanguageId,
+        languageId,
         itemId: id!,
         storeId: storeId!,
         orderQuantity: 1,
@@ -142,7 +142,7 @@ const CartItem: React.FC<CartItemProps> = ({
     setCurrentLoadingItem(key)
     dispatch(
       cartChange({
-        storeLanguageId,
+        languageId,
         itemId: id!,
         storeId: storeId!,
         orderQuantity: -1,
@@ -166,7 +166,7 @@ const CartItem: React.FC<CartItemProps> = ({
       removeCartItem({
         key: key!,
         storeId: storeId!,
-        storeLanguageId,
+        languageId,
         csrfToken: csrf?.csrfToken!
       })
     ).then((data) => {

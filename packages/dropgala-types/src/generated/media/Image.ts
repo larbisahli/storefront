@@ -1,4 +1,4 @@
-// Original file: app/proto/media.proto
+// Original file: packages/dropgala-query/src/proto/media.proto
 
 export interface Image {
   id?: number

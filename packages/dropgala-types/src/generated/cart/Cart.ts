@@ -1,4 +1,4 @@
-// Original file: app/proto/cart.proto
+// Original file: packages/dropgala-query/src/proto/cart.proto
 
 import type {
   Item as _cart_Item,

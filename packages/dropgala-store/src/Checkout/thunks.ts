@@ -2,9 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
   UPDATE_CHECKOUT_INFORMATION,
   UPDATE_CHECKOUT_SHIPPING
-} from '@dropgala/query/checkout.query'
-import apolloClient from 'apollo-client'
+} from '@dropgala/query/graphql/client/schema/checkout.query'
+import { initializeApollo } from '@dropgala/query/graphql/client'
 import { ShippingAddress } from '@dropgala/types'
+
 interface updateCheckoutThunkProps extends ShippingAddress {
   storeId: string
   csrfToken: string
@@ -25,10 +26,10 @@ export const updateCheckoutInformation = createAsyncThunk(
     fullName,
     csrfToken
   }: updateCheckoutThunkProps) => {
+    const apolloClient = initializeApollo()
     const { data } = await apolloClient.mutate<any>({
       mutation: UPDATE_CHECKOUT_INFORMATION,
       variables: {
-        storeId,
         city,
         marketingOptIn,
         zip,
@@ -54,6 +55,7 @@ export const updateCheckoutInformation = createAsyncThunk(
 export const updateCheckoutShipping = createAsyncThunk(
   'cart/updateCheckoutShippingThunk',
   async ({ id, csrfToken }: { id: number; csrfToken: string }) => {
+    const apolloClient = initializeApollo()
     const { data } = await apolloClient.mutate<any>({
       mutation: UPDATE_CHECKOUT_SHIPPING,
       variables: { id },

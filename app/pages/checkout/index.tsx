@@ -7,7 +7,7 @@ import Cookies from 'cookies'
 import { CookieNames } from '@dropgala/types/common.type'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import { fetchClientCheckout, fetchStoreConfig } from '@lib/api'
+import { fetchClientCheckout, fetchStoreConfig } from '@dropgala/query/api'
 import { XSRFHandler } from '@middleware/utils'
 
 export default function CheckoutPage() {
@@ -67,23 +67,23 @@ export const getServerSideProps: GetServerSideProps =
       const languageId = currentLocale?.id!
 
       // Client cart
-      // if (cuid) {
-      //   const clientCheckout = await fetchClientCheckout(
-      //     context,
-      //     alias,
-      //     languageId,
-      //     cuid
-      //   )
-      //   const checkout = clientCheckout?.payload.checkout
-      //   if (checkout?.stepsConfig?.currentStep) {
-      //     return {
-      //       redirect: {
-      //         permanent: false,
-      //         destination: `/checkout/${checkout?.stepsConfig?.currentStep}`
-      //       }
-      //     }
-      //   }
-      // }
+      if (cuid) {
+        const checkout = await fetchClientCheckout({
+          context,
+          alias,
+          languageId,
+          cuid
+        })
+        console.log({ checkout })
+        if (checkout?.stepsConfig?.currentStep) {
+          return {
+            redirect: {
+              permanent: false,
+              destination: `/checkout/${checkout?.stepsConfig?.currentStep}`
+            }
+          }
+        }
+      }
 
       return {
         redirect: {

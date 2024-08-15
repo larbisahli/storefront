@@ -1,5 +1,6 @@
 import {
   selectConfig,
+  setCheckout,
   setConfig,
   setConfigDevice,
   setLanguage,
@@ -22,7 +23,12 @@ import { CookieNames } from '@dropgala/types/common.type'
 import CheckoutFooter from '@components/CheckoutFooter'
 import CheckoutShipping from '@components/CheckoutShipping'
 import { Shipping } from '@dropgala/types/generated/shipping/Shipping'
-import { fetchStoreConfig, fetchStoreLanguage } from '@lib/api'
+import {
+  fetchAvailableShippings,
+  fetchClientCheckout,
+  fetchStoreConfig,
+  fetchStoreLanguage
+} from '@dropgala/query/api'
 import { XSRFHandler } from '@middleware/utils'
 
 interface Props {
@@ -131,6 +137,15 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      if (!cuid) {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false
+          }
+        }
+      }
+
       // ** STORE CONFIG **
       const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
       const config = await fetchStoreConfig(alias)
@@ -169,39 +184,25 @@ export const getServerSideProps: GetServerSideProps =
       const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
 
-      const [storeLanguage] = await Promise.all([
-        await fetchStoreLanguage(languageId, alias)
+      const [storeLanguage, checkout, shippings] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
+        await fetchClientCheckout({
+          context,
+          alias,
+          languageId,
+          cuid
+        }),
+        await fetchAvailableShippings(alias)
       ])
-
-      // const shippings = await fetchAvailableShippings({ alias, storeId })
 
       store.dispatch(setConfigDevice({ device }))
       store.dispatch(setLanguage({ storeLanguage }))
-
-      // Client cart and Checkout
-      // if (cuid) {
-      //   const clientCheckout = await fetchClientCheckout(
-      //     context,
-      //     alias,
-      //     storeLanguageId,
-      //     cuid
-      //   )
-      //   if (clientCheckout) {
-      //     store.dispatch(clientCheckout)
-      //   }
-      // } else {
-      //   return {
-      //     redirect: {
-      //       destination: '/',
-      //       permanent: false
-      //     }
-      //   }
-      // }
+      store.dispatch(setCheckout({ checkout }))
 
       return {
         props: {
           host: { host, alias },
-          shippings: []
+          shippings
         }
       }
     } catch (error) {

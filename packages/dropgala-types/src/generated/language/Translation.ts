@@ -1,4 +1,4 @@
-// Original file: app/proto/language.proto
+// Original file: packages/dropgala-query/src/proto/language.proto
 
 export interface Translation {
   pages?: { [key: string]: string }

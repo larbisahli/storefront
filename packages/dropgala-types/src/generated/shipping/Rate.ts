@@ -1,4 +1,4 @@
-// Original file: app/proto/shipping.proto
+// Original file: packages/dropgala-query/src/proto/shipping.proto
 
 import type {
   Unit as _commons_Unit,

@@ -1,4 +1,4 @@
-// Original file: app/proto/shipping.proto
+// Original file: packages/dropgala-query/src/proto/shipping.proto
 
 import type {
   Shipping as _shipping_Shipping,

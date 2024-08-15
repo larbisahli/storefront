@@ -31,7 +31,7 @@ import {
   fetchPageLayout,
   fetchStoreConfig,
   fetchStoreLanguage
-} from '@lib/api'
+} from '@dropgala/query/api'
 import { XSRFHandler } from '@middleware/utils'
 
 interface Props {
@@ -144,6 +144,15 @@ export const getServerSideProps: GetServerSideProps =
         throw { error: { message: 'alias not specified' } }
       }
 
+      if (!cuid) {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false
+          }
+        }
+      }
+
       // ** STORE CONFIG **
       const { csrfToken = null, csrfError = null } = await XSRFHandler(context)
       const config = await fetchStoreConfig(alias)
@@ -182,33 +191,19 @@ export const getServerSideProps: GetServerSideProps =
       const languageId = currentLocale?.id!
       const device = getMobileDetect(userAgent)
 
-      const [storeLanguage] = await Promise.all([
-        await fetchStoreLanguage(languageId, alias)
-      ])
-
-      store.dispatch(setConfigDevice({ device }))
-      store.dispatch(setLanguage({ storeLanguage }))
-
-      // Client cart and Checkout
-      if (cuid) {
-        const clientCheckout = await fetchClientCheckout(
+      const [storeLanguage, checkout] = await Promise.all([
+        await fetchStoreLanguage(languageId, alias),
+        await fetchClientCheckout({
           context,
           alias,
           languageId,
           cuid
-        )
-        if (clientCheckout) {
-          store.dispatch(setCheckout({ checkout: clientCheckout }))
-        }
-      } else {
-        console.log('======================>')
-        return {
-          redirect: {
-            destination: '/',
-            permanent: false
-          }
-        }
-      }
+        })
+      ])
+
+      store.dispatch(setConfigDevice({ device }))
+      store.dispatch(setLanguage({ storeLanguage }))
+      store.dispatch(setCheckout({ checkout }))
 
       return {
         props: {

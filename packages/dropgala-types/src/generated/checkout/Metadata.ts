@@ -1,4 +1,4 @@
-// Original file: app/proto/checkout.proto
+// Original file: packages/dropgala-query/src/proto/checkout.proto
 
 import type {
   Geo as _checkout_Geo,

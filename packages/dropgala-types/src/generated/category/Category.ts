@@ -1,4 +1,4 @@
-// Original file: app/proto/category.proto
+// Original file: packages/dropgala-query/src/proto/category.proto
 
 import type {
   Category as _category_Category,
