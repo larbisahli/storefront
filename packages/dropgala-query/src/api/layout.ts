@@ -17,12 +17,12 @@ export const fetchPageLayout = async ({
   page: string
 }) => {
   let layout = {}
-  layout = await layoutCacheStore.getPageLayout(
-    alias,
-    templateId,
-    languageId,
-    page
-  )
+  // layout = await layoutCacheStore.getPageLayout(
+  //   alias,
+  //   templateId,
+  //   languageId,
+  //   page
+  // )
 
   if (isEmpty(layout)) {
     const response = await fetch(`${apiURL}/resources/layout`, {

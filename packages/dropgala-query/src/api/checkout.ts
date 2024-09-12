@@ -28,6 +28,7 @@ export const fetchClientCart = async ({
   if (!cuid) return cart
 
   cart = await cartCacheStore.getClientCart(cuid)
+  console.log('======>', { cuid, cart })
 
   if (!isEmpty(cart)) {
     let items: CartType['items'] = []

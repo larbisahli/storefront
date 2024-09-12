@@ -74,9 +74,9 @@ const CookiePopup = ({ useAppSelector, data }: StoreProps) => {
   return (
     <div
       className={cn(
-        'flex flex-col shadow-cart items-center p-4 rounded-sm w-[90%] lg:w-[400px] justify-center fixed bottom-8 lg:bottom-0 bg-gray-200 z-50 m-7 right-0',
+        'flex flex-col shadow-cart items-center p-4 rounded-sm w-[90%] desktop:w-[400px] justify-center fixed bottom-8 desktop:bottom-0 bg-gray-200 z-50 m-7 right-0',
         device.isMobile &&
-          'mx-auto left-1/2 mb-10 transform lg:transform-none -translate-x-1/2 '
+          'mx-auto left-1/2 mb-10 transform desktop:transform-none -translate-x-1/2 '
       )}
     >
       {renderCookieText()}
