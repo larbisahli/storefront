@@ -18,7 +18,7 @@ import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import { useCartTotal } from '@dropgala/utils/hooks/useCartTotal'
 import CloseIcon from '@dropgala/assets/icons/close'
-import Overlay from '@components/common/Overlay'
+import Overlay from '../common/Overlay'
 
 const LockIcon = dynamic(() => import('@dropgala/assets/icons/lock'), {
   loading: () => <></>,
@@ -113,7 +113,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
           </button>
         </div>
         <div className="flex flex-col w-full h-full">
-          <div className="flex-1 overflow-hidden">{renderContent()}</div>
+          <div className="flex-1 overflow-y-auto">{renderContent()}</div>
           <div className={cn('flex flex-col lg:!mb-0 !mb-12')}>
             <div
               style={{ background: 'rgba(0,0,0,0.03)' }}
@@ -160,7 +160,7 @@ function CartDrawerView({ useAppDispatch, useAppSelector }: Props) {
 
             <div className="p-4 lg:p-7 !pt-0">
               {cart?.totalQuantity > 0 ? (
-                <div className="w-full mb-10 mt-20px flex justify-between">
+                <div className="w-full mb-2 mt-20px flex justify-between">
                   <Link
                     href={{
                       pathname: '/cart'

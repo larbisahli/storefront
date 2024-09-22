@@ -14,8 +14,6 @@ export class CartCacheStore {
         key: { $eq: cuid }
       })
 
-      console.log({ resource })
-
       if (isEmpty(resource && resource.data)) {
         return {} as CartType
       }

@@ -66,8 +66,8 @@ const PlaceholderBlock = (props: any) => {
           'z-[999] absolute left-0 hidden group-hover:block',
           isAdminSelectedBlock && '!block',
           {
-            'pb-2 top-[-28px]': !props.isEditRemoveBottom,
-            'pt-2 bottom-[-28px]': props.isEditRemoveBottom
+            'pb-2 top-[-25px]': !props.isEditRemoveBottom,
+            'pt-2 bottom-[-25px]': props.isEditRemoveBottom
           }
         )}
       >
@@ -87,8 +87,8 @@ const PlaceholderBlock = (props: any) => {
           'z-[999] right-0 absolute hidden group-hover:block',
           isAdminSelectedBlock && '!block',
           {
-            'pb-2 top-[-28px]': !props.isEditRemoveBottom,
-            'pt-2 bottom-[-28px]': props.isEditRemoveBottom
+            'pb-2 top-[-25px]': !props.isEditRemoveBottom,
+            'pt-2 bottom-[-25px]': props.isEditRemoveBottom
           }
         )}
       >
@@ -105,7 +105,7 @@ const PlaceholderBlock = (props: any) => {
         title="Add new block before"
         onClick={() => handlePostMessage(StoreBuilderActions.ADD_NEW_BEFORE)}
         className={cn(
-          'z-[999] absolute left-1/2 transform -translate-x-1/2 top-[-28px] pb-2 hidden group-hover:block',
+          'z-[999] absolute left-1/2 transform -translate-x-1/2 top-[-25px] pb-2 hidden group-hover:block',
           isAdminSelectedBlock && '!block'
         )}
       >
@@ -121,7 +121,7 @@ const PlaceholderBlock = (props: any) => {
         title="Add new block after"
         onClick={() => handlePostMessage(StoreBuilderActions.ADD_NEW_AFTER)}
         className={cn(
-          'z-[999] absolute left-1/2 transform -translate-x-1/2 bottom-[-28px] pt-2 hidden group-hover:block',
+          'z-[999] absolute left-1/2 transform -translate-x-1/2 bottom-[-25px] pt-2 hidden group-hover:block',
           isAdminSelectedBlock && '!block'
         )}
       >
@@ -137,7 +137,7 @@ const PlaceholderBlock = (props: any) => {
         title="Duplicate"
         onClick={() => handlePostMessage(StoreBuilderActions.DUPLICATE_BLOCK)}
         className={cn(
-          'z-[999] absolute right-0 bottom-[-28px] pt-2 hidden group-hover:block',
+          'z-[999] absolute right-0 bottom-[-25px] pt-2 hidden group-hover:block',
           isAdminSelectedBlock && '!block'
         )}
       >

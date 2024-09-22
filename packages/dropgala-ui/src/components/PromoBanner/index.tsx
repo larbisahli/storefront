@@ -1,5 +1,5 @@
 import { Autoplay } from 'swiper/modules'
-import { clone } from '@dropgala/utils/lodashFunctions'
+import { clone, isEmpty } from '@dropgala/utils/lodashFunctions'
 import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { StoreProps } from '@dropgala/store'
@@ -41,6 +41,8 @@ const PromoBanner = ({ ...props }: Props) => {
     backgroundColor
   } = data ?? {}
 
+  const isChild = isEmpty(props.parentId)
+
   const styles = resolvePath<StoreLayoutComponentStylesType>(
     props,
     'styles',
@@ -68,9 +70,9 @@ const PromoBanner = ({ ...props }: Props) => {
         {...props}
         isEdit
         isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
+        {...(isChild
+          ? { isAddBefore: true, isAddAfter: true, isDuplicate: true }
+          : { isEditRemoveBottom: true })}
       />
       <_JSXStyle id={data.contentId}>{`
           .${promoBannerClass} {

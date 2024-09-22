@@ -59,7 +59,7 @@ export const Wrapper = ({ children }: { children: JSX.Element }) => {
   return children
 }
 
-const Header: FC<Props> = ({
+const HeaderElegant: FC<Props> = ({
   useAppSelector,
   useAppDispatch,
   children,
@@ -69,6 +69,7 @@ const Header: FC<Props> = ({
   const { device, isMobileHeaderTransition } = storeConfig
   const { menu } = useAppSelector(selectMenu)
   const { item, totalQuantity } = useAppSelector(selectCart)
+
   const dispatch = useAppDispatch()
 
   const [height, setHeight] = useState(0)
@@ -145,7 +146,6 @@ const Header: FC<Props> = ({
   return (
     <Fragment>
       <header
-        ref={ref}
         className={cn(
           'text-gray-700 body-font fixed w-full z-20 bg-white border-b border-gray-300'
         )}
@@ -220,4 +220,4 @@ const Header: FC<Props> = ({
   )
 }
 
-export default Header
+export default HeaderElegant

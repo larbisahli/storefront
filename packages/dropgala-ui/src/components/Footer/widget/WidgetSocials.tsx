@@ -1,15 +1,39 @@
 import { ConfigType } from '@dropgala/types/config.type'
-import { mediaURL } from '@dropgala/utils/utils'
-import Image from '../../common/Image'
 import Link from '../../common/Link'
+import dynamic from 'next/dynamic'
+import IconPlaceholder from '@dropgala/assets/placeholders/icon'
+
+const FacebookIcon = dynamic(() => import('@dropgala/assets/icons/facebook'), {
+  loading: () => <IconPlaceholder />,
+  ssr: false
+})
+
+const YoutubeIcon = dynamic(() => import('@dropgala/assets/icons/youtube'), {
+  loading: () => <IconPlaceholder />,
+  ssr: false
+})
+
+const TwitterIcon = dynamic(() => import('@dropgala/assets/icons/twitter'), {
+  loading: () => <IconPlaceholder />,
+  ssr: false
+})
+
+const InstagramIcon = dynamic(
+  () => import('@dropgala/assets/icons/instagram'),
+  {
+    loading: () => <IconPlaceholder />,
+    ssr: false
+  }
+)
 
 interface Props {
   className?: string
-  social?: {
-    id: string | number
+  socials?: {
     icon: {
       value: string
+      label: string
     }
+    url: string
     name: string
     image: string
     width: number
@@ -18,53 +42,23 @@ interface Props {
   storeConfig: ConfigType
 }
 
-const WidgetSocials: React.FC<Props> = ({ social, className, storeConfig }) => {
-  const storeLogo = !!storeConfig?.logo?.length
-    ? `${mediaURL}/${storeConfig?.logo[0].image}`
-    : '/assets/images/default_logo.webp'
-
+const WidgetSocials: React.FC<Props> = ({ socials, className }) => {
   return (
-    <div className={`pb-10 sm:pb-0 ${className}`}>
-      {!!storeConfig?.socials?.length && (
+    <div className={className}>
+      {!!socials?.length && (
         <ul className="flex flex-wrap justify-center flex-col sm:justify-start space-s-4 md:space-s-5 mx-auto md:mx-0">
-          <div className="relative mb-6">
-            <div className="relative flex overflow-hidden">
-              <Link href="/">
-                <div className="relative">
-                  <Image
-                    isCustomUrl
-                    src={storeLogo}
-                    objectFit="cover"
-                    height={50}
-                    width={50}
-                    alt="logo"
-                  />
-                </div>
-              </Link>
-            </div>
-          </div>
-          <div className="flex flex-wrap justify-center sm:justify-start space-s-4 md:space-s-5 mx-auto md:mx-0">
-            {storeConfig?.socials?.map((item, idx) => {
-              const icon = social?.find(
-                (s) => s?.icon?.value === item?.icon?.value
-              )
+          <div className="flex flex-wrap gap-x-5 justify-center sm:justify-start space-s-4 md:space-s-5 mx-auto md:mx-0">
+            {socials?.map((item, idx) => {
               return (
                 <li
-                  className="transition hover:opacity-80 mr-6"
+                  className="transition hover:opacity-80"
                   key={`social-list--key-${idx}`}
                 >
-                  <Link href={item.url ? item.url : '/#'}>
-                    <div>
-                      <Image
-                        isCustomUrl
-                        placeholder="empty"
-                        src={icon?.image ?? '/'}
-                        alt={icon?.name ?? ''}
-                        height={icon?.height ?? 0}
-                        width={icon?.width ?? 0}
-                        className="transform scale-85 md:scale-100"
-                      />
-                    </div>
+                  <Link href={item?.url ?? '#'} target="_blank">
+                    {item?.icon?.value === 'FacebookIcon' && <FacebookIcon />}
+                    {item?.icon?.value === 'InstagramIcon' && <InstagramIcon />}
+                    {item?.icon?.value === 'TwitterIcon' && <TwitterIcon />}
+                    {item?.icon?.value === 'YouTubeIcon' && <YoutubeIcon />}
                   </Link>
                 </li>
               )

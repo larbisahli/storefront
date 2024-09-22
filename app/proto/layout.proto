@@ -4,12 +4,13 @@ package layout;
 
 message LayoutBlock {
     string componentId = 1;
-    string moduleName = 2;
-    string moduleGroup = 3;
-    uint32 position = 4;
-    bytes data = 5;
-    bytes styles = 6;
-    repeated LayoutBlock children = 7 [lazy = true];
+    string parentId = 2;
+    string moduleName = 3;
+    string moduleGroup = 4;
+    uint32 position = 5;
+    bytes data = 6;
+    bytes styles = 7;
+    repeated LayoutBlock children = 8 [lazy = true];
 }
 
 message Layout {

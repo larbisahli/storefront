@@ -2,46 +2,52 @@ import { ConfigType } from '@dropgala/types/config.type'
 import Heading from '../../ui/Heading'
 import Link from '../../common/Link'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
+import cn from 'clsx'
+import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
 interface Props {
   className?: string
+  listClassName?: string
+  listItemClassName?: string
+  disableGroupName?: boolean
   data: {
-    widgetTitle?: string
-    lists: {
-      id: string
-      path?: string
+    groupName?: string
+    pages: {
+      name: string
       title: string
-      icon?: any
     }[]
   }
   storeConfig: ConfigType
 }
 
-const WidgetLink: React.FC<Props> = ({ className, data, storeConfig }) => {
-  const { widgetTitle, lists } = data
+const WidgetLink: React.FC<Props> = ({
+  disableGroupName,
+  listItemClassName,
+  listClassName,
+  className,
+  data,
+  storeConfig
+}) => {
+  const { groupName, pages } = data
   const { __ } = useTranslation(storeConfig?.language, 'common')
   return (
-    <div className={`${className}`}>
-      <Heading variant="mediumHeading" className="mb-4 sm:mb-5 lg:mb-6 pb-0.5">
-        {__(`${widgetTitle}`)}
-      </Heading>
-      <ul className="text-sm lg:text-15px flex flex-col space-y-3">
-        {lists.map((list) => (
+    <div className={className}>
+      {!isEmpty(groupName) && !disableGroupName && (
+        <Heading variant="mediumHeading" className="mb-4 pb-0.5 font-semibold">
+          {__(`${groupName}`)}
+        </Heading>
+      )}
+      <ul className={cn('text-sm flex flex-col space-y-3', listClassName)}>
+        {pages.map((page, idx) => (
           <li
-            key={`widget-list--key${list.id}`}
-            className="flex items-baseline"
+            key={`widget-list--key-${idx}`}
+            className={cn('flex items-baseline', listItemClassName)}
           >
-            {list.icon && (
-              <span className="me-3 relative top-0.5 lg:top-1 text-sm lg:text-base">
-                {list.icon}
-              </span>
-            )}
-
             <Link
-              href={list.path ? list.path : '#!'}
+              href={page.name ? `/${page.name}` : '#!'}
               className="transition-colors duration-200 hover:text-skin-base"
             >
-              {__(`${list.title}`)}
+              {__(`${page.title}`)}
             </Link>
           </li>
         ))}

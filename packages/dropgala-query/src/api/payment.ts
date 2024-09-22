@@ -5,7 +5,7 @@ import paymentCacheStore from '@store/payment.store'
 
 export const fetchAvailablePayments = async (alias: string) => {
   let paymentsObject = { payments: [] } as { payments: Payment[] }
-  paymentsObject = await paymentCacheStore.getPayments(alias)
+  // paymentsObject = await paymentCacheStore.getPayments(alias)
   if (isEmpty(paymentsObject?.payments)) {
     const response = await fetch(`${apiURL}/resources/payments`, {
       method: 'POST',

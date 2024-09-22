@@ -5,7 +5,7 @@ import shippingCacheStore from '@store/shipping.store'
 
 export const fetchAvailableShippings = async (alias: string) => {
   let shippingsObject = { shippings: [] } as { shippings: Shipping[] }
-  shippingsObject = await shippingCacheStore.getShippings(alias)
+  // shippingsObject = await shippingCacheStore.getShippings(alias)
 
   if (isEmpty(shippingsObject?.shippings)) {
     const response = await fetch(`${apiURL}/resources/shippings`, {

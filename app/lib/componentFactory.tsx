@@ -22,16 +22,43 @@ const Header = {
   Header: dynamic(() => import('@dropgala/ui/components/Header'), {
     loading: () => <HeaderPlaceholder />,
     ssr: true
-  })
-  // HeaderComponent1
+  }),
+  HeaderElegant: dynamic(
+    () => import('@dropgala/ui/components/Header/HeaderElegant'),
+    {
+      loading: () => <HeaderPlaceholder />,
+      ssr: true
+    }
+  ),
+  HeaderSatoshi: dynamic(
+    () => import('@dropgala/ui/components/Header/HeaderSatoshi'),
+    {
+      loading: () => <HeaderPlaceholder />,
+      ssr: true
+    }
+  )
 }
 
 const Footer = {
   /* __DEFAULT__ */
-  Footer: dynamic(() => import('@dropgala/ui/components/Footer'), {
+  Footer: dynamic(() => import('@dropgala/ui/components/Footer/Footer'), {
     loading: () => <FooterPlaceholder />,
     ssr: true
-  })
+  }),
+  FooterLight: dynamic(
+    () => import('@dropgala/ui/components/Footer/FooterLight'),
+    {
+      loading: () => <FooterPlaceholder />,
+      ssr: true
+    }
+  ),
+  FooterSubscribe: dynamic(
+    () => import('@dropgala/ui/components/Footer/FooterSubscribe'),
+    {
+      loading: () => <FooterPlaceholder />,
+      ssr: true
+    }
+  )
 }
 
 const MenuDrawer = {

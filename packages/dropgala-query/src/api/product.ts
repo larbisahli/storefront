@@ -16,12 +16,12 @@ export const fetchStoreCategoryProducts = async ({
   languageId: number
 }) => {
   let productsObject = { products: [] } as { products: ProductType[] }
-  productsObject = await productsCacheStore.getProducts({
-    languageId,
-    slug,
-    alias,
-    page
-  })
+  // productsObject = await productsCacheStore.getProducts({
+  //   languageId,
+  //   slug,
+  //   alias,
+  //   page
+  // })
 
   if (isEmpty(productsObject?.products)) {
     const response = await fetch(`${apiURL}/resources/categoryProducts`, {

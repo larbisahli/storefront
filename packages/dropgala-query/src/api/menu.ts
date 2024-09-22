@@ -6,7 +6,7 @@ import menuCacheStore from '@store/menu.store'
 export const fetchStoreMenu = async (languageId: number, alias: string) => {
   let configObject = { menu: [] } as { menu: CategoryType[] }
 
-  configObject = await menuCacheStore.getMenu(languageId, alias)
+  // configObject = await menuCacheStore.getMenu(languageId, alias)
 
   if (isEmpty(configObject?.menu)) {
     const response = await fetch(`${apiURL}/resources/menu`, {

@@ -25,14 +25,6 @@ const Widgets: React.FC<WidgetsProps> = ({ storeConfig, widgets }) => {
           storeConfig={storeConfig}
           className="col-span-full sm:col-span-1 md:col-span-3 border-b sm:border-b-0 border-skin-three mb-4 sm:mb-0"
         />
-        {widgets?.map((widget) => (
-          <WidgetLink
-            key={`footer-widget--key${widget.id}`}
-            data={widget}
-            storeConfig={storeConfig}
-            className="pb-3.5 sm:pb-0 col-span-1 md:col-span-2"
-          />
-        ))}
         <WidgetSubscription className="col-span-full sm:col-span-1 md:col-start-4 xl:col-start-auto md:col-span-4 xl:col-span-3 2xl:ps-7 3xl:ps-16 pt-8 sm:pt-0 border-t sm:border-t-0 border-skin-three " />
       </div>
     </div>

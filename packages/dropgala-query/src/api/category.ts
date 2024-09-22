@@ -12,9 +12,9 @@ export const fetchStoreCategory = async ({
   languageId: number
   alias: string
 }) => {
-  let category: CategoryType
+  let category = {} as CategoryType
 
-  category = await categoryCacheStore.getCategory(slug, alias, languageId)
+  // category = await categoryCacheStore.getCategory(slug, alias, languageId)
 
   if (isEmpty(category)) {
     const response = await fetch(`${apiURL}/resources/category`, {

@@ -119,7 +119,7 @@ const AppLayout = ({ children, className }: Props) => {
       <MenuDrawer moduleName="MenuDrawer" />
       <main className={cn('relative flex-grow h-full w-full', className)}>
         <div className="flex flex-col flex-grow">
-          <div className="smt-[101px] desktop:smt-[150px] flex-auto">
+          <div className="flex-auto">
             <div className="mb-44">
               <CustomProfiler components={mainData} />
             </div>

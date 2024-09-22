@@ -78,6 +78,7 @@ export type StoreProps = {
   data: StoreLayoutComponentContentType
   styles: StoreLayoutComponentStylesType
   children: JSX.Element[]
+  parentId: string
 }
 
 export default store

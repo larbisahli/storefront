@@ -5,16 +5,8 @@ import { StoreProps } from '@dropgala/store'
 import dynamic from 'next/dynamic'
 import { Pagination } from 'swiper/modules'
 import BuilderPlaceholder from '../common/builderPlaceholder'
-import {
-  getComponentFromChildren,
-  getThumbnail,
-  resolvePath
-} from '@dropgala/utils/helpers'
-import {
-  ModuleGroup,
-  StoreLayoutComponentContentType,
-  StoreLayoutComponentStylesType
-} from '@dropgala/types'
+import { getComponentFromChildren } from '@dropgala/utils/helpers'
+import { ModuleGroup } from '@dropgala/types'
 import _JSXStyle from 'styled-jsx/style'
 import { handleTypographyStyle } from '@dropgala/utils/styles'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'

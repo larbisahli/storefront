@@ -46,6 +46,53 @@ export const footer = {
           path: '/return-policy'
         }
       ]
+    },
+    {
+      id: 3,
+      widgetTitle: 'New',
+      lists: [
+        {
+          id: 1,
+          title: 'Privacy',
+          path: '/privacy'
+        },
+        {
+          id: 2,
+          title: 'Terms',
+          path: '/terms-and-conditions'
+        },
+        {
+          id: 3,
+          title: 'Return Policy',
+          path: '/return-policy'
+        }
+      ]
+    },
+    {
+      id: 4,
+      widgetTitle: 'About',
+      lists: [
+        {
+          id: 1,
+          title: 'About us',
+          path: '/about-us'
+        },
+        {
+          id: 2,
+          title: 'Contact us',
+          path: '/contact-us'
+        },
+        {
+          id: 3,
+          title: 'FAQ',
+          path: '/faq'
+        },
+        {
+          id: 4,
+          title: 'Customer Support',
+          path: '/contact-us'
+        }
+      ]
     }
   ],
   payment: [
@@ -79,40 +126,6 @@ export const footer = {
       image: '/assets/images/payment/jcb.svg',
       name: 'payment-jcb',
       width: 26,
-      height: 20
-    }
-  ],
-  social: [
-    {
-      id: 1,
-      image: '/assets/images/social/facebook.svg',
-      name: 'facebook',
-      icon: { value: 'FacebookIcon' },
-      width: 20,
-      height: 20
-    },
-    {
-      id: 2,
-      image: '/assets/images/social/twitter.svg',
-      icon: { value: 'TwitterIcon' },
-      name: 'twitter',
-      width: 20,
-      height: 20
-    },
-    {
-      id: 3,
-      image: '/assets/images/social/instagram.svg',
-      name: 'instagram',
-      icon: { value: 'InstagramIcon' },
-      width: 20,
-      height: 20
-    },
-    {
-      id: 4,
-      image: '/assets/images/social/youtube.svg',
-      name: 'youtube',
-      icon: { value: 'YoutubeIcon' },
-      width: 20,
       height: 20
     }
   ]
