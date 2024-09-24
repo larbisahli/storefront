@@ -22,7 +22,7 @@ const ProductList: React.FC<Props> = ({
   ...props
 }) => {
   const { language } = useAppSelector(selectConfig)
-  const p = useAppSelector((state) =>
+  const products = useAppSelector((state) =>
     selectCollection(state, 'categoryProducts')
   )
   const { __ } = useTranslation(language, 'exception')
@@ -33,8 +33,6 @@ const ProductList: React.FC<Props> = ({
     'styles',
     {}
   )
-
-  const products = [...p, ...p, ...p, ...p, ...p, ...p, ...p, ...p]
 
   const renderContentNotFound = () => {
     const ContentNotFound = getComponentFromChildren(

@@ -35,15 +35,7 @@ const ProductListGridWidget: React.FC<Props> = ({
 
   const headerStyle = styles?.header
 
-  const collection = resolvePath<ProductType[]>(data, 'collection', [])
-  const products = [
-    ...collection,
-    ...collection,
-    ...collection,
-    ...collection,
-    ...collection,
-    ...collection
-  ]
+  const products = resolvePath<ProductType[]>(data, 'collection', [])
 
   const renderContentNotFound = () => {
     const ContentNotFound = getComponentFromChildren(

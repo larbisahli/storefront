@@ -76,21 +76,7 @@ const ProductListSlideWidget: React.FC<Props> = ({
   const { loop, langDirection, delaySpeed, animationSpeed, draggable } =
     data?.sliderConfiguration ?? {}
 
-  const p = resolvePath<ProductType[]>(data, 'collection', [])
-  const products = [
-    ...p,
-    ...p,
-    ...p,
-    ...p,
-    ...p,
-    ...p,
-    ...p,
-    ...p,
-    ...p,
-    ...p,
-    ...p,
-    ...p
-  ]
+  const products = resolvePath<ProductType[]>(data, 'collection', [])
 
   const renderContentNotFound = () => {
     const ContentNotFound = getComponentFromChildren(
