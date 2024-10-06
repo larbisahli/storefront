@@ -31,6 +31,7 @@ const FooterLight: React.FC<Props> = ({ useAppSelector, ...props }) => {
   return (
     <Fragment>
       <footer
+        id={props.componentId}
         className={cn(
           'relative group pt-4 border-1 border-t',
           footerClassName,

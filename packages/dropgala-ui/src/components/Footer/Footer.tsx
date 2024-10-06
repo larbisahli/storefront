@@ -49,6 +49,7 @@ const Footer: React.FC<Props> = ({ useAppSelector, ...props }) => {
           }
           `}</_JSXStyle>
       <footer
+        id={props.componentId}
         className={cn(
           'relative group mt-[50px] pt-14 border-1 border-t',
           footerClassName,

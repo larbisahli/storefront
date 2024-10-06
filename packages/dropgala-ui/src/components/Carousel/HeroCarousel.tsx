@@ -54,7 +54,7 @@ const HeroCarousel: React.FC<Props> = ({
     <section
       id={props.componentId}
       className={cn(
-        'relative group my-2 scroll-mt-160px',
+        'relative group scroll-mt-160px',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
@@ -99,7 +99,7 @@ const HeroCarousel: React.FC<Props> = ({
               key={idx}
               className={cn(
                 'relative w-full bg-no-repeat bg-cover bg-center z-0',
-                'min-h-[400px] desktop:min-h-[550px] mb-3'
+                'min-h-[400px] desktop:min-h-[550px]'
               )}
             >
               <div className={cn('-z-10', opacityClassName)}></div>

@@ -3,13 +3,26 @@ import TrashIcon from '@dropgala/assets/icons/trash'
 import AddIcon from '@dropgala/assets/icons/add'
 import DuplicateIcon from '@dropgala/assets/icons/copy'
 import { StoreBuilder, StoreBuilderActions } from '@dropgala/types'
-import { memo, useEffect, useState } from 'react'
+import React, {
+  memo,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react'
 import cn from 'clsx'
 import { builderURL } from '@dropgala/utils/utils'
 
 const PlaceholderBlock = (props: any) => {
+  const editRef = useRef<HTMLButtonElement>(null)
+  const [tooltipHeight, setTooltipHeight] = useState(0)
   const [adminSelectedBlock, SetAdminSelectedBlock] = useState({
     componentId: null
+  })
+
+  useEffect(() => {
+    const rect = editRef.current?.getBoundingClientRect()
+    setTooltipHeight(rect?.height ?? 0)
   })
 
   const isAdminSelectedBlock =
@@ -27,15 +40,13 @@ const PlaceholderBlock = (props: any) => {
             event.data?.actionType === StoreBuilderActions.SCROLL_TO_SECTION &&
             event.data?.sectionId
           ) {
-            setTimeout(() => {
-              const ele = document.getElementById(event.data?.sectionId)
-              ele &&
-                ele.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start',
-                  inline: 'nearest'
-                })
-            }, 250)
+            const ele = document.getElementById(event.data?.sectionId)
+            ele &&
+              ele.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest'
+              })
           }
         }
       },
@@ -61,6 +72,7 @@ const PlaceholderBlock = (props: any) => {
     return (
       <button
         title="Edit block"
+        ref={editRef}
         onClick={() => handlePostMessage(StoreBuilderActions.EDIT_ACTION)}
         className={cn(
           'z-[999] absolute left-0 hidden group-hover:block',

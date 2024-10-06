@@ -148,7 +148,7 @@ const CategoryListSlide: React.FC<StoreProps> = ({
   return (
     <section
       id={props.componentId}
-      className="relative group max-w-default mx-auto scroll-mt-160px"
+      className="relative group max-w-default mx-auto scroll-mt-160px px-2"
     >
       <BuilderPlaceholder
         {...props}
@@ -164,7 +164,7 @@ const CategoryListSlide: React.FC<StoreProps> = ({
           }
           `}</_JSXStyle>
       {header && (
-        <div className="px-2 mb-4 flex justify-between items-center w-full">
+        <div className="mb-4 flex justify-between items-center w-full">
           <h3 className={cn('flex-1 mobile:!text-lg', headerClassName)}>
             {header}
           </h3>

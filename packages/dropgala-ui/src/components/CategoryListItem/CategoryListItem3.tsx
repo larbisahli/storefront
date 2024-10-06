@@ -43,7 +43,9 @@ const CategoryListItem3: React.FC<Props> = ({
 
   return (
     <div
-      className={cn('mb-6 group/library group/category_card cursor-pointer')}
+      className={cn(
+        'mb-6 relative group/library group/category_card cursor-pointer'
+      )}
     >
       <LibraryPlaceholder {...props} isEdit />
       <Link
@@ -77,7 +79,7 @@ const CategoryListItem3: React.FC<Props> = ({
           {displayContent && (
             <>
               <figcaption>
-                <span className="uppercase tracking-wide line-clamp-1 font-semibold">
+                <span className="uppercase tracking-wide line-clamp-1 font-semibold mt-2">
                   {title}
                 </span>
               </figcaption>

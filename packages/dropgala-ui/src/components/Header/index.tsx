@@ -4,6 +4,7 @@ import React, {
   Fragment,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState
 } from 'react'
@@ -145,6 +146,7 @@ const Header: FC<Props> = ({
   return (
     <Fragment>
       <header
+        id={props.componentId}
         ref={ref}
         className={cn(
           'text-gray-700 body-font fixed w-full z-20 bg-white border-b border-gray-300'
@@ -164,20 +166,18 @@ const Header: FC<Props> = ({
           <div className="flex items-center bg-white h-60px relative px-2">
             <div className="flex relative justify-center overflow-hidden">
               <Link href="/">
-                <div className="relative">
-                  <Image
-                    isCustomUrl
-                    src={storeLogo}
-                    objectFit="cover"
-                    height={device?.isDesktop ? 45 : 30}
-                    width={device?.isDesktop ? 45 : 30}
-                    alt="logo"
-                  />
-                </div>
+                <Image
+                  isCustomUrl
+                  src={storeLogo}
+                  objectFit="contain"
+                  height={device?.isDesktop ? 45 : 30}
+                  width={device?.isDesktop ? 45 : 30}
+                  alt="logo"
+                />
               </Link>
             </div>
+            {/* Search field */}
             <div className="hidden desktop:block flex-1 max-w-[500px] m-auto">
-              {/* Search field */}
               <SearchSection />
             </div>
             {/* Icons account actions */}

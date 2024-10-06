@@ -146,6 +146,7 @@ const HeaderElegant: FC<Props> = ({
   return (
     <Fragment>
       <header
+        id={props.componentId}
         className={cn(
           'text-gray-700 body-font fixed w-full z-20 bg-white border-b border-gray-300'
         )}

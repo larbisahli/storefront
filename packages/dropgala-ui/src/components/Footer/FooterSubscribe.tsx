@@ -27,7 +27,10 @@ const FooterSubscribe: React.FC<Props> = ({ useAppSelector, ...props }) => {
 
   return (
     <Fragment>
-      <footer className="relative group mt-[50px] pt-14 border-1 border-t border-gray-300 bg-gray-50">
+      <footer
+        id={props.componentId}
+        className="relative group mt-[50px] pt-14 border-1 border-t border-gray-300 bg-gray-50"
+      >
         <BuilderPlaceholder {...props} isEdit />
         <div className="scroll-mt-160px max-w-default mx-auto px-4 pb-4">
           <div className="flex justify-between">

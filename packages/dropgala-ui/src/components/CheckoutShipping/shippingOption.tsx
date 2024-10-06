@@ -71,7 +71,8 @@ const ShippingOption = ({ useAppSelector, shipping }: Props) => {
               width={65}
               height={65}
               quality={90}
-              className="contain rounded"
+              className="rounded"
+              objectFit="cover"
             />
           </div>
         )}

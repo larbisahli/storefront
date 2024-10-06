@@ -253,7 +253,7 @@ const CartItem: React.FC<CartItemProps> = ({
           )}
         </div>
 
-        {!isEmpty(orderVariationOption) && (
+        {!!orderVariationOption?.title && (
           <div className="flex items-center text-13px text-gray-700 mb-1 flex-wrap">
             <div
               className={cn(

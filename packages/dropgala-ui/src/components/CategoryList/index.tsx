@@ -188,7 +188,7 @@ const CategoryListSlide: React.FC<StoreProps> = ({
           }
           `}</_JSXStyle>
       {header && (
-        <div className="px-2 mb-4 flex justify-between items-center w-full">
+        <div className="mb-4 flex justify-between items-center w-full">
           <h3 className={cn('flex-1 mobile:!text-lg', headerClassName)}>
             {header}
           </h3>

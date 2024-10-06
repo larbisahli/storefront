@@ -24,8 +24,10 @@ import dynamic from 'next/dynamic'
 import { getComponentFromChildren } from '@dropgala/utils/helpers'
 import { ModuleGroup } from '@dropgala/types'
 import BuilderPlaceholder from '../common/builderPlaceholder'
+import MenuIcon from '@dropgala/assets/icons/menu'
+import { usePathname } from 'next/navigation'
 
-const MyAccountActions = dynamic(() => import('./Header/AccountActions'), {
+const MyAccountActions = dynamic(() => import('./Header/AccountActions2'), {
   loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
   ssr: false
 })
@@ -36,17 +38,12 @@ const InfoSection = dynamic(() => import('./Header/InfoSection'), {
 })
 
 const MenuDropDownComponent = dynamic(
-  () => import('./Header/MenuDropDownComponent'),
+  () => import('./Header/MenuDropDownComponent2'),
   {
     loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
     ssr: false
   }
 )
-
-const MobileHeader = dynamic(() => import('./Header/MobileHeader'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
-  ssr: false
-})
 
 const SearchSection = dynamic(() => import('./Header/SearchSection'), {
   loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
@@ -65,6 +62,7 @@ const HeaderSatoshi: FC<Props> = ({
   children,
   ...props
 }) => {
+  const pathname = usePathname()
   const storeConfig = useAppSelector(selectConfig)
   const { device, isMobileHeaderTransition } = storeConfig
   const { menu } = useAppSelector(selectMenu)
@@ -76,11 +74,13 @@ const HeaderSatoshi: FC<Props> = ({
   const ref = useRef(null)
 
   useEffect(() => {
-    setTimeout(() => {
-      // @ts-ignore
-      setHeight(ref?.current?.clientHeight ?? 0)
-    }, 200)
-  }, [])
+    if (pathname !== '/') {
+      setTimeout(() => {
+        // @ts-ignore
+        setHeight((ref?.current?.clientHeight ?? 0) + 40)
+      }, 200)
+    }
+  }, [pathname])
 
   const handleCart = useCallback(() => {
     dispatch(toggleCart())
@@ -146,61 +146,58 @@ const HeaderSatoshi: FC<Props> = ({
   return (
     <Fragment>
       <header
-        className={cn(
-          'text-gray-700 body-font fixed w-full z-20 bg-white border-b border-gray-300'
-        )}
+        id={props.componentId}
+        ref={ref}
+        className={cn('text-gray-700 body-font fixed w-full z-20')}
       >
         {/* PromoBanner */}
-        {renderPromoBanner()}
+        {/* {renderPromoBanner()} */}
         {/* Navigation */}
-        <div className="max-w-default mx-auto relative group">
+        <div className="max-w-default mx-auto relative group rounded-lg">
           <BuilderPlaceholder {...props} isEdit isEditRemoveBottom />
-          {/* Info section */}
-          <InfoSection
-            storeConfig={storeConfig}
-            handleDefaultCurrency={handleDefaultCurrency}
-          />
           {/* Nav */}
-          <div className="flex items-center bg-white h-60px relative px-2">
-            <div className="flex relative justify-center overflow-hidden">
+          <div
+            className="flex items-center justify-between rounded-[12px] h-[50px] desktop:h-[70px] mx-4
+          desktop:mx-0 relative mt-4 px-6 bg-white __bg-opacity-90 __backdrop-blur-xl border shadow-card"
+          >
+            {/* Mobile Menu */}
+            <div className="desktop:hidden flex">
+              <button className="text-black" onClick={handleMenu}>
+                <MenuIcon width={28} height={28} />
+              </button>
+            </div>
+            <div className="flex flex-1 desktop:flex-none relative justify-center overflow-hidden h-[45px] w-[45px]">
               <Link href="/">
-                <div className="relative">
-                  <Image
-                    isCustomUrl
-                    src={storeLogo}
-                    objectFit="cover"
-                    height={device?.isDesktop ? 45 : 30}
-                    width={device?.isDesktop ? 45 : 30}
-                    alt="logo"
-                  />
-                </div>
+                <Image
+                  isCustomUrl
+                  src={storeLogo}
+                  layout="fill"
+                  objectFit="contain"
+                  alt="logo"
+                />
               </Link>
             </div>
-            <div className="hidden desktop:block flex-1 max-w-[500px] m-auto">
-              {/* Search field */}
-              <SearchSection />
+            {/* Menu Section */}
+            <div className="hidden flex-1 desktop:flex items-center justify-center">
+              {menu?.map(({ id, name, urlKey }) => {
+                return (
+                  <Link
+                    key={id}
+                    href={{
+                      pathname: '/category/[slug]',
+                      query: { slug: urlKey }
+                    }}
+                    onMouseEnter={() => handleFirstLevelCategoryEnter(id)}
+                    onMouseLeave={handleFirstLevelCategoryLeave}
+                    className="text-black uppercase font-semibold text-sm hover:text-red-600 p-4 pb-3 pl-0"
+                  >
+                    {name}
+                  </Link>
+                )
+              })}
             </div>
             {/* Icons account actions */}
             <MyAccountActions handleCart={handleCart} itemsCount={itemsCount} />
-          </div>
-          {/* Menu Section */}
-          <div className="hidden desktop:flex items-center justify-center">
-            {menu?.map(({ id, name, urlKey }) => {
-              return (
-                <Link
-                  key={id}
-                  href={{
-                    pathname: '/category/[slug]',
-                    query: { slug: urlKey }
-                  }}
-                  onMouseEnter={() => handleFirstLevelCategoryEnter(id)}
-                  onMouseLeave={handleFirstLevelCategoryLeave}
-                  className="text-black uppercase font-semibold text-sm hover:text-red-600 p-4 pb-3 pl-0"
-                >
-                  {name}
-                </Link>
-              )
-            })}
           </div>
           {/* MENU DROPDOWN */}
           <MenuDropDownComponent
@@ -209,12 +206,6 @@ const HeaderSatoshi: FC<Props> = ({
           />
         </div>
       </header>
-      <MobileHeader
-        handleCart={handleCart}
-        handleMenu={handleMenu}
-        itemsCount={itemsCount}
-        isMobileHeaderTransition={isMobileHeaderTransition}
-      />
       <div style={{ height: `${height}px` }} className="-z-10"></div>
     </Fragment>
   )

@@ -54,7 +54,7 @@ const MobileHeader = ({
   return (
     <nav
       className={cn(
-        'fixed w-full right-0 left-0 bottom-0 z-40 hidden tablet:flex',
+        'fixed w-full right-0 left-0 bottom-0 z-40 hidden tablet:flex mobile:flex',
         'items-center bg-gray-300 py-3 px-5 justify-between transition-transform',
         {
           'translate-y-full': show && isMobileHeaderTransition,
