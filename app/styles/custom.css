@@ -14,6 +14,7 @@
   cursor: progress;
   background: #f6f6f6;
   width: 100%;
+  height: fit-content;
   background: linear-gradient(0.25turn, transparent, #cfcfcf, transparent),
     linear-gradient(#e8e8e8, #e8e8e8),
     radial-gradient(10px circle at 19px 19px, #eee 50%, transparent 51%),
@@ -22,6 +23,8 @@
   background-size: 50%;
   background-position: -100%;
   background-color: #e8e8e8;
+  pointer-events: none;
+  z-index: 999;
 }
 
 /* Cart */

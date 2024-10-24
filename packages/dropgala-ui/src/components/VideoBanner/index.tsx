@@ -1,18 +1,20 @@
 import React from 'react'
 import { StoreProps } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import dynamic from 'next/dynamic'
 import _JSXStyle from 'styled-jsx/style'
 import {
   Alignment,
+  BuilderAttributes,
   ModuleGroup,
   SectionSize,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
 import cn from 'clsx'
-import { getComponentFromChildren, resolvePath } from '@dropgala/utils/helpers'
+import { resolvePath } from '@dropgala/utils/helpers'
 import { handleOverlayStyle } from '@dropgala/utils/styles'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const YouTubeVideo = dynamic(() => import('./YoutubeVideo'), {
   loading: () => <></>,
@@ -47,32 +49,26 @@ const VideoBanner: React.FC<Props> = ({
   const videoBannerClass = `video-banner-${props.componentId}`
   const opacityClassName = `video-banner-opacity-${props.componentId}`
 
-  const renderBannerWidget = () => {
-    const BannerWidget = getComponentFromChildren(
-      children,
-      ModuleGroup.BANNER_WIDGET
-    )
-    if (!BannerWidget) return null
-    return React.cloneElement(BannerWidget, { data, styles })
-  }
-
+  const renderBannerWidget = useGetComponentFromChildren(
+    children,
+    ModuleGroup.BANNER_WIDGET
+  )
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group scroll-mt-160px',
+        ' ',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={data.contentId}>{`
           .${videoBannerClass} {
             position: relative;
@@ -112,7 +108,8 @@ const VideoBanner: React.FC<Props> = ({
             data?.contentAlignment === Alignment.RIGHT && '!justify-start'
           )}
         >
-          {data?.displayContent && renderBannerWidget()}
+          {data?.displayContent &&
+            React.cloneElement(renderBannerWidget, { data, styles })}
         </div>
       </figure>
     </section>

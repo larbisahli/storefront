@@ -1,22 +1,20 @@
 import React from 'react'
 import { StoreProps, selectConfig } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import dynamic from 'next/dynamic'
-import useWindowSize from '@hooks/useWindowSize'
+import useWindowSize from '../../hooks/useWindowSize'
 import cn from 'clsx'
 import {
   Alignment,
+  BuilderAttributes,
   ModuleGroup,
   SectionSize,
   StoreLayoutComponentContentType
 } from '@dropgala/types'
-import {
-  getComponentFromChildren,
-  getThumbnail,
-  resolvePath
-} from '@dropgala/utils/helpers'
+import { getThumbnail, resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
 import { handleOverlayStyle } from '@dropgala/utils/styles'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -40,35 +38,29 @@ const ImageBannerContentCenter: React.FC<Props> = ({
 
   const { image, placeholder } = getThumbnail(data?.thumbnail)
 
-  const renderBannerWidget = () => {
-    const BannerWidget = getComponentFromChildren(
-      children,
-      ModuleGroup.BANNER_WIDGET
-    )
-    if (!BannerWidget) return null
-    return React.cloneElement(BannerWidget, { data: props?.data, styles })
-  }
+  const renderBannerWidget = useGetComponentFromChildren(
+    children,
+    ModuleGroup.BANNER_WIDGET
+  )
 
   const imageBorderClassName = `image-${props.componentId}`
   const opacityClassName = `video-banner-opacity-${props.componentId}`
-
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group scroll-mt-160px',
+        ' ',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={data.contentId}>{`
           .${imageBorderClassName} {
             border-radius: ${styles.imageBorder?.borderRadius}px;
@@ -108,7 +100,10 @@ const ImageBannerContentCenter: React.FC<Props> = ({
             data?.contentAlignment === Alignment.RIGHT && '!justify-end'
           )}
         >
-          {renderBannerWidget()}
+          {React.cloneElement(renderBannerWidget, {
+            data: props?.data,
+            styles
+          })}
         </div>
       </figure>
     </section>

@@ -1,7 +1,7 @@
 import { ConfigType } from '@dropgala/types/config.type'
 import Link from '../../common/Link'
 import dynamic from 'next/dynamic'
-import IconPlaceholder from '@dropgala/assets/placeholders/icon'
+import IconPlaceholder from '../../../placeholders/icon'
 
 const FacebookIcon = dynamic(() => import('@dropgala/assets/icons/facebook'), {
   loading: () => <IconPlaceholder />,

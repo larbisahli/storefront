@@ -1,13 +1,14 @@
 import React from 'react'
 import { StoreProps } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
 import { resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
 import {
+  BuilderAttributes,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -18,19 +19,15 @@ const Spacer: React.FC<Props> = ({ ...props }) => {
     {}
   )
   const spacerClassName = `spacer-${props.componentId}`
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
-    <section
-      id={props.componentId}
-      className={cn('relative group max-w-full scroll-mt-160px')}
-    >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
+    <section {...builderAttributes} className="max-w-full  ">
       <_JSXStyle id={props.componentId}>{`
           .${spacerClassName} {
             height: ${spaceHeight}px;

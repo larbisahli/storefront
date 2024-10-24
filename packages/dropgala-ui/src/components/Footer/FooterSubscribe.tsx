@@ -1,7 +1,6 @@
 import { Fragment } from 'react'
 
 import { StoreProps, selectConfig } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import WidgetLink from './widget/WidgetLink'
 import Link from 'next/link'
@@ -9,8 +8,12 @@ import { mediaURL } from '@dropgala/utils/utils'
 import Image from '../common/Image'
 import WidgetSocials from './widget/WidgetSocials'
 import cn from 'clsx'
-import { StoreLayoutComponentContentType } from '@dropgala/types'
+import {
+  BuilderAttributes,
+  StoreLayoutComponentContentType
+} from '@dropgala/types'
 import { resolvePath } from '@dropgala/utils/helpers'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -25,14 +28,17 @@ const FooterSubscribe: React.FC<Props> = ({ useAppSelector, ...props }) => {
     ? `${mediaURL}/${storeConfig?.logo[0].image}`
     : '/assets/images/default_logo.webp'
 
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.EDIT
+  ])
   return (
     <Fragment>
       <footer
-        id={props.componentId}
-        className="relative group mt-[50px] pt-14 border-1 border-t border-gray-300 bg-gray-50"
+        {...builderAttributes}
+        className="mt-[50px] pt-14 border-1 border-t border-gray-300 bg-gray-50"
       >
-        <BuilderPlaceholder {...props} isEdit />
-        <div className="scroll-mt-160px max-w-default mx-auto px-4 pb-4">
+        <div className="  max-w-default mx-auto px-4 pb-4">
           <div className="flex justify-between">
             <div className="flex-3 mx-5 hidden desktop:block tablet:block laptop:block">
               <Link href="/">
@@ -70,7 +76,7 @@ const FooterSubscribe: React.FC<Props> = ({ useAppSelector, ...props }) => {
             </div>
           </div>
         </div>
-        <div className="scroll-mt-160px max-w-default mx-auto flex justify-end items-center">
+        <div className="  max-w-default mx-auto flex justify-end items-center">
           <WidgetSocials
             socials={data?.socials}
             storeConfig={storeConfig}

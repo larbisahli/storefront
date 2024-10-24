@@ -1,25 +1,5 @@
 import { ImageType } from '@dropgala/types/common.type'
 import { isArray, isEmpty } from 'lodash'
-import React from 'react'
-
-/**
- * Desc: return component
- * @param {JSX.Element[]} JSX.Element[] in which find the component
- * @param {string} string component name
- * */
-export const getComponentFromChildren = (
-  ChildComponents: JSX.Element[],
-  moduleGroup: string
-) => {
-  if (isEmpty(ChildComponents)) {
-    return null
-  }
-  return ChildComponents?.find(
-    (component) =>
-      React.isValidElement(component) &&
-      (component?.props as { moduleGroup: string })?.moduleGroup === moduleGroup
-  )
-}
 
 /**
  * Desc: get value from object/array if path/key exists

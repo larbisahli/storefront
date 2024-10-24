@@ -74,6 +74,9 @@ importers:
       graphql:
         specifier: ^16.9.0
         version: 16.9.0
+      mongoose:
+        specifier: ^8.5.1
+        version: 8.5.1
       next:
         specifier: ^13.5
         version: 13.5.6(@babel/core@7.24.9)(react-dom@18.3.1)(react@18.3.1)
@@ -3711,7 +3714,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.55.0
       '@typescript-eslint/visitor-keys': 5.55.0
-      debug: 4.3.4
+      debug: 4.3.6
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.3.8

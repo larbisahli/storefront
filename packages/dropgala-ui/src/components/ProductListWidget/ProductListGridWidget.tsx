@@ -3,8 +3,9 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import { getComponentFromChildren, resolvePath } from '@dropgala/utils/helpers'
+import { resolvePath } from '@dropgala/utils/helpers'
 import {
+  BuilderAttributes,
   ModuleGroup,
   SectionSize,
   StoreLayoutComponentContentType,
@@ -12,9 +13,10 @@ import {
 } from '@dropgala/types'
 import Link from 'next/link'
 import cn from 'clsx'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import _JSXStyle from 'styled-jsx/style'
 import { handleTypographyStyle } from '@dropgala/utils/styles'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -37,52 +39,33 @@ const ProductListGridWidget: React.FC<Props> = ({
 
   const products = resolvePath<ProductType[]>(data, 'collection', [])
 
-  const renderContentNotFound = () => {
-    const ContentNotFound = getComponentFromChildren(
-      children,
-      ModuleGroup.CONTENT_NOT_FOUND
-    )
-    if (!ContentNotFound) return null
-    return ContentNotFound
-  }
-
-  const renderProductCard = (product: ProductType) => {
-    const ProductCard = getComponentFromChildren(
-      children,
-      ModuleGroup.PRODUCT_CARD
-    )
-    if (!ProductCard) return null
-    return React.cloneElement(ProductCard, { product })
-  }
-
-  const renderButton = () => {
-    const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
-    if (!Button) return null
-    return React.cloneElement(Button, {
-      label: data?.buttonLabel,
-      size: 'small'
-    })
-  }
+  const renderContentNotFound = useGetComponentFromChildren(
+    children,
+    ModuleGroup.CONTENT_NOT_FOUND
+  )
+  const renderProductCard = useGetComponentFromChildren(
+    children,
+    ModuleGroup.PRODUCT_CARD
+  )
+  const renderButton = useGetComponentFromChildren(children, ModuleGroup.BUTTON)
 
   const headerClassName = `header-${props.componentId}`
-
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group px-1 scroll-mt-160px',
+        'px-1  ',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={props.componentId}>{`
           .${headerClassName} {
             ${handleTypographyStyle(headerStyle)}
@@ -93,23 +76,24 @@ const ProductListGridWidget: React.FC<Props> = ({
           className="w-full flex flex-col items-center
        pt-10px md:pt-40px lg:pt-20px pb-40px"
         >
-          {renderContentNotFound()}
+          {renderContentNotFound}
         </div>
       )}
       {!isEmpty(products) && (
         <>
           <div className="flex justify-between items-center">
             <h3 className={headerClassName}>{data?.header}</h3>
-            {data?.category?.urlKey && (
-              <Link
-                href={{
-                  pathname: '/category/[slug]',
-                  query: { slug: data?.category?.urlKey }
-                }}
-              >
-                {renderButton()}
-              </Link>
-            )}
+            {data?.category?.urlKey &&
+              React.cloneElement(renderButton, {
+                label: data?.buttonLabel,
+                size: 'small',
+                link: {
+                  href: {
+                    pathname: '/category/[slug]',
+                    query: { slug: data?.category?.urlKey }
+                  }
+                }
+              })}
           </div>
           <div
             className={cn(
@@ -123,7 +107,11 @@ const ProductListGridWidget: React.FC<Props> = ({
               data?.productsPerView === 3 && 'desktop:grid-cols-3'
             )}
           >
-            {products?.map((item: ProductType) => renderProductCard(item))}
+            {products?.map((item: ProductType) => (
+              <React.Fragment key={item.id}>
+                {React.cloneElement(renderProductCard, { product: item })}
+              </React.Fragment>
+            ))}
           </div>
         </>
       )}

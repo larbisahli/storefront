@@ -1,24 +1,21 @@
 import React from 'react'
 import { StoreProps } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
+import { BuilderAttributes } from '@dropgala/types'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
 const Subscription: React.FC<Props> = ({ useAppSelector, ...props }) => {
   console.log({ props })
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
-    <section
-      id={props.componentId}
-      className="relative group mt-1 py-3 bg-red-300 scroll-mt-160px"
-    >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
+    <section {...builderAttributes} className="mt-1 py-3 bg-red-300  ">
       Subscription
     </section>
   )

@@ -42,7 +42,17 @@ export enum ModuleGroup {
   DIVIDER = 'Divider',
   BUTTON = 'Button',
   EDITORIAL_TEXT = 'EditorialText',
-  BANNER_WIDGET = 'BannerWidget'
+  BANNER_WIDGET = 'BannerWidget',
+  LOGO = 'Logo',
+  SEARCH = 'Search',
+  HEADER_CTA_CONTAINER = 'HeaderCtaContainer',
+  HEADER_CTA_ITEM_CART = 'HeaderCtaItemCart',
+  HEADER_CTA_ITEM_LIKE = 'HeaderCtaItemLike',
+  HEADER_CTA_ITEM_USER = 'HeaderCtaItemUser',
+  HEADER_SELECTION_CONTAINER = 'HeaderSelectionContainer',
+  HEADER_SELECTION_ITEM_CURRENCY = 'HeaderSelectionItemCurrency',
+  HEADER_SELECTION_ITEM_LANGUAGE = 'HeaderSelectionItemLanguage',
+  HEADER_SELECTION_ITEM_STORE_INFO = 'HeaderSelectionItemStoreInfo'
 }
 
 export enum BreadcrumbComponents {
@@ -196,4 +206,16 @@ export enum UnitTypes {
 
 export interface Unit {
   unit?: string
+}
+
+export enum BuilderAttributes {
+  COMPONENT_ID = 'data-c-id',
+  COMPONENT_NAME = 'data-c-name',
+  COMPONENT_GROUP = 'data-c-group',
+  ADD_LIBRARY = 'data-add-library',
+  ADD_AFTER = 'data-add-after',
+  ADD_BEFORE = 'data-add-before',
+  EDIT = 'data-edit',
+  DUPLICATE = 'data-duplicate',
+  DELETE = 'data-remove'
 }

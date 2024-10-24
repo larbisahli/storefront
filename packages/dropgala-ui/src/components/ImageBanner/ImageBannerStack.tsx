@@ -1,25 +1,23 @@
 import React from 'react'
 import { StoreProps, selectConfig } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import dynamic from 'next/dynamic'
 import cn from 'clsx'
 import {
+  BuilderAttributes,
   ModuleGroup,
   SectionSize,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
-import {
-  getComponentFromChildren,
-  getThumbnail,
-  resolvePath
-} from '@dropgala/utils/helpers'
+import { getThumbnail, resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
 import {
   handleBorderStyle,
   handleTypographyStyle
 } from '@dropgala/utils/styles'
 import Link from 'next/link'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const NextImage = dynamic(() => import('../common/Image'), {
   loading: () => <></>,
@@ -58,29 +56,23 @@ const ImageBannerStack: React.FC<Props> = ({
   const imageBorderWrapperClassName = `image-wrapper-${props.componentId}`
   const imageBorderClassName = `image-${props.componentId}`
 
-  const renderButton = () => {
-    const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
-    if (!Button) return null
-    return React.cloneElement(Button, { label: buttonLabel })
-  }
-
+  const renderButton = useGetComponentFromChildren(children, ModuleGroup.BUTTON)
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group scroll-mt-160px',
+        ' ',
         sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={props.componentId}>{`
           .${headerClassName} {
             ${handleTypographyStyle(headerStyle)}
@@ -114,7 +106,11 @@ const ImageBannerStack: React.FC<Props> = ({
               {description}
             </p>
             <div className={cn('flex justify-center')}>
-              {buttonLabel && <Link href={buttonLink}>{renderButton()}</Link>}
+              {buttonLabel &&
+                React.cloneElement(renderButton, {
+                  label: buttonLabel,
+                  link: { href: buttonLink ?? '/' }
+                })}
             </div>
           </div>
           <div className={cn('w-full mt-8 flex justify-center')}>

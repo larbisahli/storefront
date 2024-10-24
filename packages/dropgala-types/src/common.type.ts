@@ -15,7 +15,8 @@ export interface DOMEvent<T extends EventTarget> extends Event {
 
 export enum CookieNames {
   CUSTOMER_SESSION_NAME = '_cuid',
-  XSRF_TOKEN = 'xsrf-token'
+  XSRF_TOKEN = 'xsrf-token',
+  GALA_MTM_PASS = 'gala-mtm-pass'
 }
 
 export enum StoreLayoutNames {

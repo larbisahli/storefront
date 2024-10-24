@@ -6,16 +6,22 @@ import Link from '../common/Link'
 import { selectBreadcrumbs } from '@dropgala/store/Breadcrumbs'
 import { StoreProps } from '@dropgala/store'
 import { cloneDeep } from '@dropgala/utils/lodashFunctions'
-import LibraryPlaceholder from '../common/libraryPlaceholder'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
+import { BuilderAttributes } from '@dropgala/types'
 
 interface Props extends StoreProps {}
 
 const Breadcrumb: React.FC<Props> = ({ useAppSelector, ...props }) => {
   const state = useAppSelector(selectBreadcrumbs)
   const breadcrumbs = cloneDeep(state.breadcrumbs)
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_LIBRARY
+  ])
   return (
-    <section className="relative group/library max-w-default mx-auto mt-2 py-3 items-center text-xs text-gray-700 mb-4 hidden desktop:flex">
-      <LibraryPlaceholder {...props} isEdit />
+    <section
+      {...builderAttributes}
+      className="max-w-default mx-auto mt-2 py-3 items-center text-xs text-gray-700 mb-4 hidden desktop:flex"
+    >
       <ol
         className="flex justify-center items-center"
         itemScope

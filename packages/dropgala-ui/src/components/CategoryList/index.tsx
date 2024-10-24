@@ -3,13 +3,9 @@ import React, { memo } from 'react'
 
 import { StoreProps } from '@dropgala/store'
 import dynamic from 'next/dynamic'
-import BuilderPlaceholder from '../common/builderPlaceholder'
+import { resolvePath } from '@dropgala/utils/helpers'
 import {
-  getComponentFromChildren,
-  getThumbnail,
-  resolvePath
-} from '@dropgala/utils/helpers'
-import {
+  BuilderAttributes,
   ModuleGroup,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
@@ -17,6 +13,8 @@ import {
 import { handleTypographyStyle } from '@dropgala/utils/styles'
 import _JSXStyle from 'styled-jsx/style'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const Image = dynamic(() => import('../common/Image'), {
   loading: () => <></>,
@@ -53,40 +51,19 @@ const CategoryListSlide: React.FC<StoreProps> = ({
   const gridCol5ClassName = `grid-5-${props.componentId}`
   const gridCol6ClassName = `grid-6-${props.componentId}`
 
-  const renderButton = () => {
-    const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
-    if (!Button) return null
-    return React.cloneElement(Button, {
-      label: buttonLabel,
-      size: 'small'
-    })
-  }
-
-  const renderContentNotFound = () => {
-    const ContentNotFound = getComponentFromChildren(
-      children,
-      ModuleGroup.CONTENT_NOT_FOUND
-    )
-    if (!ContentNotFound) return null
-    return ContentNotFound
-  }
-
-  const renderCategoryListItem = (item: any, key: number) => {
-    const CategoryListItem = getComponentFromChildren(
-      children,
-      ModuleGroup.CATEGORY_LIST_ITEM
-    )
-    if (!CategoryListItem) return null
-    return React.cloneElement(CategoryListItem, {
-      key,
-      itemsPerColumn: Number(categoriesPerView),
-      ...item
-    })
-  }
+  const renderButton = useGetComponentFromChildren(children, ModuleGroup.BUTTON)
+  const renderContentNotFound = useGetComponentFromChildren(
+    children,
+    ModuleGroup.CONTENT_NOT_FOUND
+  )
+  const renderCategoryListItem = useGetComponentFromChildren(
+    children,
+    ModuleGroup.CATEGORY_LIST_ITEM
+  )
 
   const renderCollectionList = () => {
     if (isEmpty(collection)) {
-      return <div>{renderContentNotFound()}</div>
+      return <div>{renderContentNotFound}</div>
     }
     return (
       <div
@@ -99,29 +76,37 @@ const CategoryListSlide: React.FC<StoreProps> = ({
         )}
       >
         {collection?.map((item: any, idx: number) => {
-          return renderCategoryListItem(item, idx)
+          return (
+            <React.Fragment key={item.id ?? idx}>
+              {React.cloneElement(renderCategoryListItem, {
+                key: item.id ?? idx,
+                itemsPerColumn: Number(categoriesPerView),
+                ...item
+              })}
+            </React.Fragment>
+          )
         })}
       </div>
     )
   }
 
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
+
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group my-2 scroll-mt-160px',
+        'my-2  ',
         'max-w-default mx-auto',
         'flex justify-center items-center flex-col px-2'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={contentId}>{`
           .${headerClassName} {
             ${handleTypographyStyle(headerStyle)}
@@ -192,9 +177,13 @@ const CategoryListSlide: React.FC<StoreProps> = ({
           <h3 className={cn('flex-1 mobile:!text-lg', headerClassName)}>
             {header}
           </h3>
-          {category?.urlKey && buttonLabel && (
-            <Link href={`category/${category?.urlKey}`}>{renderButton()}</Link>
-          )}
+          {category?.urlKey &&
+            buttonLabel &&
+            React.cloneElement(renderButton, {
+              label: buttonLabel,
+              size: 'small',
+              link: { href: `category/${category?.urlKey}` }
+            })}
         </div>
       )}
       <div className="w-full">{renderCollectionList()}</div>

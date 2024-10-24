@@ -1,16 +1,18 @@
 import React from 'react'
 import { StoreProps } from '@dropgala/store'
 import cn from 'clsx'
-import { getComponentFromChildren, resolvePath } from '@dropgala/utils/helpers'
+import { resolvePath } from '@dropgala/utils/helpers'
 import Link from 'next/link'
 import {
+  BuilderAttributes,
   ModuleGroup,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
-import LibraryPlaceholder from '../common/libraryPlaceholder'
 import { handleTypographyStyle } from '@dropgala/utils/styles'
 import _JSXStyle from 'styled-jsx/style'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -27,20 +29,18 @@ const BannerWidgetNoBgCenter: React.FC<Props> = ({
     {}
   )
 
-  const renderButton = () => {
-    const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
-    if (!Button) return null
-    return React.cloneElement(Button, { label: buttonLabel })
-  }
+  const renderButton = useGetComponentFromChildren(children, ModuleGroup.BUTTON)
 
   const headerClassName = `header-${props.componentId}`
   const descriptionClassName = `description-${props.componentId}`
-
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_LIBRARY
+  ])
   return (
     <figcaption
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group/library scroll-mt-320px',
+        'scroll-mt-320px',
         'flex flex-col justify-center items-center p-5 rounded-md max-w-[600px]'
       )}
     >
@@ -52,13 +52,16 @@ const BannerWidgetNoBgCenter: React.FC<Props> = ({
             ${handleTypographyStyle(styles.description)}
           }
       `}</_JSXStyle>
-      <LibraryPlaceholder {...props} isEdit />
       <div className="flex flex-col justify-center items-center">
         <h2 className={cn('mb-5', headerClassName)}>{header}</h2>
         <p className={cn('text-center mb-8', descriptionClassName)}>
           {description}
         </p>
-        {buttonLabel && <Link href={buttonLink ?? '/'}>{renderButton()}</Link>}
+        {buttonLabel &&
+          React.cloneElement(renderButton, {
+            label: buttonLabel,
+            link: { href: buttonLink ?? '/' }
+          })}
       </div>
     </figcaption>
   )

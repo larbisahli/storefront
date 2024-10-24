@@ -1,7 +1,6 @@
 import { Fragment } from 'react'
 
 import { StoreProps, selectConfig } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import WidgetLink from './widget/WidgetLink'
 import Link from 'next/link'
@@ -10,11 +9,13 @@ import Image from '../common/Image'
 import WidgetSocials from './widget/WidgetSocials'
 import cn from 'clsx'
 import {
+  BuilderAttributes,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
 import { resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -36,7 +37,10 @@ const Footer: React.FC<Props> = ({ useAppSelector, ...props }) => {
 
   const footerClassName = `footer-${props.componentId}`
   const footerBorderClassName = `footer-border-${props.componentId}`
-
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <Fragment>
       <_JSXStyle id={data.contentId}>{`
@@ -49,15 +53,14 @@ const Footer: React.FC<Props> = ({ useAppSelector, ...props }) => {
           }
           `}</_JSXStyle>
       <footer
-        id={props.componentId}
+        {...builderAttributes}
         className={cn(
-          'relative group mt-[50px] pt-14 border-1 border-t',
+          'mt-[50px] pt-14 border-1 border-t',
           footerClassName,
           footerBorderClassName
         )}
       >
-        <BuilderPlaceholder {...props} isEdit />
-        <div className="scroll-mt-160px max-w-default mx-auto px-4 pb-4">
+        <div className="max-w-default mx-auto px-4 pb-4">
           <div className="flex justify-between">
             <div className="flex-3 mx-5 hidden desktop:block tablet:block laptop:block">
               <Link href="/">
@@ -95,7 +98,7 @@ const Footer: React.FC<Props> = ({ useAppSelector, ...props }) => {
             </div>
           </div>
         </div>
-        <div className="scroll-mt-160px max-w-default mx-auto px-4 flex justify-end items-center">
+        <div className="  max-w-default mx-auto px-4 flex justify-end items-center">
           <WidgetSocials
             socials={data?.socials}
             storeConfig={storeConfig}

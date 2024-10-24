@@ -1,9 +1,9 @@
 import React from 'react'
 import { StoreProps } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import {
+  BuilderAttributes,
   SectionSize,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
@@ -12,6 +12,7 @@ import { getThumbnail, resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
 import { handleBorderStyle, handleOverlayStyle } from '@dropgala/utils/styles'
 import Link from 'next/link'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const NextImage = dynamic(() => import('../common/Image'), {
   loading: () => <></>,
@@ -33,6 +34,14 @@ const Image: React.FC<Props> = ({ useAppSelector, ...props }) => {
   const opacityClassName = `image-banner-opacity-${props.componentId}`
   const imageBannerClassName = `image-banner-${props.componentId}`
 
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
+
   const renderImage = () => {
     return (
       <div className={imageBannerClassName}>
@@ -51,22 +60,14 @@ const Image: React.FC<Props> = ({ useAppSelector, ...props }) => {
 
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group mb-8 scroll-mt-160px',
+        'mb-8  ',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full',
         'flex justify-center items-center flex-col px-2'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={contentId}>{`
           .${opacityClassName} {
             margin-bottom: 6px;

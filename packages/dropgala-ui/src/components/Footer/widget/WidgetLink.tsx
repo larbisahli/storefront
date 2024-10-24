@@ -44,7 +44,7 @@ const WidgetLink: React.FC<Props> = ({
             className={cn('flex items-baseline', listItemClassName)}
           >
             <Link
-              href={page.name ? `/${page.name}` : '#!'}
+              href={page.name ? `/pages/${page.name}` : '#!'}
               className="transition-colors duration-200 hover:text-skin-base"
             >
               {__(`${page.title}`)}

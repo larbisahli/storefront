@@ -15,6 +15,7 @@ import {
   handleThemeSettingsDefaults,
   handleThemeSettingsVariables
 } from '@dropgala/utils/styles'
+import MaintenanceBanner from '@components/common/Maintenance_Banner'
 
 interface Props {
   children: React.ReactNode
@@ -90,8 +91,10 @@ const AppLayout = ({ children, className }: Props) => {
   const settings = resolvePath<ThemeSettingsType>(layout, 'settings', {})
   console.log('___CONFIG__ >>>', { config: rest })
   console.log('__APP_LAYOUT__ >>>', { layout })
+
   return (
     <div className="relative">
+      <MaintenanceBanner></MaintenanceBanner>
       {/* <style jsx global>{`
         :root {
           --font-lato: ${lato.style.fontFamily};

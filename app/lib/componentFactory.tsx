@@ -5,35 +5,32 @@ import { ModuleGroup } from '@dropgala/types/enums.type'
 import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
 import { useAppDispatch, useAppSelector } from '@hooks/useStore'
-import {
-  BreadcrumbPlaceholder,
-  CartDrawerPlaceholder,
-  FooterPlaceholder,
-  HeaderPlaceholder,
-  HeroBannerPlaceholder,
-  MenuDrawerPlaceholder,
-  ProductCardPlaceholder
-} from '@dropgala/assets/placeholders'
+import { BlockPlaceholder } from '@dropgala/ui/placeholders'
 import { bytesToSize } from 'utils'
-import { isEmpty } from '@dropgala/utils/lodashFunctions'
 
 const Header = {
   /* __DEFAULT__ */
   Header: dynamic(() => import('@dropgala/ui/components/Header'), {
-    loading: () => <HeaderPlaceholder />,
+    loading: () => (
+      <BlockPlaceholder className="fixed top-0 desktop:h-[78px] h-[55px] w-full" />
+    ),
     ssr: true
   }),
   HeaderElegant: dynamic(
     () => import('@dropgala/ui/components/Header/HeaderElegant'),
     {
-      loading: () => <HeaderPlaceholder />,
+      loading: () => (
+        <BlockPlaceholder className="fixed top-0 desktop:h-[78px] h-[55px] w-full" />
+      ),
       ssr: true
     }
   ),
   HeaderSatoshi: dynamic(
     () => import('@dropgala/ui/components/Header/HeaderSatoshi'),
     {
-      loading: () => <HeaderPlaceholder />,
+      loading: () => (
+        <BlockPlaceholder className="fixed top-0 desktop:h-[78px] h-[55px] w-full" />
+      ),
       ssr: true
     }
   )
@@ -42,20 +39,20 @@ const Header = {
 const Footer = {
   /* __DEFAULT__ */
   Footer: dynamic(() => import('@dropgala/ui/components/Footer/Footer'), {
-    loading: () => <FooterPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
     ssr: true
   }),
   FooterLight: dynamic(
     () => import('@dropgala/ui/components/Footer/FooterLight'),
     {
-      loading: () => <FooterPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   ),
   FooterSubscribe: dynamic(
     () => import('@dropgala/ui/components/Footer/FooterSubscribe'),
     {
-      loading: () => <FooterPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   )
@@ -64,7 +61,7 @@ const Footer = {
 const MenuDrawer = {
   /* __DEFAULT__ */
   MenuDrawer: dynamic(() => import('@dropgala/ui/components/MenuDrawer'), {
-    loading: () => <MenuDrawerPlaceholder />,
+    loading: () => <></>,
     ssr: false
   })
 }
@@ -72,7 +69,7 @@ const MenuDrawer = {
 const CartDrawer = {
   /* __DEFAULT__ */
   CartDrawer: dynamic(() => import('@dropgala/ui/components/CartDrawer'), {
-    loading: () => <CartDrawerPlaceholder />,
+    loading: () => <></>,
     ssr: false
   })
 }
@@ -82,7 +79,7 @@ const Carousel = {
   HeroCarousel: dynamic(
     () => import('@dropgala/ui/components/Carousel/HeroCarousel'),
     {
-      loading: () => <HeroBannerPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[400px] w-full" />,
       ssr: false
     }
   )
@@ -90,7 +87,7 @@ const Carousel = {
 const ProductCard = {
   /* __DEFAULT__ */
   ProductCard: dynamic(() => import('@dropgala/ui/components/ProductCard'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[300px] w-[230px]" />,
     ssr: true
   })
 }
@@ -99,7 +96,7 @@ const ProductDetails = {
   ProductDetails: dynamic(
     () => import('@dropgala/ui/components/ProductDetails'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[500px] w-full" />,
       ssr: true
     }
   )
@@ -109,7 +106,7 @@ const LinkedProducts = {
   LinkedProducts: dynamic(
     () => import('@dropgala/ui/components/LinkedProducts'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: false
     }
   )
@@ -117,7 +114,7 @@ const LinkedProducts = {
 const Breadcrumb = {
   /* __DEFAULT__ */
   Breadcrumb: dynamic(() => import('@dropgala/ui/components/Breadcrumb'), {
-    loading: () => <BreadcrumbPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[20px] max-w-[250px]" />,
     ssr: false
   })
 }
@@ -126,7 +123,7 @@ const CheckoutBreadcrumb = {
   CheckoutBreadcrumb: dynamic(
     () => import('@dropgala/ui/components/CheckoutBreadcrumb'),
     {
-      loading: () => <BreadcrumbPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[20px] max-w-[250px]" />,
       ssr: false
     }
   )
@@ -136,7 +133,7 @@ const CheckoutHeader = {
   CheckoutHeader: dynamic(
     () => import('@dropgala/ui/components/CheckoutHeader'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[55px] w-full" />,
       ssr: false
     }
   )
@@ -146,7 +143,7 @@ const CheckoutCartItems = {
   CheckoutCartItems: dynamic(
     () => import('@dropgala/ui/components/CheckoutCartItems'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[400px] w-[300px]" />,
       ssr: true
     }
   )
@@ -154,7 +151,9 @@ const CheckoutCartItems = {
 const OrderSummary = {
   /* __DEFAULT__ */
   OrderSummary: dynamic(() => import('@dropgala/ui/components/OrderSummary'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => (
+      <BlockPlaceholder className="h-[400px] w-[300px] bg-red-400" />
+    ),
     ssr: true
   })
 }
@@ -163,7 +162,7 @@ const CategoryDetails = {
   CategoryDetails: dynamic(
     () => import('@dropgala/ui/components/CategoryDetails'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[500px] w-full" />,
       ssr: true
     }
   )
@@ -171,13 +170,13 @@ const CategoryDetails = {
 const CategoryList = {
   /* __DEFAULT__ */
   CategoryList: dynamic(() => import('@dropgala/ui/components/CategoryList'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[500px] w-full" />,
     ssr: true
   }),
   CategoryListSlide: dynamic(
     () => import('@dropgala/ui/components/CategoryList/CategoryListSlide'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[500px] w-full" />,
       ssr: true
     }
   )
@@ -187,21 +186,21 @@ const CategoryListItem = {
   CategoryListItem1: dynamic(
     () => import('@dropgala/ui/components/CategoryListItem/CategoryListItem1'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-[250px]" />,
       ssr: true
     }
   ),
   CategoryListItem2: dynamic(
     () => import('@dropgala/ui/components/CategoryListItem/CategoryListItem2'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-[250px]" />,
       ssr: true
     }
   ),
   CategoryListItem3: dynamic(
     () => import('@dropgala/ui/components/CategoryListItem/CategoryListItem3'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-[250px]" />,
       ssr: true
     }
   )
@@ -209,7 +208,7 @@ const CategoryListItem = {
 const Pagination = {
   /* __DEFAULT__ */
   Pagination: dynamic(() => import('@dropgala/ui/components/Pagination'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[20px] w-[80px]" />,
     ssr: true
   })
 }
@@ -218,7 +217,9 @@ const Miscellaneous = {
   Miscellaneous: dynamic(
     () => import('@dropgala/ui/components/Miscellaneous'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => (
+        <BlockPlaceholder className="h-[10px] w-[20px] bg-red-500" />
+      ),
       ssr: true
     }
   )
@@ -228,7 +229,7 @@ const CheckoutInformation = {
   CheckoutInformation: dynamic(
     () => import('@dropgala/ui/components/CheckoutInformation'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[600px] w-[200px]" />,
       ssr: true
     }
   )
@@ -238,7 +239,9 @@ const CheckoutItems = {
   CheckoutItems: dynamic(
     () => import('@dropgala/ui/components/CheckoutItems'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => (
+        <BlockPlaceholder className="h-[30px] w-[100px] bg-red-200" />
+      ),
       ssr: true
     }
   )
@@ -248,7 +251,9 @@ const CheckoutShipping = {
   CheckoutShipping: dynamic(
     () => import('@dropgala/ui/components/CheckoutShipping'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => (
+        <BlockPlaceholder className="h-[300px] w-[250px] bg-green-200" />
+      ),
       ssr: true
     }
   )
@@ -258,7 +263,9 @@ const CheckoutPayment = {
   CheckoutPayment: dynamic(
     () => import('@dropgala/ui/components/CheckoutPayment'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => (
+        <BlockPlaceholder className="h-[300px] w-[250px] bg-blue-400" />
+      ),
       ssr: true
     }
   )
@@ -268,7 +275,9 @@ const ConfirmationSummary = {
   ConfirmationSummary: dynamic(
     () => import('@dropgala/ui/components/ConfirmationSummary'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => (
+        <BlockPlaceholder className="h-[300px] w-[250px] bg-red-400" />
+      ),
       ssr: true
     }
   )
@@ -278,7 +287,7 @@ const CheckoutFooter = {
   CheckoutFooter: dynamic(
     () => import('@dropgala/ui/components/CheckoutFooter'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[200px] w-full" />,
       ssr: true
     }
   )
@@ -288,7 +297,7 @@ const InstallPrompt = {
   InstallPrompt: dynamic(
     () => import('@dropgala/ui/components/InstallPrompt'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[200px] w-[300px]" />,
       ssr: true
     }
   )
@@ -298,7 +307,7 @@ const ContentNotFound = {
   ContentNotFound: dynamic(
     () => import('@dropgala/ui/components/ContentNotFound'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[100px] w-[250px]" />,
       ssr: true
     }
   )
@@ -309,7 +318,7 @@ const ProductListWidget = {
     () =>
       import('@dropgala/ui/components/ProductListWidget/ProductListGridWidget'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   ),
@@ -319,7 +328,7 @@ const ProductListWidget = {
         '@dropgala/ui/components/ProductListWidget/ProductListSlideWidget'
       ),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   )
@@ -327,14 +336,14 @@ const ProductListWidget = {
 const ProductList = {
   /* __DEFAULT__ */
   ProductList: dynamic(() => import('@dropgala/ui/components/ProductList'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
     ssr: true
   })
 }
 const CookiePopup = {
   /* __DEFAULT__ */
   CookiePopup: dynamic(() => import('@dropgala/ui/components/CookiePopup'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[200px] w-[300px]" />,
     ssr: true
   })
 }
@@ -343,7 +352,9 @@ const OfflineNotice = {
   OfflineNotice: dynamic(
     () => import('@dropgala/ui/components/OfflineNotice'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => (
+        <BlockPlaceholder className="fixed bottom-0 h-[100px] w-full" />
+      ),
       ssr: true
     }
   )
@@ -351,28 +362,28 @@ const OfflineNotice = {
 const PromoBanner = {
   /* __DEFAULT__ */
   PromoBanner: dynamic(() => import('@dropgala/ui/components/PromoBanner'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[50px] w-full" />,
     ssr: true
   })
 }
 const Subscription = {
   /* __DEFAULT__ */
   Subscription: dynamic(() => import('@dropgala/ui/components/Subscription'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[200px] w-[500px]" />,
     ssr: true
   })
 }
 const Text = {
   /* __DEFAULT__ */
   Text: dynamic(() => import('@dropgala/ui/components/Text'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[200px] w-full" />,
     ssr: true
   })
 }
 const Image = {
   /* __DEFAULT__ */
   Image: dynamic(() => import('@dropgala/ui/components/Image'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
     ssr: true
   })
 }
@@ -382,7 +393,7 @@ const ImageBanner = {
     () =>
       import('@dropgala/ui/components/ImageBanner/ImageBannerContentCenter'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   ),
@@ -390,28 +401,28 @@ const ImageBanner = {
     () =>
       import('@dropgala/ui/components/ImageBanner/ImageBannerHeadingCenter'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   ),
   ImageBannerHeadingLeft: dynamic(
     () => import('@dropgala/ui/components/ImageBanner/ImageBannerHeadingLeft'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   ),
   ImageBannerHeadingRight: dynamic(
     () => import('@dropgala/ui/components/ImageBanner/ImageBannerHeadingRight'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   ),
   ImageBannerStack: dynamic(
     () => import('@dropgala/ui/components/ImageBanner/ImageBannerStack'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[300px] w-full" />,
       ssr: true
     }
   )
@@ -419,28 +430,28 @@ const ImageBanner = {
 const VideoBanner = {
   /* __DEFAULT__ */
   VideoBanner: dynamic(() => import('@dropgala/ui/components/VideoBanner'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[400px] w-full" />,
     ssr: true
   })
 }
 const Html = {
   /* __DEFAULT__ */
   Html: dynamic(() => import('@dropgala/ui/components/Html'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[200px] w-full" />,
     ssr: true
   })
 }
 const Spacer = {
   /* __DEFAULT__ */
   Spacer: dynamic(() => import('@dropgala/ui/components/Spacer'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[40px] w-full" />,
     ssr: true
   })
 }
 const Divider = {
   /* __DEFAULT__ */
   Divider: dynamic(() => import('@dropgala/ui/components/Divider'), {
-    loading: () => <ProductCardPlaceholder />,
+    loading: () => <BlockPlaceholder className="h-[40px] w-full" />,
     ssr: true
   })
 }
@@ -449,28 +460,28 @@ const Button = {
   ButtonPrimary: dynamic(
     () => import('@dropgala/ui/components/Button/ButtonPrimary'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[30px] w-[50px]" />,
       ssr: true
     }
   ),
   ButtonOutline: dynamic(
     () => import('@dropgala/ui/components/Button/ButtonOutline'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[30px] w-[50px]" />,
       ssr: true
     }
   ),
   ButtonPrimaryRounded: dynamic(
     () => import('@dropgala/ui/components/Button/ButtonPrimaryRounded'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[20px] w-[50px]" />,
       ssr: true
     }
   ),
   ButtonOutlineRounded: dynamic(
     () => import('@dropgala/ui/components/Button/ButtonOutlineRounded'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[20px] w-[50px]" />,
       ssr: true
     }
   )
@@ -480,7 +491,7 @@ const EditorialText = {
   EditorialText: dynamic(
     () => import('@dropgala/ui/components/EditorialText'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[200px] w-full" />,
       ssr: true
     }
   )
@@ -490,28 +501,122 @@ const BannerWidget = {
   BannerWidgetBg: dynamic(
     () => import('@dropgala/ui/components/BannerWidget/BannerWidgetBg'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[100px] w-[200px]" />,
       ssr: true
     }
   ),
   BannerWidgetNoBg: dynamic(
     () => import('@dropgala/ui/components/BannerWidget/BannerWidgetNoBg'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[100px] w-[200px]" />,
       ssr: true
     }
   ),
   BannerWidgetBgCenter: dynamic(
     () => import('@dropgala/ui/components/BannerWidget/BannerWidgetBgCenter'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[100px] w-[200px]" />,
       ssr: true
     }
   ),
   BannerWidgetNoBgCenter: dynamic(
     () => import('@dropgala/ui/components/BannerWidget/BannerWidgetNoBgCenter'),
     {
-      loading: () => <ProductCardPlaceholder />,
+      loading: () => <BlockPlaceholder className="h-[100px] w-[200px]" />,
+      ssr: true
+    }
+  )
+}
+const Logo = {
+  /* __DEFAULT__ */
+  Logo: dynamic(() => import('@dropgala/ui/components/Logo'), {
+    loading: () => <BlockPlaceholder className="h-[50px] w-[50px]" />,
+    ssr: true
+  })
+}
+const Search = {
+  /* __DEFAULT__ */
+  Search: dynamic(() => import('@dropgala/ui/components/Search'), {
+    loading: () => <BlockPlaceholder className="h-[30px] w-[100px]" />,
+    ssr: true
+  })
+}
+const HeaderCtaContainer = {
+  /* __DEFAULT__ */
+  HeaderCtaContainer: dynamic(
+    () => import('@dropgala/ui/components/HeaderCtaContainer'),
+    {
+      loading: () => <BlockPlaceholder className="h-[30px] w-full" />,
+      ssr: true
+    }
+  )
+}
+const HeaderCtaItemCart = {
+  /* __DEFAULT__ */
+  HeaderCtaItemCart: dynamic(
+    () => import('@dropgala/ui/plugins/HeaderCtaItemCart'),
+    {
+      loading: () => <BlockPlaceholder className="h-[20px] w-[20px]" />,
+      ssr: true
+    }
+  )
+}
+const HeaderCtaItemLike = {
+  /* __DEFAULT__ */
+  HeaderCtaItemLike: dynamic(
+    () => import('@dropgala/ui/plugins/HeaderCtaItemLike'),
+    {
+      loading: () => <BlockPlaceholder className="h-[20px] w-[20px]" />,
+      ssr: true
+    }
+  )
+}
+const HeaderCtaItemUser = {
+  /* __DEFAULT__ */
+  HeaderCtaItemUser: dynamic(
+    () => import('@dropgala/ui/plugins/HeaderCtaItemUser'),
+    {
+      loading: () => <BlockPlaceholder className="h-[20px] w-[20px]" />,
+      ssr: true
+    }
+  )
+}
+const HeaderSelectionContainer = {
+  /* __DEFAULT__ */
+  HeaderSelectionContainer: dynamic(
+    () => import('@dropgala/ui/components/HeaderSelectionContainer'),
+    {
+      loading: () => <BlockPlaceholder className="h-[20px] w-full" />,
+      ssr: true
+    }
+  )
+}
+const HeaderSelectionItemCurrency = {
+  /* __DEFAULT__ */
+  HeaderSelectionItemCurrency: dynamic(
+    () => import('@dropgala/ui/plugins/HeaderSelectionItemCurrency'),
+    {
+      loading: () => <BlockPlaceholder className="h-[20px] w-[30px]" />,
+      ssr: true
+    }
+  )
+}
+const HeaderSelectionItemLanguage = {
+  /* __DEFAULT__ */
+  HeaderSelectionItemLanguage: dynamic(
+    () => import('@dropgala/ui/plugins/HeaderSelectionItemLanguage'),
+    {
+      loading: () => <BlockPlaceholder className="h-[20px] w-[30px]" />,
+      ssr: true
+    }
+  )
+}
+const HeaderSelectionItemStoreInfo = {
+  /* __DEFAULT__ */
+  HeaderSelectionItemStoreInfo: dynamic(
+    () => import('@dropgala/ui/plugins/HeaderSelectionItemStoreInfo'),
+    {
+      loading: () => <BlockPlaceholder className="h-[20px] w-[40px]" />,
       ssr: true
     }
   )
@@ -563,6 +668,25 @@ modules.set(ModuleGroup.BUTTON, Button)
 modules.set(ModuleGroup.EDITORIAL_TEXT, EditorialText)
 modules.set(ModuleGroup.BANNER_WIDGET, BannerWidget)
 modules.set(ModuleGroup.CATEGORY_LIST_ITEM, CategoryListItem)
+modules.set(ModuleGroup.LOGO, Logo)
+modules.set(ModuleGroup.SEARCH, Search)
+modules.set(ModuleGroup.HEADER_CTA_CONTAINER, HeaderCtaContainer)
+modules.set(ModuleGroup.HEADER_CTA_ITEM_CART, HeaderCtaItemCart)
+modules.set(ModuleGroup.HEADER_CTA_ITEM_LIKE, HeaderCtaItemLike)
+modules.set(ModuleGroup.HEADER_CTA_ITEM_USER, HeaderCtaItemUser)
+modules.set(ModuleGroup.HEADER_SELECTION_CONTAINER, HeaderSelectionContainer)
+modules.set(
+  ModuleGroup.HEADER_SELECTION_ITEM_CURRENCY,
+  HeaderSelectionItemCurrency
+)
+modules.set(
+  ModuleGroup.HEADER_SELECTION_ITEM_LANGUAGE,
+  HeaderSelectionItemLanguage
+)
+modules.set(
+  ModuleGroup.HEADER_SELECTION_ITEM_STORE_INFO,
+  HeaderSelectionItemStoreInfo
+)
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[] | Element | null
@@ -575,7 +699,7 @@ export default function componentFactory(
   props: Props
 ): ReactElement<Props> | null {
   const components = modules.get(moduleGroup)
-  if (isEmpty(components)) {
+  if (!modules.has(moduleGroup)) {
     console.warn(
       'Module ' +
         moduleName +
@@ -583,7 +707,7 @@ export default function componentFactory(
     )
     return null
   }
-  const Component = components[moduleName ?? moduleGroup]
+  const Component = components![moduleName ?? moduleGroup]
   if (!Component) {
     console.warn(
       'Component ' +

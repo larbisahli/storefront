@@ -1,15 +1,16 @@
 import React from 'react'
 import { StoreProps } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
 import { resolvePath } from '@dropgala/utils/helpers'
 import ReactHtmlParser from 'html-react-parser'
 import _JSXStyle from 'styled-jsx/style'
 import {
+  BuilderAttributes,
   SectionSize,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -22,11 +23,18 @@ const EditorialText: React.FC<Props> = ({ useAppSelector, ...props }) => {
     {}
   )
   const editorialTextClassName = `editorial-text-${props.componentId}`
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group mb-8 scroll-mt-160px',
+        'mb-8  ',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full',
         'flex justify-center items-center flex-col px-2'
@@ -37,14 +45,6 @@ const EditorialText: React.FC<Props> = ({ useAppSelector, ...props }) => {
             font-family: var(${styles?.fontFamily?.value});
           }
           `}</_JSXStyle>
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <div className={editorialTextClassName}>
         {ReactHtmlParser(content ?? '')}
       </div>

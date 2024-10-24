@@ -4,23 +4,24 @@ import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { StoreProps } from '@dropgala/store'
 import cn from 'clsx'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import { resolvePath } from '@dropgala/utils/helpers'
 import {
+  BuilderAttributes,
   SectionSize,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
 import _JSXStyle from 'styled-jsx/style'
 import { handleBorderStyle } from '@dropgala/utils/styles'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const SwiperComponent = dynamic(() => import('../common/Swiper'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  loading: () => <></>,
   ssr: false
 })
 
 const DynamicContent = dynamic(() => import('../common/DynamicContent'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  loading: () => <></>,
   ssr: false
 })
 
@@ -55,25 +56,23 @@ const PromoBanner = ({ ...props }: Props) => {
   )
 
   const promoBannerClass = `promo-banner-${props.componentId}`
-
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       style={{ backgroundColor: backgroundColor }}
       className={cn(
-        'relative group scroll-mt-160px',
+        ' ',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        {...(isChild
-          ? { isAddBefore: true, isAddAfter: true, isDuplicate: true }
-          : { isEditRemoveBottom: true })}
-      />
       <_JSXStyle id={data.contentId}>{`
           .${promoBannerClass} {
             background: ${styles?.backgroundColor};

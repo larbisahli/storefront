@@ -4,7 +4,6 @@ import React, {
   Fragment,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState
 } from 'react'
@@ -18,39 +17,23 @@ import {
   toggleCart,
   toggleMenu
 } from '@dropgala/store'
-import Image from '../common/Image'
 import Link from '../common/Link'
 import { ConfigType } from '@dropgala/types/config.type'
 import dynamic from 'next/dynamic'
-import { getComponentFromChildren } from '@dropgala/utils/helpers'
-import { ModuleGroup } from '@dropgala/types'
-import BuilderPlaceholder from '../common/builderPlaceholder'
-
-const MyAccountActions = dynamic(() => import('./Header/AccountActions'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
-  ssr: false
-})
-
-const InfoSection = dynamic(() => import('./Header/InfoSection'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
-  ssr: false
-})
+import { BuilderAttributes, ModuleGroup } from '@dropgala/types'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const MenuDropDownComponent = dynamic(
   () => import('./Header/MenuDropDownComponent'),
   {
-    loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+    loading: () => <></>,
     ssr: false
   }
 )
 
 const MobileHeader = dynamic(() => import('./Header/MobileHeader'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
-  ssr: false
-})
-
-const SearchSection = dynamic(() => import('./Header/SearchSection'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  loading: () => <></>,
   ssr: false
 })
 
@@ -90,13 +73,6 @@ const Header: FC<Props> = ({
     dispatch(toggleMenu())
   }, [])
 
-  const handleDefaultCurrency = useCallback(
-    (defaultCurrency: ConfigType['defaultCurrency']) => {
-      dispatch(setDefaultCurrency({ defaultCurrency }))
-    },
-    []
-  )
-
   const itemsCount = totalQuantity
 
   const menuTimer = useRef<undefined | ReturnType<typeof setTimeout>>(undefined)
@@ -134,54 +110,56 @@ const Header: FC<Props> = ({
     ? `${mediaURL}/${storeConfig?.logo[0].image}`
     : '/assets/images/default_logo.webp'
 
-  const renderPromoBanner = () => {
-    const PromoBanner = getComponentFromChildren(
-      children,
-      ModuleGroup.PROMO_BANNER
-    )
-    if (!PromoBanner) return null
-    return PromoBanner
-  }
+  const renderPromoBanner = useGetComponentFromChildren(
+    children,
+    ModuleGroup.PROMO_BANNER
+  )
+  const renderLogo = useGetComponentFromChildren(children, ModuleGroup.LOGO)
+  const renderSearch = useGetComponentFromChildren(children, ModuleGroup.SEARCH)
+  const renderCtaContainer = useGetComponentFromChildren(
+    children,
+    ModuleGroup.HEADER_CTA_CONTAINER
+  )
+  const HeaderSelectionContainer = useGetComponentFromChildren(
+    children,
+    ModuleGroup.HEADER_SELECTION_CONTAINER
+  )
+
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.EDIT
+  ])
 
   return (
     <Fragment>
       <header
-        id={props.componentId}
+        {...builderAttributes}
         ref={ref}
         className={cn(
           'text-gray-700 body-font fixed w-full z-20 bg-white border-b border-gray-300'
         )}
       >
         {/* PromoBanner */}
-        {renderPromoBanner()}
+        {renderPromoBanner}
         {/* Navigation */}
-        <div className="max-w-default mx-auto relative group">
-          <BuilderPlaceholder {...props} isEdit isEditRemoveBottom />
+        <div className="max-w-default mx-auto">
           {/* Info section */}
-          <InfoSection
+          {/* <InfoSection
             storeConfig={storeConfig}
             handleDefaultCurrency={handleDefaultCurrency}
-          />
+          /> */}
+          {HeaderSelectionContainer}
           {/* Nav */}
-          <div className="flex items-center bg-white h-60px relative px-2">
+          <div className="flex items-stretch bg-white h-60px relative px-2">
             <div className="flex relative justify-center overflow-hidden">
-              <Link href="/">
-                <Image
-                  isCustomUrl
-                  src={storeLogo}
-                  objectFit="contain"
-                  height={device?.isDesktop ? 45 : 30}
-                  width={device?.isDesktop ? 45 : 30}
-                  alt="logo"
-                />
-              </Link>
+              {renderLogo}
             </div>
             {/* Search field */}
             <div className="hidden desktop:block flex-1 max-w-[500px] m-auto">
-              <SearchSection />
+              {renderSearch}
             </div>
             {/* Icons account actions */}
-            <MyAccountActions handleCart={handleCart} itemsCount={itemsCount} />
+            {renderCtaContainer}
           </div>
           {/* Menu Section */}
           <div className="hidden desktop:flex items-center justify-center">

@@ -3,8 +3,9 @@ import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import { StoreProps, selectConfig } from '@dropgala/store'
 import { ProductType } from '@dropgala/types/product.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
-import { getComponentFromChildren, resolvePath } from '@dropgala/utils/helpers'
+import { resolvePath } from '@dropgala/utils/helpers'
 import {
+  BuilderAttributes,
   ModuleGroup,
   SectionSize,
   StoreLayoutComponentContentType,
@@ -12,15 +13,16 @@ import {
 } from '@dropgala/types'
 import Link from 'next/link'
 import cn from 'clsx'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import dynamic from 'next/dynamic'
 import { Pagination } from 'swiper/modules'
 import _JSXStyle from 'styled-jsx/style'
 import { handleTypographyStyle } from '@dropgala/utils/styles'
 import { Autoplay } from 'swiper/modules'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const SwiperComponent = dynamic(() => import('../common/Swiper'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  loading: () => <></>,
   ssr: false
 })
 
@@ -78,52 +80,33 @@ const ProductListSlideWidget: React.FC<Props> = ({
 
   const products = resolvePath<ProductType[]>(data, 'collection', [])
 
-  const renderContentNotFound = () => {
-    const ContentNotFound = getComponentFromChildren(
-      children,
-      ModuleGroup.CONTENT_NOT_FOUND
-    )
-    if (!ContentNotFound) return null
-    return ContentNotFound
-  }
-
-  const renderProductCard = (product: ProductType) => {
-    const ProductCard = getComponentFromChildren(
-      children,
-      ModuleGroup.PRODUCT_CARD
-    )
-    if (!ProductCard) return null
-    return React.cloneElement(ProductCard, { product })
-  }
-
-  const renderButton = () => {
-    const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
-    if (!Button) return null
-    return React.cloneElement(Button, {
-      label: data?.buttonLabel,
-      size: 'small'
-    })
-  }
+  const renderContentNotFound = useGetComponentFromChildren(
+    children,
+    ModuleGroup.CONTENT_NOT_FOUND
+  )
+  const renderProductCard = useGetComponentFromChildren(
+    children,
+    ModuleGroup.PRODUCT_CARD
+  )
+  const renderButton = useGetComponentFromChildren(children, ModuleGroup.BUTTON)
 
   const headerClassName = `header-${props.componentId}`
-
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group px-1 scroll-mt-160px',
+        'px-1  ',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={props.componentId}>{`
           .${headerClassName} {
             ${handleTypographyStyle(headerStyle)}
@@ -134,7 +117,7 @@ const ProductListSlideWidget: React.FC<Props> = ({
           className="w-full flex flex-col items-center
        pt-10px md:pt-40px lg:pt-20px pb-40px"
         >
-          {renderContentNotFound()}
+          {renderContentNotFound}
         </div>
       )}
 
@@ -144,16 +127,18 @@ const ProductListSlideWidget: React.FC<Props> = ({
             {data?.header && (
               <h3 className={headerClassName}>{data?.header}</h3>
             )}
-            {data?.category?.urlKey && data?.buttonLabel && (
-              <Link
-                href={{
-                  pathname: '/category/[slug]',
-                  query: { slug: data?.category?.urlKey }
-                }}
-              >
-                {renderButton()}
-              </Link>
-            )}
+            {data?.category?.urlKey &&
+              data?.buttonLabel &&
+              React.cloneElement(renderButton, {
+                label: data?.buttonLabel,
+                size: 'small',
+                link: {
+                  href: {
+                    pathname: '/category/[slug]',
+                    query: { slug: data?.category?.urlKey }
+                  }
+                }
+              })}
           </div>
           <div className="w-full mt-5">
             <SwiperComponent
@@ -175,7 +160,11 @@ const ProductListSlideWidget: React.FC<Props> = ({
               className="h-full"
               centeredSlides
             >
-              {(item: ProductType) => renderProductCard(item)}
+              {(item: ProductType) => (
+                <React.Fragment key={item.id}>
+                  {React.cloneElement(renderProductCard, { product: item })}
+                </React.Fragment>
+              )}
             </SwiperComponent>
           </div>
         </>

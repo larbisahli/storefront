@@ -10,6 +10,8 @@ export interface ConfigType {
   layout: StoreLayoutType | null
   alias?: string
   storeId?: string
+  maintenanceMode?: boolean
+  maintenancePassword?: number | string
   locales?: {
     id: number
     name: string

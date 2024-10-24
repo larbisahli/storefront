@@ -1,8 +1,10 @@
 import { ButtonSizes } from '@dropgala/types/props.type'
 import cn from 'clsx'
 import React, { MouseEvent } from 'react'
-import LibraryPlaceholder from '../common/libraryPlaceholder'
 import { StoreProps } from '@dropgala/store'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
+import { BuilderAttributes } from '@dropgala/types'
+import Link from '../../components/common/Link'
 
 const ButtonSize = {
   big: 'h-12 px-30px',
@@ -18,6 +20,7 @@ interface Props extends StoreProps {
   disabled?: boolean
   onClick?: React.MouseEventHandler<HTMLButtonElement>
   className?: string
+  link?: any
 }
 
 type NativeAttrs = Omit<React.ButtonHTMLAttributes<any>, keyof Props>
@@ -33,19 +36,21 @@ const ButtonOutlineRounded: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   children,
   disabled = false,
   onClick,
+  link,
   ...props
 }) => {
   const onClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
     if (disabled || loading) return
     onClick && onClick(event)
   }
-
-  return (
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_LIBRARY
+  ])
+  const renderButton = () => (
     <button
-      id={props.componentId}
       onClick={onClickHandler}
       className={cn(
-        'rounded-full relative group/library scroll-mt-320px flex items-center justify-center flex-shrink-0 font-normal w-auto uppercase',
+        'rounded-full scroll-mt-320px flex items-center justify-center flex-shrink-0 font-normal w-auto uppercase',
         'rounded outline-none transition duration-250 ease-in-out focus:outline-none',
         ButtonSize[size],
         className,
@@ -59,7 +64,6 @@ const ButtonOutlineRounded: React.FC<React.PropsWithChildren<ButtonProps>> = ({
       type={type}
       aria-label={type}
     >
-      <LibraryPlaceholder {...props} isEdit />
       {!loading && <div>{label}</div>}
       {loading && (
         <div
@@ -68,6 +72,12 @@ const ButtonOutlineRounded: React.FC<React.PropsWithChildren<ButtonProps>> = ({
         />
       )}
     </button>
+  )
+
+  return (
+    <div {...builderAttributes}>
+      {link ? <Link {...link}>{renderButton()}</Link> : renderButton()}
+    </div>
   )
 }
 

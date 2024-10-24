@@ -8,7 +8,7 @@ import { CookieNames } from '@dropgala/types/common.type'
 import { LanguageType } from '@dropgala/types/config.type'
 import { isEmpty } from '@dropgala/utils/lodashFunctions'
 import { fetchClientCheckout, fetchStoreConfig } from '@dropgala/query/api'
-import { XSRFHandler } from '@middleware/utils'
+import { storeMaintenanceHandler, XSRFHandler } from '@middleware/utils'
 
 export default function CheckoutPage() {
   return null
@@ -40,6 +40,18 @@ export const getServerSideProps: GetServerSideProps =
           }
         })
       )
+
+      // MaintenanceMode Blocker
+      const blockSite = await storeMaintenanceHandler(context, config)
+
+      if (blockSite) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/maintenance'
+          }
+        }
+      }
 
       // Check if store has locales
       const { ConfigReducer } = store.getState()

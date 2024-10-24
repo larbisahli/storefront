@@ -16,7 +16,7 @@ import {
   fetchStoreConfig,
   fetchStoreLanguage
 } from '@dropgala/query/api'
-import { XSRFHandler } from '@middleware/utils'
+import { storeMaintenanceHandler, XSRFHandler } from '@middleware/utils'
 import { setConfig } from '@dropgala/store'
 
 interface Props {
@@ -83,6 +83,18 @@ export const getServerSideProps: GetServerSideProps =
           }
         })
       )
+
+      // MaintenanceMode Blocker
+      const blockSite = await storeMaintenanceHandler(context, config)
+
+      if (blockSite) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/maintenance'
+          }
+        }
+      }
 
       // Check if store has locales
       const { ConfigReducer } = store.getState()

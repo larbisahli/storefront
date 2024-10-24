@@ -21,34 +21,19 @@ import Image from '../common/Image'
 import Link from '../common/Link'
 import { ConfigType } from '@dropgala/types/config.type'
 import dynamic from 'next/dynamic'
-import { getComponentFromChildren } from '@dropgala/utils/helpers'
-import { ModuleGroup } from '@dropgala/types'
-import BuilderPlaceholder from '../common/builderPlaceholder'
+import { BuilderAttributes, ModuleGroup } from '@dropgala/types'
 import MenuIcon from '@dropgala/assets/icons/menu'
 import { usePathname } from 'next/navigation'
-
-const MyAccountActions = dynamic(() => import('./Header/AccountActions2'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
-  ssr: false
-})
-
-const InfoSection = dynamic(() => import('./Header/InfoSection'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
-  ssr: false
-})
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const MenuDropDownComponent = dynamic(
   () => import('./Header/MenuDropDownComponent2'),
   {
-    loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+    loading: () => <></>,
     ssr: false
   }
 )
-
-const SearchSection = dynamic(() => import('./Header/SearchSection'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
-  ssr: false
-})
 
 interface Props extends StoreProps {}
 
@@ -134,27 +119,27 @@ const HeaderSatoshi: FC<Props> = ({
     ? `${mediaURL}/${storeConfig?.logo[0].image}`
     : '/assets/images/default_logo.webp'
 
-  const renderPromoBanner = () => {
-    const PromoBanner = getComponentFromChildren(
-      children,
-      ModuleGroup.PROMO_BANNER
-    )
-    if (!PromoBanner) return null
-    return PromoBanner
-  }
+  const renderPromoBanner = useGetComponentFromChildren(
+    children,
+    ModuleGroup.PROMO_BANNER
+  )
+
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.EDIT
+  ])
 
   return (
     <Fragment>
       <header
-        id={props.componentId}
+        {...builderAttributes}
         ref={ref}
         className={cn('text-gray-700 body-font fixed w-full z-20')}
       >
         {/* PromoBanner */}
         {/* {renderPromoBanner()} */}
         {/* Navigation */}
-        <div className="max-w-default mx-auto relative group rounded-lg">
-          <BuilderPlaceholder {...props} isEdit isEditRemoveBottom />
+        <div className="max-w-default mx-auto rounded-lg">
           {/* Nav */}
           <div
             className="flex items-center justify-between rounded-[12px] h-[50px] desktop:h-[70px] mx-4
@@ -197,7 +182,7 @@ const HeaderSatoshi: FC<Props> = ({
               })}
             </div>
             {/* Icons account actions */}
-            <MyAccountActions handleCart={handleCart} itemsCount={itemsCount} />
+            {/* <MyAccountActions handleCart={handleCart} itemsCount={itemsCount} /> */}
           </div>
           {/* MENU DROPDOWN */}
           <MenuDropDownComponent

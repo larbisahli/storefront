@@ -4,7 +4,6 @@ import Image from '../common/Image'
 import { StoreProps } from '@dropgala/store'
 import { selectCategory } from '@dropgala/store/Category'
 import { getThumbnail } from '@dropgala/utils/helpers'
-import LibraryPlaceholder from '../common/libraryPlaceholder'
 
 const CategoryDetails: React.FC<StoreProps> = ({
   useAppSelector,
@@ -55,8 +54,7 @@ const CategoryDetails: React.FC<StoreProps> = ({
   }
 
   return (
-    <article className="relative group/library bg-gray-100 rounded-sm">
-      <LibraryPlaceholder {...props} isEdit />
+    <article className="bg-gray-100 rounded-sm">
       <div className="p-5 max-w-default mx-auto flex items-center justify-between desktop:flex-row flex-col">
         <div className="flex-1">
           {renderCategoryName()}

@@ -1,29 +1,26 @@
 import React, { useEffect } from 'react'
 import { StoreProps, addFontFamily, selectConfig } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import useWindowSize from '@hooks/useWindowSize'
+import useWindowSize from '../../hooks/useWindowSize'
 import cn from 'clsx'
 import {
   Alignment,
+  BuilderAttributes,
   ModuleGroup,
   SectionSize,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType,
   TextSize
 } from '@dropgala/types'
-import {
-  getComponentFromChildren,
-  getThumbnail,
-  resolvePath
-} from '@dropgala/utils/helpers'
+import { getThumbnail, resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
-import Button from '../ui/Button'
 import {
   handleBorderStyle,
   handleTypographyStyle
 } from '@dropgala/utils/styles'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const NextImage = dynamic(() => import('../common/Image'), {
   loading: () => <></>,
@@ -62,29 +59,23 @@ const ImageBannerHeadingLeft: React.FC<Props> = ({
   const imageBorderWrapperClassName = `image-wrapper-${props.componentId}`
   const imageBorderClassName = `image-${props.componentId}`
 
-  const renderButton = () => {
-    const Button = getComponentFromChildren(children, ModuleGroup.BUTTON)
-    if (!Button) return null
-    return React.cloneElement(Button, { label: buttonLabel })
-  }
-
+  const renderButton = useGetComponentFromChildren(children, ModuleGroup.BUTTON)
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group scroll-mt-160px',
+        ' ',
         sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={props.componentId}>{`
             .${headerClassName} {
               ${handleTypographyStyle(headerStyle)}
@@ -130,7 +121,10 @@ const ImageBannerHeadingLeft: React.FC<Props> = ({
               {description}
             </p>
             <div className={cn('flex desktop:justify-start justify-center')}>
-              <Link href={buttonLink}>{renderButton()}</Link>
+              {React.cloneElement(renderButton, {
+                label: buttonLabel,
+                link: { href: buttonLink ?? '/' }
+              })}
             </div>
           </div>
           <div

@@ -1,14 +1,15 @@
 import React from 'react'
 import { StoreProps } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import cn from 'clsx'
 import { resolvePath } from '@dropgala/utils/helpers'
 import {
+  BuilderAttributes,
   StoreLayoutComponentContentType,
   StoreLayoutComponentStylesType
 } from '@dropgala/types'
 import _JSXStyle from 'styled-jsx/style'
 import { handleTypographyStyle } from '@dropgala/utils/styles'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -20,24 +21,22 @@ const Text: React.FC<Props> = ({ useAppSelector, ...props }) => {
 
   const headerClassName = `header-${props.componentId}`
   const descriptionClassName = `description-${props.componentId}`
-
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group my-8 scroll-mt-160px',
+        'my-8  ',
         'max-w-default mx-auto',
         'flex justify-center items-center flex-col px-2'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isEdit
-        isRemove
-        isAddBefore
-        isAddAfter
-        isDuplicate
-      />
       <_JSXStyle id={contentId}>{`
           .${headerClassName} {
             ${handleTypographyStyle(headerStyle)}

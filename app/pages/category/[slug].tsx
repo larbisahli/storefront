@@ -36,7 +36,7 @@ import {
   fetchStoreMenu
 } from '@dropgala/query/api'
 import { fetchStoreCategory } from '@dropgala/query/api/category'
-import { XSRFHandler } from '@middleware/utils'
+import { storeMaintenanceHandler, XSRFHandler } from '@middleware/utils'
 import { initializeApollo } from '@dropgala/query/graphql/client'
 import { gql, useQuery } from '@apollo/client'
 
@@ -220,6 +220,18 @@ export const getServerSideProps: GetServerSideProps =
           }
         })
       )
+
+      // MaintenanceMode Blocker
+      const blockSite = await storeMaintenanceHandler(context, config)
+
+      if (blockSite) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/maintenance'
+          }
+        }
+      }
 
       // Check if store has locales
       const { ConfigReducer } = store.getState()

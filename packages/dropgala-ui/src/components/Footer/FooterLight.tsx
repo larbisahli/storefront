@@ -1,15 +1,18 @@
 import { Fragment } from 'react'
 
 import { StoreProps, selectConfig } from '@dropgala/store'
-import BuilderPlaceholder from '../common/builderPlaceholder'
 import useTranslation from '@dropgala/utils/hooks/useTranslation'
 import WidgetLink from './widget/WidgetLink'
 import WidgetSocials from './widget/WidgetSocials'
-import { StoreLayoutComponentContentType } from '@dropgala/types'
+import {
+  BuilderAttributes,
+  StoreLayoutComponentContentType
+} from '@dropgala/types'
 import { resolvePath } from '@dropgala/utils/helpers'
 import _JSXStyle from 'styled-jsx/style'
 import cn from 'clsx'
 import Link from 'next/link'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 interface Props extends StoreProps {}
 
@@ -27,18 +30,20 @@ const FooterLight: React.FC<Props> = ({ useAppSelector, ...props }) => {
 
   const footerClassName = `footer-${props.componentId}`
   const footerBorderClassName = `footer-border-${props.componentId}`
-
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.EDIT
+  ])
   return (
     <Fragment>
       <footer
-        id={props.componentId}
+        {...builderAttributes}
         className={cn(
-          'relative group pt-4 border-1 border-t',
+          'pt-4 border-1 border-t',
           footerClassName,
           footerBorderClassName
         )}
       >
-        <BuilderPlaceholder {...props} isEdit />
         <_JSXStyle id={data.contentId}>{`
           .${footerClassName} {
             color: ${styles?.textColor ?? '#000'};
@@ -48,7 +53,7 @@ const FooterLight: React.FC<Props> = ({ useAppSelector, ...props }) => {
             border-color: ${styles?.borderColor ?? '#e6e6e6'};
           }
           `}</_JSXStyle>
-        <div className="scroll-mt-160px max-w-default mx-auto pb-4 px-4">
+        <div className="  max-w-default mx-auto pb-4 px-4">
           <div className="flex items-center justify-between mobile:flex-col mobile:justify-center tablet:flex-col tablet:justify-center">
             <div className="flex-1 flex items-center justify-between">
               {data?.links?.map((link: any, idx: number) => (
@@ -76,7 +81,7 @@ const FooterLight: React.FC<Props> = ({ useAppSelector, ...props }) => {
         </div>
         <div
           className={cn(
-            'flex justify-between mobile:justify-center mobile:items-center scroll-mt-160px max-w-default mx-auto px-4 border-t py-3',
+            'flex justify-between mobile:justify-center mobile:items-center   max-w-default mx-auto px-4 border-t py-3',
             footerBorderClassName
           )}
         >

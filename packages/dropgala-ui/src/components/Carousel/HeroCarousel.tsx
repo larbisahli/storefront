@@ -2,19 +2,21 @@ import React, { memo } from 'react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 import { StoreProps } from '@dropgala/store'
 import dynamic from 'next/dynamic'
+import { getThumbnail, resolvePath } from '@dropgala/utils/helpers'
 import {
-  getComponentFromChildren,
-  getThumbnail,
-  resolvePath
-} from '@dropgala/utils/helpers'
-import BuilderPlaceholder from '../common/builderPlaceholder'
-import { Alignment, ModuleGroup, SectionSize } from '@dropgala/types'
+  Alignment,
+  BuilderAttributes,
+  ModuleGroup,
+  SectionSize
+} from '@dropgala/types'
 import cn from 'clsx'
 import _JSXStyle from 'styled-jsx/style'
 import { handleOverlayStyle } from '@dropgala/utils/styles'
+import useGetComponentFromChildren from '@dropgala/utils/hooks/useGetComponentFromChildren'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
 
 const SwiperComponent = dynamic(() => import('../common/Swiper'), {
-  loading: () => <div className="bg-blue-600 h-2 w-4"></div>,
+  loading: () => <></>,
   ssr: false
 })
 
@@ -38,35 +40,29 @@ const HeroCarousel: React.FC<Props> = ({
   const { loop, langDirection, delaySpeed, animationSpeed, draggable } =
     sliderConfiguration
 
-  const renderBannerWidget = (slide: any) => {
-    const BannerWidget = getComponentFromChildren(
-      children,
-      ModuleGroup.BANNER_WIDGET
-    )
-    if (!BannerWidget) return null
-    return React.cloneElement(BannerWidget, { data: slide, styles })
-  }
-
   const imageBorderClassName = `image-${props.componentId}`
   const opacityClassName = `video-banner-opacity-${props.componentId}`
 
+  const renderButton = useGetComponentFromChildren(
+    children,
+    ModuleGroup.BANNER_WIDGET
+  )
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_AFTER,
+    BuilderAttributes.ADD_BEFORE,
+    BuilderAttributes.DELETE,
+    BuilderAttributes.DUPLICATE,
+    BuilderAttributes.EDIT
+  ])
   return (
     <section
-      id={props.componentId}
+      {...builderAttributes}
       className={cn(
-        'relative group scroll-mt-160px',
+        ' ',
         styles?.sectionSize === SectionSize.AUTO && 'max-w-default mx-auto',
         styles?.sectionSize === SectionSize.FULL && 'max-w-full'
       )}
     >
-      <BuilderPlaceholder
-        {...props}
-        isAddAfter
-        isAddBefore
-        isDuplicate
-        isEdit
-        isRemove
-      />
       <_JSXStyle id={data.contentId}>{`
           .${imageBorderClassName} {
             border-radius: ${styles.imageBorder?.borderRadius}px;
@@ -128,7 +124,14 @@ const HeroCarousel: React.FC<Props> = ({
                   data?.contentAlignment === Alignment.LEFT && '!justify-end'
                 )}
               >
-                {slide?.displayContent && renderBannerWidget(slide)}
+                {slide?.displayContent && (
+                  <React.Fragment key={slide.id}>
+                    {React.cloneElement(renderButton, {
+                      keydata: slide,
+                      styles
+                    })}
+                  </React.Fragment>
+                )}
               </div>
             </figure>
           )

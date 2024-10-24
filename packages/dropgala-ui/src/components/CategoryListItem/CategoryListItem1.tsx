@@ -2,10 +2,11 @@ import React, { memo } from 'react'
 import cn from 'clsx'
 import { StoreProps } from '@dropgala/store'
 import dynamic from 'next/dynamic'
-import LibraryPlaceholder from '../common/libraryPlaceholder'
 import { getThumbnail } from '@dropgala/utils/helpers'
 import { ImageType } from '@dropgala/types/common.type'
 import { CategoryType } from '@dropgala/types/category.type'
+import { useIsInIframe } from '@dropgala/utils/hooks/useIsInIframe'
+import { BuilderAttributes } from '@dropgala/types'
 
 const Image = dynamic(() => import('../common/Image'), {
   loading: () => <></>,
@@ -41,10 +42,15 @@ const CategoryListItem1: React.FC<Props> = ({
 }) => {
   const { image, placeholder } = getThumbnail(thumbnail)
 
+  const { builderAttributes } = useIsInIframe(props, [
+    BuilderAttributes.ADD_LIBRARY
+  ])
+
   return (
     <div
+      {...builderAttributes}
       className={cn(
-        'mb-6 group/library group/category_card cursor-pointer',
+        'mb-6 group/category_card cursor-pointer',
         'relative overflow-hidden flex justify-between items-center',
         itemsPerColumn === 3 &&
           'desktop:h-[500px] laptop:h-[400px] tablet:h-[450px] h-[450px]',
@@ -57,7 +63,6 @@ const CategoryListItem1: React.FC<Props> = ({
         isSlide && 'h-[300px] mx-3'
       )}
     >
-      <LibraryPlaceholder {...props} isEdit />
       <Link
         link={category?.urlKey}
         isCheckLink

@@ -19,7 +19,7 @@ import { CookieNames } from '@dropgala/types/common.type'
 import ConfirmationSummary from '@components/ConfirmationSummary'
 import CheckoutLayout from '@components/AppLayout/CheckoutLayout'
 import { fetchStoreConfig, fetchStoreLanguage } from '@dropgala/query/api'
-import { XSRFHandler } from '@middleware/utils'
+import { storeMaintenanceHandler, XSRFHandler } from '@middleware/utils'
 
 interface Props {
   host: { host: string; subdomain: string }
@@ -110,6 +110,18 @@ export const getServerSideProps: GetServerSideProps =
           }
         })
       )
+
+      // MaintenanceMode Blocker
+      const blockSite = await storeMaintenanceHandler(context, config)
+
+      if (blockSite) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/maintenance'
+          }
+        }
+      }
 
       // Check if store has locales
       const { ConfigReducer } = store.getState()
