@@ -21,7 +21,8 @@ export const getServerSideProps: GetServerSideProps =
         cookies.set(CookieNames.GALA_MTM_PASS, pass, {
           httpOnly: true,
           maxAge: 24 * 60 * 60 * 1000, // 24 hours
-          sameSite: 'strict',
+          sameSite: PRODUCTION_ENV ? 'none':'strict', // strict
+          secure: PRODUCTION_ENV,
           domain: PRODUCTION_ENV ? '.dropgala.shop' : 'localhost',
           overwrite: true
         })

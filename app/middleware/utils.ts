@@ -67,7 +67,8 @@ export async function storeMaintenanceHandler(
         cookies.set(CookieNames.GALA_MTM_PASS, '', {
           httpOnly: true,
           maxAge: 0,
-          sameSite: 'strict',
+          sameSite: PRODUCTION_ENV ? 'none':'strict', // strict
+          secure: PRODUCTION_ENV,
           domain: PRODUCTION_ENV ? '.dropgala.shop' : 'localhost',
           overwrite: true
         })
