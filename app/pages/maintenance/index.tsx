@@ -7,6 +7,7 @@ import { CookieNames } from '@dropgala/types/common.type'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { PRODUCTION_ENV } from '@dropgala/utils/utils'
 
 export default function MaintenancePage() {
   const router = useRouter()
@@ -231,7 +232,7 @@ export const getServerSideProps: GetServerSideProps =
     const { req, res } = context
     const { host, alias = '' } = getHost(req)
 
-    const cookies = new Cookies(req, res)
+    const cookies = new Cookies(req, res, { secure: PRODUCTION_ENV })
     const GALA_MTM_PASS = cookies.get(CookieNames.GALA_MTM_PASS)
 
     try {

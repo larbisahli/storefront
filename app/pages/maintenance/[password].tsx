@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
     const { req, res, params } = context
     const password = params?.password as string
-    const cookies = new Cookies(req, res)
+    const cookies = new Cookies(req, res, { secure: PRODUCTION_ENV })
 
     try {
       if (password) {

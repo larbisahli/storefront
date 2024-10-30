@@ -54,7 +54,7 @@ export async function storeMaintenanceHandler(
 ) {
   const { req, res } = context
 
-  const cookies = new Cookies(req, res)
+  const cookies = new Cookies(req, res, { secure: PRODUCTION_ENV })
   const GALA_MTM_PASS = cookies.get(CookieNames.GALA_MTM_PASS)
   const { maintenanceMode, maintenancePassword } = config
 
@@ -64,7 +64,7 @@ export async function storeMaintenanceHandler(
       if (currentPass === GALA_MTM_PASS) {
         return false
       } else if (GALA_MTM_PASS) {
-        cookies.set(CookieNames.GALA_MTM_PASS, '', {
+        cookies.set( CookieNames.GALA_MTM_PASS , '', {
           httpOnly: true,
           maxAge: 0,
           sameSite: PRODUCTION_ENV ? 'none':'strict', // strict
