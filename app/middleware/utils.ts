@@ -52,6 +52,8 @@ export async function storeMaintenanceHandler(
   context: GetServerSidePropsContext,
   config: ConfigType
 ) {
+  return false
+
   const { req, res } = context
 
   const cookies = new Cookies(req, res, { secure: PRODUCTION_ENV })
